@@ -206,14 +206,18 @@ void sendRequest( struct config conffile) {
      while(1)
      {
 
-        if(requestType==valamennyi)
-            requestType=0;
+        if(requestCounter==30)
+            requestCounter=0;
 
-        if(!requestCounter)
+
+        requestType = requestCounter % 3;
+        ++requestCounter;
+
+        if(!requestType)
         {
              while(addresses<=conffile.numbOfDev)
              {
-                sendPacket(fileHandle,addresses, cmdPing, NULL,0);
+                sendPacket(fileHandle,addresses, cmdTerm, NULL,0);
                 addresses++;
              }
 
@@ -222,25 +226,18 @@ void sendRequest( struct config conffile) {
         }
         else
         {
-        requestType = requestCounter % 3;
-        ++requestCounter;
-
-        if(requestType)
             while(addresses<=conffile.numbOfDev)
-                {
+            {
                 sendPacket(fileHandle,addresses, cmdPing, NULL,0);
                 addresses++;
-                }
-        else
-            while(addresses<=conffile.numbOfDev)
-                {
-                sendPacket(fileHandle,addresses, cmdTerm, NULL,0);
-                addresses++;
-                }
+            }
 
+            requestCounter++;
         }
+
+
         addresses=0;
-        sleep(lekerdezesiido)           //lekerdezesiido
+        sleep(conffile.samplingTime)           //lekerdezesiido
      }
 
 }
