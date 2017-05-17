@@ -12,7 +12,7 @@
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
- void /*incoming_data*/ *readingFromSerial(int fd)
+ void  *readingFromSerial(int fd)
 {
 
     incoming_data *receivingData=NULL;
@@ -133,6 +133,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         }
                     else
                         statistic.emptyPacket++;
+                        //keepAlive;
                         State =  CrcLow;
                         continue;
 
@@ -193,35 +194,57 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
            return temp;
  }
 
-void sendRequest() {
-     int requestType=0;
+void sendRequest( struct config conffile) {
+
+     int addresses=0;
+     int requestType=1;
 	 int requestCounter=0;
-	 requestType = (requestType + 1) % (cmGetPressure+1); // a következő parancs kiszámítása
+     char cmdPing=0;
+     char cmdTerm=1;
 
-     ++requestCounter;  // kérések számának növelése
 
-     switch (requestType) {
-         case 0: sendPacket(fileHandle, clientAddress, cmPing, NULL, 0);
-             return;
-         case 1: sendPacket(fileHandle, clientAddress, cmGetTerm, NULL, 0);
-             return;
+     while(1)
+     {
+
+        if(requestType==valamennyi)
+            requestType=0;
+
+        if(!requestCounter)
+        {
+             while(addresses<=conffile.numbOfDev)
+             {
+                sendPacket(fileHandle,addresses, cmdPing, NULL,0);
+                addresses++;
+             }
+
+             requestCounter++;
+
+        }
+        else
+        {
+        requestType = requestCounter % 3;
+        ++requestCounter;
+
+        if(requestType)
+            while(addresses<=conffile.numbOfDev)
+                {
+                sendPacket(fileHandle,addresses, cmdPing, NULL,0);
+                addresses++;
+                }
+        else
+            while(addresses<=conffile.numbOfDev)
+                {
+                sendPacket(fileHandle,addresses, cmdTerm, NULL,0);
+                addresses++;
+                }
+
+        }
+        addresses=0;
+        sleep(lekerdezesiido)           //lekerdezesiido
      }
+
 }
 
-void polling(char clientAddr, int fd) {
-     char key;
-     clientAddress = clientAddr;
-     fileHandle = fd;
-     while (1) {
-         sendRequest();  // a következő kérés kiküldése
-
-
- //        refreshServerStatus();  // status sor frissításBudapest, Szent Lászl
-
-         if (isReceivePacket())  // új csomag ellenőrzés
-             processReceived();  // van új csomag, fel kell dolgozni
-     }
-}
 
 int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data, int dLen) {
      int i;
