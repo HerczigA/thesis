@@ -2,6 +2,9 @@
 RequestTIME=1000
 
 numberOfDevice=24
+
 samplingTime=1000
 
 Baudrate=B9600
+
+Delta=5

@@ -16,11 +16,13 @@ int main()
     struct config Configfile;
     pthread_t reading_thread, controlling_thread,processor_thread;
     char lf[]="/herczig/Dokumentumok/log.txt";
+
+
     float values[Configfile.numbOfDev][TOPMEASURES];
     incoming_data *dataPacket;
 
     ReadConfig(Configfile);
-    if(Initalization(&old_term,term,&fd,Configfile))
+    if(Initalization(&old_term,term,&fd,Configfile,lf))
         return 1;
     queueInit(dataPacket);
 

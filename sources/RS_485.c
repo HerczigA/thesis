@@ -13,28 +13,31 @@
 
 
 
-int Initalization(struct termios *old_term, struct termios *term,int *filedesp,struct config fileConfig)
+int Initalization(struct termios *old_term, struct termios *term,int *filedesp,struct config fileConfig,char *lf)
 {
+
+    int fd=*filedesp;
+    char *serial="/dev/ttyS0";
+
+
     FILE * errorfile=fopen(lf,"w");
 
-    char *serial="/dev/ttyS0";
-    char lf[]="/herczig/Dokumentumok/log.txt";
-    int fd;
-
-    if(!filedesp)
+    if(!fd)
         {
         fprintf(errorfile,"filedescriptor is NULL\n");
         return 1;
         }
 
     else
-        fd=*filedesp;
-        fd=open(serial,O_RDONLY);       //RDONLY?????
+    {
+        fd=open(serial,O_RDWR);
             if(fd<0)
         {
             fprintf(errorfile,"Cannot open the filedescriptor \n");
             return 1;
         }
+
+    }
 
     tcgetattr(fd,old_term);
     term=malloc(sizeof(struct termios));
@@ -71,13 +74,13 @@ void ReadConfig(struct config fileConfig,float values[][TOPMEASURES])
 {
 char *buffer;
 char *p=NULL;
-char pathOfConfig[]="/media/herczig/ACA24E17A24DE704/Thesis/config.txt";  /*or in root "config.txt" */
-int i,j=0;
+char pathOfConfig[]="/home/herczig/thesis/config.txt";  /*or in root "config.txt" */
+/*int i,j=0;
 for(i!=veg,i++)
 {
     for(j!=veg;j++)
     values[i][j]
-}
+}*/
 char comment='=';
 FILE * fconfig,errorfile;
 
