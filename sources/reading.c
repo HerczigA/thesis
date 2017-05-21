@@ -6,26 +6,30 @@
 #include <time.h>
 #include "header/header.h"
 #inlude <sys/queue.h>
+#include <time.h>
 #define LOGPATH "/herczig/Dokumentumok/errorlog.txt"
 
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
- void  *readingFromSerial(int fd)
+ void  *readingFromSerial(int *filedescripton)
 {
-
+    int fd=*filedescripton;
     incoming_data *receivingData=NULL;
     unsigned char data,i=0;
     uint16_t packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
-
+    statistic Packetstatistic;
     PacketState State=EmptyState;
+    time_t now;
+
+    time(&now);
 
     FILE * errorfile=fopen(LOGPATH,"w");
 
      if (fd <=0 )
-         fprintf(errorfile,"cannot open filedescription\n");
+         fprintf(errorfile,"cannot open filedescription\n\t\t %s\n",ctime(&now));
 
 
      while(read(fd,&data,1))
@@ -44,7 +48,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         i++;
                         if(i==6)
                         {
-                            fprintf(errorfile,"Too much 0x55 has arrived\n Reading Restart!\n");
+                            fprintf(errorfile,"Too much 0x55 has arrived\n Reading Restart!\t\t%s\n",ctime(&now));
                             break;
                         }
                         continue;
@@ -56,8 +60,8 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                     }
                     else
                     {
-                        statistic.packetError++;
-                        fprintf(errorfile,"After 0x55 did not receive proper data(0xFF)\n");
+                        Packetstatistic.packetError++;
+                        fprintf(errorfile,"After 0x55 did not receive proper data(0xFF)\t\t%s\n",ctime(&now));
                         break;
                     }
 
@@ -67,8 +71,8 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                     continue;
                     else
                     {
-                        statistic.packetError++;
-                        fprintf(errorfile,"After 0xFF did not receive proper data(0x01)\n");
+                        Packetstatistic.packetError++;
+                        fprintf(errorfile,"After 0xFF did not receive proper data(0x01)\t\t%s\n",ctime(&now));
                         break;
                     }
 
@@ -77,7 +81,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                     if(data)
                         {
                             State= address;
-                            statistic.packet++;
+                            Packetstatistic.packet++;
                         }
                     else
                         break;
@@ -88,12 +92,12 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         calculateCrc = addCrcByte(calculateCrc, data);
                         receivingData=reserve(data);
                         if (!receivingData)
-                            fprintf(errorfile,"cannot reserved memory to receivingData\n");
+                            fprintf(errorfile,"cannot reserved memory to receivingData\t\t%s\n",ctime(&now));
                         State = command;
                         continue;
                     }
                     else
-                       statistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
+                       Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
                         break;
 
                 case command :
@@ -104,7 +108,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
                 case DLenLow :
                         calculateCrc = addCrcByte(calculateCrc, data);
-                        receivingData->dlen = (data & FF);
+                        receivingData->dlen = data & FF;
                         State = stDLenHi;
                         continue;
 
@@ -119,51 +123,51 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                             receivingData->data =malloc(sizeof (receivingData->dlen));
                                 if(!receivingData->data)
                                     {
-                                    fprintf(errorfile,"No enough memory");
-                                    statistic.packetError++;
+                                    fprintf(errorfile,"No enough memory\t\t%s\n",ctime(&now));
+                                    Packetstatistic.packetError++;
                                     break;
                                     }
                             State = Data;
                             }
                         else
                             {
-                                fprintf("Too big the datalength \n");
+                                fprintf(errorfile,"Too big the datalength\t\t%s\n",ctime(&now));
                                 break;
                             }
                         }
                     else
-                        statistic.emptyPacket++;
-                        fprintf(logfile,"Slave Keep Alive:%c\n",receivingData->addresss);
+                        Packetstatistic.emptyPacket++;
+                        fprintf(logfile,"Slave Keep Alive:%c\t\t%s\n",receivingData->addresss,ctime(&now));
                         State =  CrcLow;
                         continue;
 
                 case Data :
                         calculateCrc = addCrcByte(calculateCrc, data);
-                        *((receivingData->data)+statistic.dataindex) = data;
-                        State = CrcLow;  ???????????
+                        receivingData->data = data;
+                        State = CrcLow;
                         continue;
 
                 case CrcLow :
-                        packetCrc = (c & FF);
+                        packetCrc = data & FF;
                         State = CrcHigh;
                         continue;
 
                 case CrcHigh;
-                        packetCrc |=( c & FF) << BYTE;              //?????????
+                        packetCrc |=( data & FF) << BYTE;
                     if (compareCRC(packetCrc, calculateCrc))
                     {
                         incomingPacket= receivingData;
                         receivingData = NULL;
-                        statistic.validPacket++;
+                        Packetstatistic.validPacket++;
                         State = EmptyState;
                     }
                     break;
          }
 			if(incomingPacket)
 			{
-				pthread_mutex_lock(incomingPacket->mutex);
+				pthread_mutex_lock(incomingPacket->mutex);      //????
 				TAILQ_INSERT_TAIL(&head,incomingPacket,entries)
-				pthread_mutex_unlock(incoming_data->mutex);
+				pthread_mutex_unlock(incomingPac->mutex);       //????
 			}
             State = EmptyState;
             if (receivingData)
@@ -173,8 +177,14 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                     free(receivingData);
                     receivingData = NULL;
             }
-            statistic.packetError++;
-            sleep(1000);    // alvoido
+            fprintf(errorfile,"Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
+            fprintf(errorfile,"packet=%d\t",Packetstatistic.packet);
+            fprintf(errorfile,"validPacket=%d\t",Packetstatistic.validPacket);
+            fprintf(errorfile,"overrun=%d\t",Packetstatistic.overrun;
+            fprintf(errorfile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
+
+
+            sleep(/*fileconfig.time*/);    // alvoido
         }
 
         free(receivingData);

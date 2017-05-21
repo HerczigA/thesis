@@ -11,7 +11,7 @@ incoming_data *moving_hysteresis(struct config.Delta,struct incoming_data->data)
     int delta=config.Delta;
     int temp_min=0;
     int temp_max=delta;
-    int value=incoming_data->data;
+    float value=incoming_data->data;
     incoming_data *result;
     result=malloc(sizeof(incoming_data));
 
@@ -28,7 +28,7 @@ incoming_data *moving_hysteresis(struct config.Delta,struct incoming_data->data)
             temp_min=value;
             temp_max=temp_min+delta;
             result->data=temp_min;
-                return  result.data;
+                return  result->data;
         }
     }
     else

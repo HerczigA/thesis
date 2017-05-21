@@ -16,28 +16,26 @@
 int Initalization(struct termios *old_term, struct termios *term,int *filedesp,struct config fileConfig,char *lf)
 {
 
-    int fd=*filedesp;
-    char *serial="/dev/ttyS0";
 
+    char *serial="/dev/ttyS0";
+    int fd;
 
     FILE * errorfile=fopen(lf,"w");
 
-    if(!fd)
+    if(!filedesp)
         {
         fprintf(errorfile,"filedescriptor is NULL\n");
         return 1;
         }
 
     else
-    {
+        fd=*filedesp;
         fd=open(serial,O_RDWR);
             if(fd<0)
         {
             fprintf(errorfile,"Cannot open the filedescriptor \n");
             return 1;
         }
-
-    }
 
     tcgetattr(fd,old_term);
     term=malloc(sizeof(struct termios));
@@ -74,13 +72,13 @@ void ReadConfig(struct config fileConfig,float values[][TOPMEASURES])
 {
 char *buffer;
 char *p=NULL;
-char pathOfConfig[]="/home/herczig/thesis/config.txt";  /*or in root "config.txt" */
-/*int i,j=0;
+char pathOfConfig[]="/media/herczig/ACA24E17A24DE704/Thesis/config.txt";  /*or in root "config.txt" */
+int i,j=0;
 for(i!=veg,i++)
 {
     for(j!=veg;j++)
     values[i][j]
-}*/
+}
 char comment='=';
 FILE * fconfig,errorfile;
 
@@ -167,12 +165,14 @@ FILE * fconfig,errorfile;
 
 
 }
+/**Direction=0 if OUTPUT, Direction =1 if INPUT*/
 
-int queueInit(incoming_data *data)
+int queueInit(incoming_data *data,char direction)       //direction INPUT or OUTPUT
 {
     data=malloc(sizeof(incoming_data));
         if(!data)
             return 1;
+    if(!direction)
 
 	TAILQ_HEAD(tailhead, incoming_data) head;
     TAILQ_INIT(&head);
@@ -183,16 +183,17 @@ int queueInit(incoming_data *data)
 
 
 }
-int takeoutFromQueue(incoming_data *data)
+int takeoutFromQueue(incoming_data *Received_data)
 {
 
 
 
   while (1)
     {
-         pthread_mutex_lock()
+         pthread_mutex_lock(Received_data->mutex);
          data=TAILQ_FIRST(&head);
-         moving_hysteresis(conffile.Delta, data->data );
+         pthread_mutex_unlock(Received_data->mutex);
+         moving_hysteresis(conffile.Delta, Received_data->data );
 	     TAILQ_REMOVE(&head, n1, entries);
 
      }
