@@ -1,8 +1,0 @@
-# depslib dependency file v1.0
-1491129663 source:/home/herczig/Dokumentumok/REAL_diploma/szakdoga/thesis/main.c
-	<stdio.h>
-	<stdlib.h>
-	<pthread.h>
-	<unistd.h>
-	<math.h>
-
