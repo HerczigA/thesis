@@ -35,15 +35,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="RS_485.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="counting.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="crc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="header/counting.h" />
 		<Unit filename="header/crc.h" />
 		<Unit filename="header/header.h" />
@@ -51,7 +42,16 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="reading.c">
+		<Unit filename="sources/RS_485.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/counting.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/crc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/reading.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

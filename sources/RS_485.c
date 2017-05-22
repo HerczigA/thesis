@@ -7,16 +7,16 @@
 #include <termios.h>
 #include <sys/queue.h>
 #include <time.h>
-#define MAXLINE 1000
+#include "header/header.h"
 #include "header/counting.h"
-
-
+#define MAXLINE 1000
 
 
 int Initalization(struct termios *old_term, struct termios *term,int *filedesp,struct config fileConfig,char *lf)
 {
 
-
+    time_t now;
+    time(&now);
     char *serial="/dev/ttyS0";
     int fd;
 
@@ -24,7 +24,7 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,s
 
     if(!filedesp)
         {
-        fprintf(errorfile,"filedescriptor is NULL\n");
+        fprintf(errorfile,"filedescriptor is NULL\n",ctime(&now));
         return 1;
         }
 
@@ -33,7 +33,7 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,s
         fd=open(serial,O_RDWR);
             if(fd<0)
         {
-            fprintf(errorfile,"Cannot open the filedescriptor \n");
+            fprintf(errorfile,"Cannot open the filedescriptor \n",ctime(&now));
             return 1;
         }
 
@@ -41,7 +41,7 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,s
     term=malloc(sizeof(struct termios));
         if(!term)
         {
-            fprintf(errorfile,"NO enough memory to allocate term\n");
+            fprintf(errorfile,"NO enough memory to allocate term\n",ctime(&now));
             return 1;
         }
     term->c_cflag = CS8 | CLOCAL | CREAD ;
@@ -60,7 +60,7 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,s
     else
     {
         free(fileConfig.BAUD);
-        fprintf(errorfile,"RS-485 config error:\n");
+        fprintf(errorfile,"RS-485 config error:\n",ctime(&now));
         fclose(errorfile);
         return 1;
     }
@@ -88,7 +88,7 @@ FILE * fconfig,errorfile;
     buffer=malloc(sizeof(MAXLINE));
         if(!buffer)
         {
-            fprintf(errorfile,"Can not allocate memory to buffer\n");
+            fprintf(errorfile,"Can not allocate memory to buffer\n",ctime(&now));
             return 1;
         }
         if(fconfig)
@@ -156,7 +156,7 @@ FILE * fconfig,errorfile;
             }
         }
         else
-            fprintf(fconfig,"Cannot open config file\n");
+            fprintf(fconfig,"Cannot open config file\n",ctime(&now));
 
 
 
@@ -172,12 +172,20 @@ int queueInit(incoming_data *data,char direction)       //direction INPUT or OUT
     data=malloc(sizeof(incoming_data));
         if(!data)
             return 1;
+
+    struct tailhead InHd, OutHd;
+
     if(!direction)
-
-	TAILQ_HEAD(tailhead, incoming_data) head;
-    TAILQ_INIT(&head);
+    {
+        TAILQ_HEAD(OutHd, incoming_data) head;
+        TAILQ_INIT(&OutHd);
+    }
+	else
+    {
+        TAILQ_HEAD(InHd, incoming_data) head;
+        TAILQ_INIT(&InHd);
+    }
     pthread_mutex_init(data->mutex,NULL);
-
     return 0;
 }
 

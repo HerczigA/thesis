@@ -12,6 +12,7 @@
 #define MEMBERSMIN 3
 #define MEMBERSMAX 5
 #define TOPMEASURES 15
+
 void ReadConfig(struct config fileConfig);
 int Initalization(struct termios *old_term, struct termios *term,int *filedesp,struct config fileConfig,char *lf);
 
@@ -30,7 +31,8 @@ typedef struct incoming_data
 
 
 
-struct tailhead;
+struct tailhead{
+};
 
 
 

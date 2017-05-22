@@ -17,6 +17,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 {
     int fd=*filedescripton;
     incoming_data *receivingData=NULL;
+    incoming_data UsefulPacket;
     unsigned char data,i=0;
     uint16_t packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
@@ -156,18 +157,18 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         packetCrc |=( data & FF) << BYTE;
                     if (compareCRC(packetCrc, calculateCrc))
                     {
-                        incomingPacket= receivingData;
+                        UsefulPacket= receivingData;
                         receivingData = NULL;
                         Packetstatistic.validPacket++;
                         State = EmptyState;
                     }
                     break;
          }
-			if(incomingPacket)
+			if(UsefulPacket)
 			{
-				pthread_mutex_lock(incomingPacket->mutex);      //????
-				TAILQ_INSERT_TAIL(&head,incomingPacket,entries)
-				pthread_mutex_unlock(incomingPac->mutex);       //????
+				pthread_mutex_lock(UsefulPacket.mutex);
+				TAILQ_INSERT_TAIL(&head,UsefulPacket,entries);
+				pthread_mutex_unlock(UsefulPacket.mutex);
 			}
             State = EmptyState;
             if (receivingData)
