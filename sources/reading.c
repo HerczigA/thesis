@@ -16,8 +16,8 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
  void  *readingFromSerial(int *filedescripton)
 {
     int fd=*filedescripton;
-    incoming_data *receivingData=NULL;
-    incoming_data UsefulPacket;
+    queueData *receivingData=NULL;
+    queueData UsefulPacket;
     unsigned char data,i=0;
     uint16_t packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
@@ -193,10 +193,10 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
  }
 
- incoming_data *reserve(char data)
+ queueData *reserve(char data)
  {
-     incoming_data *temp;
-        temp=malloc(sizeof(incoming_data));
+     queueData *temp;
+        temp=malloc(sizeof(queueData));
         if (!temp)
             return 0;
      temp->address=data;
@@ -249,7 +249,7 @@ void sendRequest( struct config conffile)
 
 
         addresses=0;
-        sleep(conffile.samplingTime)           //lekerdezesiido
+        sleep(conffile.samplingTime)           //Cmd send period
      }
 
 }

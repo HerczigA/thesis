@@ -11,20 +11,23 @@
 
 int main()
 {
-    int fd,packetCounter=0;
+    int fd;
     struct termios old_term,*term;
     struct config Configfile;
-    pthread_t reading_thread, controlling_thread,processor_thread;
     char lf[]="/herczig/Dokumentumok/log.txt";
+    //float *temp;
 
-
-    float values[Configfile.numbOfDev][TOPMEASURES];
-    incoming_data *dataPacket;
+    queueData *dataPacket;
 
     ReadConfig(Configfile);
+    float values[TOPMEASURES][Configfile.numbOfDev]={{0}};
+
     if(Initalization(&old_term,term,&fd,Configfile,lf))
         return 1;
     queueInit(dataPacket);
+
+
+    pthread_t reading_thread, controlling_thread,processor_thread;
 
     pthread_create(&controlling_thread,NULL,);
     pthread_create(&reading_thread,NULL,readingFromSerial,&fd);

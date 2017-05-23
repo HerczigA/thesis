@@ -6,41 +6,49 @@
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
-incoming_data *moving_hysteresis(struct config.Delta,struct incoming_data->data)
+float *moving_hysteresis(struct config conffile,queueData *Packet)
 {
-    int delta=config.Delta;
-    int temp_min=0;
-    int temp_max=delta;
-    float value=incoming_data->data;
-    incoming_data *result;
-    result=malloc(sizeof(incoming_data));
+   const float delta=conffile.Delta;
+    float temp_min=ZERO;
+    float temp_max=delta;
+    float value=Packet->data;
+    float *result;
+    result=malloc(sizeof(float));
 
     if(value<=temp_max)
     {
         if(value=>temp_min)
         {
-            result->data=temp_min;
-                return result->data;
+            *result=temp_min;
+                return result;
         }
         else
 
         {
             temp_min=value;
-            temp_max=temp_min+delta;
-            result->data=temp_min;
-                return  result->data;
+            //temp_max=temp_min+delta;            ??????????
+            *result=temp_min;
+                return  result;
         }
     }
     else
     {
             temp_max=value;
             temp_min=temp_max-delta;
-            result->data=temp_min;
-                return  result->data;
+            *result=temp_min;
+                return  result;
 
     }
 
 }
+
+float *arrayFilling(float value[][numbdev],float *temp,queueData *Packet)
+{
+    float tmpArray....soon
+
+}
+
+
 
 /**
 Moving average with 3 members in default

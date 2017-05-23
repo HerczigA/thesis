@@ -49,7 +49,7 @@ typedef struct statistic
 		int overrun=0;
         int emptyPacket=0;
 
-	}statistic;
+	};
 
 
 int readingFromSerial(int fd,char *logfile);

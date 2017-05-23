@@ -3,9 +3,11 @@
 
 //#include <stdint.h>
 #define POLYNOMIAL 0xd8
-#define WIDTH (8 * sizeof(Crc))
+
 #define TOPBIT (1 << (WIDTH-1))
 #define BYTE 8
+
+typedef uint16_t Crc;
 
 uint16_t addCRC();
 

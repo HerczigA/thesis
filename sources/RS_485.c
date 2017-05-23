@@ -68,17 +68,12 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,s
 
 }
 
-void ReadConfig(struct config fileConfig,float values[][TOPMEASURES])
+void ReadConfig(struct config fileConfig)
 {
 char *buffer;
 char *p=NULL;
-char pathOfConfig[]="/media/herczig/ACA24E17A24DE704/Thesis/config.txt";  /*or in root "config.txt" */
-int i,j=0;
-for(i!=veg,i++)
-{
-    for(j!=veg;j++)
-    values[i][j]
-}
+char pathOfConfig[]="/herczig/thesis/config.txt";  /*or in root "config.txt" */
+
 char comment='=';
 FILE * fconfig,errorfile;
 
@@ -166,23 +161,22 @@ FILE * fconfig,errorfile;
 
 }
 /**Direction=0 if OUTPUT, Direction =1 if INPUT*/
-
-int queueInit(incoming_data *data,char direction)       //direction INPUT or OUTPUT
+int queueInit(queueData *data,char direction)       //direction INPUT or OUTPUT
 {
-    data=malloc(sizeof(incoming_data));
+    data=malloc(sizeof(queueData));
         if(!data)
             return 1;
 
-    struct tailhead InHd, OutHd;
+    struct tailhead ;
 
     if(!direction)
     {
-        TAILQ_HEAD(OutHd, incoming_data) head;
+        TAILQ_HEAD(tailhead, queueData) OutHd;
         TAILQ_INIT(&OutHd);
     }
 	else
     {
-        TAILQ_HEAD(InHd, incoming_data) head;
+        TAILQ_HEAD(tailhead, queueData) InHd;
         TAILQ_INIT(&InHd);
     }
     pthread_mutex_init(data->mutex,NULL);
@@ -190,19 +184,21 @@ int queueInit(incoming_data *data,char direction)       //direction INPUT or OUT
 }
 
 
-}
-int takeoutFromQueue(incoming_data *Received_data)
+
+int takeoutFromQueue(struct config conffile,queueData *Received_data)
 {
 
-
+    float *temp;
 
   while (1)
     {
          pthread_mutex_lock(Received_data->mutex);
-         data=TAILQ_FIRST(&head);
+         Received_data=TAILQ_FIRST(&InHd);           //Have to refer the Tailhead!!!!!! \t now probably done
          pthread_mutex_unlock(Received_data->mutex);
-         moving_hysteresis(conffile.Delta, Received_data->data );
-	     TAILQ_REMOVE(&head, n1, entries);
+         temp=moving_hysteresis(conffile, Received_data);
+	     //TAILQ_REMOVE(&head, n1, entries);
+	     arrayFilling(temp)
+	     mov_average()
 
      }
 

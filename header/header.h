@@ -16,7 +16,7 @@
 void ReadConfig(struct config fileConfig);
 int Initalization(struct termios *old_term, struct termios *term,int *filedesp,struct config fileConfig,char *lf);
 
-typedef struct incoming_data
+typedef struct queueData
 {
     /** packet item data */
 	char address;
@@ -25,14 +25,14 @@ typedef struct incoming_data
     float *data;
     pthread_mutex_t mutex;
     /**  packet item use a TAILQ. This is for TAILQ entry */
-    TAILQ_ENTRY(incoming_data) entries;
+    TAILQ_ENTRY(queueData) entries;
 };
 
 
 
 
 struct tailhead{
-};
+} InHd, OutHd;
 
 
 
