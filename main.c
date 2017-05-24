@@ -15,11 +15,12 @@ int main()
     struct termios old_term,*term;
     struct config Configfile;
     char lf[]="/herczig/Dokumentumok/log.txt";
-    //float *temp;
-
+    int numbOfDevice=0;
     queueData *dataPacket;
 
     ReadConfig(Configfile);
+    numbOfDevice=Configfile.numbOfDev;
+
     float values[TOPMEASURES][Configfile.numbOfDev]={{0}};
 
     if(Initalization(&old_term,term,&fd,Configfile,lf))

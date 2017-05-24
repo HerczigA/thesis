@@ -19,14 +19,13 @@ float *moving_hysteresis(struct config conffile,queueData *Packet)
     {
         if(value=>temp_min)
         {
-            *result=temp_min;
+            *result=value;
                 return result;
         }
         else
 
         {
             temp_min=value;
-            //temp_max=temp_min+delta;            ??????????
             *result=temp_min;
                 return  result;
         }
@@ -42,9 +41,11 @@ float *moving_hysteresis(struct config conffile,queueData *Packet)
 
 }
 
-float *arrayFilling(float value[][numbdev],float *temp,queueData *Packet)
+float *arrayFilling(float value[][colsize],float *temp,queueData *Packet,int devices)
 {
-    float tmpArray....soon
+        int i;
+
+    float tmpArray[][]
 
 }
 

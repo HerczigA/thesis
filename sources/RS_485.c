@@ -161,24 +161,19 @@ FILE * fconfig,errorfile;
 
 }
 /**Direction=0 if OUTPUT, Direction =1 if INPUT*/
-int queueInit(queueData *data,char direction)       //direction INPUT or OUTPUT
+int queueInit(queueData *data)       //direction INPUT or OUTPUT with queue!?!?!?!?!?!?!
 {
     data=malloc(sizeof(queueData));
         if(!data)
             return 1;
 
-    struct tailhead ;
+    //struct tailhead ;
 
-    if(!direction)
-    {
         TAILQ_HEAD(tailhead, queueData) OutHd;
         TAILQ_INIT(&OutHd);
-    }
-	else
-    {
-        TAILQ_HEAD(tailhead, queueData) InHd;
+	    TAILQ_HEAD(tailhead, queueData) InHd;
         TAILQ_INIT(&InHd);
-    }
+
     pthread_mutex_init(data->mutex,NULL);
     return 0;
 }
@@ -189,19 +184,23 @@ int takeoutFromQueue(struct config conffile,queueData *Received_data)
 {
 
     float *temp;
+    queueData *tempPacket;
+    tempPacket=malloc(sizeof(queueData));
 
   while (1)
     {
          pthread_mutex_lock(Received_data->mutex);
-         Received_data=TAILQ_FIRST(&InHd);           //Have to refer the Tailhead!!!!!! \t now probably done
+         tempPacket=TAILQ_FIRST(&InHd);           //Have to refer the Tailhead!!!!!! -> now probably done
          pthread_mutex_unlock(Received_data->mutex);
-         temp=moving_hysteresis(conffile, Received_data);
-	     //TAILQ_REMOVE(&head, n1, entries);
-	     arrayFilling(temp)
-	     mov_average()
 
+         temp=moving_hysteresis(conffile,tempPacket);
+
+	     arrayFilling(temp,tempPacket);
+	     mov_average();
+         //Received_data++;              ??
      }
 
+     free(tempPacket);
 }
 int controllingProcess()
 {
