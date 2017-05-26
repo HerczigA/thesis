@@ -41,14 +41,6 @@ float *moving_hysteresis(struct config conffile,queueData *Packet)
 
 }
 
-float *arrayFilling(float value[][colsize],float *temp,queueData *Packet,int devices)
-{
-        int i;
-
-    float tmpArray[][]
-
-}
-
 
 
 /**

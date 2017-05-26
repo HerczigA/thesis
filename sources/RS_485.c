@@ -183,20 +183,27 @@ int queueInit(queueData *data)       //direction INPUT or OUTPUT with queue!?!?!
 int takeoutFromQueue(struct config conffile,queueData *Received_data)
 {
 
-    float *temp;
+    float *temp=0;
     queueData *tempPacket;
     tempPacket=malloc(sizeof(queueData));
 
   while (1)
     {
+
          pthread_mutex_lock(Received_data->mutex);
-         tempPacket=TAILQ_FIRST(&InHd);           //Have to refer the Tailhead!!!!!! -> now probably done
+         tempPacket=TAILQ_FIRST(&InHd);                                 //Have to refer the Tailhead!!!!!! -> now probably done
          pthread_mutex_unlock(Received_data->mutex);
 
-         temp=moving_hysteresis(conffile,tempPacket);
+         *temp+=tempPacket->data;
 
-	     arrayFilling(temp,tempPacket);
-	     mov_average();
+
+
+         mov_average(temp);
+
+
+         =moving_hysteresis(conffile,tempPacket);
+
+
          //Received_data++;              ??
      }
 
