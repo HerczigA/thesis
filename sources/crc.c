@@ -10,7 +10,7 @@ Source from Zidarics Zoltan a.k.a Zamek
 #include "header/reading.h"  ?
 #define WIDTH (8 * sizeof(Crc))
 
-int addCrcByte(uint16_t packetCrc, uint16_t countedCrc)
+uint16_t addCRC(uint16_t packetCrc, uint16_t countedCrc)
 {
     char bit;
      packetCrc^= ( countedCrc<< (WIDTH - BYTE));

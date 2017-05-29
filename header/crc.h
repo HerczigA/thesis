@@ -9,9 +9,8 @@
 
 typedef uint16_t Crc;
 
-uint16_t addCRC();
+uint16_t addCRC(uint16_t packetCrc, uint16_t countedCrc);
 
-int addCrcByte(uint16_t packetCrc, uint16_t countedCrc);
-
+int compareCRC(uint16_t crc1, uint16_t crc2);
 
 #endif // CRC_H_INCLUDED

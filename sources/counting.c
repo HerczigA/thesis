@@ -49,6 +49,6 @@ Moving average with 3 members in default
 int mov_average()
 {
 
-
+    TAILQ_FIRST(&InHd);
 
 }

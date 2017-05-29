@@ -2,49 +2,64 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="header/header.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+	<File name="header/counting.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="748" topLine="27" />
+			<Cursor1 position="161" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="sources/RS_485.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="sources/counting.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5797" topLine="180" />
+			<Cursor1 position="848" topLine="8" />
 		</Cursor>
 	</File>
 	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="476" topLine="10" />
+			<Cursor1 position="486" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="header/counting.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="sources/RS_485.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="71" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="sources/counting.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="900" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="sources/crc.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="209" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="header/crc.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="165" topLine="0" />
+			<Cursor1 position="5582" topLine="123" />
 		</Cursor>
 	</File>
 	<File name="sources/reading.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7906" topLine="234" />
+			<Cursor1 position="570" topLine="21" />
+		</Cursor>
+		<Folding>
+			<Collapse line="41" />
+			<Collapse line="50" />
+			<Collapse line="60" />
+			<Collapse line="65" />
+			<Collapse line="76" />
+			<Collapse line="85" />
+			<Collapse line="94" />
+			<Collapse line="123" />
+			<Collapse line="136" />
+			<Collapse line="161" />
+			<Collapse line="200" />
+			<Collapse line="212" />
+			<Collapse line="262" />
+		</Folding>
+	</File>
+	<File name="header/header.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="799" topLine="7" />
 		</Cursor>
 	</File>
-	<File name="header/reading.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+	<File name="sources/crc.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="757" topLine="32" />
+			<Cursor1 position="560" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="header/reading.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="757" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="header/crc.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="267" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

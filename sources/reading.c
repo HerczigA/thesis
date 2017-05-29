@@ -7,8 +7,8 @@
 #include "header/header.h"
 #inlude <sys/queue.h>
 #include <time.h>
-#define LOGPATH "/herczig/Dokumentumok/errorlog.txt"
-
+#define LOGPATH "/home/herczig/Dokumentumok/log.txt"
+#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
@@ -27,11 +27,14 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
     time(&now);
 
-    FILE * errorfile=fopen(LOGPATH,"w");
+    FILE * LogFile=fopen(LOGPATH,"w");
+    FILE * errorfile=fopen(ERRORPATH,"w");        //?ERROR and log sould be separately
 
      if (fd <=0 )
-         fprintf(errorfile,"cannot open filedescription\n\t\t %s\n",ctime(&now));
-
+         {
+            fprintf(errorfile,"cannot open filedescription\n\t\t %s\n",ctime(&now));
+            return;
+         }
 
      while(read(fd,&data,1))
         {
@@ -138,7 +141,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         }
                     else
                         Packetstatistic.emptyPacket++;
-                        fprintf(logfile,"Slave Keep Alive:%c\t\t%s\n",receivingData->addresss,ctime(&now));
+                        fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->addresss,ctime(&now));
                         State =  CrcLow;
                         continue;
 
@@ -178,17 +181,18 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                     free(receivingData);
                     receivingData = NULL;
             }
-            fprintf(errorfile,"Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
-            fprintf(errorfile,"packet=%d\t",Packetstatistic.packet);
-            fprintf(errorfile,"validPacket=%d\t",Packetstatistic.validPacket);
-            fprintf(errorfile,"overrun=%d\t",Packetstatistic.overrun;
-            fprintf(errorfile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
+            fprintf(LogFile,"Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
+            fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
+            fprintf(LogFile,"validPacket=%d\t",Packetstatistic.validPacket);
+            fprintf(LogFile,"overrun=%d\t",Packetstatistic.overrun;
+            fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
 
 
             sleep(/*fileconfig.time*/);    // alvoido
         }
 
         free(receivingData);
+        fclose(LogFile);
         fclose(errorfile);
 
  }
@@ -209,8 +213,8 @@ void sendRequest( struct config conffile)
  {
 
      int addresses=0;
-     int requestType=1;
-	 int requestCounter=0;
+     unsigned char requestType;
+	 signed char requestCounter=0;
      char cmdPing=0;
      char cmdTerm=1;
 

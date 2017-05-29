@@ -68,18 +68,22 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,s
 
 }
 
-void ReadConfig(struct config fileConfig)
+void ReadConfig(config *fileConfig)
 {
+    if(!fileConfig)
+        return;
+    fileConfig=malloc(sizeof(config));
+
 char *buffer;
 char *p=NULL;
-char pathOfConfig[]="/herczig/thesis/config.txt";  /*or in root "config.txt" */
+char pathOfConfig[]="/home/herczig/thesis/config.txt";
 
 char comment='=';
 FILE * fconfig,errorfile;
 
     errorfile=fopen(lf,"w");
-
     fconfig=fopen(pathOfConfig,"r");
+
     buffer=malloc(sizeof(MAXLINE));
         if(!buffer)
         {
@@ -100,50 +104,50 @@ FILE * fconfig,errorfile;
                             p=strchr(buffer,comment);
                             p++;
                             fileConfig.time=atoi(p);
-                            if(fileConfig.time<1000 || fileConfig.time>1000000)
-                                fileConfig.time=1000;
+                            if(fileConfig->time<1000 || fileConfig->time>1000000)
+                                fileConfig->time=1000;
                         continue;
 
                         case 'n':       //Number of devices
                             p=strchr(buffer,comment);
                             p++;
-                            fileConfig.numbOfDev=atoi(p);
-                            if(fileConfig.numbOfDev<DevMin || fileConfig.numbOfDev>DevMax)
-                                fileConfig.numbOfDev=DevMin;
+                            fileConfig->numbOfDev=atoi(p);
+                            if(fileConfig->numbOfDev<DevMin || fileConfig->numbOfDev>DevMax)
+                                fileConfig->numbOfDev=DevMin;
                         continue;
 
                         case 's':       //SamplingTime
                             p=strchr(buffer,comment);
                             p++;
-                            fileConfig.samplingTime=atoi(p);
-                            if(fileConfig.samplingTime<DEFTIME || fileConfig.samplingTime>MAXTIME)
-                                fileConfig.samplingTime=DEFTIME;
+                            fileConfig->samplingTime=atoi(p);
+                            if(fileConfig->samplingTime<DEFTIME || fileConfig->samplingTime>MAXTIME)
+                                fileConfig->samplingTime=DEFTIME;
                         continue;
 
                        case 'B':       //Baudrate
                             p=strchr(buffer,comment);
                             p++;
-                            fileConfig.BAUD=malloc(sizeof(p));
-                            strcpy(fileConfig.BAUD,p);
-                            if(fileConfig.BAUD!="B9600" ||fileConfig.BAUD!="B38400" ||fileConfig.BAUD!="B57600" ||fileConfig.BAUD!="B115200" )
-                                fileConfig.BAUD=DefBaud;
+                            fileConfig->BAUD=malloc(sizeof(p));
+                            strcpy(fileConfig->BAUD,p);
+                            if(fileConfig->BAUD!="B9600" ||fileConfig->BAUD!="B38400" ||fileConfig->BAUD!="B57600" ||fileConfig->BAUD!="B115200" )
+                                fileConfig->BAUD=DefBaud;
 
                         continue;
 
                         case 'D':           //Delta for moving histeresys
                             p=strchr(buffer,comment);
                             p++;
-                            fileConfig.Delta=atoi(p);
-                            if(fileConfig.Delta<DELTAMIN || fileConfig.Delta>DELTAMAX)
-                                fileConfig.Delta=DELTAMIN;
+                            fileConfig->Delta=atoi(p);
+                            if(fileConfig->Delta<DELTAMIN || fileConfig->Delta>DELTAMAX)
+                                fileConfig->Delta=DELTAMIN;
                             continue;
 
                        case 'm':           //members to flowchart
                             p=strchr(buffer,comment);
                             p++;
-                            fileConfig.members=atoi(p);
-                            if(fileConfig.members<MEMBERSMIN || fileConfig.members>MEMBERSMAX)
-                                fileConfig.members=MEMBERSMIN;
+                            fileConfig->members=atoi(p);
+                            if(fileConfig->members<MEMBERSMIN || fileConfig->members>MEMBERSMAX)
+                                fileConfig->members=MEMBERSMIN;
                             continue;
 
                     }
@@ -167,7 +171,7 @@ int queueInit(queueData *data)       //direction INPUT or OUTPUT with queue!?!?!
         if(!data)
             return 1;
 
-    //struct tailhead ;
+        //struct tailhead ;
 
         TAILQ_HEAD(tailhead, queueData) OutHd;
         TAILQ_INIT(&OutHd);
@@ -183,25 +187,33 @@ int queueInit(queueData *data)       //direction INPUT or OUTPUT with queue!?!?!
 int takeoutFromQueue(struct config conffile,queueData *Received_data)
 {
 
-    float *temp=0;
+    float *temp;
     queueData *tempPacket;
     tempPacket=malloc(sizeof(queueData));
+    int devices;
 
   while (1)
     {
+    devices=conffile.numbOfDev
 
-         pthread_mutex_lock(Received_data->mutex);
-         tempPacket=TAILQ_FIRST(&InHd);                                 //Have to refer the Tailhead!!!!!! -> now probably done
-         pthread_mutex_unlock(Received_data->mutex);
+         while(devices--)
+         {
+            pthread_mutex_lock(Received_data->mutex);
+            tempPacket=TAILQ_FIRST(&InHd);                                 //Have to refer the Tailhead!!!!!! -> now probably done
+            pthread_mutex_unlock(Received_data->mutex);
 
-         *temp+=tempPacket->data;
+            if(tempPacket->data)
+                *temp+=tempPacket->data;                                    //moving average
 
+         }
 
+        if(*temp)
+        {
+        *temp/=conffile.numbOfDev;
 
-         mov_average(temp);
+         moving_hysteresis(conffile,tempPacket);
 
-
-         =moving_hysteresis(conffile,tempPacket);
+        }
 
 
          //Received_data++;              ??
@@ -209,6 +221,9 @@ int takeoutFromQueue(struct config conffile,queueData *Received_data)
 
      free(tempPacket);
 }
+
+
+
 int controllingProcess()
 {
 

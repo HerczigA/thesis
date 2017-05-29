@@ -36,7 +36,7 @@ struct tailhead{
 
 
 
-struct config
+typedef struct config
 {
     int time;
     int numbOfDev;
