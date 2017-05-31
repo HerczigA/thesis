@@ -6,7 +6,7 @@
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
-float *moving_hysteresis(struct config conffile,queueData *Packet)
+float *moving_hysteresis(config conffile,queueData *Packet)
 {
    const float delta=conffile.Delta;
     float temp_min=ZERO;

@@ -209,9 +209,9 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
            return temp;
  }
 
-void sendRequest( struct config conffile)
+void sendRequest(config conffile)
  {
-
+     const int reqCntr=30;
      int addresses=0;
      unsigned char requestType;
 	 signed char requestCounter=0;
@@ -222,7 +222,7 @@ void sendRequest( struct config conffile)
      while(1)
      {
 
-        if(requestCounter==30)
+        if(requestCounter==reqCntr)
             requestCounter=0;
 
 
@@ -263,10 +263,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *
 {
      int i;
      uint16_t crc=0;
-     unsigned char      moto55=0x55,
-                        motoff = FF,
-                        moto1 = 1,
-                        datalength;
+     unsigned char    datalength;
 
      if (fd < 0 || (dLen > 0 && !data))
          return 0;

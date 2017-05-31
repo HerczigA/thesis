@@ -98,6 +98,7 @@ FILE * fconfig,errorfile;
 
                 if(*buffer!='\n')      //minimum the second function
                 {
+
                    switch(*buffer)
                     {
                         case 'R':       //Request Time

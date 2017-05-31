@@ -4,7 +4,7 @@
 #define FF 0xFF
 
 
-typedef enum
+typedef enum PacketState
 {
      /*! Default condition*/
      EmptyState,
@@ -39,7 +39,7 @@ typedef enum
     /*! high byte of crc  Packet*/
      CrcHigh
 
-    } PacketState;
+    } ;
 
 typedef struct statistic
 	{
@@ -53,6 +53,6 @@ typedef struct statistic
 
 
 int readingFromSerial(int fd,char *logfile);
-void sendRequest( struct config conffile);
+void sendRequest(config conffile);
 int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data, int dLen);
 #endif // READING_H_INCLUDED
