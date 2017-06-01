@@ -187,38 +187,39 @@ int queueInit(queueData *data)       //direction INPUT or OUTPUT with queue!?!?!
 
 int takeoutFromQueue(struct config conffile,queueData *Received_data)
 {
-
+    int ptrArrNumbers[conffile.members]={0};
     float *temp;
+    float *finalResult;
+    int i=0;
+    float data=0;
     queueData *tempPacket;
     tempPacket=malloc(sizeof(queueData));
     int devices;
 
-  while (1)
-    {
-    devices=conffile.numbOfDev
+    //devices=conffile.numbOfDev
 
-         while(devices--)
+         while(!TAILQ_EMPTY(&InHd))
          {
             pthread_mutex_lock(Received_data->mutex);
-            tempPacket=TAILQ_FIRST(&InHd);                                 //Have to refer the Tailhead!!!!!! -> now probably done
+            tempPacket=TAILQ_FIRST(&InHd);
             pthread_mutex_unlock(Received_data->mutex);
 
             if(tempPacket->data)
-                *temp+=tempPacket->data;                                    //moving average
+            {
+                *temp= mov_average(ptrArrNumbers, &data, i, conffile,tempPacket);
+                i++;
+                if (i>= len)
+                i= 0;
+                *finalResult=moving_hysteresis(conffile,temp);
+                //*finalResult go to logfile and web
+            }
+
+
+            pthread_mutex_lock(Received_data->mutex);
+            TAILQ_REMOVE(&InHd,tempPacket,entries);
+            pthread_mutex_unlock(Received_data->mutex);
 
          }
-
-        if(*temp)
-        {
-        *temp/=conffile.numbOfDev;
-
-         moving_hysteresis(conffile,tempPacket);
-
-        }
-
-
-         //Received_data++;              ??
-     }
 
      free(tempPacket);
 }
