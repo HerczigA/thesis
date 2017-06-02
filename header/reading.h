@@ -4,6 +4,7 @@
 #define FF 0xFF
 
 
+
 typedef enum PacketState
 {
      /*! Default condition*/
@@ -52,7 +53,7 @@ typedef struct statistic
 	};
 
 
-int readingFromSerial(int fd,char *logfile);
+int readingFromSerial(int *filedescripton);
 void sendRequest(config conffile);
 int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data, int dLen);
 #endif // READING_H_INCLUDED

@@ -13,10 +13,8 @@ int main()
 {
     int fd;
     struct termios old_term,*term;
-    char lf[]="/herczig/Dokumentumok/log.txt";
-    int numbOfDevice=0;
     config *Configfile;
-    queueData *dataPacket;
+    queueData *dataPacketIn,*dataPacketOut;
     pthread_t reading_thread, controlling_thread,processor_thread;
 
     ReadConfig(Configfile);

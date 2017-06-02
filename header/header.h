@@ -13,8 +13,9 @@
 #define MEMBERSMAX 5
 #define TOPMEASURES 15
 
+
 void ReadConfig(config fileConfig);
-int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig,char *lf);
+int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig);
 
 typedef struct queueData
 {
@@ -47,7 +48,7 @@ typedef struct config
 };
 
 
-int moving_hysteresis();
+
 int takeoutFromQueue();
 
 #endif // HEADER_H_INCLUDED

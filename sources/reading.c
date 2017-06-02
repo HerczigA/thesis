@@ -7,8 +7,8 @@
 #include "header/header.h"
 #inlude <sys/queue.h>
 #include <time.h>
-#define LOGPATH "/home/herczig/Dokumentumok/log.txt"
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
+#define LOGPATH "/home/herczig/Dokumentumok/log.txt"
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
@@ -233,7 +233,7 @@ void sendRequest(config conffile)
         {
              while(addresses<=conffile.numbOfDev)
              {
-                sendPacket(fileHandle,addresses, cmdTerm, NULL,0);
+                sendPacket(fileHandle,addresses, cmdTerm, NULL,0);          //sendPacket has return value
                 addresses++;
              }
 
@@ -244,7 +244,7 @@ void sendRequest(config conffile)
         {
             while(addresses<=conffile.numbOfDev)
             {
-                sendPacket(fileHandle,addresses, cmdPing, NULL,0);
+                sendPacket(fileHandle,addresses, cmdPing, NULL,0);          //sendPacket has return value
                 addresses++;
             }
 

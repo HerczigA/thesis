@@ -10,9 +10,10 @@
 #include "header/header.h"
 #include "header/counting.h"
 #define MAXLINE 1000
+#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
+#define lf "/herczig/Dokumentumok/log.txt"
 
-
-int Initalization(struct termios *old_term, struct termios *term,int *filedesp,struct config fileConfig,char *lf)
+int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig)
 {
 
     time_t now;
@@ -20,7 +21,7 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,s
     char *serial="/dev/ttyS0";
     int fd;
 
-    FILE * errorfile=fopen(lf,"w");
+    FILE * errorfile=fopen(ERRORPATH,"w");
 
     if(!filedesp)
         {
@@ -78,7 +79,20 @@ char *buffer;
 char *p=NULL;
 char pathOfConfig[]="/home/herczig/thesis/config.txt";
 
-char comment='=';
+char equalsign='=';
+
+struct Repair
+    {
+        char RT;
+        char NOD;
+        char ST;
+        char BR;
+        char Delta;
+        char MOMA;
+    };
+
+
+
 FILE * fconfig,errorfile;
 
     errorfile=fopen(lf,"w");
@@ -92,7 +106,7 @@ FILE * fconfig,errorfile;
         }
         if(fconfig)
         {
-
+            struct Repair ConfReplacement={0,0,0,0,0,0};;
             while(fgets(buffer,MAXLINE,fconfig))
             {
 
@@ -102,58 +116,65 @@ FILE * fconfig,errorfile;
                    switch(*buffer)
                     {
                         case 'R':       //Request Time
-                            p=strchr(buffer,comment);
+                            p=strchr(buffer,equalsign);
                             p++;
                             fileConfig.time=atoi(p);
                             if(fileConfig->time<1000 || fileConfig->time>1000000)
                                 fileConfig->time=1000;
+                            ConfRepalcement.RT++;
                         continue;
 
                         case 'n':       //Number of devices
-                            p=strchr(buffer,comment);
+                            p=strchr(buffer,equalsign);
                             p++;
                             fileConfig->numbOfDev=atoi(p);
                             if(fileConfig->numbOfDev<DevMin || fileConfig->numbOfDev>DevMax)
                                 fileConfig->numbOfDev=DevMin;
+                                ConfReplacement.NOD++;
                         continue;
 
                         case 's':       //SamplingTime
-                            p=strchr(buffer,comment);
+                            p=strchr(buffer,equalsign);
                             p++;
                             fileConfig->samplingTime=atoi(p);
                             if(fileConfig->samplingTime<DEFTIME || fileConfig->samplingTime>MAXTIME)
                                 fileConfig->samplingTime=DEFTIME;
+                                ConfReplacement.ST++;
                         continue;
 
                        case 'B':       //Baudrate
-                            p=strchr(buffer,comment);
+                            p=strchr(buffer,equalsign);
                             p++;
                             fileConfig->BAUD=malloc(sizeof(p));
                             strcpy(fileConfig->BAUD,p);
                             if(fileConfig->BAUD!="B9600" ||fileConfig->BAUD!="B38400" ||fileConfig->BAUD!="B57600" ||fileConfig->BAUD!="B115200" )
                                 fileConfig->BAUD=DefBaud;
-
+                                ConfReplacement.BR++;
                         continue;
 
                         case 'D':           //Delta for moving histeresys
-                            p=strchr(buffer,comment);
+                            p=strchr(buffer,equalsign);
                             p++;
                             fileConfig->Delta=atoi(p);
                             if(fileConfig->Delta<DELTAMIN || fileConfig->Delta>DELTAMAX)
                                 fileConfig->Delta=DELTAMIN;
+                                ConfReplacement.Delta++;
                             continue;
 
                        case 'm':           //members to flowchart
-                            p=strchr(buffer,comment);
+                            p=strchr(buffer,equalsign);
                             p++;
                             fileConfig->members=atoi(p);
                             if(fileConfig->members<MEMBERSMIN || fileConfig->members>MEMBERSMAX)
                                 fileConfig->members=MEMBERSMIN;
+                                ConfReplacement.MOMA++;
                             continue;
 
                     }
                 }
             }
+
+
         }
         else
             fprintf(fconfig,"Cannot open config file\n",ctime(&now));
@@ -185,40 +206,37 @@ int queueInit(queueData *data)       //direction INPUT or OUTPUT with queue!?!?!
 
 
 
-int takeoutFromQueue(struct config conffile,queueData *Received_data)
+int takeoutFromQueue(config conffile,queueData *Received_data)
 {
-    int ptrArrNumbers[conffile.members]={0};
+    int movAverArray[conffile.members]={0};
     float *temp;
-    float *finalResult;
+    float finalResult;
     int i=0;
     float data=0;
     queueData *tempPacket;
-    tempPacket=malloc(sizeof(queueData));
-    int devices;
+    time_t now;
+    time(&now);
 
-    //devices=conffile.numbOfDev
+    FILE * log_file=fopen(lf,"w");
 
          while(!TAILQ_EMPTY(&InHd))
          {
             pthread_mutex_lock(Received_data->mutex);
             tempPacket=TAILQ_FIRST(&InHd);
+            TAILQ_REMOVE(&InHd,tempPacket,entries);
             pthread_mutex_unlock(Received_data->mutex);
 
             if(tempPacket->data)
             {
-                *temp= mov_average(ptrArrNumbers, &data, i, conffile,tempPacket);
+                *temp= mov_average(movAverArray, &data, i, conffile,tempPacket);
                 i++;
-                if (i>= len)
-                i= 0;
-                *finalResult=moving_hysteresis(conffile,temp);
-                //*finalResult go to logfile and web
+                if (i>= conffile.members)
+                    i= 0;
+                finalResult=moving_hysteresis(conffile,temp);
+                fprintf(log_file,"Measured temperature from %s address of device with moving average and moving hysteresis :%d\t %s\n",tempPacket->address,finalResult,ctime(&now));
+
             }
-
-
-            pthread_mutex_lock(Received_data->mutex);
-            TAILQ_REMOVE(&InHd,tempPacket,entries);
-            pthread_mutex_unlock(Received_data->mutex);
-
+            sleep(conffile.samplingTime);
          }
 
      free(tempPacket);

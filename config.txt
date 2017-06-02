@@ -8,3 +8,5 @@ samplingTime=1000
 Baudrate=B9600
 
 Delta=5
+
+membersOfMovingAverage=3
