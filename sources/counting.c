@@ -12,7 +12,7 @@ float moving_hysteresis(config conffile,float *temp)
     float temp_max=delta;
     float value=*temp;
     float result;
-    result=malloc(sizeof(float));
+    result=(float*)malloc(sizeof(float));
 
     if(value<=temp_max)
     {

@@ -2,7 +2,7 @@
 #define HEADER_H_INCLUDED
 #include <sys/queue.h>
 #define MAXTIME 1000000
-#define DEFTIME 100
+#define DEFSAMPTIME 100
 #define REQUESTTIME 1000
 #define DevMin 1
 #define DevMax 99
@@ -14,8 +14,6 @@
 #define TOPMEASURES 15
 
 
-void ReadConfig(config fileConfig);
-int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig);
 
 typedef struct queueData
 {
@@ -48,6 +46,9 @@ typedef struct config
 };
 
 
+void ReadConfig(config fileConfig);
+int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig);
+int queueInit(queueData *inData,queueData *outData);
 
 int takeoutFromQueue();
 

@@ -124,7 +124,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         {
                         if (receivingData->dlen <= LIMIT)
                             {
-                            receivingData->data =malloc(sizeof (receivingData->dlen));
+                            receivingData->data =(float *)malloc(sizeof (receivingData->dlen));
                                 if(!receivingData->data)
                                     {
                                     fprintf(errorfile,"No enough memory\t\t%s\n",ctime(&now));
@@ -200,7 +200,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
  queueData *reserve(char data)
  {
      queueData *temp;
-        temp=malloc(sizeof(queueData));
+        temp=(queueData *)malloc(sizeof(queueData));
         if (!temp)
             return 0;
      temp->address=data;

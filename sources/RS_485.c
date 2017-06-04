@@ -7,9 +7,10 @@
 #include <termios.h>
 #include <sys/queue.h>
 #include <time.h>
+#include <string.h>
 #include "header/header.h"
 #include "header/counting.h"
-#define MAXLINE 1000
+#define MAXLINE 512
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define lf "/herczig/Dokumentumok/log.txt"
 
@@ -73,23 +74,12 @@ void ReadConfig(config *fileConfig)
 {
     if(!fileConfig)
         return;
-    fileConfig=malloc(sizeof(config));
 
 char *buffer;
 char *p=NULL;
 char pathOfConfig[]="/home/herczig/thesis/config.txt";
 
 char equalsign='=';
-
-struct Repair
-    {
-        char RT;
-        char NOD;
-        char ST;
-        char BR;
-        char Delta;
-        char MOMA;
-    };
 
 
 
@@ -98,7 +88,7 @@ FILE * fconfig,errorfile;
     errorfile=fopen(lf,"w");
     fconfig=fopen(pathOfConfig,"r");
 
-    buffer=malloc(sizeof(MAXLINE));
+    buffer=(char*)malloc(sizeof(MAXLINE));
         if(!buffer)
         {
             fprintf(errorfile,"Can not allocate memory to buffer\n",ctime(&now));
@@ -106,7 +96,7 @@ FILE * fconfig,errorfile;
         }
         if(fconfig)
         {
-            struct Repair ConfReplacement={0,0,0,0,0,0};;
+
             while(fgets(buffer,MAXLINE,fconfig))
             {
 
@@ -119,9 +109,9 @@ FILE * fconfig,errorfile;
                             p=strchr(buffer,equalsign);
                             p++;
                             fileConfig.time=atoi(p);
-                            if(fileConfig->time<1000 || fileConfig->time>1000000)
-                                fileConfig->time=1000;
-                            ConfRepalcement.RT++;
+                            if(fileConfig->time<REQUESTTIME|| fileConfig->time>MAXTIME)
+                                fileConfig->time=REQUESTTIME;
+
                         continue;
 
                         case 'n':       //Number of devices
@@ -130,7 +120,7 @@ FILE * fconfig,errorfile;
                             fileConfig->numbOfDev=atoi(p);
                             if(fileConfig->numbOfDev<DevMin || fileConfig->numbOfDev>DevMax)
                                 fileConfig->numbOfDev=DevMin;
-                                ConfReplacement.NOD++;
+
                         continue;
 
                         case 's':       //SamplingTime
@@ -139,17 +129,19 @@ FILE * fconfig,errorfile;
                             fileConfig->samplingTime=atoi(p);
                             if(fileConfig->samplingTime<DEFTIME || fileConfig->samplingTime>MAXTIME)
                                 fileConfig->samplingTime=DEFTIME;
-                                ConfReplacement.ST++;
+
                         continue;
 
                        case 'B':       //Baudrate
+                            int len;
                             p=strchr(buffer,equalsign);
                             p++;
-                            fileConfig->BAUD=malloc(sizeof(p));
+                            len=strlen(p);
+                            fileConfig->BAUD=(char*)malloc(sizeof(len));
                             strcpy(fileConfig->BAUD,p);
                             if(fileConfig->BAUD!="B9600" ||fileConfig->BAUD!="B38400" ||fileConfig->BAUD!="B57600" ||fileConfig->BAUD!="B115200" )
                                 fileConfig->BAUD=DefBaud;
-                                ConfReplacement.BR++;
+
                         continue;
 
                         case 'D':           //Delta for moving histeresys
@@ -158,7 +150,7 @@ FILE * fconfig,errorfile;
                             fileConfig->Delta=atoi(p);
                             if(fileConfig->Delta<DELTAMIN || fileConfig->Delta>DELTAMAX)
                                 fileConfig->Delta=DELTAMIN;
-                                ConfReplacement.Delta++;
+
                             continue;
 
                        case 'm':           //members to flowchart
@@ -167,14 +159,27 @@ FILE * fconfig,errorfile;
                             fileConfig->members=atoi(p);
                             if(fileConfig->members<MEMBERSMIN || fileConfig->members>MEMBERSMAX)
                                 fileConfig->members=MEMBERSMIN;
-                                ConfReplacement.MOMA++;
+
                             continue;
 
                     }
                 }
             }
-
-
+            if(!fileConfig->BAUD)
+                {
+                    fileConfig->BAUD=(char*)malloc(DefBaud);
+                    fileConfig->BAUD=DefBaud;
+                }
+            if(!fileConfig->Delta)
+                fileConfig->Delta=DELTAMIN;
+            if(!fileConfig->members)
+                fileConfig->members=MEMBERSMIN;
+            if(!fileConfig->numbOfDev)
+                fileConfig->numbOfDev=DevMin;
+            if(!fileConfig->samplingTime)
+                fileConfig->samplingTime=DEFSAMPTIME;
+            if(!fileConfig->time)
+                fileConfig->time=REQUESTTIME;
         }
         else
             fprintf(fconfig,"Cannot open config file\n",ctime(&now));
@@ -186,21 +191,19 @@ FILE * fconfig,errorfile;
 
 
 }
-/**Direction=0 if OUTPUT, Direction =1 if INPUT*/
-int queueInit(queueData *data)       //direction INPUT or OUTPUT with queue!?!?!?!?!?!?!
+/**Initialize in-way and out-way queue and mutexes*/
+int queueInit(queueData *inData,queueData *outData)
 {
-    data=malloc(sizeof(queueData));
-        if(!data)
-            return 1;
-
-        //struct tailhead ;
+    if(!(inData&&outData))
+        return 1;
 
         TAILQ_HEAD(tailhead, queueData) OutHd;
         TAILQ_INIT(&OutHd);
 	    TAILQ_HEAD(tailhead, queueData) InHd;
         TAILQ_INIT(&InHd);
 
-    pthread_mutex_init(data->mutex,NULL);
+    pthread_mutex_init(inData->mutex,NULL);
+    pthread_mutex_init(outData->mutex,NULL);
     return 0;
 }
 

@@ -13,15 +13,15 @@ int main()
 {
     int fd;
     struct termios old_term,*term;
-    config *Configfile;
-    queueData *dataPacketIn,*dataPacketOut;
+    config Configfile={0};
+    queueData dataPacketIn, dataPacketOut;
     pthread_t reading_thread, controlling_thread,processor_thread;
 
-    ReadConfig(Configfile);
+    ReadConfig(&Configfile);
 
     if(Initalization(&old_term,term,&fd,Configfile,lf))
         return 1;
-    queueInit(dataPacket);
+    queueInit(&dataPacket,&dataPacketOut);
 
 
 
