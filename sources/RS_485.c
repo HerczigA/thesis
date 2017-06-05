@@ -13,6 +13,7 @@
 #define MAXLINE 512
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define lf "/herczig/Dokumentumok/log.txt"
+#define pathOfConfig "/home/herczig/thesis/config.txt"
 
 int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig)
 {
@@ -77,15 +78,13 @@ void ReadConfig(config *fileConfig)
 
 char *buffer;
 char *p=NULL;
-char pathOfConfig[]="/home/herczig/thesis/config.txt";
-
 char equalsign='=';
 
 
 
 FILE * fconfig,errorfile;
 
-    errorfile=fopen(lf,"w");
+    errorfile=fopen(ERRORPATH,"w");
     fconfig=fopen(pathOfConfig,"r");
 
     buffer=(char*)malloc(sizeof(MAXLINE));
@@ -219,8 +218,10 @@ int takeoutFromQueue(config conffile,queueData *Received_data)
     queueData *tempPacket;
     time_t now;
     time(&now);
+    char time[TIMELINE];
+    time=timelogmaker(time);            //??late, think again
 
-    FILE * log_file=fopen(lf,"w");
+    FILE * log_file=fopen(time,"w");
 
          while(!TAILQ_EMPTY(&InHd))
          {
@@ -241,7 +242,7 @@ int takeoutFromQueue(config conffile,queueData *Received_data)
             }
             sleep(conffile.samplingTime);
          }
-
+     fclose(log_file);
      free(tempPacket);
 }
 

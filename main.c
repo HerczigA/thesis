@@ -30,11 +30,9 @@ int main()
     pthread_create(&reading_thread,NULL,readingFromSerial,&fd);
     pthread_create(&processor_thread,NULL,takeoutFromQueue);
 
-
-
-
-
-
+    pthread_join(controlling_thread,NULL);
+    pthread_join(reading_thread,NULL);
+    pthread_join(processor_thread,NULL);
 
     return 0;
 }
