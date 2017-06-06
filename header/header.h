@@ -46,10 +46,10 @@ typedef struct config
 };
 
 
-void ReadConfig(config fileConfig);
+void ReadConfig(config *fileConfig);
 int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig);
 int queueInit(queueData *inData,queueData *outData);
 
-int takeoutFromQueue();
+int takeoutFromQueue(config conffile,queueData *Received_data);
 
 #endif // HEADER_H_INCLUDED

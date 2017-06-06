@@ -16,8 +16,8 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
  void  *readingFromSerial(int *filedescripton)
 {
     int fd=*filedescripton;
-    queueData *receivingData=NULL;
-    queueData UsefulPacket;
+    queueData *receivingData=(queueData *)malloc(sizeof(queueData));    /**kap egy pointert azzal játszunk végén ezt szabadítjuk fel*/
+    queueData *UsefulPacket;
     unsigned char data,i=0;
     uint16_t packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
@@ -101,7 +101,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         continue;
                     }
                     else
-                       Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
+                        Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
                         break;
 
                 case command :
@@ -147,7 +147,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
                 case Data :
                         calculateCrc = addCrcByte(calculateCrc, data);
-                        receivingData->data = data;
+                        receivingData->(*data) = data;
                         State = CrcLow;
                         continue;
 
@@ -161,7 +161,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                     if (compareCRC(packetCrc, calculateCrc))
                     {
                         UsefulPacket= receivingData;
-                        receivingData = NULL;
+                        free()receivingData = NULL;
                         Packetstatistic.validPacket++;
                         State = EmptyState;
                     }

@@ -218,9 +218,9 @@ int takeoutFromQueue(config conffile,queueData *Received_data)
     queueData *tempPacket;
     time_t now;
     time(&now);
-    char time[TIMELINE];
-    time=timelogmaker(time);            //??late, think again
-
+    char *time;
+    time=(char*)malloc(TIMELINE*sizeof(char));
+    time=timeToString(time);
     FILE * log_file=fopen(time,"w");
 
          while(!TAILQ_EMPTY(&InHd))
@@ -242,8 +242,10 @@ int takeoutFromQueue(config conffile,queueData *Received_data)
             }
             sleep(conffile.samplingTime);
          }
+
      fclose(log_file);
      free(tempPacket);
+     free(time);
 }
 
 
