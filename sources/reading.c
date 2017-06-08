@@ -17,7 +17,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
  void  *readingFromSerial(int *filedescripton)
 {
     int fd=*filedescripton;
-    queueData *receivingData=NULL;    /**kap egy pointert azzal játszunk végén ezt szabadítjuk fel*/
+    queueData *receivingData=NULL;
     queueData *UsefulPacket;
     unsigned char data,i=0;
     uint16_t packetCrc,calculateCrc;
@@ -217,7 +217,6 @@ void sendRequest(config conffile,int *fileHandle)
 	 unsigned char requestCounter=0;
      const char cmdPing=0;
      const char cmdTerm=1;
-     queueData *Temp;
 
      while(1)
      {
@@ -233,9 +232,9 @@ void sendRequest(config conffile,int *fileHandle)
         {
              while(addresses<=conffile.numbOfDev)
              {
-                Temp=sendPacket(fileHandle,addresses, cmdTerm, NULL,0);          //sendPacket has return value
+                sendPacket(fileHandle,addresses, cmdTerm, NULL,0);
                 addresses++;
-                free(Temp);
+
              }
 
              requestCounter++;
@@ -245,9 +244,9 @@ void sendRequest(config conffile,int *fileHandle)
         {
             while(addresses<=conffile.numbOfDev)
             {
-                Temp=sendPacket(fileHandle,addresses, cmdPing, NULL,0);          //sendPacket has return value      mutexes
+                sendPacket(fileHandle,addresses, cmdPing, NULL,0);
                 addresses++;
-                free(Temp);
+
             }
 
             requestCounter++;
@@ -255,17 +254,17 @@ void sendRequest(config conffile,int *fileHandle)
 
 
         addresses=0;
-        sleep(conffile.samplingTime)           //Cmd send period
+        sleep(conffile.samplingTime)
      }
 
 }
 
 
-queueData *sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
+int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
 {
-     if (fd < 0 || (dLen > 0 && !data))
-         return NULL;
-
+     if (!(fd < 0 ))
+         return 0;
+     int fildesp=*fd;
      int i;
      uint16_t crc=0;
      uint16_t datalength;
@@ -276,45 +275,45 @@ queueData *sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned
      for (i=0;i<5;i++)
          write(fd,&motorola55,1);
 
-     write(fd,&motorolaFF,1);
-     write(fd,&motorola1,1);
+     write(fildesp,&motorolaFF,1);
+     write(fildesp,&motorola1,1);
 
         crc = addCrcByte(crc, address);
-     write (fd,&address,1);
-     Packet=reserve(address);
+     write (fildesp,&address,1);
 
         crc = addCrcByte(crc, cmd);
-     write(fd,&cmd,1);
-     Packet->cmd=cmd;
+     write(fildesp,&cmd,1);
 
      datalength= dLen & FF;
         crc = addCrcByte(crc,datalength);
-     write(fd, &datalength, 1);
+     write(fildesp, &datalength, 1);
      datalength |= (dLen << BYTE) & FF;
         crc = addCrcByte(crc, datalength);
-     write(fd, &datalength, 1);
-     Packet->dlen=datalength;
+     write(fildesp, &datalength, 1);
+
 
      switch (datalength):
 
-     case datalength>0:                       // if (datalength > 0)
+     case datalength>0:
          for (i=0;i<datalength;i++,data++)
             {
-             Packet->data++=data;
              crc = addCrcByte(crc, *data);
-             write (fd,data,1);
+             write (fildesp,data,1);
             }
-     case !datalength:                                //else (dlen==0)
-        Packet->data=NULL;
+
+     case !datalength:
+        *data=0;
+        crc = addCrcByte(crc, *data);
+        write (fildesp,data,1);
 
      case datalength<0:
-            return NULL;
+         return 0;
 
         crc=crc & FF;
         crc=addCrcByte(crc,crc);
-     write(fd,&crc,1);
+     write(fildesp,&crc,1);
         crc|=(crc <<BYTE) & FF;
-     write(fd,&crc,1);
+     write(fildesp,&crc,1);
 
-     return Packet;
+     return 1;
 }

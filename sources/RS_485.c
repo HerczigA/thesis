@@ -71,7 +71,7 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,c
 
 }
 
-void ReadConfig(config *fileConfig)
+void ReadConfig(config *fileConfig,int *fd)
 {
     if(!fileConfig)
         return;
