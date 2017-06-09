@@ -210,7 +210,7 @@ int queueInit(queueData *inData,queueData *outData)
 
 int takeoutFromQueue(config conffile,queueData *Received_data, threadArg *arg)
 {
-    int movAverArray[conffile.members]={0};
+    int movAverArray[arg->conf.members]={0};
     float *temp;
     float finalResult;
     int i=0;
@@ -234,7 +234,7 @@ int takeoutFromQueue(config conffile,queueData *Received_data, threadArg *arg)
             {
                 *temp= mov_average(movAverArray, &data, i, conffile,tempPacket);
                 i++;
-                if (i>= conffile.members)
+                if (i>= arg->conf.members)
                     i= 0;
                 finalResult=moving_hysteresis(conffile,temp);
                 fprintf(log_file,"Measured temperature from %s address of device with moving average and moving hysteresis :%d\t %s\n",tempPacket->address,finalResult,ctime(&now));

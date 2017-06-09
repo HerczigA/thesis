@@ -5,7 +5,7 @@
 #include "header/crc.h"
 #include <time.h>
 #include "header/header.h"
-#inlude <sys/queue.h>
+#include <sys/queue.h>
 #include <time.h>
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"

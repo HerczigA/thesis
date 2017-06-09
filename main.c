@@ -17,13 +17,14 @@ int main()
     queueData dataPacketIn, dataPacketOut;
     pthread_t reading_thread, controlling_thread,processor_thread;
     threadArg *thrdArg=(threadArg*)malloc(sizeof(threadArg));
+
     ReadConfig(&Configfile);
 
     if(Initalization(&old_term,term,&fd,Configfile,lf))
         return 1;
     queueInit(&dataPacket,&dataPacketOut);
 
-
+    thrdArg
 
 
     pthread_create(&controlling_thread,NULL,);

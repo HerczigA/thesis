@@ -47,9 +47,9 @@ typedef struct config
 
 typedef struct threadArg
 {
-    struct queueData;
+    queueData Packet;
     int fd;
-    config;
+    config conf;
 };
 
 
