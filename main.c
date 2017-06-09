@@ -16,7 +16,7 @@ int main()
     config Configfile={0};
     queueData dataPacketIn, dataPacketOut;
     pthread_t reading_thread, controlling_thread,processor_thread;
-
+    threadArg *thrdArg=(threadArg*)malloc(sizeof(threadArg));
     ReadConfig(&Configfile);
 
     if(Initalization(&old_term,term,&fd,Configfile,lf))
@@ -28,11 +28,11 @@ int main()
 
     pthread_create(&controlling_thread,NULL,);
     pthread_create(&reading_thread,NULL,readingFromSerial,&fd);
-    pthread_create(&processor_thread,NULL,takeoutFromQueue);
+    pthread_create(&processor_thread,NULL,takeoutFromQueue,);
 
     pthread_join(controlling_thread,NULL);
     pthread_join(reading_thread,NULL);
     pthread_join(processor_thread,NULL);
-
+    free(thrdArg);
     return 0;
 }

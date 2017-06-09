@@ -29,7 +29,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
     time(&now);
 
     FILE * LogFile=fopen(LOGPATH,"w");
-    FILE * errorfile=fopen(ERRORPATH,"w");        //?ERROR and log sould be separately
+    FILE * errorfile=fopen(ERRORPATH,"w");
 
      if (fd <=0 )
          {
@@ -262,15 +262,14 @@ void sendRequest(config conffile,int *fileHandle)
 
 int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
 {
-     if (!(fd < 0 ))
+     if (fd < 0 || (!data && dlen))
          return 0;
      int fildesp=*fd;
      int i;
      uint16_t crc=0;
      uint16_t datalength;
+     char temp=0;
      char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
-
-     queueData *Packet;
 
      for (i=0;i<5;i++)
          write(fd,&motorola55,1);
@@ -302,7 +301,7 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
             }
 
      case !datalength:
-        *data=0;
+        data=&temp;
         crc = addCrcByte(crc, *data);
         write (fildesp,data,1);
 

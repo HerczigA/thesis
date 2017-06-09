@@ -208,7 +208,7 @@ int queueInit(queueData *inData,queueData *outData)
 
 
 
-int takeoutFromQueue(config conffile,queueData *Received_data)
+int takeoutFromQueue(config conffile,queueData *Received_data, threadArg *arg)
 {
     int movAverArray[conffile.members]={0};
     float *temp;
