@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <math.h>
 #include <termios.h>
-#define NUM_THREADS 3
 #include "header/crc.h"
 #include "header/header.h"
 #include "header/reading.h"

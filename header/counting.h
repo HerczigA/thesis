@@ -3,8 +3,8 @@
 #define ZERO 0
 #define lf "/herczig/Dokumentumok/log"
 
-float moving_hysteresis(config conffile,float *temp);
-int mov_average(int *tempArray, float *data, int i, config conffile, queueData *tempData);
+float moving_hysteresis(threadArg *arg,float *temp);
+int mov_average(int *tempArray, float *data, int i, threadArg *arg, queueData *tempData);
 char *timeToString(char *buffer);
 
 #endif // COUNTING_H_INCLUDED

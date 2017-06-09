@@ -5,9 +5,9 @@
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
-float moving_hysteresis(config conffile,float *temp)
+float moving_hysteresis(threadArg *arg,float *temp)
 {
-   const float delta=conffile.Delta;
+   const float delta=arg->conf->Delta;
     float temp_min=ZERO;
     float temp_max=delta;
     float value=*temp;
@@ -50,7 +50,7 @@ int mov_average(int *tempArray, float *data, int i, threadArg *arg, queueData *t
 
     *data -= tempArray[i] + tempData->data;
     tempArray[i] = tempData->data;
-        return *data / arg->conf.members;
+        return *data / arg->conf->members;
 }
 
 char *timeToString(char *buffer)

@@ -209,7 +209,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
            return temp;
  }
 
-void sendRequest(config conffile,int *fileHandle)
+void sendRequest(threadArg *arg)
  {
 
      int addresses=0;
@@ -230,9 +230,9 @@ void sendRequest(config conffile,int *fileHandle)
 
         if(!requestType)
         {
-             while(addresses<=conffile.numbOfDev)
+             while(addresses<=arg->conf->numbOfDev)
              {
-                sendPacket(fileHandle,addresses, cmdTerm, NULL,0);
+                sendPacket(arg->fd,addresses, cmdTerm, NULL,0);
                 addresses++;
 
              }
@@ -242,9 +242,9 @@ void sendRequest(config conffile,int *fileHandle)
         }
         else
         {
-            while(addresses<=conffile.numbOfDev)
+            while(addresses<=arg->conf->numbOfDev)
             {
-                sendPacket(fileHandle,addresses, cmdPing, NULL,0);
+                sendPacket(arg->fd,addresses, cmdPing, NULL,0);
                 addresses++;
 
             }
@@ -254,7 +254,7 @@ void sendRequest(config conffile,int *fileHandle)
 
 
         addresses=0;
-        sleep(conffile.samplingTime)
+        sleep(arg->conf->time);
      }
 
 }

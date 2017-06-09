@@ -71,7 +71,7 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,c
 
 }
 
-void ReadConfig(config *fileConfig,int *fd)
+void ReadConfig(config *fileConfig)
 {
     if(!fileConfig)
         return;
@@ -232,7 +232,7 @@ int takeoutFromQueue(threadArg *arg)
 
             if(tempPacket->data)
             {
-                *temp=mov_average(movAverArray, &data, i, *arg,tempPacket);
+                *temp=mov_average(movAverArray, &data, i, arg,tempPacket);
                 i++;
                 if (i>= arg->conf.members)
                     i= 0;

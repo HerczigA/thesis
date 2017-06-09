@@ -53,7 +53,8 @@ typedef struct statistic
 	};
 
 
-int readingFromSerial(int *filedescripton);
-void sendRequest(config conffile);
-int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data, int dLen);
+void  *readingFromSerial(threadArg *arg);
+queueData *reserve(char data);
+void sendRequest(threadArg *arg);
+int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen);
 #endif // READING_H_INCLUDED
