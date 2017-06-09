@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g -Wall -I. -lm
+CFLAGS=-g -Wall -I. -lm -lpthread
 DEPS=header.h crc.h reading.h counting.h
 OBJ= main.o RS_485.o counting.o crc.o reading.o
 ALL=main.o RS_485.o counting.o crc.o reading.o main
