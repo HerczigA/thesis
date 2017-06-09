@@ -208,7 +208,7 @@ int queueInit(queueData *inData,queueData *outData)
 
 
 
-int takeoutFromQueue(config conffile,queueData *Received_data, threadArg *arg)
+int takeoutFromQueue(threadArg *arg)
 {
     int movAverArray[arg->conf.members]={0};
     float *temp;
@@ -225,22 +225,23 @@ int takeoutFromQueue(config conffile,queueData *Received_data, threadArg *arg)
 
          while(!TAILQ_EMPTY(&InHd))
          {
-            pthread_mutex_lock(Received_data->mutex);
+            pthread_mutex_lock(arg->Packet->mutex);     //second ->?
             tempPacket=TAILQ_FIRST(&InHd);
             TAILQ_REMOVE(&InHd,tempPacket,entries);
-            pthread_mutex_unlock(Received_data->mutex);
+            pthread_mutex_unlock(arg->Packet->mutex);
 
             if(tempPacket->data)
             {
-                *temp= mov_average(movAverArray, &data, i, conffile,tempPacket);
+                *temp=mov_average(movAverArray, &data, i, *arg,tempPacket);
                 i++;
                 if (i>= arg->conf.members)
                     i= 0;
                 finalResult=moving_hysteresis(conffile,temp);
-                fprintf(log_file,"Measured temperature from %s address of device with moving average and moving hysteresis :%d\t %s\n",tempPacket->address,finalResult,ctime(&now));
+                fprintf(log_file,"Measured temperature from %s address of device with moving average and moving hysteresis :%d\t %s\n",
+                        tempPacket->address,finalResult,ctime(&now));
 
             }
-            sleep(conffile.samplingTime);
+            sleep(arg->conf.samplingTime);
          }
 
      fclose(log_file);
@@ -250,10 +251,6 @@ int takeoutFromQueue(config conffile,queueData *Received_data, threadArg *arg)
 
 
 
-int controllingProcess()
-{
-
-}
 
 
 

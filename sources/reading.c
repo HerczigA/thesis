@@ -14,9 +14,9 @@
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
- void  *readingFromSerial(int *filedescripton)
+ void  *readingFromSerial(threadArg *arg)
 {
-    int fd=*filedescripton;
+    int fd=arg->fd;
     queueData *receivingData=NULL;
     queueData *UsefulPacket;
     unsigned char data,i=0;
@@ -189,7 +189,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
             fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
 
 
-            sleep(/*fileconfig.time*/);    // alvoido
+            sleep(arg->conf->samplingTime);    // alvoido
         }
 
         fclose(LogFile);

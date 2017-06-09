@@ -45,12 +45,12 @@ float moving_hysteresis(config conffile,float *temp)
 /**
 Moving average with 3 members in default
 */
-int mov_average(int *tempArray, float *data, int i, config conffile, queueData *tempData)
+int mov_average(int *tempArray, float *data, int i, threadArg *arg, queueData *tempData)
 {
 
     *data -= tempArray[i] + tempData->data;
     tempArray[i] = tempData->data;
-        return *data / conffile.members;
+        return *data / arg->conf.members;
 }
 
 char *timeToString(char *buffer)

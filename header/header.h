@@ -47,15 +47,15 @@ typedef struct config
 
 typedef struct threadArg
 {
-    queueData Packet;
-    int fd;
-    config conf;
+    queueData *Packet;
+    int *fd;
+    config *conf;
 };
 
 
 void ReadConfig(config *fileConfig);
 int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig);
 int queueInit(queueData *inData,queueData *outData);
-int takeoutFromQueue(config conffile,queueData *Received_data);
+int takeoutFromQueue(threadArg *arg);
 
 #endif // HEADER_H_INCLUDED
