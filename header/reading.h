@@ -2,7 +2,7 @@
 #define READING_H_INCLUDED
 #define LIMIT 1024
 #define FF 0xFF
-
+#include "header.h"
 
 
 typedef enum PacketState
@@ -40,17 +40,17 @@ typedef enum PacketState
     /*! high byte of crc  Packet*/
      CrcHigh
 
-    } ;
+    }PacketState;
 
 typedef struct statistic
 	{
-		int packetError=0;
-		int packet=0;
-		int validPacket=0;
-		int overrun=0;
-        int emptyPacket=0;
+		int packetError;
+		int packet;
+		int validPacket;
+		int overrun;
+        int emptyPacket;
 
-	};
+	}statistic;
 
 
 void  *readingFromSerial(threadArg *arg);

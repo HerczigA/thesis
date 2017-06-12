@@ -1,6 +1,5 @@
 #ifndef COUNTING_H_INCLUDED
 #define COUNTING_H_INCLUDED
-#define ZERO 0
 #define lf "/herczig/Dokumentumok/log"
 
 float moving_hysteresis(threadArg *arg,float *temp);

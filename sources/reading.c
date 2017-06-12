@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include "header/crc.h"
 #include <time.h>
-#include "header/header.h"
 #include <sys/queue.h>
 #include <time.h>
+#include "../header/header.h"
+#include "../header/crc.h"
+#include "../header/reading.h"
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
 #define MAXREQUEST 30
@@ -16,13 +17,13 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
  void  *readingFromSerial(threadArg *arg)
 {
-    int fd=arg->fd;
+    int fd=*(arg->fd);
     queueData *receivingData=NULL;
-    queueData *UsefulPacket;
+   // queueData *UsefulPacket;
     unsigned char data,i=0;
     uint16_t packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
-    statistic Packetstatistic;
+    statistic Packetstatistic={0};
     PacketState State=EmptyState;
     time_t now;
 
@@ -72,8 +73,10 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
                 case motoFF:
                     if(data==1)
+                    {
                         State=moto1;
-                    continue;
+                        continue;
+                    }
                     else
                     {
                         Packetstatistic.packetError++;
@@ -141,14 +144,15 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                             }
                         }
                     else
-                        Packetstatistic.emptyPacket++;
-                        fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->addresss,ctime(&now));
-                        State =  CrcLow;
-                        continue;
-
+                        {
+                            Packetstatistic.emptyPacket++;
+                            fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
+                            State =  CrcLow;
+                            continue;
+                        }
                 case Data :
                         calculateCrc = addCrcByte(calculateCrc, data);
-                        receivingData->(*data) = data;
+                        *(receivingData->data) = data;
                         State = CrcLow;
                         continue;
 
@@ -157,22 +161,23 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
                         State = CrcHigh;
                         continue;
 
-                case CrcHigh;
+                case CrcHigh:
                         packetCrc |=( data & FF) << BYTE;
                     if (compareCRC(packetCrc, calculateCrc))
                     {
-                        UsefulPacket= receivingData;
+                        arg->Packet=receivingData;
+                        //UsefulPacket= receivingData;
                         receivingData = NULL;
                         Packetstatistic.validPacket++;
                         State = EmptyState;
                     }
                     break;
             }
-			if(UsefulPacket)
+			if(/*UsefulPacket*/arg->Packet)
 			{
-				pthread_mutex_lock(UsefulPacket.mutex);
-				TAILQ_INSERT_TAIL(&head,UsefulPacket,entries);
-				pthread_mutex_unlock(UsefulPacket.mutex);
+				pthread_mutex_lock(&(arg->Packet->mutex));
+				TAILQ_INSERT_TAIL(&InHd,arg->Packet,entries);
+				pthread_mutex_unlock(&(arg->Packet->&mutex));
 			}
             State = EmptyState;
             if (receivingData)

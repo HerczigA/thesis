@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <header/header.h>
+#include "../header/header.h"
 #define TIMELINE 9
+#define ZERO 0
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
@@ -12,11 +13,11 @@ float moving_hysteresis(threadArg *arg,float *temp)
     float temp_max=delta;
     float value=*temp;
     float result;
-    result=(float*)malloc(sizeof(float));
+    //result=(float)malloc(sizeof(float));
 
     if(value<=temp_max)
     {
-        if(value=>temp_min)
+        if(value>=temp_min)
         {
             result=value;
                 return result;
@@ -48,7 +49,7 @@ Moving average with 3 members in default
 int mov_average(int *tempArray, float *data, int i, threadArg *arg, queueData *tempData)
 {
 
-    *data -= tempArray[i] + tempData->data;
+    data -= tempArray[i] + tempData->data;
     tempArray[i] = tempData->data;
         return *data / arg->conf->members;
 }

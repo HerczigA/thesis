@@ -1,6 +1,8 @@
 #ifndef HEADER_H_INCLUDED
 #define HEADER_H_INCLUDED
 #include <sys/queue.h>
+#include <stdint.h>
+#include <pthread.h>
 #define MAXTIME 1000000
 #define DEFSAMPTIME 100
 #define REQUESTTIME 1000
@@ -25,7 +27,7 @@ typedef struct queueData
     pthread_mutex_t mutex;
     /**  packet item use a TAILQ. This is for TAILQ entry */
     TAILQ_ENTRY(queueData) entries;
-};
+}queueData;
 
 
 
@@ -43,14 +45,14 @@ typedef struct config
     int samplingTime;
     int Delta;
     int members;
-};
+}config;
 
 typedef struct threadArg
 {
     queueData *Packet;
     int *fd;
     config *conf;
-};
+}threadArg;
 
 
 void ReadConfig(config *fileConfig);

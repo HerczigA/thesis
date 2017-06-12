@@ -6,6 +6,7 @@
 
 #define TOPBIT (1 << (WIDTH-1))
 #define BYTE 8
+#include <stdint.h>
 
 typedef uint16_t Crc;
 
