@@ -7,50 +7,50 @@
 
 typedef enum PacketState
 {
-     /*! Default condition*/
-     EmptyState,
+    /*! Default condition*/
+    EmptyState,
 
-     /*! min. one 0x55 received*/
-     moto55,
+    /*! min. one 0x55 received*/
+    moto55,
 
-     /*!after n*0x55, 0xFF received */
-     motoFF,
+    /*!after n*0x55, 0xFF received */
+    motoFF,
 
-     /*! after 0xFF, 0x01 received*/
-     moto1,
+    /*! after 0xFF, 0x01 received*/
+    moto1,
 
-     /*! Address */
-     address,
+    /*! Address */
+    address,
 
-     /*! Command*/
-     command,
+    /*! Command*/
+    command,
 
-     /*! Low byte of datalength*/
-     DLenLow,
+    /*! Low byte of datalength*/
+    DLenLow,
 
-     /*! High byte of datalength*/
-     DLenHigh,
+    /*! High byte of datalength*/
+    DLenHigh,
 
-     /*! Databyte */
-     Data,
+    /*! Databyte */
+    Data,
 
-     /*! low byte of crc  Packet*/
-     CrcLow,
+    /*! low byte of crc  Packet*/
+    CrcLow,
 
     /*! high byte of crc  Packet*/
-     CrcHigh
+    CrcHigh
 
-    }PacketState;
+} PacketState;
 
 typedef struct statistic
-	{
-		int packetError;
-		int packet;
-		int validPacket;
-		int overrun;
-        int emptyPacket;
+{
+    int packetError;
+    int packet;
+    int validPacket;
+    int overrun;
+    int emptyPacket;
 
-	}statistic;
+} statistic;
 
 
 void  *readingFromSerial(threadArg *arg);

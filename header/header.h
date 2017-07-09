@@ -20,19 +20,20 @@
 typedef struct queueData
 {
     /** packet item data */
-	char address;
+    char address;
     char cmd;
     uint16_t dlen;
     float *data;
     pthread_mutex_t mutex;
     /**  packet item use a TAILQ. This is for TAILQ entry */
     TAILQ_ENTRY(queueData) entries;
-}queueData;
+} queueData;
 
 
 
 
-struct tailhead{
+struct tailhead
+{
 } InHd, OutHd;
 
 
@@ -45,14 +46,14 @@ typedef struct config
     int samplingTime;
     int Delta;
     int members;
-}config;
+} config;
 
 typedef struct threadArg
 {
     queueData *Packet;
     int *fd;
     config *conf;
-}threadArg;
+} threadArg;
 
 
 void ReadConfig(config *fileConfig);

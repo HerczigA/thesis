@@ -14,13 +14,13 @@ Source from Zidarics Zoltan a.k.a Zamek
 uint16_t addCRC(uint16_t packetCrc, uint16_t countedCrc)
 {
     char bit;
-     packetCrc^= ( countedCrc<< (WIDTH - BYTE));
-    for (bit=BYTE;bit >0;--bit)
-         if (packetCrc& TOPBIT)
-             packetCrc= (packetCrc<< 1) ^ POLYNOMIAL;
+    packetCrc^= ( countedCrc<< (WIDTH - BYTE));
+    for (bit=BYTE; bit >0; --bit)
+        if (packetCrc& TOPBIT)
+            packetCrc= (packetCrc<< 1) ^ POLYNOMIAL;
         else
-           packetCrc<<= 1;
-   return packetCrc;
+            packetCrc<<= 1;
+    return packetCrc;
 }
 
 

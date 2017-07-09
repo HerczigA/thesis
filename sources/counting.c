@@ -8,7 +8,7 @@ Moving hysteresis counting by the measured value with a delta.
 */
 float moving_hysteresis(threadArg *arg,float *temp)
 {
-   const float delta=arg->conf->Delta;
+    const float delta=arg->conf->Delta;
     float temp_min=ZERO;
     float temp_max=delta;
     float value=*temp;
@@ -20,22 +20,22 @@ float moving_hysteresis(threadArg *arg,float *temp)
         if(value>=temp_min)
         {
             result=value;
-                return result;
+            return result;
         }
         else
 
         {
             temp_min=value;
             result=temp_min;
-                return  result;
+            return  result;
         }
     }
     else
     {
-            temp_max=value;
-            temp_min=temp_max-delta;
-            result=temp_min;
-                return  result;
+        temp_max=value;
+        temp_min=temp_max-delta;
+        result=temp_min;
+        return  result;
 
     }
 
@@ -49,9 +49,6 @@ Moving average with 3 members in default
 int mov_average(int *tempArray, float *data, int i, threadArg *arg, queueData *tempData)
 {
 
-    data -= tempArray[i] + tempData->data;
-    tempArray[i] = tempData->data;
-        return *data / arg->conf->members;
 }
 
 char *timeToString(char *buffer)

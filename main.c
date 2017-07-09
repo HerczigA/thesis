@@ -13,19 +13,12 @@
 int main()
 {
     int fd;
-    typedef struct threadArg
-{
-    queueData *Packet;
-    int *fd;
-    config *conf;
-};
 
     struct termios old_term,*term;
-    config Configfile={0};
-    queueData /*dataPacketIn, */dataPacketOut;
+    config Configfile= {0};
+    queueData dataPacketOut;
     pthread_t reading_thread, controlling_thread,processor_thread;
     threadArg *thrdArg=(threadArg*)malloc(sizeof(threadArg));
-    //thrdArg->Packet=&dataPacketIn;
     thrdArg->conf=&Configfile;
     thrdArg->fd=&fd;
 

@@ -15,15 +15,14 @@
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
- void  *readingFromSerial(threadArg *arg)
+void  *readingFromSerial(threadArg *arg)
 {
     int fd=*(arg->fd);
     queueData *receivingData=NULL;
-   // queueData *UsefulPacket;
     unsigned char data,i=0;
-    uint16_t packetCrc,calculateCrc;
+    Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
-    statistic Packetstatistic={0};
+    statistic Packetstatistic= {0};
     PacketState State=EmptyState;
     time_t now;
 
@@ -32,199 +31,199 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
     FILE * LogFile=fopen(LOGPATH,"w");
     FILE * errorfile=fopen(ERRORPATH,"w");
 
-     if (fd <=0 )
-         {
-            fprintf(errorfile,"cannot open filedescription\n\t\t %s\n",ctime(&now));
-            return;
-         }
+    if (fd <=0 )
+    {
+        fprintf(errorfile,"cannot open filedescription\n\t\t %s\n",ctime(&now));
+        return;
+    }
 
-     while(read(fd,&data,1))
+    while(read(fd,&data,1))
+    {
+        switch (State)
         {
-            switch (State)
+
+        case EmptyState:
+            if (data == 0x55)
+                State= moto55;
+            continue;
+
+        case moto55:
+            if (data == 0x55)
             {
-
-                case EmptyState:
-                    if (data == 0x55)
-                        State= moto55;
-                    continue;
-
-                case moto55:
-                    if (data == 0x55)
-                    {
-                        i++;
-                        if(i==6)
-                        {
-                            fprintf(errorfile,"Too much 0x55 has arrived\n Reading Restart!\t\t%s\n",ctime(&now));
-                            break;
-                        }
-                        continue;
-                    }
-                    if (data == FF)
-                    {
-                        State=motoFF;
-                        continue;
-                    }
-                    else
-                    {
-                        Packetstatistic.packetError++;
-                        fprintf(errorfile,"After 0x55 did not receive proper data(0xFF)\t\t%s\n",ctime(&now));
-                        break;
-                    }
-
-                case motoFF:
-                    if(data==1)
-                    {
-                        State=moto1;
-                        continue;
-                    }
-                    else
-                    {
-                        Packetstatistic.packetError++;
-                        fprintf(errorfile,"After 0xFF did not receive proper data(0x01)\t\t%s\n",ctime(&now));
-                        break;
-                    }
-
-
-                case moto1:
-                    if(data)
-                        {
-                            State= address;
-                            Packetstatistic.packet++;
-                        }
-                    else
-                        break;
-
-                case address:
-                    if (!receivingData)
-                    {
-                        calculateCrc = addCrcByte(calculateCrc, data);
-                        receivingData=reserve(data);
-                        if (!receivingData)
-                            fprintf(errorfile,"cannot reserved memory to receivingData\t\t%s\n",ctime(&now));
-                        State = command;
-                        continue;
-                    }
-                    else
-                        Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
-                        break;
-
-                case command :
-                        calculateCrc = addCrcByte(calculateCrc,data);
-                        receivingData->cmd = data;
-                        State = DLenLow;
-                        continue;
-
-                case DLenLow :
-                        calculateCrc = addCrcByte(calculateCrc, data);
-                        receivingData->dlen = data & FF;
-                        State = DLenHigh;
-                        continue;
-
-                case DLenHigh :
-                        calculateCrc = addCrcByte(calculateCrc, data);
-                        receivingData->dlen|= (data & FF) << BYTE;
-
-                    if (receivingData->dlen > 0)
-                        {
-                        if (receivingData->dlen <= LIMIT)
-                            {
-                            receivingData->data =(float *)malloc(sizeof (receivingData->dlen));
-                                if(!receivingData->data)
-                                    {
-                                    fprintf(errorfile,"No enough memory\t\t%s\n",ctime(&now));
-                                    Packetstatistic.packetError++;
-                                    break;
-                                    }
-                            State = Data;
-                            }
-                        else
-                            {
-                                fprintf(errorfile,"Too big the datalength\t\t%s\n",ctime(&now));
-                                break;
-                            }
-                        }
-                    else
-                        {
-                            Packetstatistic.emptyPacket++;
-                            fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
-                            State =  CrcLow;
-                            continue;
-                        }
-                case Data :
-                        calculateCrc = addCrcByte(calculateCrc, data);
-                        *(receivingData->data) = data;
-                        State = CrcLow;
-                        continue;
-
-                case CrcLow :
-                        packetCrc = data & FF;
-                        State = CrcHigh;
-                        continue;
-
-                case CrcHigh:
-                        packetCrc |=( data & FF) << BYTE;
-                    if (compareCRC(packetCrc, calculateCrc))
-                    {
-                        arg->Packet=receivingData;
-                        //UsefulPacket= receivingData;
-                        receivingData = NULL;
-                        Packetstatistic.validPacket++;
-                        State = EmptyState;
-                    }
+                i++;
+                if(i==6)
+                {
+                    fprintf(errorfile,"Too much 0x55 has arrived\n Reading Restart!\t\t%s\n",ctime(&now));
                     break;
+                }
+                continue;
             }
-			if(/*UsefulPacket*/arg->Packet)
-			{
-				pthread_mutex_lock(&(arg->Packet->mutex));
-				TAILQ_INSERT_TAIL(&InHd,arg->Packet,entries);
-				pthread_mutex_unlock(&(arg->Packet->&mutex));
-			}
-            State = EmptyState;
-            if (receivingData)
+            if (data == FF)
             {
-                if (receivingData->data)
-                    free(receivingData->data);
-                    free(receivingData);
-                    receivingData = NULL;
+                State=motoFF;
+                continue;
             }
-            fprintf(LogFile,"Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
-            fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
-            fprintf(LogFile,"validPacket=%d\t",Packetstatistic.validPacket);
-            fprintf(LogFile,"overrun=%d\t",Packetstatistic.overrun;
-            fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
+            else
+            {
+                Packetstatistic.packetError++;
+                fprintf(errorfile,"After 0x55 did not receive proper data(0xFF)\t\t%s\n",ctime(&now));
+                break;
+            }
+
+        case motoFF:
+            if(data==1)
+            {
+                State=moto1;
+                continue;
+            }
+            else
+            {
+                Packetstatistic.packetError++;
+                fprintf(errorfile,"After 0xFF did not receive proper data(0x01)\t\t%s\n",ctime(&now));
+                break;
+            }
 
 
-            sleep(arg->conf->samplingTime);    // alvoido
+        case moto1:
+            if(data)
+            {
+                State= address;
+                Packetstatistic.packet++;
+            }
+            else
+                break;
+
+        case address:
+            if (!receivingData)
+            {
+                calculateCrc = addCrcByte(calculateCrc, data);
+                receivingData=reserve(data);
+                if (!receivingData)
+                    fprintf(errorfile,"cannot reserved memory to receivingData\t\t%s\n",ctime(&now));
+                State = command;
+                continue;
+            }
+            else
+                Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
+            break;
+
+        case command :
+            calculateCrc = addCrcByte(calculateCrc,data);
+            receivingData->cmd = data;
+            State = DLenLow;
+            continue;
+
+        case DLenLow :
+            calculateCrc = addCrcByte(calculateCrc, data);
+            receivingData->dlen = data & FF;
+            State = DLenHigh;
+            continue;
+
+        case DLenHigh :
+            calculateCrc = addCrcByte(calculateCrc, data);
+            receivingData->dlen|= (data & FF) << BYTE;
+
+            if (receivingData->dlen > 0)
+            {
+                if (receivingData->dlen <= LIMIT)
+                {
+                    receivingData->data =(float *)malloc(sizeof (receivingData->dlen));
+                    if(!receivingData->data)
+                    {
+                        fprintf(errorfile,"No enough memory\t\t%s\n",ctime(&now));
+                        Packetstatistic.packetError++;
+                        break;
+                    }
+                    State = Data;
+                }
+                else
+                {
+                    fprintf(errorfile,"Too big the datalength\t\t%s\n",ctime(&now));
+                    break;
+                }
+            }
+            else
+            {
+                Packetstatistic.emptyPacket++;
+                fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
+                State =  CrcLow;
+                continue;
+            }
+        case Data :
+            calculateCrc = addCrcByte(calculateCrc, data);
+            *(receivingData->data) = data;
+            State = CrcLow;
+            continue;
+
+        case CrcLow :
+            packetCrc = data & FF;
+            State = CrcHigh;
+            continue;
+
+        case CrcHigh:
+            packetCrc |=( data & FF) << BYTE;
+            if (compareCRC(packetCrc, calculateCrc))
+            {
+                arg->Packet=receivingData;
+                //UsefulPacket= receivingData;
+                receivingData = NULL;
+                Packetstatistic.validPacket++;
+                State = EmptyState;
+            }
+            break;
         }
+        if(arg->Packet)
+        {
+            pthread_mutex_lock(&(arg->Packet->mutex));
+            TAILQ_INSERT_TAIL(&InHd,arg->Packet,entries);
+            pthread_mutex_unlock(&(arg->Packet->&mutex));
+        }
+        State = EmptyState;
+        if (receivingData)
+        {
+            if (receivingData->data)
+                free(receivingData->data);
+            free(receivingData);
+            receivingData = NULL;
+        }
+        fprintf(LogFile,"Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
+        fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
+        fprintf(LogFile,"validPacket=%d\t",Packetstatistic.validPacket);
+        fprintf(LogFile,"overrun=%d\t",Packetstatistic.overrun;
+                fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
 
-        fclose(LogFile);
-        fclose(errorfile);
 
- }
+                sleep(arg->conf->samplingTime);    // alvoido
+    }
 
- queueData *reserve(char data)
- {
-     queueData *temp;
-        temp=(queueData *)malloc(sizeof(queueData));
-        if (!temp)
-            return 0;
-     temp->address=data;
-     temp->dLen = 0;
-     temp->data = NULL;
-           return temp;
- }
+    fclose(LogFile);
+    fclose(errorfile);
+
+}
+
+queueData *reserve(char data)
+{
+    queueData *temp;
+    temp=(queueData *)malloc(sizeof(queueData));
+    if (!temp)
+        return 0;
+    temp->address=data;
+    temp->dLen = 0;
+    temp->data = NULL;
+    return temp;
+}
 
 void sendRequest(threadArg *arg)
- {
+{
 
-     int addresses=0;
-     unsigned char requestType;
-	 unsigned char requestCounter=0;
-     const char cmdPing=0;
-     const char cmdTerm=1;
+    int addresses=0;
+    unsigned char requestType;
+    unsigned char requestCounter=0;
+    const char cmdPing=0;
+    const char cmdTerm=1;
 
-     while(1)
-     {
+    while(1)
+    {
 
         if(requestCounter==MAXREQUEST)
             requestCounter=0;
@@ -235,14 +234,14 @@ void sendRequest(threadArg *arg)
 
         if(!requestType)
         {
-             while(addresses<=arg->conf->numbOfDev)
-             {
+            while(addresses<=arg->conf->numbOfDev)
+            {
                 sendPacket(arg->fd,addresses, cmdTerm, NULL,0);
                 addresses++;
 
-             }
+            }
 
-             requestCounter++;
+            requestCounter++;
 
         }
         else
@@ -260,64 +259,64 @@ void sendRequest(threadArg *arg)
 
         addresses=0;
         sleep(arg->conf->time);
-     }
+    }
 
 }
 
 
 int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
 {
-     if (fd < 0 || (!data && dlen))
-         return 0;
-     int fildesp=*fd;
-     int i;
-     uint16_t crc=0;
-     uint16_t datalength;
-     char temp=0;
-     char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
+    if (fd < 0 || (!data && dlen))
+        return 0;
+    int fildesp=*fd;
+    int i;
+    uint16_t crc=0;
+    uint16_t datalength;
+    char temp=0;
+    char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
 
-     for (i=0;i<5;i++)
-         write(fd,&motorola55,1);
+    for (i=0; i<5; i++)
+        write(fd,&motorola55,1);
 
-     write(fildesp,&motorolaFF,1);
-     write(fildesp,&motorola1,1);
+    write(fildesp,&motorolaFF,1);
+    write(fildesp,&motorola1,1);
 
-        crc = addCrcByte(crc, address);
-     write (fildesp,&address,1);
+    crc = addCrcByte(crc, address);
+    write (fildesp,&address,1);
 
-        crc = addCrcByte(crc, cmd);
-     write(fildesp,&cmd,1);
+    crc = addCrcByte(crc, cmd);
+    write(fildesp,&cmd,1);
 
-     datalength= dLen & FF;
-        crc = addCrcByte(crc,datalength);
-     write(fildesp, &datalength, 1);
-     datalength |= (dLen << BYTE) & FF;
-        crc = addCrcByte(crc, datalength);
-     write(fildesp, &datalength, 1);
+    datalength= dLen & FF;
+    crc = addCrcByte(crc,datalength);
+    write(fildesp, &datalength, 1);
+    datalength |= (dLen << BYTE) & FF;
+    crc = addCrcByte(crc, datalength);
+    write(fildesp, &datalength, 1);
 
 
-     switch (datalength):
+    switch (datalength):
 
-     case datalength>0:
-         for (i=0;i<datalength;i++,data++)
-            {
-             crc = addCrcByte(crc, *data);
-             write (fildesp,data,1);
-            }
-
-     case !datalength:
-        data=&temp;
+        case datalength>0:
+        for (i=0; i<datalength; i++,data++)
+    {
         crc = addCrcByte(crc, *data);
         write (fildesp,data,1);
+    }
 
-     case datalength<0:
-         return 0;
+case !datalength:
+    data=&temp;
+    crc = addCrcByte(crc, *data);
+    write (fildesp,data,1);
 
-        crc=crc & FF;
-        crc=addCrcByte(crc,crc);
-     write(fildesp,&crc,1);
-        crc|=(crc <<BYTE) & FF;
-     write(fildesp,&crc,1);
+case datalength<0:
+    return 0;
 
-     return 1;
+    crc=crc & FF;
+    crc=addCrcByte(crc,crc);
+    write(fildesp,&crc,1);
+    crc|=(crc <<BYTE) & FF;
+    write(fildesp,&crc,1);
+
+    return 1;
 }
