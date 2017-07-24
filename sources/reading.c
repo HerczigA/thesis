@@ -17,23 +17,22 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
 void  *readingFromSerial(threadArg *arg)
 {
-    int fd=*(arg->fd);
     queueData *receivingData=NULL;
     unsigned char data,i=0;
     Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
     statistic Packetstatistic= {0};
     PacketState State=EmptyState;
-    time_t now;
 
+    time_t now;
     time(&now);
 
     FILE * LogFile=fopen(LOGPATH,"w");
     FILE * errorfile=fopen(ERRORPATH,"w");
 
-    if (fd <=0 )
+    if (*(arg->fd) <0 )
     {
-        fprintf(errorfile,"cannot open filedescription\n\t\t %s\n",ctime(&now));
+        fprintf(errorfile,"%s \t \t Cannot open filedescription\n",ctime(&now));
         return;
     }
 
@@ -53,7 +52,7 @@ void  *readingFromSerial(threadArg *arg)
                 i++;
                 if(i==6)
                 {
-                    fprintf(errorfile,"Too much 0x55 has arrived\n Reading Restart!\t\t%s\n",ctime(&now));
+                    fprintf(errorfile,"%s\t\t Too much 0x55 has arrived\n Reading Restart!\n",ctime(&now));
                     break;
                 }
                 continue;
@@ -66,7 +65,7 @@ void  *readingFromSerial(threadArg *arg)
             else
             {
                 Packetstatistic.packetError++;
-                fprintf(errorfile,"After 0x55 did not receive proper data(0xFF)\t\t%s\n",ctime(&now));
+                fprintf(errorfile,"%s\t\tAfter 0x55 did not receive proper data(0xFF)\n",ctime(&now));
                 break;
             }
 
@@ -79,7 +78,7 @@ void  *readingFromSerial(threadArg *arg)
             else
             {
                 Packetstatistic.packetError++;
-                fprintf(errorfile,"After 0xFF did not receive proper data(0x01)\t\t%s\n",ctime(&now));
+                fprintf(errorfile,"%s\t\tAfter 0xFF did not receive proper data(0x01)\n",ctime(&now));
                 break;
             }
 
@@ -99,7 +98,11 @@ void  *readingFromSerial(threadArg *arg)
                 calculateCrc = addCrcByte(calculateCrc, data);
                 receivingData=reserve(data);
                 if (!receivingData)
-                    fprintf(errorfile,"cannot reserved memory to receivingData\t\t%s\n",ctime(&now));
+                {
+                    fprintf(errorfile,"%s\t\t Cannot reserved memory to receivingData\n",ctime(&now));
+                    break;
+                }
+
                 State = command;
                 continue;
             }
@@ -145,7 +148,6 @@ void  *readingFromSerial(threadArg *arg)
             else
             {
                 Packetstatistic.emptyPacket++;
-                fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
                 State =  CrcLow;
                 continue;
             }
@@ -164,11 +166,16 @@ void  *readingFromSerial(threadArg *arg)
             packetCrc |=( data & FF) << BYTE;
             if (compareCRC(packetCrc, calculateCrc))
             {
-                arg->Packet=receivingData;
-                //UsefulPacket= receivingData;
-                receivingData = NULL;
-                Packetstatistic.validPacket++;
-                State = EmptyState;
+                if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm not polling
+                {
+                    arg->Packet=receivingData;
+                    free(receivingData->data);
+                    free(receivingData);
+                    Packetstatistic.validPacket++;
+                    State = EmptyState;
+                }
+                else
+                    fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
             }
             break;
         }
@@ -186,7 +193,7 @@ void  *readingFromSerial(threadArg *arg)
             free(receivingData);
             receivingData = NULL;
         }
-        fprintf(LogFile,"Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
+        fprintf(LogFile,"\ŧ\t%s\n Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
         fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
         fprintf(LogFile,"validPacket=%d\t",Packetstatistic.validPacket);
         fprintf(LogFile,"overrun=%d\t",Packetstatistic.overrun;

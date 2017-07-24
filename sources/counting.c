@@ -11,28 +11,26 @@ float moving_hysteresis(threadArg *arg,float *temp)
     const float delta=arg->conf->Delta;
     float temp_min=ZERO;
     float temp_max=delta;
-    float value=*temp;
     float result;
-    //result=(float)malloc(sizeof(float));
 
-    if(value<=temp_max)
+    if(*temp<=temp_max)
     {
-        if(value>=temp_min)
+        if(*temp>=temp_min)
         {
-            result=value;
+            result=*temp;
             return result;
         }
         else
 
         {
-            temp_min=value;
-            result=temp_min;
+            temp_min=*temp;
+            result=temp_min+delta;
             return  result;
         }
     }
     else
     {
-        temp_max=value;
+        temp_max=*temp;
         temp_min=temp_max-delta;
         result=temp_min;
         return  result;
@@ -46,7 +44,7 @@ float moving_hysteresis(threadArg *arg,float *temp)
 /**
 Moving average with 3 members in default
 */
-int mov_average(int *tempArray, float *data, int i, threadArg *arg, queueData *tempData)
+int mov_average()
 {
 
 }

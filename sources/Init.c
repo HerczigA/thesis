@@ -13,38 +13,48 @@
 #include <wiringPi.h>
 #define MAXLINE 512
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
-#define lf "/herczig/Dokumentumok/log.txt"
+#define lf "/home/herczig/Dokumentumok/log.txt"
 #define pathOfConfig "/home/herczig/thesis/config.txt"
 
-int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig)
+int Initalization(struct termios *old_term, struct termios *term,int *fd,config fileConfig)
 {
     /**RPI init and PIN out need to def RX and TX*/
     wiringPiSetup();
-    pinMode(Rx,INPUT);
-    pinMode(Tx,OUTPUT);
-
+    pinMode(Rx,INPUT);      //Rx=Pin number
+    pinMode(Tx,OUTPUT);     //Tx=Pin number
+    /**********************************************/
     time_t now;
     time(&now);
-    char *serial="/dev/ttyS0";
+    char *serial[3];
+        serial[0]=="/dev/ttyS0";
+        serial[1]=="/dev/ttyS1";
+        serial[2]=="/dev/ttyS2";
 
     FILE * errorfile=fopen(ERRORPATH,"w");
 
-    if(!filedesp)
+    if(!fd)
     {
-        fprintf(errorfile,"filedescriptor is NULL\n",ctime(&now));
+        fprintf(errorfile,"filedescriptor is NULL \n",ctime(&now));
         return 1;
     }
 
     else
-    *filedesp=open(serial,O_RDWR|O_CREATE|O_TRUNC);
-    if(*filedesp<0)
+        *fd=open(serial[0],O_RDWR|O_CREATE|O_TRUNC);
+
+    if(*fd<0)
+        *fd=open(serial[1],O_RDWR|O_CREATE|O_TRUNC);
+
+    if(*fd<0)
+        *fd=open(serial[2],O_RDWR|O_CREATE|O_TRUNC);
+
+    if(*fd<0)
     {
         fprintf(errorfile,"Cannot open the filedescriptor \n",ctime(&now));
         return 1;
     }
 
-    tcgetattr(*filedesp,old_term);
-    term=malloc(sizeof(struct termios));
+    tcgetattr(*fd,old_term);
+    term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
     {
         fprintf(errorfile,"NO enough memory to allocate term\n",ctime(&now));
@@ -56,8 +66,8 @@ int Initalization(struct termios *old_term, struct termios *term,int *filedesp,c
     cfsetispeed(term,fileConfig.BAUD);
     cfsetospeed(term,fileConfig.BAUD);
 
-    tcflush(*filedesp, TCIFLUSH);
-    if(!tcsetattr(*filedesp,TCSANOW,term))
+    tcflush(*fd, TCIOFLUSH);
+    if(!tcsetattr(*fd,TCSANOW,term))
     {
         free(fileConfig.BAUD);
         fclose(errorfile);
@@ -107,11 +117,11 @@ void ReadConfig(config *fileConfig)
 
                 switch(*buffer)
                 {
-                case 'R':       //Request Time
+                case 'R':       //Request Time  or TIMEOUT?
                     p=strchr(buffer,equalsign);
                     p++;
                     fileConfig.time=atoi(p);
-                    if(fileConfig->time<REQUESTTIME|| fileConfig->time>MAXTIME)
+                    if(fileConfig->time<REQUESTTIME || fileConfig->time>MAXTIME)
                         fileConfig->time=REQUESTTIME;
 
                     continue;
@@ -119,9 +129,9 @@ void ReadConfig(config *fileConfig)
                 case 'n':       //Number of devices
                     p=strchr(buffer,equalsign);
                     p++;
-                    fileConfig->numbO*filedespev=atoi(p);
-                    if(fileConfig->numbO*filedespev<DevMin || fileConfig->numbO*filedespev>DevMax)
-                        fileConfig->numbO*filedespev=DevMin;
+                    fileConfig->numbO*fdev=atoi(p);
+                    if(fileConfig->numbO*fdev<DevMin || fileConfig->numbO*fdev>DevMax)
+                        fileConfig->numbO*fdev=DevMin;
 
                     continue;
 
@@ -139,9 +149,9 @@ void ReadConfig(config *fileConfig)
                     p=strchr(buffer,equalsign);
                     p++;
                     len=strlen(p);
-                    fileConfig->BAUD=(char*)malloc(sizeof(len));
+                    fileConfig->BAUD=(char*)malloc(len*sizeof(char));
                     strcpy(fileConfig->BAUD,p);
-                    if(fileConfig->BAUD!="B9600" ||fileConfig->BAUD!="B38400" ||fileConfig->BAUD!="B57600" ||fileConfig->BAUD!="B115200" )
+                    if(strcmp("B9600",p) && strcmp("B38400",p) && strcmp("B57600",p) && strcmp("B115200",p))
                         fileConfig->BAUD=DefBaud;
 
                     continue;
@@ -166,18 +176,20 @@ void ReadConfig(config *fileConfig)
 
                 }
             }
+            else
+                continue;
         }
         if(!fileConfig->BAUD)
         {
-            fileConfig->BAUD=(char*)malloc(DefBaud);
-            fileConfig->BAUD=DefBaud;
+            fileConfig->BAUD=(char*)malloc(strlen(DefBaud)*sizeof(char));
+            strcpy(fileConfig->BAUD,DefBaud);
         }
         if(!fileConfig->Delta)
             fileConfig->Delta=DELTAMIN;
         if(!fileConfig->members)
             fileConfig->members=MEMBERSMIN;
-        if(!fileConfig->numbO*filedespev)
-            fileConfig->numbO*filedespev=DevMin;
+        if(!fileConfig->numbOfDev)
+            fileConfig->numbOfDev=DevMin;
         if(!fileConfig->samplingTime)
             fileConfig->samplingTime=DEFSAMPTIME;
         if(!fileConfig->time)
@@ -206,51 +218,13 @@ int queueInit(threadArg *arg,queueData *outData)
 
     pthread_mutex_init(arg->mutex,NULL);
     pthread_mutex_init(outData->mutex,NULL);
+
     return 0;
 }
 
 
 
-int takeoutFromQueue(threadArg *arg)
-{
-    int movAverArray[arg->conf.members]= {0};
-    float *temp;
-    float finalResult;
-    int i=0;
-    float data=0;
-    queueData *tempPacket;
-    time_t now;
-    time(&now);
-    char *time;
-    time=(char*)malloc(TIMELINE*sizeof(char));
-    time=timeToString(time);
-    FILE * log_file=fopen(time,"w");
 
-    while(!TAILQ_EMPTY(&InHd))
-    {
-        pthread_mutex_lock(arg->Packet->mutex);     //second ->?
-        tempPacket=TAILQ_FIRST(&InHd);
-        TAILQ_REMOVE(&InHd,tempPacket,entries);
-        pthread_mutex_unlock(arg->Packet->mutex);
-
-        if(tempPacket->data)
-        {
-            *temp=mov_average(movAverArray, &data, i, arg,tempPacket);
-            i++;
-            if (i>= arg->conf.members)
-                i= 0;
-            finalResult=moving_hysteresis(conffile,temp);
-            fprintf(log_file,"Measured temperature from %s address of device with moving average and moving hysteresis :%d\t %s\n",
-                    tempPacket->address,finalResult,ctime(&now));
-
-        }
-        sleep(arg->conf.samplingTime);
-    }
-
-    fclose(log_file);
-    free(tempPacket);
-    free(time);
-}
 
 
 

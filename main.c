@@ -27,10 +27,18 @@ int main()
         return 1;
     queueInit(&thrdArg->Packet,&dataPacketOut);
 
+
+
+
+
+
+
+
+
+
     pthread_create(&controlling_thread,NULL,sendRequest,thrdArg);
     pthread_create(&reading_thread,NULL,readingFromSerial,thrdArg);
     pthread_create(&processor_thread,NULL,takeoutFromQueue,thrdArg);
-
     pthread_join(controlling_thread,NULL);
     pthread_join(reading_thread,NULL);
     pthread_join(processor_thread,NULL);

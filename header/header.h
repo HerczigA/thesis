@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <pthread.h>
 #define MAXTIME 1000000
-#define DEFSAMPTIME 100
+#define DEFTIME 100
 #define REQUESTTIME 1000
 #define DevMin 1
 #define DevMax 99
@@ -21,7 +21,7 @@ typedef struct queueData
 {
     /** packet item data */
     char address;
-    char cmd;
+    char cmd;               // kell a cmd és a dlen?
     uint16_t dlen;
     float *data;
     pthread_mutex_t mutex;

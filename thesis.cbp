@@ -38,17 +38,21 @@
 		<Unit filename="header/counting.h" />
 		<Unit filename="header/crc.h" />
 		<Unit filename="header/header.h" />
+		<Unit filename="header/measuring.h" />
 		<Unit filename="header/reading.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="sources/RS_485.c">
+		<Unit filename="sources/Init.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="sources/counting.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="sources/crc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sources/measuring.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="sources/reading.c">
