@@ -27,7 +27,7 @@ typedef struct queueData
     pthread_mutex_t mutex;
     /**  packet item use a TAILQ. This is for TAILQ entry */
     TAILQ_ENTRY(queueData) entries;
-} queueData;
+} QueueData;
 
 
 
@@ -40,25 +40,26 @@ struct tailhead
 
 typedef struct config
 {
+    int fd;
     int time;
     int numbOfDev;
     char *BAUD;
     int samplingTime;
     int Delta;
     int members;
-} config;
+} Config;
 
 typedef struct threadArg
 {
     queueData *Packet;
     int *fd;
     config *conf;
-} threadArg;
+} ThreadArg;
 
 
-void ReadConfig(config *fileConfig);
-int Initalization(struct termios *old_term, struct termios *term,int *filedesp,config fileConfig);
-int queueInit(queueData *inData,queueData *outData);
+void ReadConfig(Config *fileConfig);
+int Initalization(struct termios *old_term, struct termios *term,int *filedesp,Config fileConfig);
+int queueInit(QueueData *inData,QueueData *outData);
 int takeoutFromQueue(threadArg *arg);
 
 #endif // HEADER_H_INCLUDED

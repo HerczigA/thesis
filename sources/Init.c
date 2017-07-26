@@ -16,7 +16,7 @@
 #define lf "/home/herczig/Dokumentumok/log.txt"
 #define pathOfConfig "/home/herczig/thesis/config.txt"
 
-int Initalization(struct termios *old_term, struct termios *term,int *fd,config fileConfig)
+int Initalization(struct termios *old_term, struct termios *term,config *fileConfig)
 {
     /**RPI init and PIN out need to def RX and TX*/
     wiringPiSetup();
@@ -32,22 +32,22 @@ int Initalization(struct termios *old_term, struct termios *term,int *fd,config 
 
     FILE * errorfile=fopen(ERRORPATH,"w");
 
-    if(!fd)
+    if(!(fileConfig->fd))
     {
         fprintf(errorfile,"filedescriptor is NULL \n",ctime(&now));
         return 1;
     }
 
     else
-        *fd=open(serial[0],O_RDWR|O_CREATE|O_TRUNC);
+        fileConfig->fd=open(serial[0],O_RDWR|O_CREATE|O_TRUNC);
 
-    if(*fd<0)
-        *fd=open(serial[1],O_RDWR|O_CREATE|O_TRUNC);
+    if(fileConfig->fd<0)
+        fileConfig->fd=open(serial[1],O_RDWR|O_CREATE|O_TRUNC);
 
-    if(*fd<0)
-        *fd=open(serial[2],O_RDWR|O_CREATE|O_TRUNC);
+    if(fileConfig->fd<0)
+        fileConfig->fd=open(serial[2],O_RDWR|O_CREATE|O_TRUNC);
 
-    if(*fd<0)
+    if(fileConfig->fd<0)
     {
         fprintf(errorfile,"Cannot open the filedescriptor \n",ctime(&now));
         return 1;

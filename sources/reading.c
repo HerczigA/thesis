@@ -16,7 +16,7 @@
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
-void  *readingFromSerial(threadArg *arg)
+void  *readingFromSerial(Config *fileConfig)
 {
     queueData *receivingData=NULL;
     unsigned char data,i=0;
@@ -31,7 +31,7 @@ void  *readingFromSerial(threadArg *arg)
     FILE * LogFile=fopen(LOGPATH,"w");
     FILE * errorfile=fopen(ERRORPATH,"w");
 
-    if (*(arg->fd) <0 )
+    if (fileConfig->fd <0 )
     {
         fprintf(errorfile,"%s \t \t Cannot open filedescription\n",ctime(&now));
         return;
@@ -149,6 +149,7 @@ void  *readingFromSerial(threadArg *arg)
             else
             {
                 Packetstatistic.emptyPacket++;
+                fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
                 State =  CrcLow;
                 continue;
             }
@@ -169,30 +170,23 @@ void  *readingFromSerial(threadArg *arg)
             {
                 if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm not polling
                 {
-                    arg->Packet=receivingData;
-                    free(receivingData->data);
-                    free(receivingData);
+                    pthread_mutex_lock(receivingData->mutex);
+                    TAILQ_INSERT_TAIL(InHd,receivingData,entries);
+                    pthread_mutex_unlock(receivingData->mutex);
                     Packetstatistic.validPacket++;
                     State = EmptyState;
                 }
-                else
-                    fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
+
             }
             break;
         }
-        if(arg->Packet)
-        {
-            pthread_mutex_lock(&(arg->Packet->mutex));
-            TAILQ_INSERT_TAIL(&InHd,arg->Packet,entries);
-            pthread_mutex_unlock(&(arg->Packet->&mutex));
-        }
-        State = EmptyState;
+
         if (receivingData)
         {
             if (receivingData->data)
-                free(receivingData->data);
+            free(receivingData->data);
             free(receivingData);
-            receivingData = NULL;
+            State = EmptyState;
         }
         fprintf(LogFile,"\ŧ\t%s\n Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
         fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
@@ -201,7 +195,7 @@ void  *readingFromSerial(threadArg *arg)
                 fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
 
 
-                sleep(arg->conf->samplingTime);    // alvoido
+                sleep(fileConfig->samplingTime);    // alvoido
     }
 
     fclose(LogFile);
@@ -221,7 +215,7 @@ queueData *reserve(char data)
     return temp;
 }
 
-void sendRequest(threadArg *arg)
+void sendRequest(config *fileConfig)
 {
 
     int addresses=0;
@@ -240,11 +234,11 @@ void sendRequest(threadArg *arg)
         requestType = requestCounter % 3;
         ++requestCounter;
 
-        if(!requestType)
+        if(!requestType)            //Polling
         {
-            while(addresses<=arg->conf->numbOfDev)
+            while(addresses<=fileConfig->numbOfDev)
             {
-                sendPacket(arg->fd,addresses, cmdTerm, NULL,0);
+                sendPacket(fileConfig->fd,addresses, cmdTerm, NULL,0);
                 addresses++;
 
             }
@@ -252,7 +246,7 @@ void sendRequest(threadArg *arg)
             requestCounter++;
 
         }
-        else
+        else                            //CmdTerm
         {
             while(addresses<=arg->conf->numbOfDev)
             {
@@ -266,7 +260,7 @@ void sendRequest(threadArg *arg)
 
 
         addresses=0;
-        sleep(arg->conf->time);
+        sleep(fileConfig->time);
     }
 
 }

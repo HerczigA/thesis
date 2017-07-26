@@ -12,8 +12,6 @@
 
 int main()
 {
-    int fd;
-
     struct termios old_term,*term;
     config Configfile= {0};
     queueData dataPacketOut;
