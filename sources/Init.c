@@ -120,7 +120,7 @@ void ReadConfig(config *fileConfig)
                 case 'R':       //Request Time  or TIMEOUT?
                     p=strchr(buffer,equalsign);
                     p++;
-                    fileConfig.time=atoi(p);
+                    fileConfig->time=atoi(p);
                     if(fileConfig->time<REQUESTTIME || fileConfig->time>MAXTIME)
                         fileConfig->time=REQUESTTIME;
 
@@ -129,9 +129,9 @@ void ReadConfig(config *fileConfig)
                 case 'n':       //Number of devices
                     p=strchr(buffer,equalsign);
                     p++;
-                    fileConfig->numbO*fdev=atoi(p);
-                    if(fileConfig->numbO*fdev<DevMin || fileConfig->numbO*fdev>DevMax)
-                        fileConfig->numbO*fdev=DevMin;
+                    fileConfig->numbOfDev=atoi(p);
+                    if(fileConfig->numbOfDev<DevMin || fileConfig->numbO*fdev>DevMax)
+                        fileConfig->numbOfDev=DevMin;
 
                     continue;
 
@@ -182,7 +182,7 @@ void ReadConfig(config *fileConfig)
         if(!fileConfig->BAUD)
         {
             fileConfig->BAUD=(char*)malloc(strlen(DefBaud)*sizeof(char));
-            strcpy(fileConfig->BAUD,DefBaud);
+            strcpy(*(fileConfig->BAUD),DefBaud);
         }
         if(!fileConfig->Delta)
             fileConfig->Delta=DELTAMIN;

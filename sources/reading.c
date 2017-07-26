@@ -11,6 +11,7 @@
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
 #define MAXREQUEST 30
+#define ONEBYTE 1
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
@@ -283,47 +284,47 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
     char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
 
     for (i=0; i<5; i++)
-        write(fd,&motorola55,1);
+        write(fildesp,&motorola55,ONEBYTE);
 
-    write(fildesp,&motorolaFF,1);
-    write(fildesp,&motorola1,1);
+    write(fildesp,&motorolaFF,ONEBYTE);
+    write(fildesp,&motorola1,ONEBYTE);
 
     crc = addCrcByte(crc, address);
-    write (fildesp,&address,1);
+    write (fildesp,&address,ONEBYTE);
 
     crc = addCrcByte(crc, cmd);
-    write(fildesp,&cmd,1);
+    write(fildesp,&cmd,ONEBYTE);
 
     datalength= dLen & FF;
     crc = addCrcByte(crc,datalength);
-    write(fildesp, &datalength, 1);
+    write(fildesp, &datalength, ONEBYTE);
     datalength |= (dLen << BYTE) & FF;
     crc = addCrcByte(crc, datalength);
-    write(fildesp, &datalength, 1);
+    write(fildesp, &datalength, ONEBYTE);
 
 
     switch (datalength):
 
         case datalength>0:
-        for (i=0; i<datalength; i++,data++)
-    {
+         for (i=0; i<datalength; i++,data++)
+            {
+            crc = addCrcByte(crc, *data);
+            write (fildesp,data,ONEBYTE);
+            }
+
+        case !datalength:
+        data=&temp;
         crc = addCrcByte(crc, *data);
-        write (fildesp,data,1);
-    }
+        write (fildesp,data,ONEBYTE);
 
-case !datalength:
-    data=&temp;
-    crc = addCrcByte(crc, *data);
-    write (fildesp,data,1);
-
-case datalength<0:
-    return 0;
+        case datalength<0:
+        return 0;
 
     crc=crc & FF;
     crc=addCrcByte(crc,crc);
-    write(fildesp,&crc,1);
+    write(fildesp,&crc,ONEBYTE);
     crc|=(crc <<BYTE) & FF;
-    write(fildesp,&crc,1);
+    write(fildesp,&crc,ONEBYTE);
 
     return 1;
 }
