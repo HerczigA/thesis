@@ -30,4 +30,3 @@ int compareCRC(uint16_t crc1, uint16_t crc2)
     return crc1==crc2 ? 1:0;
 }
 
-

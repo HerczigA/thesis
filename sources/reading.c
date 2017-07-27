@@ -8,21 +8,23 @@
 #include "../header/header.h"
 #include "../header/crc.h"
 #include "../header/reading.h"
+#include "../header/reading.h"
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
 #define MAXREQUEST 30
 #define ONEBYTE 1
+#define SAMPTIME 1000
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
-void  *readingFromSerial(Config *fileConfig)
+void  readingFromSerial(Config *fileConfig)
 {
     queueData *receivingData=NULL;
     unsigned char data,i=0;
     Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
-    statistic Packetstatistic= {0};
+    Statistic Packetstatistic= {0};
     PacketState State=EmptyState;
 
     time_t now;
@@ -37,7 +39,7 @@ void  *readingFromSerial(Config *fileConfig)
         return;
     }
 
-    while(read(fd,&data,1))
+    while(read(fd,&data,ONEBYTE))
     {
         switch (State)
         {
@@ -148,8 +150,6 @@ void  *readingFromSerial(Config *fileConfig)
             }
             else
             {
-                Packetstatistic.emptyPacket++;
-                fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
                 State =  CrcLow;
                 continue;
             }
@@ -174,28 +174,27 @@ void  *readingFromSerial(Config *fileConfig)
                     TAILQ_INSERT_TAIL(InHd,receivingData,entries);
                     pthread_mutex_unlock(receivingData->mutex);
                     Packetstatistic.validPacket++;
-                    State = EmptyState;
+                }
+                else
+                {
+                    Packetstatistic.emptyPacket++;
+                    fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
                 }
 
             }
             break;
         }
 
-        if (receivingData)
-        {
-            if (receivingData->data)
-            free(receivingData->data);
-            free(receivingData);
-            State = EmptyState;
-        }
+        receivingData=NULL;
+        State = EmptyState;
         fprintf(LogFile,"\ŧ\t%s\n Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
         fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
         fprintf(LogFile,"validPacket=%d\t",Packetstatistic.validPacket);
         fprintf(LogFile,"overrun=%d\t",Packetstatistic.overrun;
-                fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
+        fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
 
 
-                sleep(fileConfig->samplingTime);    // alvoido
+                sleep(SAMPTIME);    // alvoido
     }
 
     fclose(LogFile);
@@ -213,6 +212,64 @@ queueData *reserve(char data)
     temp->dLen = 0;
     temp->data = NULL;
     return temp;
+}
+
+
+
+int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
+{
+    if (fd < 0 || (!data && dlen))
+        return 0;
+    int i;
+    uint16_t crc=0;
+    uint16_t datalength;
+    char temp=0;
+    char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
+
+    for (i=0; i<5; i++)
+        write(*fd,&motorola55,ONEBYTE);
+
+    write(*fd,&motorolaFF,ONEBYTE);
+    write(*fd,&motorola1,ONEBYTE);
+
+    crc = addCrcByte(crc, address);
+    write (*fd,&address,ONEBYTE);
+
+    crc = addCrcByte(crc, cmd);
+    write(*fd,&cmd,ONEBYTE);
+
+    datalength= dLen & FF;
+    crc = addCrcByte(crc,datalength);
+    write(*fd, &datalength, ONEBYTE);
+    datalength |= (dLen << BYTE) & FF;
+    crc = addCrcByte(crc, datalength);
+    write(*fd, &datalength, ONEBYTE);
+
+
+    switch (datalength):
+
+        case datalength>0:
+        for (i=0; i<datalength; i++,data++)
+    {
+        crc = addCrcByte(crc, *data);
+        write(*fd,data,ONEBYTE);
+    }
+
+    case !datalength:
+        data=&temp;
+        crc = addCrcByte(crc, *data);
+        write(*fd,data,ONEBYTE);
+
+    case datalength<0:
+        return 0;
+
+    crc=crc & FF;
+    crc=addCrcByte(crc,crc);
+    write(*fd,&crc,ONEBYTE);
+    crc|=(crc <<BYTE) & FF;
+    write(*fd,&crc,ONEBYTE);
+
+    return 1;
 }
 
 void sendRequest(config *fileConfig)
@@ -248,9 +305,9 @@ void sendRequest(config *fileConfig)
         }
         else                            //CmdTerm
         {
-            while(addresses<=arg->conf->numbOfDev)
+            while(addresses<=fileConfig->numbOfDev)
             {
-                sendPacket(arg->fd,addresses, cmdPing, NULL,0);
+                sendPacket(fileConfig->fd,addresses, cmdPing, NULL,0);
                 addresses++;
 
             }
@@ -265,60 +322,3 @@ void sendRequest(config *fileConfig)
 
 }
 
-
-int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
-{
-    if (fd < 0 || (!data && dlen))
-        return 0;
-    int fildesp=*fd;
-    int i;
-    uint16_t crc=0;
-    uint16_t datalength;
-    char temp=0;
-    char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
-
-    for (i=0; i<5; i++)
-        write(fildesp,&motorola55,ONEBYTE);
-
-    write(fildesp,&motorolaFF,ONEBYTE);
-    write(fildesp,&motorola1,ONEBYTE);
-
-    crc = addCrcByte(crc, address);
-    write (fildesp,&address,ONEBYTE);
-
-    crc = addCrcByte(crc, cmd);
-    write(fildesp,&cmd,ONEBYTE);
-
-    datalength= dLen & FF;
-    crc = addCrcByte(crc,datalength);
-    write(fildesp, &datalength, ONEBYTE);
-    datalength |= (dLen << BYTE) & FF;
-    crc = addCrcByte(crc, datalength);
-    write(fildesp, &datalength, ONEBYTE);
-
-
-    switch (datalength):
-
-        case datalength>0:
-         for (i=0; i<datalength; i++,data++)
-            {
-            crc = addCrcByte(crc, *data);
-            write (fildesp,data,ONEBYTE);
-            }
-
-        case !datalength:
-        data=&temp;
-        crc = addCrcByte(crc, *data);
-        write (fildesp,data,ONEBYTE);
-
-        case datalength<0:
-        return 0;
-
-    crc=crc & FF;
-    crc=addCrcByte(crc,crc);
-    write(fildesp,&crc,ONEBYTE);
-    crc|=(crc <<BYTE) & FF;
-    write(fildesp,&crc,ONEBYTE);
-
-    return 1;
-}

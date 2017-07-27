@@ -191,7 +191,7 @@ void ReadConfig(config *fileConfig)
         if(!fileConfig->numbOfDev)
             fileConfig->numbOfDev=DevMin;
         if(!fileConfig->samplingTime)
-            fileConfig->samplingTime=DEFSAMPTIME;
+            fileConfig->samplingTime=DEFTIME;
         if(!fileConfig->time)
             fileConfig->time=REQUESTTIME;
     }
@@ -206,9 +206,9 @@ void ReadConfig(config *fileConfig)
 
 }
 /**Initialize in-way and out-way queue and mutexes*/
-int queueInit(threadArg *arg,queueData *outData)
+int queueInit(queueData *inData,queueData *outData)
 {
-    if(!(arg&&outData))
+    if(!(inData&&outData))
         return 1;
 
     TAILQ_HEAD(tailhead, queueData) OutHd;
@@ -216,7 +216,7 @@ int queueInit(threadArg *arg,queueData *outData)
     TAILQ_HEAD(tailhead, queueData) InHd;
     TAILQ_INIT(&InHd);
 
-    pthread_mutex_init(arg->mutex,NULL);
+    pthread_mutex_init(inData->mutex,NULL);
     pthread_mutex_init(outData->mutex,NULL);
 
     return 0;

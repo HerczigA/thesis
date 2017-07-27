@@ -14,21 +14,13 @@ int main()
 {
     struct termios old_term,*term;
     config Configfile= {0};
-    queueData dataPacketOut;
+    queueData dataPacketOut,dataPacketIn;
     pthread_t reading_thread, controlling_thread,processor_thread;
-    threadArg *thrdArg=(threadArg*)malloc(sizeof(threadArg));
-    thrdArg->conf=&Configfile;
-    thrdArg->fd=&fd;
 
     ReadConfig(&Configfile);
     if(Initalization(&old_term,term,&fd,Configfile))
         return 1;
-    queueInit(&thrdArg->Packet,&dataPacketOut);
-
-
-
-
-
+    queueInit(&dataPacketIn,&dataPacketOut);
 
 
 
@@ -41,7 +33,7 @@ int main()
     pthread_join(reading_thread,NULL);
     pthread_join(processor_thread,NULL);
 
-    free(thrdArg);
+
 
     return 0;
 }

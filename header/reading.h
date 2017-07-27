@@ -50,11 +50,11 @@ typedef struct statistic
     int overrun;
     int emptyPacket;
 
-} statistic;
+} Statistic;
 
 
-void  *readingFromSerial(threadArg *arg);
+void  readingFromSerial(Config *fileConfig);
 queueData *reserve(char data);
-void sendRequest(threadArg *arg);
+void sendRequest(Config *fileConfig);
 int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen);
 #endif // READING_H_INCLUDED
