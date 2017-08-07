@@ -10,10 +10,12 @@
 #include <string.h>
 #include "header/header.h"
 #include "header/counting.h"
+#include "../header/reading.h"
 
-int takeoutFromQueue(threadArg *arg)
+int takeoutFromQueue(void *arg)
 {
-    int movAverArray[arg->conf.members]= {0};
+    SerialComm *common=arg;
+    int movAverArray[/*conf numbofdev*/]= {0};
     float *temp;
     float finalResult;
     int i=0;
@@ -22,16 +24,17 @@ int takeoutFromQueue(threadArg *arg)
     time_t now;
     time(&now);
     char *time;
+
     time=(char*)malloc(TIMELINE*sizeof(char));
     time=timeToString(time);
     FILE * log_file=fopen(time,"w");
 
-    while(!TAILQ_EMPTY(&InHd))
+    while(!TAILQ_EMPTY(&common->head))
     {
-        pthread_mutex_lock(arg->Packet->mutex);     //second ->?
-        tempPacket=TAILQ_FIRST(&InHd);
-        TAILQ_REMOVE(&InHd,tempPacket,entries);
-        pthread_mutex_unlock(arg->Packet->mutex);
+        pthread_mutex_lock(&common->mutex);     //second ->?
+        tempPacket=TAILQ_FIRST(&common->head);
+        TAILQ_REMOVE(&common->head,tempPacket,entries);
+        pthread_mutex_unlock(&common->mutex);
 
         if(tempPacket->data)
         {
@@ -44,7 +47,7 @@ int takeoutFromQueue(threadArg *arg)
                     tempPacket->address,finalResult,ctime(&now));
 
         }
-        sleep(arg->conf.samplingTime);
+        sleep();
     }
 
     fclose(log_file);

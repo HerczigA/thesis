@@ -53,6 +53,28 @@ typedef struct statistic
 } Statistic;
 
 
+typedef struct queueData
+{
+    /** packet item data */
+    char address;
+    char cmd;
+    uint16_t dlen;
+    float *data;
+    /**  packet item use a TAILQ. This is for TAILQ entry */
+    TAILQ_ENTRY(queueData) entries;
+} QueueData;
+
+
+typedef struct communication
+{
+    //struct tailhead *headp;
+    pthread_mutex_t mutex;
+    TAILQ_HEAD(tailhead,queueData) head;
+
+} SerialComm;
+
+
+
 void  readingFromSerial(Config *fileConfig);
 queueData *reserve(char data);
 void sendRequest(Config *fileConfig);

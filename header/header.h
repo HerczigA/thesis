@@ -17,27 +17,6 @@
 
 
 
-typedef struct queueData
-{
-    /** packet item data */
-    char address;
-    char cmd;               // kell a cmd és a dlen?
-    uint16_t dlen;
-    float *data;
-    pthread_mutex_t mutex;
-    /**  packet item use a TAILQ. This is for TAILQ entry */
-    TAILQ_ENTRY(queueData) entries;
-} QueueData;
-
-
-
-
-struct tailhead
-{
-} InHd, OutHd;
-
-
-
 typedef struct config
 {
     int fd;
@@ -49,17 +28,11 @@ typedef struct config
     int members;
 } Config;
 
-typedef struct threadArg
-{
-    queueData *Packet;
-    int *fd;
-    config *conf;
-} ThreadArg;
 
 
 void ReadConfig(Config *fileConfig);
-int Initalization(struct termios *old_term, struct termios *term,int *filedesp,Config fileConfig);
+int InitSerialPort(struct termios *old_term, struct termios *term,int *filedesp,Config fileConfig);
 int queueInit(QueueData *inData,QueueData *outData);
-int takeoutFromQueue(threadArg *arg);
+
 
 #endif // HEADER_H_INCLUDED

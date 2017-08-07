@@ -18,7 +18,7 @@
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
-void  readingFromSerial(Config *fileConfig)
+void  readingFromSerial(void *arg)     //mutex tailhead egy struktúrába
 {
     queueData *receivingData=NULL;
     unsigned char data,i=0;
@@ -26,6 +26,7 @@ void  readingFromSerial(Config *fileConfig)
     calculateCrc=packetCrc=0;
     Statistic Packetstatistic= {0};
     PacketState State=EmptyState;
+    SerialComm *common=arg;
 
     time_t now;
     time(&now);
@@ -121,13 +122,13 @@ void  readingFromSerial(Config *fileConfig)
 
         case DLenLow :
             calculateCrc = addCrcByte(calculateCrc, data);
-            receivingData->dlen = data & FF;
+            receivingData->dlen = data;
             State = DLenHigh;
             continue;
 
         case DLenHigh :
             calculateCrc = addCrcByte(calculateCrc, data);
-            receivingData->dlen|= (data & FF) << BYTE;
+            receivingData->dlen|= (data << BYTE) ;
 
             if (receivingData->dlen > 0)
             {
@@ -160,19 +161,19 @@ void  readingFromSerial(Config *fileConfig)
             continue;
 
         case CrcLow :
-            packetCrc = data & FF;
+            packetCrc = data;
             State = CrcHigh;
             continue;
 
         case CrcHigh:
-            packetCrc |=( data & FF) << BYTE;
+            packetCrc |=( data<< BYTE);
             if (compareCRC(packetCrc, calculateCrc))
             {
-                if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm not polling
+                if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm =1, not polling
                 {
-                    pthread_mutex_lock(receivingData->mutex);
-                    TAILQ_INSERT_TAIL(InHd,receivingData,entries);
-                    pthread_mutex_unlock(receivingData->mutex);
+                    pthread_mutex_lock(&common->mutex);
+                    TAILQ_INSERT_TAIL(&common->head,receivingData,entries);
+                    pthread_mutex_unlock(&common->mutex);
                     Packetstatistic.validPacket++;
                 }
                 else
@@ -187,7 +188,7 @@ void  readingFromSerial(Config *fileConfig)
 
         receivingData=NULL;
         State = EmptyState;
-        fprintf(LogFile,"\ŧ\t%s\n Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
+        fprintf(LogFile,"\t\t%s\n Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
         fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
         fprintf(LogFile,"validPacket=%d\t",Packetstatistic.validPacket);
         fprintf(LogFile,"overrun=%d\t",Packetstatistic.overrun;
@@ -238,10 +239,10 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
     crc = addCrcByte(crc, cmd);
     write(*fd,&cmd,ONEBYTE);
 
-    datalength= dLen & FF;
+    datalength= dLen;
     crc = addCrcByte(crc,datalength);
     write(*fd, &datalength, ONEBYTE);
-    datalength |= (dLen << BYTE) & FF;
+    datalength |= (dLen << BYTE);
     crc = addCrcByte(crc, datalength);
     write(*fd, &datalength, ONEBYTE);
 
@@ -263,10 +264,10 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
     case datalength<0:
         return 0;
 
-    crc=crc & FF;
+
     crc=addCrcByte(crc,crc);
     write(*fd,&crc,ONEBYTE);
-    crc|=(crc <<BYTE) & FF;
+    crc|=(crc <<BYTE);
     write(*fd,&crc,ONEBYTE);
 
     return 1;

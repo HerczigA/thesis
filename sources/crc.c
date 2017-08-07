@@ -9,7 +9,7 @@ Source from Zidarics Zoltan a.k.a Zamek
 #include <stdlib.h>
 #include "../header/reading.h"
 #include "../header/crc.h"
-#define WIDTH (8 * sizeof(Crc))
+
 
 uint16_t addCRC(uint16_t packetCrc, uint16_t countedCrc)
 {

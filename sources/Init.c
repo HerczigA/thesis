@@ -8,6 +8,7 @@
 #include <sys/queue.h>
 #include <time.h>
 #include <string.h>
+#include <pthread.h>
 #include "header/header.h"
 #include "header/counting.h"
 #include <wiringPi.h>
@@ -16,7 +17,7 @@
 #define lf "/home/herczig/Dokumentumok/log.txt"
 #define pathOfConfig "/home/herczig/thesis/config.txt"
 
-int Initalization(struct termios *old_term, struct termios *term,config *fileConfig)
+int InitSerialPort(struct termios *old_term, struct termios *term,config *fileConfig)
 {
     /**RPI init and PIN out need to def RX and TX*/
     wiringPiSetup();
@@ -206,18 +207,18 @@ void ReadConfig(config *fileConfig)
 
 }
 /**Initialize in-way and out-way queue and mutexes*/
-int queueInit(queueData *inData,queueData *outData)
+int queueInit(queueData *inData)
 {
-    if(!(inData&&outData))
-        return 1;
+    if(!(inData))
+        return -1;
 
-    TAILQ_HEAD(tailhead, queueData) OutHd;
-    TAILQ_INIT(&OutHd);
-    TAILQ_HEAD(tailhead, queueData) InHd;
-    TAILQ_INIT(&InHd);
+    TAILQ_HEAD(InHead, queueData) InHead;
+    TAILQ_INIT(&InHead);
 
+
+    //inData->mutex=PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_init(inData->mutex,NULL);
-    pthread_mutex_init(outData->mutex,NULL);
+
 
     return 0;
 }

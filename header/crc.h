@@ -6,7 +6,7 @@
 
 #define TOPBIT (1 << (WIDTH-1))
 #define BYTE 8
-
+#define WIDTH (8 * sizeof(uint16_t))
 
 typedef uint16_t Crc;
 
