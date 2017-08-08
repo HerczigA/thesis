@@ -14,8 +14,10 @@
 
 int takeoutFromQueue(void *arg)
 {
-    SerialComm *common=arg;
-    int movAverArray[/*conf numbofdev*/]= {0};
+    Threadcommon *common=arg;
+
+
+
     float *temp;
     float finalResult;
     int i=0;
@@ -31,7 +33,7 @@ int takeoutFromQueue(void *arg)
 
     while(!TAILQ_EMPTY(&common->head))
     {
-        pthread_mutex_lock(&common->mutex);     //second ->?
+        pthread_mutex_lock(&common->mutex);
         tempPacket=TAILQ_FIRST(&common->head);
         TAILQ_REMOVE(&common->head,tempPacket,entries);
         pthread_mutex_unlock(&common->mutex);

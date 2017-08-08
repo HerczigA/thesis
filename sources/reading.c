@@ -9,11 +9,6 @@
 #include "../header/crc.h"
 #include "../header/reading.h"
 #include "../header/reading.h"
-#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
-#define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
-#define MAXREQUEST 30
-#define ONEBYTE 1
-#define SAMPTIME 1000
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
@@ -26,7 +21,7 @@ void  readingFromSerial(void *arg)     //mutex tailhead egy struktúrába
     calculateCrc=packetCrc=0;
     Statistic Packetstatistic= {0};
     PacketState State=EmptyState;
-    SerialComm *common=arg;
+    Threadcommon *common=arg;
 
     time_t now;
     time(&now);
@@ -36,7 +31,7 @@ void  readingFromSerial(void *arg)     //mutex tailhead egy struktúrába
 
     if (fileConfig->fd <0 )
     {
-        fprintf(errorfile,"%s \t \t Cannot open filedescription\n",ctime(&now));
+        fprintf(errorfile,"%s \t \t Cannot open filedescriptor\n",ctime(&now));
         return;
     }
 
@@ -188,10 +183,10 @@ void  readingFromSerial(void *arg)     //mutex tailhead egy struktúrába
 
         receivingData=NULL;
         State = EmptyState;
-        fprintf(LogFile,"\t\t%s\n Packetstatistic\n packetError=%d\t",Packetstatistic.packetError);
-        fprintf(LogFile,"packet=%d\t",Packetstatistic.packet);
-        fprintf(LogFile,"validPacket=%d\t",Packetstatistic.validPacket);
-        fprintf(LogFile,"overrun=%d\t",Packetstatistic.overrun;
+        fprintf(LogFile,"\n Packetstatistic\n packetError=%d\t\t%s\n",Packetstatistic.packetError,ctime(&now));
+        fprintf(LogFile,"packet=%d\t\t%s\n",Packetstatistic.packet,ctime(&now));
+        fprintf(LogFile,"validPacket=%d\t\t%s\n",Packetstatistic.validPacket,ctime(&now));
+        fprintf(LogFile,"overrun=%d\t\t%s\n",Packetstatistic.overrun,ctime(&now));
         fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
 
 
@@ -273,9 +268,10 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
     return 1;
 }
 
-void sendRequest(config *fileConfig)
+void sendRequest(void *arg)
 {
 
+    config *fileConfig=arg;
     int addresses=0;
     unsigned char requestType;
     unsigned char requestCounter=0;
@@ -296,7 +292,7 @@ void sendRequest(config *fileConfig)
         {
             while(addresses<=fileConfig->numbOfDev)
             {
-                sendPacket(fileConfig->fd,addresses, cmdTerm, NULL,0);
+                sendPacket(fileConfig->fd,addresses, cmdPing, NULL,0);
                 addresses++;
 
             }
@@ -308,7 +304,7 @@ void sendRequest(config *fileConfig)
         {
             while(addresses<=fileConfig->numbOfDev)
             {
-                sendPacket(fileConfig->fd,addresses, cmdPing, NULL,0);
+                sendPacket(fileConfig->fd,addresses, cmdTerm, NULL,0);
                 addresses++;
 
             }

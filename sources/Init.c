@@ -16,14 +16,16 @@
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define lf "/home/herczig/Dokumentumok/log.txt"
 #define pathOfConfig "/home/herczig/thesis/config.txt"
+/*************should set back at the end termios***********/
 
-int InitSerialPort(struct termios *old_term, struct termios *term,config *fileConfig)
+int InitSerialPort(struct termios *old_term,config *fileConfig)
 {
     /**RPI init and PIN out need to def RX and TX*/
     wiringPiSetup();
     pinMode(Rx,INPUT);      //Rx=Pin number
     pinMode(Tx,OUTPUT);     //Tx=Pin number
     /**********************************************/
+    struct termios term;
     time_t now;
     time(&now);
     char *serial[3];
@@ -118,7 +120,7 @@ void ReadConfig(config *fileConfig)
 
                 switch(*buffer)
                 {
-                case 'R':       //Request Time  or TIMEOUT?
+                case 'R':       //Delay time for sending request
                     p=strchr(buffer,equalsign);
                     p++;
                     fileConfig->time=atoi(p);

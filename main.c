@@ -12,16 +12,14 @@
 
 int main()
 {
-    struct termios old_term,*term;
+    struct termios old_term;
     config Configfile= {0};
-    queueData dataPacketOut,dataPacketIn;
+    queueData dataPacketIn;
     pthread_t reading_thread, controlling_thread,processor_thread;
-
+    Threadcommon threadHandle;
     ReadConfig(&Configfile);
 
-
-
-    if(Initalization(&old_term,term,&fd,Configfile))
+    if(Initalization(&old_term,&fd,Configfile))
         return 1;
     queueInit(&dataPacketIn,&dataPacketOut);
 
@@ -29,9 +27,9 @@ int main()
 
 
 
-    pthread_create(&controlling_thread,NULL,(void*)sendRequest,thrdArg);
-    pthread_create(&reading_thread,NULL,(void*)readingFromSerial,thrdArg);
-    pthread_create(&processor_thread,NULL,(void*)takeoutFromQueue,thrdArg);
+    pthread_create(&controlling_thread,NULL,(void*)sendRequest,&Configfile);
+    pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
+    pthread_create(&processor_thread,NULL,(void*)takeoutFromQueue,&threadHandle);
     pthread_join(controlling_thread,NULL);
     pthread_join(reading_thread,NULL);
     pthread_join(processor_thread,NULL);

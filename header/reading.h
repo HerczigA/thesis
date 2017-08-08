@@ -3,6 +3,11 @@
 #define LIMIT 1024
 #define FF 0xFF
 #include "header.h"
+#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
+#define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
+#define MAXREQUEST 30
+#define ONEBYTE 1
+#define SAMPTIME 1000
 
 
 typedef enum PacketState
@@ -71,12 +76,12 @@ typedef struct communication
     pthread_mutex_t mutex;
     TAILQ_HEAD(tailhead,queueData) head;
 
-} SerialComm;
+} Threadcommon;
 
 
 
-void  readingFromSerial(Config *fileConfig);
+void  readingFromSerial(void *arg);
 queueData *reserve(char data);
-void sendRequest(Config *fileConfig);
+void sendRequest(void *arg);
 int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen);
 #endif // READING_H_INCLUDED
