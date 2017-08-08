@@ -12,7 +12,7 @@
 #define DELTAMAX 50
 #define DELTAMIN 1
 #define MEMBERSMIN 3
-#define MEMBERSMAX 5
+#define MEMBERSMAX 4
 #define TOPMEASURES 15
 
 

@@ -1,36 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../header/header.h"
+#include "../header/reading.h"
 #define TIMELINE 9
 #define ZERO 0
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
-float moving_hysteresis(threadArg *arg,float *temp)
+float moving_hysteresis(Config *confile,float temp)
 {
-    const float delta=arg->conf->Delta;
+    const float delta=conf->Delta;
     float temp_min=ZERO;
     float temp_max=delta;
     float result;
 
     if(*temp<=temp_max)
     {
-        if(*temp>=temp_min)
+        if(temp>=temp_min)
         {
-            result=*temp;
+            result=temp;
             return result;
         }
         else
 
         {
-            temp_min=*temp;
+            temp_min=temp;
             result=temp_min+delta;
             return  result;
         }
     }
     else
     {
-        temp_max=*temp;
+        temp_max=temp;
         temp_min=temp_max-delta;
         result=temp_min;
         return  result;
@@ -44,9 +45,33 @@ float moving_hysteresis(threadArg *arg,float *temp)
 /**
 Moving average with 3 members in default
 */
-int mov_average()
+float mov_average(movAverage *temp,memberfele)
 {
+    float result;
+    float sum,sum2;
+    if(memberfele==3)
+    {
+            sum=temp->k+temp->k_next+temp->k_prev;
 
+
+    temp->k_prev=temp->k;
+    temp->k=temp->k_next;
+    result=sum/memberfele;
+
+    }
+    else
+    {
+        sum=temp->k+temp->k_next+temp->k_prev+temp->k_fourth;
+        temp->k_prev=temp->k;
+        temp->k=temp->k_fourth;
+        temp->k_fourth=temp->k_next;
+        sum2=temp->k+temp->k_next+temp->k_prev+temp->k_fourth;          //?????????????,
+
+
+    result=(sum+sum2)/(memberfele/2);
+
+    }
+    return result;
 }
 
 char *timeToString(char *buffer)

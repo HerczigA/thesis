@@ -37,7 +37,7 @@ int InitSerialPort(struct termios *old_term,config *fileConfig)
 
     if(!(fileConfig->fd))
     {
-        fprintf(errorfile,"filedescriptor is NULL \n",ctime(&now));
+        fprintf(errorfile,"filedescriptor is NULL \t%s\n",ctime(&now));
         return 1;
     }
 
@@ -52,7 +52,7 @@ int InitSerialPort(struct termios *old_term,config *fileConfig)
 
     if(fileConfig->fd<0)
     {
-        fprintf(errorfile,"Cannot open the filedescriptor \n",ctime(&now));
+        fprintf(errorfile,"Cannot open the filedescriptor \t%s\n",ctime(&now));
         return 1;
     }
 
@@ -60,7 +60,7 @@ int InitSerialPort(struct termios *old_term,config *fileConfig)
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
     {
-        fprintf(errorfile,"NO enough memory to allocate term\n",ctime(&now));
+        fprintf(errorfile,"NO enough memory to allocate term\t%s\n",ctime(&now));
         return 1;
     }
     term->c_cflag = CS8 | CLOCAL | CREAD ;
@@ -79,7 +79,7 @@ int InitSerialPort(struct termios *old_term,config *fileConfig)
     else
     {
         free(fileConfig.BAUD);
-        fprintf(errorfile,"RS-485 config error:\n",ctime(&now));
+        fprintf(errorfile,"RS-485 config error:\t%s\n",ctime(&now));
         fclose(errorfile);
         return 1;
     }
@@ -106,7 +106,7 @@ void ReadConfig(config *fileConfig)
     buffer=(char*)malloc(sizeof(MAXLINE));
     if(!buffer)
     {
-        fprintf(errorfile,"Can not allocate memory to buffer\n",ctime(&now));
+        fprintf(errorfile,"Can not allocate memory to buffer\t%s\n",ctime(&now));
         return 1;
     }
     if(fconfig)
@@ -172,7 +172,7 @@ void ReadConfig(config *fileConfig)
                     p=strchr(buffer,equalsign);
                     p++;
                     fileConfig->members=atoi(p);
-                    if(fileConfig->members<MEMBERSMIN || fileConfig->members>MEMBERSMAX)
+                    if(fileConfig->members!=MEMBERSMIN || fileConfig->members!=MEMBERSMAX)
                         fileConfig->members=MEMBERSMIN;
 
                     continue;
@@ -199,7 +199,7 @@ void ReadConfig(config *fileConfig)
             fileConfig->time=REQUESTTIME;
     }
     else
-        fprintf(fconfig,"Cannot open config file\n",ctime(&now));
+        fprintf(fconfig,"Cannot open config file\t%s\n",ctime(&now));
 
 
 
