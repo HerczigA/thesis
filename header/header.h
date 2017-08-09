@@ -11,8 +11,8 @@
 #define DefBaud "B9600"
 #define DELTAMAX 50
 #define DELTAMIN 1
-#define MEMBERSMIN 3
-#define MEMBERSMAX 4
+#define MEMBERSMIN 3.0
+#define MEMBERSMAX 4.0
 #define TOPMEASURES 15
 
 
@@ -25,7 +25,7 @@ typedef struct config
     char *BAUD;
     int samplingTime;
     int Delta;
-    int members;
+    float members;
 } Config;
 
 

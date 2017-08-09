@@ -1,15 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
 #include <unistd.h>
-#include <termios.h>
 #include <sys/queue.h>
 #include <time.h>
 #include <string.h>
-#include "header/header.h"
-#include "header/counting.h"
+#include "../header/header.h"
+#include "../header/counting.h"
 #include "../header/reading.h"
 
 int takeoutFromQueue(void *arg)
@@ -31,6 +27,7 @@ int takeoutFromQueue(void *arg)
         devices[i].k_prev=0;
         devices[i].k_next=0;
         devices[i].k_fourth=0;
+        devices[i].summary=0;
     i++;
     }
 

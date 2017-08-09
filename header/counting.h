@@ -8,6 +8,7 @@ typedef struct m_average
   float k;
   float k_next;
   float k_fourth;
+  float summary;
 
 }movAverage;
 

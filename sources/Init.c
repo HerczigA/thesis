@@ -26,6 +26,7 @@ int InitSerialPort(struct termios *old_term,config *fileConfig)
     pinMode(Tx,OUTPUT);     //Tx=Pin number
     /**********************************************/
     struct termios term;
+    int errornum;
     time_t now;
     time(&now);
     char *serial[3];
@@ -33,9 +34,9 @@ int InitSerialPort(struct termios *old_term,config *fileConfig)
         serial[1]=="/dev/ttyS1";
         serial[2]=="/dev/ttyS2";
 
-    FILE * errorfile=fopen(ERRORPATH,"w");
+    FILE * errorfile=fopen(ERRORPATH,"a");
 
-    if(!(fileConfig->fd))
+    if(!&(fileConfig->fd))
     {
         fprintf(errorfile,"filedescriptor is NULL \t%s\n",ctime(&now));
         return 1;
@@ -100,7 +101,7 @@ void ReadConfig(config *fileConfig)
 
     FILE * fconfig,errorfile;
 
-    errorfile=fopen(ERRORPATH,"w");
+    errorfile=fopen(ERRORPATH,"a");
     fconfig=fopen(pathOfConfig,"r");
 
     buffer=(char*)malloc(sizeof(MAXLINE));
@@ -171,7 +172,7 @@ void ReadConfig(config *fileConfig)
                 case 'm':           //members to flowchart
                     p=strchr(buffer,equalsign);
                     p++;
-                    fileConfig->members=atoi(p);
+                    fileConfig->members=atof(p);
                     if(fileConfig->members!=MEMBERSMIN || fileConfig->members!=MEMBERSMAX)
                         fileConfig->members=MEMBERSMIN;
 
@@ -209,24 +210,26 @@ void ReadConfig(config *fileConfig)
 
 }
 /**Initialize in-way and out-way queue and mutexes*/
-int queueInit(queueData *inData)
+int queueInit(Threadcommon *arg)
 {
-    if(!(inData))
+    if(!(arg))
         return -1;
 
     TAILQ_HEAD(InHead, queueData) InHead;
     TAILQ_INIT(&InHead);
-
-
-    //inData->mutex=PTHREAD_MUTEX_INITIALIZER;
-    pthread_mutex_init(inData->mutex,NULL);
-
-
+    pthread_mutex_init(arg->mutex,NULL);
     return 0;
 }
 
 
+void setBackTermios(struct termios *old)
+{
+    if(!old)
+        exit(-1);
 
+
+
+}
 
 
 

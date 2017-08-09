@@ -49,7 +49,7 @@ float mov_average(movAverage *temp,memberfele)
 {
     float result;
     float sum,sum2;
-    if(memberfele==3)
+    if(memberfele==3.0)
     {
             sum=temp->k+temp->k_next+temp->k_prev;
 
@@ -61,15 +61,12 @@ float mov_average(movAverage *temp,memberfele)
     }
     else
     {
-        sum=temp->k+temp->k_next+temp->k_prev+temp->k_fourth;
+        sum=(temp->k+temp->k_next+temp->k_prev+temp->k_fourth)/memberfele;
+        result=(sum+temp->summary)/(memberfele/2.0);
         temp->k_prev=temp->k;
         temp->k=temp->k_fourth;
         temp->k_fourth=temp->k_next;
-        sum2=temp->k+temp->k_next+temp->k_prev+temp->k_fourth;          //?????????????,
-
-
-    result=(sum+sum2)/(memberfele/2);
-
+        temp->summary=sum;
     }
     return result;
 }
