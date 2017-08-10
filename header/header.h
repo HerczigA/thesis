@@ -2,6 +2,7 @@
 #define HEADER_H_INCLUDED
 #include <sys/queue.h>
 #include <stdint.h>
+#include <termios.h>
 #include "../header/reading.h"
 #include <pthread.h>
 #define MAXTIME 1000000
@@ -28,6 +29,19 @@ typedef struct config
     int Delta;
     float members;
 } Config;
+
+typedef struct communication
+{
+    pthread_mutex_t mutex;
+    TAILQ_HEAD(tailhead,queueData) head;
+    int fd;
+    int time;
+    int numbOfDev;
+    char *BAUD;
+    int samplingTime;
+    int Delta;
+    float members;
+} Threadcommon;
 
 
 

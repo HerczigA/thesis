@@ -16,7 +16,7 @@ int takeoutFromQueue(void *arg)
     float finalResult;
     int i=1;
     float data=0;
-    queueData *tempPacket;
+    QueueData *tempPacket;
     time_t now;
     time(&now);
     char *time;
@@ -42,15 +42,15 @@ int takeoutFromQueue(void *arg)
         TAILQ_REMOVE(&common->head,tempPacket,entries);
         pthread_mutex_unlock(&common->mutex);
 
-        devices[tempPacket.address].k_next=*(tempPacket->data);
+        devices[tempPacket->address].k_next=*(tempPacket->data);
 
-        temp=mov_average(devices[tempPacket.address]);
-        finalResult=moving_hysteresis(conffile,temp);
+        temp=mov_average(&devices,&common,tempPacket->address);
+        finalResult=moving_hysteresis(common,temp);
 
         fprintf(log_file,"Measured temperature from %s address of device with moving average and moving hysteresis :%d\t %s\n",
                     tempPacket->address,finalResult,ctime(&now));
 
-        sleep();
+        sleep(common->samplingTime);
     }
 
     fclose(log_file);

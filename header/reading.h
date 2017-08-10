@@ -2,6 +2,7 @@
 #define READING_H_INCLUDED
 #define LIMIT 1024
 #define FF 0xFF
+#include <pthread.h>
 #include "header.h"
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
@@ -69,7 +70,7 @@ typedef struct queueData
     TAILQ_ENTRY(queueData) entries;
 } QueueData;
 
-
+/*
 typedef struct communication
 {
     pthread_mutex_t mutex;
@@ -79,7 +80,7 @@ typedef struct communication
 } Threadcommon;
 
 
-
+*/
 void  readingFromSerial(void *arg);
 QueueData *reserve(char data);
 void sendRequest(void *arg);

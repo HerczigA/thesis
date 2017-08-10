@@ -12,7 +12,7 @@
 #include "../header/header.h"
 #include "../header/counting.h"
 #include "../header/reading.h"
-#include <wiringPi.h>
+//#include <wiringPi.h>
 #define MAXLINE 512
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define lf "/home/herczig/Dokumentumok/log.txt"
@@ -43,13 +43,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Config *fileCon
     }
 
     else
-        fileConfig->fd=open(serial[0],O_RDWR|O_CREATE|O_TRUNC);
+        fileConfig->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
 
     if(fileConfig->fd<0)
-        fileConfig->fd=open(serial[1],O_RDWR|O_CREATE|O_TRUNC);
+        fileConfig->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC);
 
     if(fileConfig->fd<0)
-        fileConfig->fd=open(serial[2],O_RDWR|O_CREATE|O_TRUNC);
+        fileConfig->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC);
 
     if(fileConfig->fd<0)
     {
@@ -60,7 +60,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Config *fileCon
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
     {
-        errornum=(int)*term;
+        errornum=term;
         fprintf(errorfile,"%s\t\t%s\n",strerror(errornum),ctime(&now));
         return -1;
     }
@@ -74,13 +74,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Config *fileCon
     tcflush(fileConfig->fd, TCIOFLUSH);
     if(!tcsetattr(fileConfig->fd,TCSANOW,term))
     {
-        free(fileConfig.BAUD);
+        free(fileConfig->BAUD);
         fclose(errorfile);
         return 0;
     }
     else
     {
-        free(fileConfig.BAUD);
+        free(fileConfig->BAUD);
         fprintf(errorfile,"RS-485 config error:\t%s\n",ctime(&now));
         fclose(errorfile);
         return 1;
@@ -103,7 +103,7 @@ void ReadConfig(Config *fileConfig)
 
 
 
-    FILE * fconfig,* errorfile;
+    FILE *fconfig, *errorfile;
 
     errorfile=fopen(ERRORPATH,"a");
     fconfig=fopen(pathOfConfig,"r");
@@ -218,19 +218,22 @@ void ReadConfig(Config *fileConfig)
 /**Initialize in-way and out-way queue and mutexes*/
 int queueInit(Threadcommon *arg)
 {
+
     if(!(arg))
         return -1;
 
-    TAILQ_HEAD(arg->  queueData) InHead;
+    //TAILQ_HEAD(&arg->head,queueData) InHead;
     TAILQ_INIT(&arg->head);
-    pthread_mutex_init(arg->mutex,NULL);
+    pthread_mutex_init(&arg->mutex,NULL);
     return 0;
 }
 
 void giveNumbOfDev_To_Threadcommon(Threadcommon *arg,Config fileconf)
 {
     arg->numbofDev=fileconf.numbOfDev;
-    arg->member=fileconf.members;
+    arg->members=fileconf.members;
+    arg->Delta=fileconf.Delta;
+    arg->samplingTime=fileconf.samplingTime;
 }
 
 

@@ -3,19 +3,20 @@
 #include <string.h>
 #include "../header/header.h"
 #include "../header/reading.h"
+#include "../header/measuring.h"
 #define TIMELINE 9
 #define ZERO 0
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
-float moving_hysteresis(Config *confile,float temp)
+float moving_hysteresis(Threadcommon *arg,float temp)
 {
-    const float delta=conf->Delta;
+    const float delta=arg->Delta;
     float temp_min=ZERO;
     float temp_max=delta;
     float result;
 
-    if(*temp<=temp_max)
+    if(temp<=temp_max)
     {
         if(temp>=temp_min)
         {
@@ -46,28 +47,28 @@ float moving_hysteresis(Config *confile,float temp)
 /**
 Moving average with 3 members in default
 */
-float mov_average(movAverage *temp,Threadcommon *arg)
+float mov_average(movAverage *temp,Threadcommon *arg,int number)
 {
     float result;
-    float sum,sum2;
-    if(arg->member==3.0)
+    float sum;
+    if(arg->members ==3.0)
     {
             sum=temp->k+temp->k_next+temp->k_prev;
 
 
-    temp->k_prev=temp->k;
-    temp->k=temp->k_next;
+    temp[number]->k_prev=temp[number]->k;
+    temp[number]->k=temp[number]->k_next;
     result=sum/arg->member;
 
     }
     else
     {
-        sum=(temp->k+temp->k_next+temp->k_prev+temp->k_fourth)/arg->member;
-        result=(sum+temp->summary)/(arg->member/2.0);
-        temp->k_prev=temp->k;
-        temp->k=temp->k_fourth;
-        temp->k_fourth=temp->k_next;
-        temp->summary=sum;
+        sum=(temp[number]->k+temp[number]->k_next+temp[number]->k_prev+temp[number]->k_fourth)/arg->member;
+        result=(sum+temp[number]->summary)/(arg->member/2.0);
+        temp[number]->k_prev=temp[number]->k;
+        temp[number]->k=temp[number]->k_fourth;
+        temp[number]->k_fourth=temp[number]->k_next;
+        temp[number]->summary=sum;
     }
     return result;
 }

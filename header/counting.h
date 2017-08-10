@@ -1,22 +1,11 @@
 #ifndef COUNTING_H_INCLUDED
 #define COUNTING_H_INCLUDED
-#define lf "/herczig/Dokumentumok/log"
-
-typedef struct m_average
-{
-  float k_prev;
-  float k;
-  float k_next;
-  float k_fourth;
-  float summary;
-
-}movAverage;
+#include "measuring.h"
 
 
 
-float moving_hysteresis(Config *confile,float temp);
-float mov_average(movAverage *temp,);
-float mov_averageTwo(movAverage *temp);
+float moving_hysteresis(Threadcommon *arg,float temp);
+float mov_average(movAverage *temp,Threadcommon *arg,int number);
 char *timeToString(char *buffer);
 
 #endif // COUNTING_H_INCLUDED
