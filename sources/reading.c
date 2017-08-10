@@ -13,7 +13,7 @@
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
-void  readingFromSerial(void *arg)     //mutex tailhead egy struktúrába
+void  readingFromSerial(void *arg)
 {
     queueData *receivingData=NULL;
     unsigned char data,i=0;
@@ -190,7 +190,7 @@ void  readingFromSerial(void *arg)     //mutex tailhead egy struktúrába
         fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
 
 
-                sleep(SAMPTIME);    // alvoido
+        sleep(SAMPTIME);    // alvoido
     }
 
     fclose(LogFile);
@@ -198,7 +198,7 @@ void  readingFromSerial(void *arg)     //mutex tailhead egy struktúrába
 
 }
 
-queueData *reserve(char data)
+QueueData *reserve(char data)
 {
     queueData *temp;
     temp=(queueData *)malloc(sizeof(queueData));
@@ -251,13 +251,13 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
         write(*fd,data,ONEBYTE);
     }
 
-    case !datalength:
-        data=&temp;
-        crc = addCrcByte(crc, *data);
-        write(*fd,data,ONEBYTE);
+case !datalength:
+    data=&temp;
+    crc = addCrcByte(crc, *data);
+    write(*fd,data,ONEBYTE);
 
-    case datalength<0:
-        return 0;
+case datalength<0:
+    return 0;
 
 
     crc=addCrcByte(crc,crc);
@@ -288,11 +288,11 @@ void sendRequest(void *arg)
         requestType = requestCounter % 3;
         ++requestCounter;
 
-        if(!requestType)            //Polling
+        if(!requestType)
         {
             while(addresses<=fileConfig->numbOfDev)
             {
-                sendPacket(fileConfig->fd,addresses, cmdPing, NULL,0);
+                sendPacket(fileConfig->fd,addresses, cmdTerm, NULL,0);
                 addresses++;
 
             }
@@ -300,11 +300,11 @@ void sendRequest(void *arg)
             requestCounter++;
 
         }
-        else                            //CmdTerm
+        else
         {
             while(addresses<=fileConfig->numbOfDev)
             {
-                sendPacket(fileConfig->fd,addresses, cmdTerm, NULL,0);
+                sendPacket(fileConfig->fd,addresses, cmdPing, NULL,0);
                 addresses++;
 
             }

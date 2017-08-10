@@ -5,8 +5,8 @@ numberOfDevice=24
 
 samplingTime=1000
 
-Baudrate=B9600
+Baudrate=B38400
 
 Delta=5
 
-membersOfMovingAverage=3
+membersOfMovingAverage=3.0

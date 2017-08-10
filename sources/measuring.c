@@ -11,7 +11,7 @@
 int takeoutFromQueue(void *arg)
 {
     Threadcommon *common=arg;
-    movAverage devices[numbOfDev];
+    movAverage devices[common->numbofDev];
     float temp;
     float finalResult;
     int i=1;
@@ -21,7 +21,7 @@ int takeoutFromQueue(void *arg)
     time(&now);
     char *time;
 
-    while (i<=numbOfDev)
+    while (i<=common->numbofDev)
     {
         devices[i].k=0;
         devices[i].k_prev=0;
@@ -33,7 +33,7 @@ int takeoutFromQueue(void *arg)
 
     time=(char*)malloc(TIMELINE*sizeof(char));
     time=timeToString(time);
-    FILE * log_file=fopen(time,"w");
+    FILE * log_file=fopen(time,"a");
 
     while(!TAILQ_EMPTY(&common->head))
     {

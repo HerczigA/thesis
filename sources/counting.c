@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../header/header.h"
 #include "../header/reading.h"
 #define TIMELINE 9
@@ -45,24 +46,24 @@ float moving_hysteresis(Config *confile,float temp)
 /**
 Moving average with 3 members in default
 */
-float mov_average(movAverage *temp,memberfele)
+float mov_average(movAverage *temp,Threadcommon *arg)
 {
     float result;
     float sum,sum2;
-    if(memberfele==3.0)
+    if(arg->member==3.0)
     {
             sum=temp->k+temp->k_next+temp->k_prev;
 
 
     temp->k_prev=temp->k;
     temp->k=temp->k_next;
-    result=sum/memberfele;
+    result=sum/arg->member;
 
     }
     else
     {
-        sum=(temp->k+temp->k_next+temp->k_prev+temp->k_fourth)/memberfele;
-        result=(sum+temp->summary)/(memberfele/2.0);
+        sum=(temp->k+temp->k_next+temp->k_prev+temp->k_fourth)/arg->member;
+        result=(sum+temp->summary)/(arg->member/2.0);
         temp->k_prev=temp->k;
         temp->k=temp->k_fourth;
         temp->k_fourth=temp->k_next;

@@ -15,7 +15,7 @@ typedef struct m_average
 
 
 float moving_hysteresis(Config *confile,float temp);
-float mov_average(movAverage *temp);
+float mov_average(movAverage *temp,);
 float mov_averageTwo(movAverage *temp);
 char *timeToString(char *buffer);
 

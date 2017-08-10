@@ -8,19 +8,20 @@
 #include "header/header.h"
 #include "header/reading.h"
 #include "header/counting.h"
-
+#include "header/measuring.h"
 
 int main()
 {
-    struct termios old_term;
-    config Configfile= {0};
+    struct termios old_term,*term;
+    term=NULL;
+    Config Configfile= {0};
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
 
     ReadConfig(&Configfile);
-    if(Initalization(&old_term,&fd,Configfile))
+    if(InitSerialPort(&old_term,term,&Configfile))
         return -1;
-
+    giveNumbOfDev_To_Threadcommon(&threadHandle,Configfile);
     queueInit(&threadHandle);
     pthread_create(&requesting_thread,NULL,(void*)sendRequest,&Configfile);
     pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
@@ -29,5 +30,6 @@ int main()
     pthread_join(reading_thread,NULL);
     pthread_join(processor_thread,NULL);
 
+    setBackTermios(&Configfile,&old_term,term);
     return 0;
 }
