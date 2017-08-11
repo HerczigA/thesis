@@ -15,7 +15,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
 void  readingFromSerial(void *arg)
 {
-    queueData *receivingData=NULL;
+    QueueData *receivingData=NULL;
     unsigned char data,i=0;
     Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
@@ -29,13 +29,13 @@ void  readingFromSerial(void *arg)
     FILE * LogFile=fopen(LOGPATH,"w");
     FILE * errorfile=fopen(ERRORPATH,"w");
 
-    if (fileConfig->fd <0 )
+    if (common->fd <0 )
     {
         fprintf(errorfile,"%s \t \t Cannot open filedescriptor\n",ctime(&now));
         return;
     }
 
-    while(read(fd,&data,ONEBYTE))
+    while(read(common->fd,&data,ONEBYTE))
     {
         switch (State)
         {
@@ -94,7 +94,7 @@ void  readingFromSerial(void *arg)
         case address:
             if (!receivingData)
             {
-                calculateCrc = addCrcByte(calculateCrc, data);
+                calculateCrc = addCRC(calculateCrc, data);
                 receivingData=reserve(data);
                 if (!receivingData)
                 {
@@ -110,19 +110,19 @@ void  readingFromSerial(void *arg)
             break;
 
         case command :
-            calculateCrc = addCrcByte(calculateCrc,data);
+            calculateCrc = addCRC(calculateCrc,data);
             receivingData->cmd = data;
             State = DLenLow;
             continue;
 
         case DLenLow :
-            calculateCrc = addCrcByte(calculateCrc, data);
+            calculateCrc = addCRC(calculateCrc, data);
             receivingData->dlen = data;
             State = DLenHigh;
             continue;
 
         case DLenHigh :
-            calculateCrc = addCrcByte(calculateCrc, data);
+            calculateCrc = addCRC(calculateCrc, data);
             receivingData->dlen|= (data << BYTE) ;
 
             if (receivingData->dlen > 0)
@@ -150,7 +150,7 @@ void  readingFromSerial(void *arg)
                 continue;
             }
         case Data :
-            calculateCrc = addCrcByte(calculateCrc, data);
+            calculateCrc = addCRC(calculateCrc, data);
             *(receivingData->data) = data;
             State = CrcLow;
             continue;
@@ -200,12 +200,12 @@ void  readingFromSerial(void *arg)
 
 QueueData *reserve(char data)
 {
-    queueData *temp;
-    temp=(queueData *)malloc(sizeof(queueData));
+    QueueData *temp;
+    temp=(QueueData *)malloc(sizeof(QueueData));
     if (!temp)
         return 0;
     temp->address=data;
-    temp->dLen = 0;
+    temp->dlen = 0;
     temp->data = NULL;
     return temp;
 }
@@ -214,12 +214,12 @@ QueueData *reserve(char data)
 
 int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
 {
-    if (fd < 0 || (!data && dlen))
+    if (fd < 0 || (!data && dLen))
         return 0;
     int i;
     uint16_t crc=0;
     uint16_t datalength;
-    char temp=0;
+
     char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
 
     for (i=0; i<5; i++)
@@ -228,39 +228,38 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
     write(*fd,&motorolaFF,ONEBYTE);
     write(*fd,&motorola1,ONEBYTE);
 
-    crc = addCrcByte(crc, address);
+    crc = addCRC(crc, address);
     write (*fd,&address,ONEBYTE);
 
-    crc = addCrcByte(crc, cmd);
+    crc = addCRC(crc, cmd);
     write(*fd,&cmd,ONEBYTE);
 
     datalength= dLen;
-    crc = addCrcByte(crc,datalength);
+    crc = addCRC(crc,datalength);
     write(*fd, &datalength, ONEBYTE);
     datalength |= (dLen << BYTE);
-    crc = addCrcByte(crc, datalength);
+    crc = addCRC(crc, datalength);
     write(*fd, &datalength, ONEBYTE);
 
-
-    switch (datalength):
-
-        case datalength>0:
-        for (i=0; i<datalength; i++,data++)
+    if(datalength>0)
     {
-        crc = addCrcByte(crc, *data);
-        write(*fd,data,ONEBYTE);
+        for (i=0; i<datalength; i++,data++)
+        {
+            crc = addCRC(crc, *data);
+            write(*fd,data,ONEBYTE);
+        }
     }
+    else if(!datalength)
+    {
+        *data=ZERO;
+        crc = addCRC(crc, *data);
+        write(*fd,data,ONEBYTE);
 
-case !datalength:
-    data=&temp;
-    crc = addCrcByte(crc, *data);
-    write(*fd,data,ONEBYTE);
+    }
+    else
+        return 0;
 
-case datalength<0:
-    return 0;
-
-
-    crc=addCrcByte(crc,crc);
+    crc=addCRC(crc,crc);
     write(*fd,&crc,ONEBYTE);
     crc|=(crc <<BYTE);
     write(*fd,&crc,ONEBYTE);
@@ -271,7 +270,7 @@ case datalength<0:
 void sendRequest(void *arg)
 {
 
-    config *fileConfig=arg;
+    Threadcommon *common=arg;
     int addresses=0;
     unsigned char requestType;
     unsigned char requestCounter=0;
@@ -290,9 +289,9 @@ void sendRequest(void *arg)
 
         if(!requestType)
         {
-            while(addresses<=fileConfig->numbOfDev)
+            while(addresses<=common->numbOfDev)
             {
-                sendPacket(fileConfig->fd,addresses, cmdTerm, NULL,0);
+                sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
                 addresses++;
 
             }
@@ -302,9 +301,9 @@ void sendRequest(void *arg)
         }
         else
         {
-            while(addresses<=fileConfig->numbOfDev)
+            while(addresses<=common->numbOfDev)
             {
-                sendPacket(fileConfig->fd,addresses, cmdPing, NULL,0);
+                sendPacket(&common->fd,addresses, cmdPing, NULL,0);
                 addresses++;
 
             }
@@ -314,7 +313,7 @@ void sendRequest(void *arg)
 
 
         addresses=0;
-        sleep(fileConfig->time);
+        sleep(common->time);
     }
 
 }

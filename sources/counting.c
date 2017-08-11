@@ -47,28 +47,28 @@ float moving_hysteresis(Threadcommon *arg,float temp)
 /**
 Moving average with 3 members in default
 */
-float mov_average(movAverage *temp,Threadcommon *arg,int number)
+float mov_average(movAverage *temp,int members)
 {
     float result;
     float sum;
-    if(arg->members ==3.0)
+    if(members==3.0)
     {
-            sum=temp->k+temp->k_next+temp->k_prev;
+        sum=temp->k+temp->k_next+temp->k_prev;
 
 
-    temp[number]->k_prev=temp[number]->k;
-    temp[number]->k=temp[number]->k_next;
-    result=sum/arg->member;
+        temp->k_prev=temp->k;
+        temp->k=temp->k_next;
+        result=sum/members;
 
     }
     else
     {
-        sum=(temp[number]->k+temp[number]->k_next+temp[number]->k_prev+temp[number]->k_fourth)/arg->member;
-        result=(sum+temp[number]->summary)/(arg->member/2.0);
-        temp[number]->k_prev=temp[number]->k;
-        temp[number]->k=temp[number]->k_fourth;
-        temp[number]->k_fourth=temp[number]->k_next;
-        temp[number]->summary=sum;
+        sum=(temp->k+temp->k_next+temp->k_prev+temp->k_fourth)/members;
+        result=(sum+temp->summary)/(members/2.0);
+        temp->k_prev=temp->k;
+        temp->k=temp->k_fourth;
+        temp->k_fourth=temp->k_next;
+        temp->summary=sum;
     }
     return result;
 }

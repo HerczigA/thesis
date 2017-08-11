@@ -3,15 +3,15 @@
 #define TIMELINE 9
 typedef struct m_average
 {
-  float k_prev;
-  float k;
-  float k_next;
-  float k_fourth;
-  float summary;
+    float k_prev;
+    float k;
+    float k_next;
+    float k_fourth;
+    float summary;
 
-}movAverage;
+} movAverage;
 
 
-int takeoutFromQueue(void *arg);
+void takeoutFromQueue(void *arg);
 
 #endif // MEASURING_H_INCLUDED

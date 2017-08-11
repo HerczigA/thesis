@@ -5,7 +5,7 @@
 
 
 float moving_hysteresis(Threadcommon *arg,float temp);
-float mov_average(movAverage *temp,Threadcommon *arg,int number);
+float mov_average(movAverage *temp,int members);
 char *timeToString(char *buffer);
 
 #endif // COUNTING_H_INCLUDED

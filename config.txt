@@ -1,12 +1,12 @@
 /*ConfigFile*/
-RequestTIME=1000
+RequestTIME=10000
 
-numberOfDevice=24
+numberOfDevice=5
 
 samplingTime=1000
 
-Baudrate=B38400
+Baudrate=38400
 
-Delta=5
+Delta=100
 
-membersOfMovingAverage=3.0
+membersOfMovingAverage=3.4

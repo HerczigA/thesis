@@ -10,25 +10,13 @@
 #define REQUESTTIME 1000
 #define DevMin 1
 #define DevMax 99
-#define DefBaud "B9600"
+#define DefBaud 9600
 #define DELTAMAX 50
 #define DELTAMIN 1
 #define MEMBERSMIN 3.0
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
 
-
-
-typedef struct config
-{
-    int fd;
-    int time;
-    int numbOfDev;
-    char *BAUD;
-    int samplingTime;
-    int Delta;
-    float members;
-} Config;
 
 typedef struct communication
 {
@@ -37,7 +25,7 @@ typedef struct communication
     int fd;
     int time;
     int numbOfDev;
-    char *BAUD;
+    int BAUD;
     int samplingTime;
     int Delta;
     float members;
@@ -45,11 +33,11 @@ typedef struct communication
 
 
 
-void ReadConfig(Config *fileConfig);
-int InitSerialPort(struct termios *old_term,struct termios *term,Config *fileConfig);
+void ReadConfig(Threadcommon *arg);
+int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *arg);
 int queueInit(Threadcommon *arg);
-void setBackTermios(Config *fileconf,struct termios *old,struct termios *term);
-void giveNumbOfDev_To_Threadcommon(Threadcommon *arg,Config fileconf);
+void setBackTermios(Threadcommon *arg,struct termios *old,struct termios *term);
+
 
 
 #endif // HEADER_H_INCLUDED

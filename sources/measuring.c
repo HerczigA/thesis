@@ -8,27 +8,26 @@
 #include "../header/counting.h"
 #include "../header/reading.h"
 
-int takeoutFromQueue(void *arg)
+void takeoutFromQueue(void *arg)
 {
     Threadcommon *common=arg;
-    movAverage devices[common->numbofDev];
+    movAverage devices[common->numbOfDev];
     float temp;
     float finalResult;
     int i=1;
-    float data=0;
     QueueData *tempPacket;
     time_t now;
     time(&now);
     char *time;
 
-    while (i<=common->numbofDev)
+    while (i<=common->numbOfDev)
     {
         devices[i].k=0;
         devices[i].k_prev=0;
         devices[i].k_next=0;
         devices[i].k_fourth=0;
         devices[i].summary=0;
-    i++;
+        i++;
     }
 
     time=(char*)malloc(TIMELINE*sizeof(char));
@@ -44,11 +43,11 @@ int takeoutFromQueue(void *arg)
 
         devices[tempPacket->address].k_next=*(tempPacket->data);
 
-        temp=mov_average(&devices,&common,tempPacket->address);
+        temp=mov_average(&devices[tempPacket->address],common->members);
         finalResult=moving_hysteresis(common,temp);
 
-        fprintf(log_file,"Measured temperature from %s address of device with moving average and moving hysteresis :%d\t %s\n",
-                    tempPacket->address,finalResult,ctime(&now));
+        fprintf(log_file,"Measured temperature from %d address of device with moving average and moving hysteresis :%.2f\t %s\n",
+                tempPacket->address,finalResult,ctime(&now));
 
         sleep(common->samplingTime);
     }

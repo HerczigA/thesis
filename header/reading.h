@@ -3,12 +3,14 @@
 #define LIMIT 1024
 #define FF 0xFF
 #include <pthread.h>
+#include <unistd.h>
 #include "header.h"
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
 #define MAXREQUEST 30
 #define ONEBYTE 1
 #define SAMPTIME 1000
+#define ZERO 0
 
 
 typedef enum PacketState
@@ -62,7 +64,7 @@ typedef struct statistic
 typedef struct queueData
 {
     /** packet item data */
-    char address;
+    int address;
     char cmd;
     uint16_t dlen;
     float *data;
