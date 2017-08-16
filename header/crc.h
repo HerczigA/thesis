@@ -3,10 +3,11 @@
 
 #include <stdint.h>
 #define POLYNOMIAL 0xd8
-
-#define TOPBIT (1 << (WIDTH-1))
 #define BYTE 8
-#define WIDTH (8 * sizeof(uint16_t))
+#define WIDTH (BYTE * sizeof(uint16_t))
+#define TOPBIT (1 << (WIDTH-1))
+
+
 
 typedef uint16_t Crc;
 

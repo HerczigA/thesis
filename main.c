@@ -1,9 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <math.h>
-#include <termios.h>
 #include "header/crc.h"
 #include "header/header.h"
 #include "header/reading.h"

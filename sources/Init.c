@@ -1,30 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
-#include <termios.h>
-#include <sys/queue.h>
-#include <time.h>
-#include <string.h>
-#include <pthread.h>
 #include "../header/header.h"
 #include "../header/counting.h"
 #include "../header/reading.h"
-//#include <wiringPi.h>
-#define MAXLINE 512
-#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
-#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/config.txt"
+
 /*************should set back at the end termios***********/
 
 int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *arg)
 {
-    /* //RPI init and PIN out need to def RX and TX/
+     //RPI init and PIN out need to def RX and TX/
      wiringPiSetup();
-     pinMode(Rx,INPUT);      //Rx=Pin number
-     pinMode(Tx,OUTPUT);     //Tx=Pin number
-     *********************************************/
+     pinMode(RX,INPUT);      //Rx=Pin number
+     pinMode(TX,OUTPUT);     //Tx=Pin number
+     //*********************************************
     int errornum;
     time_t now;
     time(&now);
@@ -124,8 +112,8 @@ void ReadConfig(Threadcommon *arg)
                     p++;
                     p[strlen(p)-1]='\0';
                     arg->numbOfDev=atoi(p);
-                    if(arg->numbOfDev<DevMin || arg->numbOfDev>DevMax)
-                        arg->numbOfDev=DevMin;
+                    if(arg->numbOfDev<DEVMIN || arg->numbOfDev>DEVMAX)
+                        arg->numbOfDev=DEVMIN;
 
                     continue;
 
@@ -146,7 +134,7 @@ void ReadConfig(Threadcommon *arg)
                     p[strlen(p)-1]='\0';
                     arg->BAUD=atoi(p);
                     if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
-                        arg->BAUD=DefBaud;
+                        arg->BAUD=DEFBAUD;
 
                     continue;
 
@@ -177,13 +165,13 @@ void ReadConfig(Threadcommon *arg)
                 continue;
         }
         if(!arg->BAUD)
-            arg->BAUD=DefBaud;
+            arg->BAUD=DEFBAUD;
         if(!arg->Delta)
             arg->Delta=DELTAMIN;
         if(!arg->members)
             arg->members=MEMBERSMIN;
         if(!arg->numbOfDev)
-            arg->numbOfDev=DevMin;
+            arg->numbOfDev=DEVMIN;
         if(!arg->samplingTime)
             arg->samplingTime=DEFTIME;
         if(!arg->time)

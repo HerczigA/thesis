@@ -1,9 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/queue.h>
-#include <time.h>
-#include <string.h>
 #include "../header/header.h"
 #include "../header/counting.h"
 #include "../header/reading.h"

@@ -8,14 +8,29 @@
 #define MAXTIME 1000000
 #define DEFTIME 100
 #define REQUESTTIME 1000
-#define DevMin 1
-#define DevMax 99
-#define DefBaud 9600
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <termios.h>
+#include <sys/queue.h>
+#include <time.h>
+#include <string.h>
+#include <pthread.h>
+#include <wiringPi.h>
+#define RX 15
+#define TX 16
+#define DEVMIN 1
+#define DEVMAX 99
+#define DEFBAUD 9600
 #define DELTAMAX 50
 #define DELTAMIN 1
 #define MEMBERSMIN 3.0
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
+#define MAXLINE 512
+#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
+#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/config.txt"
 
 
 typedef struct communication

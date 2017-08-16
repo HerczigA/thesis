@@ -1,10 +1,14 @@
 #ifndef READING_H_INCLUDED
 #define READING_H_INCLUDED
-#define LIMIT 1024
-#define FF 0xFF
+#include <string.h>
+#include <sys/ioctl.h>
+#include <time.h>
+#include <sys/queue.h>
 #include <pthread.h>
 #include <unistd.h>
 #include "header.h"
+#define LIMIT 1024
+#define FF 0xFF
 #define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
 #define MAXREQUEST 30

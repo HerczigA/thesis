@@ -1,5 +1,9 @@
 #ifndef MEASURING_H_INCLUDED
 #define MEASURING_H_INCLUDED
+#include <unistd.h>
+#include <sys/queue.h>
+#include <time.h>
+#include <string.h>
 #define TIMELINE 9
 typedef struct m_average
 {

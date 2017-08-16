@@ -4,8 +4,7 @@
 #include "../header/header.h"
 #include "../header/reading.h"
 #include "../header/measuring.h"
-#define TIMELINE 9
-#define ZERO 0
+
 /**
 Moving hysteresis counting by the measured value with a delta.
 */

@@ -1,10 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <time.h>
-#include <sys/queue.h>
-#include <time.h>
 #include "../header/header.h"
 #include "../header/crc.h"
 #include "../header/reading.h"
