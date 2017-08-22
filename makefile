@@ -10,7 +10,7 @@ thesis: $(ALL)
 	$(CC) -o $@ $(OBJ) $(CFLAGS)
 
 %.o: %.c $(HEADERS)
-	$(CC) -c $< -o $@  $(CFLAGS)
+	$(CC) -c -o $@ $<  $(CFLAGS)
 
 
 clean:

@@ -8,22 +8,19 @@
 
 int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *arg)
 {
-     //RPI init and PIN out need to def RX and TX/
-     wiringPiSetup();
-     pinMode(RX,INPUT);      //Rx=Pin number
-     pinMode(TX,OUTPUT);     //Tx=Pin number
-     //*********************************************
+    //RPI init and PIN out need to def RX and TX/
+    wiringPiSetup();
+    pinMode(RX,INPUT);      //Rx=Pin number
+    pinMode(TX,OUTPUT);     //Tx=Pin number
+    //*********************************************
     int errornum;
-    time_t now;
-    time(&now);
     char *serial[3];
     serial[0]="/dev/ttyS0";
     serial[1]="/dev/ttyS1";
     serial[2]="/dev/ttyS2";
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
 
-    FILE * errorfile=fopen(ERRORPATH,"a");
     arg->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
-
     if(arg->fd<0)
         arg->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC);
 
@@ -31,18 +28,18 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *a
         arg->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC);
 
     if(arg->fd<0)
-    {
-        errornum=(int)arg->fd;
-        fprintf(errorfile,"%s\t%s\n",strerror(errornum),ctime(&now));
-        return 1;
-    }
+        {
+            errornum=(int)arg->fd;
+            syslog(LOG_ERR,"%s\n",strerror(errornum));
+            return 1;
+        }
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
-    {
-        errornum=(int)term;
-        fprintf(errorfile,"%s\t\t%s\n",strerror(errornum),ctime(&now));
-        return -1;
-    }
+        {
+            errornum=(int)term;
+            syslog(LOG_ERR,"%s\n",strerror(errornum));
+            return -1;
+        }
     tcgetattr(arg->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
     term->c_iflag =0;
@@ -51,20 +48,18 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *a
     cfsetospeed(term,arg->BAUD);
 
     tcflush(arg->fd, TCIOFLUSH);
-    if(!tcsetattr(arg->fd,TCSANOW,term))
-    {
-
-        fclose(errorfile);
-        return 0;
-    }
+    errornum=tcsetattr(arg->fd,TCSANOW,term);
+    if(!errornum)
+        {
+            closelog();
+            return 0;
+        }
     else
-    {
-
-        fprintf(errorfile,"RS-485 config error:\t%s\n",ctime(&now));
-        fclose(errorfile);
-        return 1;
-    }
-
+        {
+            syslog(LOG_ERR,"%s\n",strerror(errornum));
+            closelog();
+            return 1;
+        }
 
 }
 
@@ -72,115 +67,111 @@ void ReadConfig(Threadcommon *arg)
 {
     if(!arg)
         return;
-    time_t now;
-    time(&now);
     char buffer[MAXLINE];
     char *p=NULL;
     int errnum;
     char equalsign='=';
 
+    FILE *fconfig;
 
-
-    FILE *fconfig, *errorfile;
-
-    errorfile=fopen(ERRORPATH,"a");
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
     errnum=(int)fconfig;
     if(fconfig)
-    {
-
-        while(fgets(buffer,MAXLINE,fconfig))
         {
 
-            if(*buffer!='\n')      //minimum the second function
-            {
-
-                switch(*buffer)
+            while(fgets(buffer,MAXLINE,fconfig))
                 {
-                case 'R':       //Delay time for sending request
-                    p=strchr(buffer,equalsign);
-                    p++;
-                    p[strlen(p)-1]='\0';
-                    arg->time=atoi(p);
-                    if(arg->time<REQUESTTIME || arg->time>MAXTIME)
-                        arg->time=REQUESTTIME;
 
-                    continue;
+                    if(*buffer!='\n')      //minimum the second function
+                        {
 
-                case 'n':       //Number of devices
-                    p=strchr(buffer,equalsign);
-                    p++;
-                    p[strlen(p)-1]='\0';
-                    arg->numbOfDev=atoi(p);
-                    if(arg->numbOfDev<DEVMIN || arg->numbOfDev>DEVMAX)
-                        arg->numbOfDev=DEVMIN;
+                            switch(*buffer)
+                                {
+                                case 'R':       //Delay time for sending request
+                                    p=strchr(buffer,equalsign);
+                                    p++;
+                                    p[strlen(p)-1]='\0';
+                                    arg->time=atoi(p);
+                                    if(arg->time<REQUESTTIME || arg->time>MAXTIME)
+                                        arg->time=REQUESTTIME;
 
-                    continue;
+                                    continue;
 
-                case 's':       //SamplingTime
-                    p=strchr(buffer,equalsign);
-                    p++;
-                    p[strlen(p)-1]='\0';
-                    arg->samplingTime=atoi(p);
-                    if(arg->samplingTime<DEFTIME || arg->samplingTime>MAXTIME)
-                        arg->samplingTime=DEFTIME;
+                                case 'n':       //Number of devices
+                                    p=strchr(buffer,equalsign);
+                                    p++;
+                                    p[strlen(p)-1]='\0';
+                                    arg->numbOfDev=atoi(p);
+                                    if(arg->numbOfDev<DEVMIN || arg->numbOfDev>DEVMAX)
+                                        arg->numbOfDev=DEVMIN;
 
-                    continue;
+                                    continue;
 
-                case 'B':       //Baudrate
+                                case 's':       //SamplingTime
+                                    p=strchr(buffer,equalsign);
+                                    p++;
+                                    p[strlen(p)-1]='\0';
+                                    arg->samplingTime=atoi(p);
+                                    if(arg->samplingTime<DEFTIME || arg->samplingTime>MAXTIME)
+                                        arg->samplingTime=DEFTIME;
 
-                    p=strchr(buffer,equalsign);
-                    p++;
-                    p[strlen(p)-1]='\0';
-                    arg->BAUD=atoi(p);
-                    if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
-                        arg->BAUD=DEFBAUD;
+                                    continue;
 
-                    continue;
+                                case 'B':       //Baudrate
 
-                case 'D':           //Delta for moving histeresys
-                    p=strchr(buffer,equalsign);
-                    p++;
-                    p[strlen(p)-1]='\0';
-                    arg->Delta=atoi(p);
-                    if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX)
-                        arg->Delta=DELTAMIN;
+                                    p=strchr(buffer,equalsign);
+                                    p++;
+                                    p[strlen(p)-1]='\0';
+                                    arg->BAUD=atoi(p);
+                                    if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
+                                        arg->BAUD=DEFBAUD;
 
-                    continue;
+                                    continue;
 
-                case 'm':           //members to flowchart
-                    p=strchr(buffer,equalsign);
-                    p++;
-                    p[strlen(p)-1]='\0';
-                    errnum=atof(p);
-                    arg->members=atof(p);
-                    if(arg->members!=MEMBERSMIN || arg->members!=MEMBERSMAX)
-                        arg->members=MEMBERSMIN;
+                                case 'D':           //Delta for moving histeresys
+                                    p=strchr(buffer,equalsign);
+                                    p++;
+                                    p[strlen(p)-1]='\0';
+                                    arg->Delta=atoi(p);
+                                    if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX)
+                                        arg->Delta=DELTAMIN;
 
-                    continue;
+                                    continue;
 
+                                case 'm':           //members to flowchart
+                                    p=strchr(buffer,equalsign);
+                                    p++;
+                                    p[strlen(p)-1]='\0';
+                                    arg->members=atof(p);
+                                    if(arg->members!=MEMBERSMIN || arg->members!=MEMBERSMAX)
+                                        arg->members=MEMBERSMIN;
+
+                                    continue;
+
+                                }
+                        }
+                    else
+                        continue;
                 }
-            }
-            else
-                continue;
+            if(!arg->BAUD)
+                arg->BAUD=DEFBAUD;
+            if(!arg->Delta)
+                arg->Delta=DELTAMIN;
+            if(!arg->members)
+                arg->members=MEMBERSMIN;
+            if(!arg->numbOfDev)
+                arg->numbOfDev=DEVMIN;
+            if(!arg->samplingTime)
+                arg->samplingTime=DEFTIME;
+            if(!arg->time)
+                arg->time=REQUESTTIME;
         }
-        if(!arg->BAUD)
-            arg->BAUD=DEFBAUD;
-        if(!arg->Delta)
-            arg->Delta=DELTAMIN;
-        if(!arg->members)
-            arg->members=MEMBERSMIN;
-        if(!arg->numbOfDev)
-            arg->numbOfDev=DEVMIN;
-        if(!arg->samplingTime)
-            arg->samplingTime=DEFTIME;
-        if(!arg->time)
-            arg->time=REQUESTTIME;
-    }
     else
-        fprintf(errorfile,"Cannot open Threadcommon file because %s\t%s\n",strerror(errnum),ctime(&now));
+        syslog(LOG_ERR,"%s\n",strerror(errnum));
 
     fclose(fconfig);
+    closelog();
 
 
 }

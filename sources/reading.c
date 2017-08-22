@@ -17,180 +17,176 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     PacketState State=EmptyState;
     Threadcommon *common=arg;
-
-    time_t now;
-    time(&now);
-
-    FILE * LogFile=fopen(LOGPATH,"w");
-    FILE * errorfile=fopen(ERRORPATH,"w");
-
+    int errnum;
+    // FILE * LogFile=fopen(LOGPATH,"w");
+    // FILE * errorfile=fopen(ERRORPATH,"w");
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
     if (common->fd <0 )
-    {
-        fprintf(errorfile,"%s \t \t Cannot open filedescriptor\n",ctime(&now));
-        return;
-    }
-
-    while(read(common->fd,&data,ONEBYTE))
-    {
-        switch (State)
         {
-
-        case EmptyState:
-            if (data == 0x55)
-                State= moto55;
-            continue;
-
-        case moto55:
-            if (data == 0x55)
-            {
-                i++;
-                if(i==6)
-                {
-                    fprintf(errorfile,"%s\t\t Too much 0x55 has arrived\n Reading Restart!\n",ctime(&now));
-                    break;
-                }
-                continue;
-            }
-            if (data == FF)
-            {
-                State=motoFF;
-                continue;
-            }
-            else
-            {
-                Packetstatistic.packetError++;
-                fprintf(errorfile,"%s\t\tAfter 0x55 did not receive proper data(0xFF)\n",ctime(&now));
-                break;
-            }
-
-        case motoFF:
-            if(data==1)
-            {
-                State=moto1;
-                continue;
-            }
-            else
-            {
-                Packetstatistic.packetError++;
-                fprintf(errorfile,"%s\t\tAfter 0xFF did not receive proper data(0x01)\n",ctime(&now));
-                break;
-            }
-
-
-        case moto1:
-            if(data)
-            {
-                State= address;
-                Packetstatistic.packet++;
-            }
-            else
-                break;
-
-        case address:
-            if (!receivingData)
-            {
-                calculateCrc = addCRC(calculateCrc, data);
-                receivingData=reserve(data);
-                if (!receivingData)
-                {
-                    fprintf(errorfile,"%s\t\t Cannot reserved memory to receivingData\n",ctime(&now));
-                    break;
-                }
-
-                State = command;
-                continue;
-            }
-            else
-                Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
-            break;
-
-        case command :
-            calculateCrc = addCRC(calculateCrc,data);
-            receivingData->cmd = data;
-            State = DLenLow;
-            continue;
-
-        case DLenLow :
-            calculateCrc = addCRC(calculateCrc, data);
-            receivingData->dlen = data;
-            State = DLenHigh;
-            continue;
-
-        case DLenHigh :
-            calculateCrc = addCRC(calculateCrc, data);
-            receivingData->dlen|= (data << BYTE) ;
-
-            if (receivingData->dlen > 0)
-            {
-                if (receivingData->dlen <= LIMIT)
-                {
-                    receivingData->data =(float *)malloc(sizeof (receivingData->dlen));
-                    if(!receivingData->data)
-                    {
-                        fprintf(errorfile,"No enough memory\t\t%s\n",ctime(&now));
-                        Packetstatistic.packetError++;
-                        break;
-                    }
-                    State = Data;
-                }
-                else
-                {
-                    fprintf(errorfile,"Too big the datalength\t\t%s\n",ctime(&now));
-                    break;
-                }
-            }
-            else
-            {
-                State =  CrcLow;
-                continue;
-            }
-        case Data :
-            calculateCrc = addCRC(calculateCrc, data);
-            *(receivingData->data) = data;
-            State = CrcLow;
-            continue;
-
-        case CrcLow :
-            packetCrc = data;
-            State = CrcHigh;
-            continue;
-
-        case CrcHigh:
-            packetCrc |=( data<< BYTE);
-            if (compareCRC(packetCrc, calculateCrc))
-            {
-                if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm =1, not polling
-                {
-                    pthread_mutex_lock(&common->mutex);
-                    TAILQ_INSERT_TAIL(&common->head,receivingData,entries);
-                    pthread_mutex_unlock(&common->mutex);
-                    Packetstatistic.validPacket++;
-                }
-                else
-                {
-                    Packetstatistic.emptyPacket++;
-                    fprintf(LogFile,"Slave Keep Alive:%c\t\t%s\n",receivingData->address,ctime(&now));
-                }
-
-            }
-            break;
+            errnum=common->fd;
+            syslog(LOG_ERR,"%s\n",strerror(errnum));
+            return;
         }
 
-        receivingData=NULL;
-        State = EmptyState;
-        fprintf(LogFile,"\n Packetstatistic\n packetError=%d\t\t%s\n",Packetstatistic.packetError,ctime(&now));
-        fprintf(LogFile,"packet=%d\t\t%s\n",Packetstatistic.packet,ctime(&now));
-        fprintf(LogFile,"validPacket=%d\t\t%s\n",Packetstatistic.validPacket,ctime(&now));
-        fprintf(LogFile,"overrun=%d\t\t%s\n",Packetstatistic.overrun,ctime(&now));
-        fprintf(LogFile,"emptyPacket=%d\t\t%s\n",Packetstatistic.emptyPacket,ctime(&now));
+    while(read(common->fd,&data,ONEBYTE))
+        {
+            switch (State)
+                {
+
+                case EmptyState:
+                    if (data == 0x55)
+                        State= moto55;
+                    continue;
+
+                case moto55:
+                    if (data == 0x55)
+                        {
+                            i++;
+                            if(i==6)
+                                {
+                                    syslog(LOG_ERR,"Too much 0x55 received\tReceived numbers of data:%d\n",i);
+                                    break;
+                                }
+                            continue;
+                        }
+                    if (data == FF)
+                        {
+                            State=motoFF;
+                            continue;
+                        }
+                    else
+                        {
+                            Packetstatistic.packetError++;
+                            syslog(LOG_ERR,"After 0x55 did not receive proper data(0xFF)\n");
+                            break;
+                        }
+
+                case motoFF:
+                    if(data==1)
+                        {
+                            State=moto1;
+                            continue;
+                        }
+                    else
+                        {
+                            Packetstatistic.packetError++;
+                            syslog(LOG_ERR,"After 0xFF did not receive proper data(0x01)\n\n");
+                            break;
+                        }
 
 
-        sleep(SAMPTIME);    // alvoido
-    }
+                case moto1:
+                    if(data)
+                        {
+                            State= address;
+                            Packetstatistic.packet++;
+                        }
+                    else
+                        break;
 
-    fclose(LogFile);
-    fclose(errorfile);
+                case address:
+                    if (!receivingData)
+                        {
+                            calculateCrc = addCRC(calculateCrc, data);
+                            receivingData=reserve(data);
+                            if (!receivingData)
+                                {
+                                    syslog(LOG_ERR,"Cannot reserved memory to receivingData\n");
+                                    break;
+                                }
 
+                            State = command;
+                            continue;
+                        }
+                    else
+                        Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
+                    break;
+
+                case command :
+                    calculateCrc = addCRC(calculateCrc,data);
+                    receivingData->cmd = data;
+                    State = DLenLow;
+                    continue;
+
+                case DLenLow :
+                    calculateCrc = addCRC(calculateCrc, data);
+                    receivingData->dlen = data;
+                    State = DLenHigh;
+                    continue;
+
+                case DLenHigh :
+                    calculateCrc = addCRC(calculateCrc, data);
+                    receivingData->dlen|= (data << BYTE) ;
+
+                    if (receivingData->dlen > 0)
+                        {
+                            if (receivingData->dlen <= LIMIT)
+                                {
+                                    receivingData->data =(float *)malloc(sizeof (receivingData->dlen));
+                                    if(!receivingData->data)
+                                        {
+                                            syslog(LOG_ERR,"No enough memory\n");
+                                            Packetstatistic.packetError++;
+                                            break;
+                                        }
+                                    State = Data;
+                                }
+                            else
+                                {
+                                    syslog(LOG_ERR,"Too big the datalength\n");
+                                    break;
+                                }
+                        }
+                    else
+                        {
+                            State =  CrcLow;
+                            continue;
+                        }
+                case Data :
+                    calculateCrc = addCRC(calculateCrc, data);
+                    *(receivingData->data) = data;
+                    State = CrcLow;
+                    continue;
+
+                case CrcLow :
+                    packetCrc = data;
+                    State = CrcHigh;
+                    continue;
+
+                case CrcHigh:
+                    packetCrc |=( data<< BYTE);
+                    if (compareCRC(packetCrc, calculateCrc))
+                        {
+                            if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm =1, not polling
+                                {
+                                    pthread_mutex_lock(&common->mutex);
+                                    TAILQ_INSERT_TAIL(&common->head,receivingData,entries);
+                                    pthread_mutex_unlock(&common->mutex);
+                                    Packetstatistic.validPacket++;
+                                }
+                            else
+                                {
+                                    Packetstatistic.emptyPacket++;
+                                    syslog(LOG_NOTICE,"Slave Keep Alive:%c\n",receivingData->address);
+                                }
+
+                        }
+                    break;
+                }
+
+            receivingData=NULL;
+            State = EmptyState;
+            syslog(LOG_NOTICE,"\n Packetstatistic\n packetError=%d\n",Packetstatistic.packetError);
+            syslog(LOG_NOTICE,"packet=%d\n",Packetstatistic.packet);
+            syslog(LOG_NOTICE,"validPacket=%d\n",Packetstatistic.validPacket);
+            syslog(LOG_NOTICE,"overrun=%d\n",Packetstatistic.overrun);
+            syslog(LOG_NOTICE,"emptyPacket=%d\n",Packetstatistic.emptyPacket);
+
+
+            sleep(SAMPTIME);    // alvoido
+        }
+
+    closelog();
 }
 
 QueueData *reserve(char data)
@@ -237,20 +233,20 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
     write(*fd, &datalength, ONEBYTE);
 
     if(datalength>0)
-    {
-        for (i=0; i<datalength; i++,data++)
         {
+            for (i=0; i<datalength; i++,data++)
+                {
+                    crc = addCRC(crc, *data);
+                    write(*fd,data,ONEBYTE);
+                }
+        }
+    else if(!datalength)
+        {
+            *data=ZERO;
             crc = addCRC(crc, *data);
             write(*fd,data,ONEBYTE);
-        }
-    }
-    else if(!datalength)
-    {
-        *data=ZERO;
-        crc = addCRC(crc, *data);
-        write(*fd,data,ONEBYTE);
 
-    }
+        }
     else
         return 0;
 
@@ -273,43 +269,43 @@ void sendRequest(void *arg)
     const char cmdTerm=1;
 
     while(1)
-    {
-
-        if(requestCounter==MAXREQUEST)
-            requestCounter=0;
-
-
-        requestType = requestCounter % 3;
-        ++requestCounter;
-
-        if(!requestType)
         {
-            while(addresses<=common->numbOfDev)
-            {
-                sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
-                addresses++;
 
-            }
+            if(requestCounter==MAXREQUEST)
+                requestCounter=0;
 
-            requestCounter++;
 
+            requestType = requestCounter % 3;
+            ++requestCounter;
+
+            if(!requestType)
+                {
+                    while(addresses<=common->numbOfDev)
+                        {
+                            sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
+                            addresses++;
+
+                        }
+
+                    requestCounter++;
+
+                }
+            else
+                {
+                    while(addresses<=common->numbOfDev)
+                        {
+                            sendPacket(&common->fd,addresses, cmdPing, NULL,0);
+                            addresses++;
+
+                        }
+
+                    requestCounter++;
+                }
+
+
+            addresses=0;
+            sleep(common->time);
         }
-        else
-        {
-            while(addresses<=common->numbOfDev)
-            {
-                sendPacket(&common->fd,addresses, cmdPing, NULL,0);
-                addresses++;
-
-            }
-
-            requestCounter++;
-        }
-
-
-        addresses=0;
-        sleep(common->time);
-    }
 
 }
 

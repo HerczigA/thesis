@@ -14,10 +14,10 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/queue.h>
-#include <time.h>
 #include <string.h>
 #include <pthread.h>
 #include <wiringPi.h>
+#include <syslog.h>
 #define RX 15
 #define TX 16
 #define DEVMIN 1
@@ -29,7 +29,6 @@
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
 #define MAXLINE 512
-#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
 #define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/config.txt"
 
 

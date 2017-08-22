@@ -2,15 +2,13 @@
 #define READING_H_INCLUDED
 #include <string.h>
 #include <sys/ioctl.h>
-#include <time.h>
 #include <sys/queue.h>
+#include <syslog.h>
 #include <pthread.h>
 #include <unistd.h>
 #include "header.h"
 #define LIMIT 1024
 #define FF 0xFF
-#define ERRORPATH "/home/herczig/Dokumentumok/errorlog.txt"
-#define LOGPATH "/home/herczig/Dokumentumok/Packet_log.txt"
 #define MAXREQUEST 30
 #define ONEBYTE 1
 #define SAMPTIME 1000
@@ -76,17 +74,7 @@ typedef struct queueData
     TAILQ_ENTRY(queueData) entries;
 } QueueData;
 
-/*
-typedef struct communication
-{
-    pthread_mutex_t mutex;
-    TAILQ_HEAD(tailhead,queueData) head;
-    int numbofDev;
-    float member;
-} Threadcommon;
 
-
-*/
 void  readingFromSerial(void *arg);
 QueueData *reserve(char data);
 void sendRequest(void *arg);
