@@ -29,7 +29,7 @@
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
 #define MAXLINE 512
-#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/config.txt"
+#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
 
 
 typedef struct communication
