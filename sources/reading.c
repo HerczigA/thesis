@@ -18,9 +18,7 @@ void  readingFromSerial(void *arg)
     PacketState State=EmptyState;
     Threadcommon *common=arg;
     int errnum;
-    // FILE * LogFile=fopen(LOGPATH,"w");
-    // FILE * errorfile=fopen(ERRORPATH,"w");
-    openlog(NULL,LOG_PID,LOG_LOCAL1);
+
     if (common->fd <0 )
         {
             errnum=common->fd;
@@ -30,6 +28,7 @@ void  readingFromSerial(void *arg)
 
     while(read(common->fd,&data,ONEBYTE))
         {
+            openlog(NULL,LOG_PID,LOG_LOCAL1);
             switch (State)
                 {
 
@@ -182,11 +181,11 @@ void  readingFromSerial(void *arg)
             syslog(LOG_NOTICE,"overrun=%d\n",Packetstatistic.overrun);
             syslog(LOG_NOTICE,"emptyPacket=%d\n",Packetstatistic.emptyPacket);
 
-
+            closelog();
             sleep(SAMPTIME);    // alvoido
         }
 
-    closelog();
+
 }
 
 QueueData *reserve(char data)

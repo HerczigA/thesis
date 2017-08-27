@@ -1,40 +1,39 @@
 CC=gcc
 CFLAGS=-g -Wall -Iheader -lm -lpthread
-HDIR=header
-SDIR=sources
+HDIR=$(header/$(*.h))
+SDIR=$(sources/$(*.c))
 HEADERS=header.h crc.h reading.h counting.h measuring.h counting.h
-OBJ= init.o counting.o crc.o reading.o measuring.o 
+OBJ:=$(patsubst %.c,%.o,$(SDIR))
 ALL=main.o counting.o crc.o reading.o init.o measuring.o
 
 
-thesis: main.o counting.o crc.o init.o reading.o measuring.o
-	gcc -o thesis main.o counting.o crc.o init.o reading.o measuring.o $(CFLAGS)
+#thesis: main.o counting.o crc.o init.o reading.o measuring.o
+#	gcc -o thesis main.o counting.o crc.o init.o reading.o measuring.o $(CFLAGS)
 
-main.o: main.c
-	gcc -c main.c $(CFLAGS) 
+#main.o: main.c
+#	gcc -c main.c $(CFLAGS) 
 
-Init.o: Init.c $(HDIR)/header.h
-	gcc -c sources/Init.c $(CFLAGS) 
+#Init.o: Init.c $(HDIR)/header.h
+#	gcc -c $(SDIR)/Init.c $(CFLAGS) 
 
-counting.o: counting.c $(HDIR)/counting.h
-	gcc -c sources/counting.c $(CFLAGS) 
+#counting.o: counting.c $(HDIR)/counting.h
+#	gcc -c $(SDIR)/counting.c $(CFLAGS) 
 
-measuring.o: measuring.c $(HDIR)/measuring.h
-	gcc -c sources/measuring.c $(CFLAGS) 
+#measuring.o: measuring.c $(HDIR)/measuring.h
+#	gcc -c $(SDIR)/measuring.c $(CFLAGS) 
 
-reading.o: reading.c $(HDIR)/reading.h
-	gcc -  sources/reading.c $(CFLAGS) 
+#reading.o: reading.c $(HDIR)/reading.h
+#	gcc -  $(SDIR)/reading.c $(CFLAGS) 
 
-crc.o: crc.c $(HDIR)/crc.h
-	gcc -c sources/crc.c $(CFLAGS) 
+#crc.o: crc.c $(HDIR)/crc.h
+#	gcc -c $(SDIR)/crc.c $(CFLAGS) 
 
-#thesis: $(ALL)
-#	$(CC) -o $@ $(OBJ) $(CFLAGS)
+thesis: $(OBJ)
+	$(CC) -o $@ $(OBJ) $(CFLAGS)
 
-#%.o: %.c $(HEADERS)
-#	$(CC) -c -o $@ $<  $(CFLAGS)
+%.o: $(SDIR) $(HDIR)
+	$(CC) -c -o $@ $<  $(CFLAGS)
 
-#.PHONY: all
 clean:
 	rm *.o 
 
