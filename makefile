@@ -1,38 +1,20 @@
 CC=gcc
-CFLAGS=-g -Wall -Iheader -lm -lpthread
-HDIR=$(header/$(*.h))
-SDIR=$(sources/$(*.c))
-HEADERS=header.h crc.h reading.h counting.h measuring.h counting.h
-OBJ:=$(patsubst %.c,%.o,$(SDIR))
-ALL=main.o counting.o crc.o reading.o init.o measuring.o
+CFLAGS=-g -Wall -lpthread -lwiringPi -Iheader
+HDIR=header/header.h header/reading.h header/measuring.h \
+header/crc.h header/counting.h 
+SDIR=sources/Init.c sources/reading.c sources/measuring.c \
+sources/crc.c sources/counting.c
+OBJ= Init.o counting.o crc.o reading.o measuring.o 
+ALL=main.o counting.o crc.o reading.o Init.o measuring.o
+RESULT=/home/herczig/thesis/thesis/app/thesis
 
-
-#thesis: main.o counting.o crc.o init.o reading.o measuring.o
-#	gcc -o thesis main.o counting.o crc.o init.o reading.o measuring.o $(CFLAGS)
-
-#main.o: main.c
-#	gcc -c main.c $(CFLAGS) 
-
-#Init.o: Init.c $(HDIR)/header.h
-#	gcc -c $(SDIR)/Init.c $(CFLAGS) 
-
-#counting.o: counting.c $(HDIR)/counting.h
-#	gcc -c $(SDIR)/counting.c $(CFLAGS) 
-
-#measuring.o: measuring.c $(HDIR)/measuring.h
-#	gcc -c $(SDIR)/measuring.c $(CFLAGS) 
-
-#reading.o: reading.c $(HDIR)/reading.h
-#	gcc -  $(SDIR)/reading.c $(CFLAGS) 
-
-#crc.o: crc.c $(HDIR)/crc.h
-#	gcc -c $(SDIR)/crc.c $(CFLAGS) 
-
-thesis: $(OBJ)
-	$(CC) -o $@ $(OBJ) $(CFLAGS)
-
-%.o: $(SDIR) $(HDIR)
+$(RESULT): $(ALL)
+	$(CC) -o $@ $(ALL) $(CFLAGS)
+main.o: main.c 
+	$(CC) -c main.c $(CFLAGS) 
+%.o: sources/%.c 
 	$(CC) -c -o $@ $<  $(CFLAGS)
+
 
 clean:
 	rm *.o 

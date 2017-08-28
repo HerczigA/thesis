@@ -217,13 +217,10 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
 
     write(*fd,&motorolaFF,ONEBYTE);
     write(*fd,&motorola1,ONEBYTE);
-
     crc = addCRC(crc, address);
     write (*fd,&address,ONEBYTE);
-
     crc = addCRC(crc, cmd);
     write(*fd,&cmd,ONEBYTE);
-
     datalength= dLen;
     crc = addCRC(crc,datalength);
     write(*fd, &datalength, ONEBYTE);
