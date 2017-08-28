@@ -1,10 +1,5 @@
 CC=gcc
 CFLAGS=-g -Wall -lpthread -lwiringPi -Iheader
-HDIR=header/header.h header/reading.h header/measuring.h \
-header/crc.h header/counting.h 
-SDIR=sources/Init.c sources/reading.c sources/measuring.c \
-sources/crc.c sources/counting.c
-OBJ= Init.o counting.o crc.o reading.o measuring.o 
 ALL=main.o counting.o crc.o reading.o Init.o measuring.o
 RESULT=/home/herczig/thesis/thesis/app/thesis
 
