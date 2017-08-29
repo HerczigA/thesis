@@ -20,7 +20,7 @@
 #include <syslog.h>
 #define RX 15
 #define TX 16
-#define DEVMIN 1
+#define DEVMIN 0
 #define DEVMAX 99
 #define DEFBAUD 9600
 #define DELTAMAX 50
