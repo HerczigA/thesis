@@ -258,7 +258,7 @@ void sendRequest(void *arg)
 {
 
     Threadcommon *common=arg;
-    int addresses=0;
+    int addresses=1;
     unsigned char requestType;
     unsigned char requestCounter=0;
     const char cmdPing=0;
@@ -278,9 +278,10 @@ void sendRequest(void *arg)
                 {
                     while(addresses<=common->numbOfDev)
                         {
-                            sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
-                            addresses++;
-
+                            if(common->sensors[addresses]->state)
+                                sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
+                                addresses++;
+                                sleep(common->time);
                         }
 
                     requestCounter++;
@@ -290,9 +291,10 @@ void sendRequest(void *arg)
                 {
                     while(addresses<=common->numbOfDev)
                         {
-                            sendPacket(&common->fd,addresses, cmdPing, NULL,0);
-                            addresses++;
-
+                            if(common->sensors[addresses]->state)
+                                sendPacket(&common->fd,addresses, cmdPing, NULL,0);
+                                addresses++;
+                                sleep(common->time);
                         }
 
                     requestCounter++;
@@ -300,8 +302,6 @@ void sendRequest(void *arg)
 
 
             addresses=0;
-            sleep(common->time);
         }
-
 }
 

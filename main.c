@@ -8,13 +8,12 @@
 
 int main()
 {
-    struct termios old_term,*term;
-    term=NULL;
+    struct termios old_term,*term=NULL;
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
 
     ReadConfig(&threadHandle);
-    if(InitSerialPort(&old_term,term,&threadHandle))
+    if(InitSerialPort(&old_term,term,&threadHandle)|| !(threadHandle.numbOfDev))
         return -1;
     queueInit(&threadHandle);
     pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
@@ -25,5 +24,6 @@ int main()
     pthread_join(processor_thread,NULL);
 
     setBackTermios(&threadHandle,&old_term,term);
+
     return 0;
 }

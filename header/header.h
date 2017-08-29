@@ -31,6 +31,14 @@
 #define MAXLINE 512
 #define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
 
+typedef struct devices
+{
+    int address;
+    char *names;
+    int state;
+
+}Slaves;
+
 
 typedef struct communication
 {
@@ -43,6 +51,8 @@ typedef struct communication
     int samplingTime;
     int Delta;
     float members;
+    Slaves *sensors;
+
 } Threadcommon;
 
 

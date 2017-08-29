@@ -31,14 +31,14 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *a
         {
             errornum=(int)arg->fd;
             syslog(LOG_ERR,"%s\n",strerror(errornum));
-            return 1;
+            return -1;
         }
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
             errornum=(int)term;
             syslog(LOG_ERR,"%s\n",strerror(errornum));
-            return -1;
+            return -2;
         }
     tcgetattr(arg->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
@@ -68,15 +68,25 @@ void ReadConfig(Threadcommon *arg)
     if(!arg)
         return;
     char buffer[MAXLINE];
+    char *temp=NULL;
     char *p=NULL;
     int errnum;
-    char equalsign='=';
-
+    int i=0;
+    temp=malloc(MAXLINE*sizeof(char));
+    const char equalsign='=';
+    const char tabulator='\t'
     FILE *fconfig;
 
     openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
     errnum=(int)fconfig;
+    arg->BAUD=0;
+    arg->Delta=0;
+    arg->members=0;
+    arg->numbOfDev=0;
+    arg->samplingTime=0;
+    arg->time=0;
+
     if(fconfig)
         {
 
@@ -105,6 +115,8 @@ void ReadConfig(Threadcommon *arg)
                                     arg->numbOfDev=atoi(p);
                                     if(arg->numbOfDev<DEVMIN || arg->numbOfDev>DEVMAX)
                                         arg->numbOfDev=DEVMIN;
+                                    else
+                                        arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
 
                                     continue;
 
@@ -149,6 +161,18 @@ void ReadConfig(Threadcommon *arg)
 
                                     continue;
 
+                                case 'a':
+                                    while(--arg->numbOfDev)
+                                        {
+                                            char *proba;
+                                            fgets(temp,MAXLINE,fconfig);
+                                            p=strchr(temp,tabulator);
+                                            proba=buffer;
+                                            proba+p-1='\0';
+                                            arg->sensors[i]->address=atoi();
+
+                                        }
+                                        free(temp);
                                 }
                         }
                     else
@@ -161,11 +185,15 @@ void ReadConfig(Threadcommon *arg)
             if(!arg->members)
                 arg->members=MEMBERSMIN;
             if(!arg->numbOfDev)
-                arg->numbOfDev=DEVMIN;
+                {
+                    arg->numbOfDev=DEVMIN;
+                    syslog(LOG_ERR,"There are no devices in config \n");
+                }
             if(!arg->samplingTime)
                 arg->samplingTime=DEFTIME;
             if(!arg->time)
                 arg->time=REQUESTTIME;
+
         }
     else
         syslog(LOG_ERR,"%s\n",strerror(errnum));
@@ -187,7 +215,6 @@ int queueInit(Threadcommon *arg)
     if(!(arg))
         return -1;
 
-    //TAILQ_HEAD(&arg->head,queueData) InHead;
     TAILQ_INIT(&arg->head);
     pthread_mutex_init(&arg->mutex,NULL);
     return 0;

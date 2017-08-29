@@ -10,3 +10,10 @@ Baudrate=38400
 Delta=100
 
 membersOfMovingAverage=3.4
+
+address(es)			name(s)			state(s)
+1				eloszoba		1
+2				konyha			1
+3				haloszoba		0
+4				nappali			1
+5				erkely			1
