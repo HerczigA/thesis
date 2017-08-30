@@ -69,12 +69,14 @@ void ReadConfig(Threadcommon *arg)
         return;
     char buffer[MAXLINE];
     char *temp=NULL;
+    char *proba=NULL;
     char *p=NULL;
+    int diff;
     int errnum;
     int i=0;
     temp=malloc(MAXLINE*sizeof(char));
     const char equalsign='=';
-    const char tabulator='\t'
+    const char tabulator='\t';
     FILE *fconfig;
 
     openlog(NULL,LOG_PID,LOG_LOCAL1);
@@ -161,15 +163,27 @@ void ReadConfig(Threadcommon *arg)
 
                                     continue;
 
-                                case 'a':
-                                    while(--arg->numbOfDev)
+                                case 'a':           //address list
+
+                                    while(i!=arg->numbOfDev)
                                         {
-                                            char *proba;
                                             fgets(temp,MAXLINE,fconfig);
                                             p=strchr(temp,tabulator);
-                                            proba=buffer;
-                                            proba+p-1='\0';
-                                            arg->sensors[i]->address=atoi();
+                                            proba=temp;
+                                            diff=p-proba;
+                                            proba[diff]='\0';
+                                            arg->sensors[i]->address=atoi(proba);
+                                            while(!isalpha(temp))
+                                                temp++;
+                                            p=strchr(temp,tabulator);
+                                            proba=temp;
+                                            diff=p-proba;
+                                            proba[diff]='\0';
+                                            strcpy(arg->sensors[i]->names,proba);
+                                            while(!isdigit(temp))
+                                                temp++;
+                                            arg->sensors[i]->state=atoi(temp);
+                                            i++;
 
                                         }
                                         free(temp);

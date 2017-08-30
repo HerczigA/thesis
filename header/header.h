@@ -18,6 +18,7 @@
 #include <pthread.h>
 #include <wiringPi.h>
 #include <syslog.h>
+#include <ctype.h>
 #define RX 15
 #define TX 16
 #define DEVMIN 0
