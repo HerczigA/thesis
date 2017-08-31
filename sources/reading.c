@@ -278,7 +278,7 @@ void sendRequest(void *arg)
                 {
                     while(addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[addresses]->state)
+                            if(common->sensors[addresses].state)
                                 sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
                                 addresses++;
                                 sleep(common->time);
@@ -291,7 +291,7 @@ void sendRequest(void *arg)
                 {
                     while(addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[addresses]->state)
+                            if(common->sensors[addresses].state)
                                 sendPacket(&common->fd,addresses, cmdPing, NULL,0);
                                 addresses++;
                                 sleep(common->time);

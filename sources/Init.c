@@ -68,26 +68,25 @@ void ReadConfig(Threadcommon *arg)
     if(!arg)
         return;
     char buffer[MAXLINE];
-    char *temp=NULL;
-    char *proba=NULL;
+    char *masod=NULL;
     char *p=NULL;
-    int diff;
     int errnum;
-    int i=0;
-    temp=malloc(MAXLINE*sizeof(char));
+    int i=ZERO;
+    int len;
     const char equalsign='=';
-    const char tabulator='\t';
+    const char tab='\t';
     FILE *fconfig;
 
     openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
     errnum=(int)fconfig;
-    arg->BAUD=0;
-    arg->Delta=0;
-    arg->members=0;
-    arg->numbOfDev=0;
-    arg->samplingTime=0;
-    arg->time=0;
+
+    arg->BAUD=ZERO;
+    arg->Delta=ZERO;
+    arg->members=ZERO;
+    arg->numbOfDev=ZERO;
+    arg->samplingTime=ZERO;
+    arg->time=ZERO;
 
     if(fconfig)
         {
@@ -163,31 +162,33 @@ void ReadConfig(Threadcommon *arg)
 
                                     continue;
 
-                                case 'a':           //address list
-
+                                case 'a':           //addresses list
+                                    arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
                                     while(i!=arg->numbOfDev)
                                         {
-                                            fgets(temp,MAXLINE,fconfig);
-                                            p=strchr(temp,tabulator);
-                                            proba=temp;
-                                            diff=p-proba;
-                                            proba[diff]='\0';
-                                            arg->sensors[i]->address=atoi(proba);
-                                            while(!isalpha(temp))
-                                                temp++;
-                                            p=strchr(temp,tabulator);
-                                            proba=temp;
-                                            diff=p-proba;
-                                            proba[diff]='\0';
-                                            strcpy(arg->sensors[i]->names,proba);
-                                            while(!isdigit(temp))
-                                                temp++;
-                                            arg->sensors[i]->state=atoi(temp);
+                                            fgets(buffer,MAXLINE,fconfig);
+                                            p=strrchr(buffer,tab);
+                                            masod=++p;
+                                            p=p+2;
+                                            *p='\0';
+                                            arg->sensors[i].state=atoi(masod);
+                                            p=strchr(buffer,tab);
+                                            while(!(isalpha(*p)))
+                                                p++;
+                                            masod=p;
+                                            while(isalpha(*p))
+                                                p++;
+                                            *p='\0';
+                                            len=strlen(masod);
+                                            arg->sensors[i].names=malloc(len*sizeof(char));
+                                            strcpy(arg->sensors[i].names,masod);
+                                            p=strchr(buffer,tab);
+                                            *p='\0';
+                                            arg->sensors[i].address=atoi(buffer);
                                             i++;
 
                                         }
-                                        free(temp);
-                                }
+                                    }
                         }
                     else
                         continue;
@@ -244,6 +245,11 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *t
     if(!(old&&term))
         exit(-1);
     tcsetattr(fileconf->fd,TCSANOW,old);
+    while(fileconf->numbOfDev--)
+        {
+            free(fileconf->sensors[fileconf->numbOfDev].names);
+            free(&fileconf->sensors[fileconf->numbOfDev]);
+        }
     free(term);
 }
 

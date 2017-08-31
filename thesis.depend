@@ -93,7 +93,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1503166106 source:/home/herczig/thesis/thesis/main.c
+1504208903 source:/home/herczig/thesis/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -102,10 +102,10 @@
 	"header/counting.h"
 	"header/measuring.h"
 
-1503166106 /home/herczig/thesis/thesis/header/crc.h
+1504033973 /home/herczig/thesis/thesis/header/crc.h
 	<stdint.h>
 
-1503394710 /home/herczig/thesis/thesis/header/header.h
+1504212319 /home/herczig/thesis/thesis/header/header.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
@@ -121,8 +121,9 @@
 	<pthread.h>
 	<wiringPi.h>
 	<syslog.h>
+	<ctype.h>
 
-1503395521 /home/herczig/thesis/thesis/header/reading.h
+1504033973 /home/herczig/thesis/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -131,16 +132,16 @@
 	<unistd.h>
 	"header.h"
 
-1503166106 /home/herczig/thesis/thesis/header/counting.h
+1504033973 /home/herczig/thesis/thesis/header/counting.h
 	"measuring.h"
 
-1503395737 /home/herczig/thesis/thesis/header/measuring.h
+1504033973 /home/herczig/thesis/thesis/header/measuring.h
 	<unistd.h>
 	<syslog.h>
 	<sys/queue.h>
 	<string.h>
 
-1503166106 source:/home/herczig/thesis/thesis/sources/counting.c
+1504033973 source:/home/herczig/thesis/thesis/sources/counting.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -148,27 +149,27 @@
 	"../header/reading.h"
 	"../header/measuring.h"
 
-1503166106 source:/home/herczig/thesis/thesis/sources/crc.c
+1504033973 source:/home/herczig/thesis/thesis/sources/crc.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
 	"../header/crc.h"
 
-1503394851 source:/home/herczig/thesis/thesis/sources/Init.c
+1504212251 source:/home/herczig/thesis/thesis/sources/Init.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1503396033 source:/home/herczig/thesis/thesis/sources/measuring.c
+1504033973 source:/home/herczig/thesis/thesis/sources/measuring.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1503395611 source:/home/herczig/thesis/thesis/sources/reading.c
+1504208852 source:/home/herczig/thesis/thesis/sources/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"

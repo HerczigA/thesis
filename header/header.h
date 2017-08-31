@@ -21,6 +21,7 @@
 #include <ctype.h>
 #define RX 15
 #define TX 16
+#define ZERO 0
 #define DEVMIN 0
 #define DEVMAX 99
 #define DEFBAUD 9600
@@ -29,8 +30,9 @@
 #define MEMBERSMIN 3.0
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
-#define MAXLINE 512
-#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
+#define MAXLINE 128
+#define MAXNAME 30
+#define pathOfConfig "/home/herczig/thesis/thesis/util/config.txt"
 
 typedef struct devices
 {

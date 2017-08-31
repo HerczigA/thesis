@@ -11,6 +11,7 @@ int main()
     struct termios old_term,*term=NULL;
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
+    threadHandle.sensors=NULL;
 
     ReadConfig(&threadHandle);
     if(InitSerialPort(&old_term,term,&threadHandle)|| !(threadHandle.numbOfDev))
