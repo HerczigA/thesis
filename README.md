@@ -15,5 +15,7 @@ Important to check the config.txt path in header/header.h. You have to give the 
     You can set how freqvently rotate the syslogs and how many days of logs compress
 
 content of rsyslog.conf and logrotate.conf have to copy to the proper place BEFORE you use the app! 
+Import to set the proper path in makefile for the target app!
 
-#define pathOfConfig
+Used extra library : WiringPi.h 
+
