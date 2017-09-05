@@ -67,7 +67,8 @@ void ReadConfig(Threadcommon *arg)
 {
     if(!arg)
         return;
-    char buffer[MAXLINE];
+    char *buffer[MAXCHAR];
+    char *temp;
     char *masod=NULL;
     char *p=NULL;
     int errnum;
@@ -91,8 +92,16 @@ void ReadConfig(Threadcommon *arg)
     if(fconfig)
         {
 
-            while(fgets(buffer,MAXLINE,fconfig))
+            while(fgets(temp,MAXCHAR,fconfig))
                 {
+                  /*  if(temp[strlen(temp)-1]==';')
+                    {
+                        temp[]
+                        strcat(buffer[i],temp);
+                    i++;
+                    }*/
+
+
 
                     if(*buffer!='\n')      //minimum the second function
                         {
@@ -254,6 +263,25 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *t
 }
 
 
+
+char configlist(char **buffer)
+{
+    char temp[MAXCHAR];
+    FILE *fconfig;
+    int i=0;
+    fconfig=fopen(pathOfConfig,"r");
+    while(fgets(temp,MAXCHAR,fconfig))
+    {
+        if(temp[strlen(temp)-2]==';')
+            {
+                temp[strlen(temp)-2]='\0';
+                strcat(buffer[i],temp);
+                i++;
+            }
+
+    }
+    return *buffer;
+}
 
 
 

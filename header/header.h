@@ -30,9 +30,9 @@
 #define MEMBERSMIN 3.0
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
-#define MAXLINE 128
-#define MAXNAME 30
-#define pathOfConfig "/home/herczig/thesis/thesis/util/config.txt"
+#define MAXLINE 10
+#define MAXCHAR 128
+#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
 
 typedef struct devices
 {
