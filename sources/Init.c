@@ -264,7 +264,7 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *t
 
 
 
-char configlist(char **buffer)
+int configlist(char **buffer)
 {
     char temp[MAXCHAR];
     FILE *fconfig;
@@ -274,13 +274,15 @@ char configlist(char **buffer)
     {
         if(temp[strlen(temp)-2]==';')
             {
+                buffer[i]=malloc((strlen(temp)-2)*sizeof(char));
                 temp[strlen(temp)-2]='\0';
-                strcat(buffer[i],temp);
+                strcpy(buffer[i],temp);
                 i++;
             }
 
     }
-    return *buffer;
+    i--;
+    return i;
 }
 
 
