@@ -67,7 +67,7 @@ void ReadConfig(Threadcommon *arg)
 {
     if(!arg)
         return;
-    char *buffer[MAXCHAR];
+    char *buffer[MAXLINE];
     char *temp;
     char *masod=NULL;
     char *p=NULL;
@@ -76,11 +76,7 @@ void ReadConfig(Threadcommon *arg)
     int len;
     const char equalsign='=';
     const char tab='\t';
-    FILE *fconfig;
-
     openlog(NULL,LOG_PID,LOG_LOCAL1);
-    fconfig=fopen(pathOfConfig,"r");
-    errnum=(int)fconfig;
 
     arg->BAUD=ZERO;
     arg->Delta=ZERO;
@@ -89,17 +85,9 @@ void ReadConfig(Threadcommon *arg)
     arg->samplingTime=ZERO;
     arg->time=ZERO;
 
-    if(fconfig)
-        {
-
-            while(fgets(temp,MAXCHAR,fconfig))
-                {
-                  /*  if(temp[strlen(temp)-1]==';')
-                    {
-                        temp[]
-                        strcat(buffer[i],temp);
-                    i++;
-                    }*/
+    i=configlist(buffer);
+    while(--i)
+       {
 
 
 
@@ -202,6 +190,8 @@ void ReadConfig(Threadcommon *arg)
                     else
                         continue;
                 }
+
+        syslog(LOG_ERR,"%s\n",strerror(errnum));
             if(!arg->BAUD)
                 arg->BAUD=DEFBAUD;
             if(!arg->Delta)
@@ -218,9 +208,8 @@ void ReadConfig(Threadcommon *arg)
             if(!arg->time)
                 arg->time=REQUESTTIME;
 
-        }
-    else
-        syslog(LOG_ERR,"%s\n",strerror(errnum));
+
+
 
     fclose(fconfig);
     closelog();
@@ -266,22 +255,26 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *t
 
 int configlist(char **buffer)
 {
-    char temp[MAXCHAR];
+    char *temp=NULL;
     FILE *fconfig;
     int i=0;
     fconfig=fopen(pathOfConfig,"r");
+    temp=malloc(MAXCHAR*sizeof(char));
+
     while(fgets(temp,MAXCHAR,fconfig))
     {
-        if(temp[strlen(temp)-2]==';')
+        if(strchr(temp,';'))
             {
-                buffer[i]=malloc((strlen(temp)-2)*sizeof(char));
-                temp[strlen(temp)-2]='\0';
+                buffer[i]=malloc((strlen(temp)-1)*sizeof(char));
+                temp[strlen(temp)-1]='\0';
                 strcpy(buffer[i],temp);
                 i++;
             }
 
     }
+
     i--;
+    free(temp);
     return i;
 }
 
