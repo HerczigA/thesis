@@ -32,7 +32,7 @@
 #define TOPMEASURES 15
 #define MAXLINE 10
 #define MAXCHAR 128
-#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
+#define pathOfConfig "/home/herczig/thesis/thesis/util/config.txt"
 
 typedef struct devices
 {
@@ -59,7 +59,7 @@ typedef struct communication
 } Threadcommon;
 
 
-int configlist(char **buffer)
+void configlist(char **buffer,Threadcommon *arg);
 void ReadConfig(Threadcommon *arg);
 int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *arg);
 int queueInit(Threadcommon *arg);

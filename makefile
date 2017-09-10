@@ -1,12 +1,12 @@
 CC=gcc
 CFLAGS=-g -Wall -lpthread -lwiringPi -Iheader
-ALL=main.o counting.o crc.o reading.o Init.o measuring.o
+SRC=$(wildcard sources/%.c)
+OBJ=$(SRC:.c=.o)
+ALL=$(wildcard %.o)
 RESULT=/home/herczig/thesis/thesis/app/thesis
 
 $(RESULT): $(ALL)
-	$(CC) -o $@ $(ALL) $(CFLAGS)
-main.o: main.c 
-	$(CC) -c main.c $(CFLAGS) 
+	$(CC) -o $@ $(ALL) $(CFLAGS) 
 %.o: sources/%.c 
 	$(CC) -c -o $@ $<  $(CFLAGS)
 

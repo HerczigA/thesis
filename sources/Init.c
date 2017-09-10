@@ -68,15 +68,6 @@ void ReadConfig(Threadcommon *arg)
     if(!arg)
         return;
     char *buffer[MAXLINE];
-    char *temp;
-    char *masod=NULL;
-    char *p=NULL;
-    int errnum;
-    int i=ZERO;
-    int len;
-    const char equalsign='=';
-    const char tab='\t';
-    openlog(NULL,LOG_PID,LOG_LOCAL1);
 
     arg->BAUD=ZERO;
     arg->Delta=ZERO;
@@ -85,136 +76,7 @@ void ReadConfig(Threadcommon *arg)
     arg->samplingTime=ZERO;
     arg->time=ZERO;
 
-    i=configlist(buffer);
-    while(--i)
-       {
-
-
-
-                    if(*buffer!='\n')      //minimum the second function
-                        {
-
-                            switch(*buffer)
-                                {
-                                case 'R':       //Delay time for sending request
-                                    p=strchr(buffer,equalsign);
-                                    p++;
-                                    p[strlen(p)-1]='\0';
-                                    arg->time=atoi(p);
-                                    if(arg->time<REQUESTTIME || arg->time>MAXTIME)
-                                        arg->time=REQUESTTIME;
-
-                                    continue;
-
-                                case 'n':       //Number of devices
-                                    p=strchr(buffer,equalsign);
-                                    p++;
-                                    p[strlen(p)-1]='\0';
-                                    arg->numbOfDev=atoi(p);
-                                    if(arg->numbOfDev<DEVMIN || arg->numbOfDev>DEVMAX)
-                                        arg->numbOfDev=DEVMIN;
-                                    else
-                                        arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
-
-                                    continue;
-
-                                case 's':       //SamplingTime
-                                    p=strchr(buffer,equalsign);
-                                    p++;
-                                    p[strlen(p)-1]='\0';
-                                    arg->samplingTime=atoi(p);
-                                    if(arg->samplingTime<DEFTIME || arg->samplingTime>MAXTIME)
-                                        arg->samplingTime=DEFTIME;
-
-                                    continue;
-
-                                case 'B':       //Baudrate
-
-                                    p=strchr(buffer,equalsign);
-                                    p++;
-                                    p[strlen(p)-1]='\0';
-                                    arg->BAUD=atoi(p);
-                                    if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
-                                        arg->BAUD=DEFBAUD;
-
-                                    continue;
-
-                                case 'D':           //Delta for moving histeresys
-                                    p=strchr(buffer,equalsign);
-                                    p++;
-                                    p[strlen(p)-1]='\0';
-                                    arg->Delta=atoi(p);
-                                    if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX)
-                                        arg->Delta=DELTAMIN;
-
-                                    continue;
-
-                                case 'm':           //members to flowchart
-                                    p=strchr(buffer,equalsign);
-                                    p++;
-                                    p[strlen(p)-1]='\0';
-                                    arg->members=atof(p);
-                                    if(arg->members!=MEMBERSMIN || arg->members!=MEMBERSMAX)
-                                        arg->members=MEMBERSMIN;
-
-                                    continue;
-
-                                case 'a':           //addresses list
-                                    arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
-                                    while(i!=arg->numbOfDev)
-                                        {
-                                            fgets(buffer,MAXLINE,fconfig);
-                                            p=strrchr(buffer,tab);
-                                            masod=++p;
-                                            p=p+2;
-                                            *p='\0';
-                                            arg->sensors[i].state=atoi(masod);
-                                            p=strchr(buffer,tab);
-                                            while(!(isalpha(*p)))
-                                                p++;
-                                            masod=p;
-                                            while(isalpha(*p))
-                                                p++;
-                                            *p='\0';
-                                            len=strlen(masod);
-                                            arg->sensors[i].names=malloc(len*sizeof(char));
-                                            strcpy(arg->sensors[i].names,masod);
-                                            p=strchr(buffer,tab);
-                                            *p='\0';
-                                            arg->sensors[i].address=atoi(buffer);
-                                            i++;
-
-                                        }
-                                    }
-                        }
-                    else
-                        continue;
-                }
-
-        syslog(LOG_ERR,"%s\n",strerror(errnum));
-            if(!arg->BAUD)
-                arg->BAUD=DEFBAUD;
-            if(!arg->Delta)
-                arg->Delta=DELTAMIN;
-            if(!arg->members)
-                arg->members=MEMBERSMIN;
-            if(!arg->numbOfDev)
-                {
-                    arg->numbOfDev=DEVMIN;
-                    syslog(LOG_ERR,"There are no devices in config \n");
-                }
-            if(!arg->samplingTime)
-                arg->samplingTime=DEFTIME;
-            if(!arg->time)
-                arg->time=REQUESTTIME;
-
-
-
-
-    fclose(fconfig);
-    closelog();
-
-
+    configlist(buffer,arg);
 }
 
 
@@ -253,29 +115,175 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *t
 
 
 
-int configlist(char **buffer)
+void configlist(char **buffer,Threadcommon *arg)
 {
+    const char equalsign='=';
+    const char tab='\t';
     char *temp=NULL;
+    char *p=NULL;
+    char *seged=NULL;
     FILE *fconfig;
-    int i=0;
+    int i,j,len;
+    i=j=0;
     fconfig=fopen(pathOfConfig,"r");
     temp=malloc(MAXCHAR*sizeof(char));
 
     while(fgets(temp,MAXCHAR,fconfig))
-    {
-        if(strchr(temp,';'))
-            {
-                buffer[i]=malloc((strlen(temp)-1)*sizeof(char));
-                temp[strlen(temp)-1]='\0';
-                strcpy(buffer[i],temp);
-                i++;
-            }
+        {
+            if(strchr(temp,';'))
+                {
+                    buffer[i]=malloc((strlen(temp))*sizeof(char));
+                    strcpy(buffer[i],temp);
+                    i++;
+                }
 
-    }
-
-    i--;
+        }
+    fclose(fconfig);
     free(temp);
-    return i;
+    i=0;
+    while(!(strchr(buffer[i],tab)))
+        {
+            if((p=strchr(buffer[i],equalsign)))
+                {
+                    len=strlen(p)-1;
+                    p++;
+                    if(strstr(buffer[i],"Request"))
+                        {
+                            if((p[len]='\n'))
+                                p[len-2]='\0';
+                            else
+                                p[len-1]='\0';
+                            arg->time=atoi(p);
+                            if(arg->time<REQUESTTIME || arg->time>MAXTIME || !arg->time)
+                                arg->time=REQUESTTIME;
+
+                        }
+                    if(strstr(buffer[i],"Device"))
+                        {
+
+                            if((p[len]='\n'))
+                                p[len-2]='\0';
+                            else
+                                p[len-1]='\0';
+
+                            arg->numbOfDev=atoi(p);
+                            if(arg->numbOfDev<DEVMIN|| arg->numbOfDev>DEVMAX|| !arg->numbOfDev)
+                                arg->numbOfDev=DEVMIN;
+                        }
+                    if(strstr(buffer[i],"sampling"))
+                        {
+
+                            if((p[len]='\n'))
+                                p[len-2]='\0';
+                            else
+                                p[len-1]='\0';
+
+                            arg->samplingTime=atoi(p);
+                            if(arg->samplingTime<DEFTIME|| arg->samplingTime>MAXTIME|| !arg->samplingTime)
+                                arg->samplingTime=DEFTIME;
+                        }
+                    if(strstr(buffer[i],"Baud"))
+                        {
+
+                            if((p[len]='\n'))
+                                p[len-2]='\0';
+                            else
+                                p[len-1]='\0';
+                            arg->BAUD=atoi(p);
+                            if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
+                                arg->BAUD=DEFBAUD;
+
+                        }
+                    if(strstr(buffer[i],"Delta"))
+                        {
+
+                            if((p[len]='\n'))
+                                p[len-2]='\0';
+                            else
+                                p[len-1]='\0';
+
+                            arg->Delta=atoi(p);
+                            if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX|| !arg->Delta)
+                                arg->Delta=DELTAMIN;
+                        }
+                    if(strstr(buffer[i],"member"))
+                        {
+
+                            if((p[len]='\n'))
+                                p[len-2]='\0';
+                            else
+                                p[len-1]='\0';
+
+                            arg->members=atof(p);
+                            if(arg->members<MEMBERSMIN || arg->members>MEMBERSMAX|| !arg->members)
+                                arg->members=MEMBERSMIN;
+
+                        }
+                    i++;
+                }
+        }
+    if(!arg->BAUD)
+        arg->BAUD=DEFBAUD;
+    if(!arg->Delta)
+        arg->Delta=DELTAMIN;
+    if(!arg->members)
+        arg->members=MEMBERSMIN;
+    if(!arg->numbOfDev)
+        {
+            arg->numbOfDev=DEVMIN;
+            openlog(NULL,LOG_PID,LOG_LOCAL1);
+            syslog(LOG_ERR,"There are no devices in config \n");
+            closelog();
+        }
+    if(!arg->samplingTime)
+        arg->samplingTime=DEFTIME;
+    if(!arg->time)
+        arg->time=REQUESTTIME;
+
+    if(arg->numbOfDev)
+        {
+            arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
+            int sensnmb=0;
+            while(--arg->numbOfDev)
+                {
+                    if((p=strrchr(buffer[i],tab)))
+                        {
+                            p++;
+                            seged=buffer[i];
+                            len=strlen(p)-1;
+                            if(p[len]=='\n')
+                                {
+                                    p[len-1]='\0';
+                                    arg->sensors[sensnmb].state=atoi(p);
+                                }
+                            else if(p[len]==';')
+                                {
+                                    p[len]='\0';
+                                    arg->sensors[sensnmb].state=atoi(p);
+                                }
+                            while(!(isalpha(*seged)))
+                                seged++;
+                            p=seged;
+                            while(isalpha(*p))
+                                p++;
+                            *p='\0';
+                            arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
+                            strcpy(arg->sensors[sensnmb].names,p);
+                            p=buffer[i];
+                            while(isdigit(*p))
+                                p++;
+                            *p='\0';
+                            arg->sensors[sensnmb].address=atoi(buffer[i]);
+                            i++;
+                            sensnmb++;
+
+
+                        }
+                }
+        }
+    p=NULL;
+    seged=NULL;
+
 }
 
 
