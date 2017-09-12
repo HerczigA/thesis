@@ -1,18 +1,22 @@
 CC=gcc
 CFLAGS=-g -Wall -lpthread -lwiringPi -Iheader
-SRC=$(wildcard sources/%.c)
-OBJ=$(SRC:.c=.o)
-ALL=$(wildcard %.o)
+SRC:=$(wildcard src/*.c)
+OBJ:=$(wildcard *.o)
+#OBJ=$(patsubst src/%.c,obj/%.o, $(SRC))
+#ALL:=$(wildcard %.o) main.o
+ALL= main.o counting.o crc.o measuring.o reading.o Init.o
 RESULT=/home/herczig/thesis/thesis/app/thesis
 
-$(RESULT): $(ALL)
+$(RESULT): main.o $(OBJ)
 	$(CC) -o $@ $(ALL) $(CFLAGS) 
-%.o: sources/%.c 
+main.o:main.c
+	$(CC) -c main.c $(CFLAGS)
+$(OBJ):src/%.c 
 	$(CC) -c -o $@ $<  $(CFLAGS)
 
 
 clean:
-	rm *.o 
+	rm *.o src/*.o  $(RESULT)
 
 
 #$*	Teljes forrasfile neve kiterjesztes nelkul
@@ -21,3 +25,6 @@ clean:
 #$&.	forrasfile neve path nelku(kiterjesztes nelkul)
 #$:	csak a path
 #$@	Teljes aktualis target neve
+
+
+

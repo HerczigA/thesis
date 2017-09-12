@@ -43,6 +43,7 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="makefile" />
 		<Unit filename="sources/Init.c">
 			<Option compilerVar="CC" />
 		</Unit>
