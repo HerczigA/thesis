@@ -1,22 +1,23 @@
 CC=gcc
 CFLAGS=-g -Wall -lpthread -lwiringPi -Iheader
-SRC:=$(wildcard src/*.c)
-OBJ:=$(wildcard *.o)
-#OBJ=$(patsubst src/%.c,obj/%.o, $(SRC))
-#ALL:=$(wildcard %.o) main.o
-ALL= main.o counting.o crc.o measuring.o reading.o Init.o
+SRC:=src/%.c
+OBJDIR:=$(patsubst src/%.c, obj/%.o, src/*.c,main.c)
+OBJ:=obj/%.o
+#OBJDIR=obj/
+ALL=obj/*.o
+#ALL=obj/main.o obj/Init.o obj/reading.o obj/measuring.o obj/crc.o obj/counting.o
 RESULT=/home/herczig/thesis/thesis/app/thesis
 
-$(RESULT): main.o $(OBJ)
-	$(CC) -o $@ $(ALL) $(CFLAGS) 
-main.o:main.c
-	$(CC) -c main.c $(CFLAGS)
-$(OBJ):src/%.c 
-	$(CC) -c -o $@ $<  $(CFLAGS)
+$(RESULT):$(ALL) 
+	$(CC) -o $@ $< $(CFLAGS) 
+$(OBJDIR)main.o:main.c 
+	$(CC) -c -o $@ $< $(CFLAGS)
+$(OBJ):$(SRC)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 
 clean:
-	rm *.o src/*.o  $(RESULT)
+	rm  obj/*.o  $(RESULT)
 
 
 #$*	Teljes forrasfile neve kiterjesztes nelkul
