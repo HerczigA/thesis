@@ -6,7 +6,7 @@
 	<unistd.h>
 	<math.h>
 
-1504616555 source:/home/herczig/Dokumentumok/thesis/thesis/main.c
+1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -15,10 +15,10 @@
 	"header/counting.h"
 	"header/measuring.h"
 
-1504616555 /home/herczig/Dokumentumok/thesis/thesis/header/crc.h
+1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/crc.h
 	<stdint.h>
 
-1504624246 /home/herczig/Dokumentumok/thesis/thesis/header/header.h
+1505742532 /home/herczig/Dokumentumok/thesis/thesis/header/header.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
@@ -36,7 +36,7 @@
 	<syslog.h>
 	<ctype.h>
 
-1504616555 /home/herczig/Dokumentumok/thesis/thesis/header/reading.h
+1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -45,10 +45,10 @@
 	<unistd.h>
 	"header.h"
 
-1504616555 /home/herczig/Dokumentumok/thesis/thesis/header/counting.h
+1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/counting.h
 	"measuring.h"
 
-1504616555 /home/herczig/Dokumentumok/thesis/thesis/header/measuring.h
+1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/measuring.h
 	<unistd.h>
 	<syslog.h>
 	<sys/queue.h>
@@ -167,6 +167,42 @@
 	"../header/reading.h"
 
 1504809785 source:/home/herczig/thesis/thesis/sources/reading.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/header.h"
+	"../header/crc.h"
+	"../header/reading.h"
+	"../header/reading.h"
+
+1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/counting.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../header/header.h"
+	"../header/reading.h"
+	"../header/measuring.h"
+
+1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/crc.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/reading.h"
+	"../header/crc.h"
+
+1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/Init.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/header.h"
+	"../header/counting.h"
+	"../header/reading.h"
+
+1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/measuring.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/header.h"
+	"../header/counting.h"
+	"../header/reading.h"
+
+1505742472 source:/home/herczig/Dokumentumok/thesis/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"

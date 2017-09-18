@@ -44,19 +44,19 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="makefile" />
-		<Unit filename="sources/Init.c">
+		<Unit filename="src/Init.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="sources/counting.c">
+		<Unit filename="src/counting.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="sources/crc.c">
+		<Unit filename="src/crc.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="sources/measuring.c">
+		<Unit filename="src/measuring.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="sources/reading.c">
+		<Unit filename="src/reading.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="version.h" />

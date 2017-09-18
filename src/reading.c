@@ -121,7 +121,7 @@ void  readingFromSerial(void *arg)
                         {
                             if (receivingData->dlen <= LIMIT)
                                 {
-                                    receivingData->data =(float *)malloc(sizeof (receivingData->dlen));
+                                    receivingData->data =(float *)malloc(receivingData->dlen*sizeof(QueueData));
                                     if(!receivingData->data)
                                         {
                                             syslog(LOG_ERR,"No enough memory\n");
