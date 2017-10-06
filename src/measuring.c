@@ -7,11 +7,12 @@
 void takeoutFromQueue(void *arg)
 {
     Threadcommon *common=arg;
+
     movAverage *devices=NULL;
     float temp;
     float finalResult;
     int i=1;
-    openlog(NULL,LOG_PID,LOG_LOCAL1);
+
     QueueData *tempPacket=NULL;
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
     if(!devices)
@@ -39,7 +40,7 @@ void takeoutFromQueue(void *arg)
             devices[tempPacket->address].k_next=*(tempPacket->data);
 
             temp=mov_average(&devices[tempPacket->address],common->members);
-            finalResult=moving_hysteresis(common,temp);
+            finalResult=moving_hysteresis(common->Delta,temp);
 
             syslog(LOG_INFO,"Measured temperature from %d address of device with moving average and moving hysteresis :%.2f\n",
                    tempPacket->address,finalResult);

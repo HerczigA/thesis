@@ -8,9 +8,9 @@
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
-float moving_hysteresis(Threadcommon *arg,float temp)
+float moving_hysteresis(float Delta,float temp)
 {
-    const float delta=arg->Delta;
+    const float delta=Delta;
     float temp_min=ZERO;
     float temp_max=delta;
     float result;
@@ -25,16 +25,14 @@ float moving_hysteresis(Threadcommon *arg,float temp)
             else
 
                 {
-                    temp_min=temp;
-                    result=temp_min+delta;
-                    return  result;
+                    result=temp+delta;
+                    return result;
                 }
         }
     else
         {
-            temp_max=temp;
-            temp_min=temp_max-delta;
-            result=temp_min;
+
+            result=temp-delta;
             return  result;
 
         }

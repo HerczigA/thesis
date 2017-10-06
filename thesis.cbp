@@ -40,6 +40,7 @@
 		<Unit filename="header/header.h" />
 		<Unit filename="header/measuring.h" />
 		<Unit filename="header/reading.h" />
+		<Unit filename="header/test.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -57,6 +58,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/reading.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/test.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="version.h" />

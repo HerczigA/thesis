@@ -3,10 +3,11 @@
 #include "../header/header.h"
 #include "../header/counting.h"
 #include "../header/reading.h"
+#include <assert.h>
 
 /*************should set back at the end termios***********/
 
-int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *arg)
+int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 {
     //RPI init and PIN out need to def RX and TX/
     wiringPiSetup();
@@ -14,41 +15,44 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *a
     pinMode(TX,OUTPUT);     //Tx=Pin number
     //*********************************************
     int errornum;
+    Threadcommon *init=arg;
     char *serial[3];
     serial[0]="/dev/ttyS0";
     serial[1]="/dev/ttyS1";
     serial[2]="/dev/ttyS2";
+
     openlog(NULL,LOG_PID,LOG_LOCAL1);
+    if(!init || !init->numbOfDev)
+        return -1;
 
-    arg->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
-    if(arg->fd<0)
-        arg->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC);
+    init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
+    if(init->fd<0)
+        init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC);
 
-    if(arg->fd<0)
-        arg->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC);
+    if(init->fd<0)
+        init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC);
 
-    if(arg->fd<0)
+    if(init->fd<0)
         {
-            errornum=(int)arg->fd;
+            errornum=(int)init->fd;
             syslog(LOG_ERR,"%s\n",strerror(errornum));
-            return -1;
+            return 1;
         }
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
-            errornum=(int)term;
-            syslog(LOG_ERR,"%s\n",strerror(errornum));
-            return -2;
+            syslog(LOG_ERR,"There is no memory for term\n");
+            return 1;
         }
-    tcgetattr(arg->fd,old_term);
+    tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
     term->c_iflag =0;
     term->c_oflag =0;
-    cfsetispeed(term,arg->BAUD);
-    cfsetospeed(term,arg->BAUD);
+    cfsetispeed(term,init->BAUD);
+    cfsetospeed(term,init->BAUD);
 
-    tcflush(arg->fd, TCIOFLUSH);
-    errornum=tcsetattr(arg->fd,TCSANOW,term);
+    tcflush(init->fd, TCIOFLUSH);
+    errornum=tcsetattr(init->fd,TCSANOW,term);
     if(!errornum)
         {
             closelog();
@@ -65,8 +69,9 @@ int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *a
 
 void ReadConfig(Threadcommon *arg)
 {
+    assert(arg);
     if(!arg)
-        return;
+        exit(1);
     char *buffer[MAXLINE];
 
     arg->BAUD=ZERO;
@@ -86,8 +91,8 @@ void ReadConfig(Threadcommon *arg)
 /**Initialize in-way and out-way queue and mutexes*/
 int queueInit(Threadcommon *arg)
 {
-
-    if(!(arg))
+    assert(arg);
+    if(!arg)
         return -1;
 
     TAILQ_INIT(&arg->head);
@@ -122,12 +127,19 @@ void configlist(char **buffer,Threadcommon *arg)
     char *temp=NULL;
     char *p=NULL;
     char *seged=NULL;
-    FILE *fconfig;
+    FILE *fconfig=NULL;
     int i,j,len;
     i=j=0;
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
-    temp=malloc(MAXCHAR*sizeof(char));
+    //
+    assert(fconfig);
+    if(!fconfig)
+        syslog(LOG_ERR,"Wrong path\n");
 
+    temp=malloc(MAXCHAR*sizeof(char));
+    //
+    assert(temp);
     while(fgets(temp,MAXCHAR,fconfig))
         {
             if(strchr(temp,';'))
@@ -202,7 +214,7 @@ void configlist(char **buffer,Threadcommon *arg)
                             else
                                 p[len-1]='\0';
 
-                            arg->Delta=atoi(p);
+                            arg->Delta=atof(p);
                             if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX|| !arg->Delta)
                                 arg->Delta=DELTAMIN;
                         }
@@ -231,7 +243,6 @@ void configlist(char **buffer,Threadcommon *arg)
     if(!arg->numbOfDev)
         {
             arg->numbOfDev=DEVMIN;
-            openlog(NULL,LOG_PID,LOG_LOCAL1);
             syslog(LOG_ERR,"There are no devices in config \n");
             closelog();
         }
@@ -243,6 +254,8 @@ void configlist(char **buffer,Threadcommon *arg)
     if(arg->numbOfDev)
         {
             arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
+            //
+            assert(arg->sensors);
             int sensnmb=0;
             while(--arg->numbOfDev)
                 {

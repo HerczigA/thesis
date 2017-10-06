@@ -5,16 +5,16 @@
 #include "header/reading.h"
 #include "header/counting.h"
 #include "header/measuring.h"
-
+#include "header/test.h"
 int main()
 {
     struct termios old_term,*term=NULL;
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
-
+    test_counting();
     ReadConfig(&threadHandle);
-    if(InitSerialPort(&old_term,term,&threadHandle)|| !(threadHandle.numbOfDev))
+    if(InitSerialPort(&old_term,term,&threadHandle))
         return -1;
     queueInit(&threadHandle);
     pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);

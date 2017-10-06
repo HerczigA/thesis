@@ -4,7 +4,7 @@
 #define ZERO 0
 
 
-float moving_hysteresis(Threadcommon *arg,float temp);
+float moving_hysteresis(float Delta,float temp);
 float mov_average(movAverage *temp,int members);
 char *timeToString(char *buffer);
 

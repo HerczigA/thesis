@@ -7,7 +7,7 @@ samplingTime=1000;
 
 Baudrate=38400;
 
-Delta=100;
+Delta=10.0;
 
 membersOfMovingAverage=3.4;
 

@@ -19,20 +19,21 @@
 #include <wiringPi.h>
 #include <syslog.h>
 #include <ctype.h>
+#include <assert.h>
 #define RX 15
 #define TX 16
 #define ZERO 0
 #define DEVMIN 0
 #define DEVMAX 99
 #define DEFBAUD 9600
-#define DELTAMAX 50
-#define DELTAMIN 1
+#define DELTAMAX 50.0
+#define DELTAMIN 1.0
 #define MEMBERSMIN 3.0
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
 #define MAXLINE 10
 #define MAXCHAR 128
-#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
+#define pathOfConfig "/home/herczig/thesis/util/config.txt"
 
 typedef struct devices
 {
@@ -52,7 +53,7 @@ typedef struct communication
     int numbOfDev;
     int BAUD;
     int samplingTime;
-    int Delta;
+    float Delta;
     float members;
     Slaves *sensors;
 
@@ -61,7 +62,7 @@ typedef struct communication
 
 void configlist(char **buffer,Threadcommon *arg);
 void ReadConfig(Threadcommon *arg);
-int InitSerialPort(struct termios *old_term,struct termios *term,Threadcommon *arg);
+int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);
 int queueInit(Threadcommon *arg);
 void setBackTermios(Threadcommon *arg,struct termios *old,struct termios *term);
 
