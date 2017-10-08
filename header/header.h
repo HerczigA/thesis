@@ -31,7 +31,7 @@
 #define MEMBERSMIN 3.0
 #define MEMBERSMAX 4.0
 #define TOPMEASURES 15
-#define MAXLINE 10
+#define MAXLINE 100
 #define MAXCHAR 128
 #define pathOfConfig "/home/herczig/thesis/util/config.txt"
 

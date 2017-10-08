@@ -12,8 +12,14 @@ int main()
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
+
     test_counting();
+    test_crc();
+
     ReadConfig(&threadHandle);
+
+    test_InitSerialPort(&threadHandle);
+
     if(InitSerialPort(&old_term,term,&threadHandle))
         return -1;
     queueInit(&threadHandle);

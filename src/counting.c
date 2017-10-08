@@ -10,7 +10,7 @@ Moving hysteresis counting by the measured value with a delta.
 */
 float moving_hysteresis(float Delta,float temp)
 {
-    const float delta=Delta;
+    float delta=Delta;
     float temp_min=ZERO;
     float temp_max=delta;
     float result;
@@ -46,7 +46,7 @@ Moving average with 3 members in default
 */
 float mov_average(movAverage *temp,int members)
 {
-    float result;
+    float result=0.0;
     float sum;
     if(members==3.0)
         {
@@ -72,6 +72,8 @@ float mov_average(movAverage *temp,int members)
 
 char *timeToString(char *buffer)
 {
+    if (!buffer)
+        return NULL;
     time_t now=time(NULL);
     char filename[]="_log.txt";
     struct tm *timedate;
