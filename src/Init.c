@@ -85,25 +85,28 @@ void ReadConfig(Threadcommon *arg)
     configlist(buffer,arg);
 
 }
-void configlist(char **buffer,Threadcommon *arg)
+int configlist(char **buffer,Threadcommon *arg)
 {
+
     if(!buffer)
-        return ;
+        return -1 ;
     const char equalsign='=';
     const char tab='\t';
     char *temp=NULL;
     char *p=NULL;
     char *seged=NULL;
     FILE *fconfig=NULL;
-    int i,j,len;
-    i=j=0;
+    int i,len;
+    i=0;
     openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
+    assert(fconfig!=NULL);
     if(!fconfig)
         {
             syslog(LOG_ERR,"Wrong path\n");
-            return;
+            return -1;
         }
+        /**Read from file line by line. Only reads which are ended by ';'.*/
     else
         {
             temp=malloc(MAXCHAR*sizeof(char));
@@ -121,6 +124,7 @@ void configlist(char **buffer,Threadcommon *arg)
             fclose(fconfig);
             free(temp);
             i=0;
+            /**First of all check the array of pointers by the parameters. Checking by '='.*/
             while(!(strchr(buffer[i],tab)))
                 {
                     if((p=strchr(buffer[i],equalsign)))
@@ -212,7 +216,6 @@ void configlist(char **buffer,Threadcommon *arg)
                 {
                     arg->numbOfDev=DEVMIN;
                     syslog(LOG_ERR,"There are no devices in config \n");
-                    closelog();
                 }
             if(!arg->samplingTime)
                 arg->samplingTime=DEFTIME;
@@ -222,12 +225,10 @@ void configlist(char **buffer,Threadcommon *arg)
             if(arg->numbOfDev)
                 {
                     arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
-                    //
-                    assert(arg->sensors);
                     if(!arg->sensors)
                     {
                         syslog(LOG_ERR,"No more memory for sensors\n");
-                        return;
+                        return -1;
                     }
 
 
@@ -266,13 +267,22 @@ void configlist(char **buffer,Threadcommon *arg)
                                     i++;
                                     sensnmb++;
 
+                                    closelog();
+                                    p=NULL;
+                                    seged=NULL;
+                                    return 0;
 
                                 }
                         }
                 }
-                closelog();
-            p=NULL;
-            seged=NULL;
+                else
+                {
+                    closelog();
+                    p=NULL;
+                    seged=NULL;
+                    return -1;
+                }
+
 
         }
 
@@ -285,11 +295,12 @@ void configlist(char **buffer,Threadcommon *arg)
 /**Initialize in-way and out-way queue and mutexes*/
 int queueInit(Threadcommon *arg)
 {
-    assert(arg);
+
     if(!arg)
         return -1;
 
     TAILQ_INIT(&arg->head);
+    assert(pthread_mutex_init(&arg->mutex,NULL)==0);
     pthread_mutex_init(&arg->mutex,NULL);
     return 0;
 }
@@ -301,8 +312,13 @@ int queueInit(Threadcommon *arg)
 
 void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *term)
 {
-    if(!(old&&term))
-        exit(-1);
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
+    if(!(old&&term&&fileconf))
+        {
+            syslog(LOG_ERR,"there is a NULL in argumentum list.\n");
+            return;
+        }
+    tcflush(fileconf->fd,TCIOFLUSH);
     tcsetattr(fileconf->fd,TCSANOW,old);
     while(fileconf->numbOfDev--)
         {

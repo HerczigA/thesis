@@ -18,7 +18,7 @@ int main()
 
     ReadConfig(&threadHandle);
 
-    test_InitSerialPort(&threadHandle);
+    test_Init(&threadHandle);
 
     if(InitSerialPort(&old_term,term,&threadHandle))
         return -1;

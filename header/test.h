@@ -9,7 +9,7 @@
 
 void test_counting();
 void test_crc();
-void test_setBackTermios(void *arg);
-void test_InitSerialPort(void *arg);
+void test_queueInit();
+void test_Init(void *arg);
 
 #endif // TEST_H_INCLUDED

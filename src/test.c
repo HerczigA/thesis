@@ -45,18 +45,15 @@ void test_crc()
     assert(compareCRC(2,1)==0);
 }
 
-void test_setBackTermios(void *arg)
-{
 
 
-}
-
-
-
-
-void test_InitSerialPort(void *arg)
+void test_Init(void *arg)
 {
     Threadcommon *test=arg;
     assert(InitSerialPort(NULL,NULL,NULL)==-1);
     assert(InitSerialPort(NULL,NULL,test)==-1);
+    assert(queueInit(NULL)==-1);
+    assert(queueInit(arg)==0);
+    assert(configlist(NULL,NULL));
+    assert(configlist(NULL,arg));
 }
