@@ -61,7 +61,7 @@ typedef struct communication
 
 
 int configlist(char **buffer,Threadcommon *arg);
-void ReadConfig(Threadcommon *arg);
+int ReadConfig(Threadcommon *arg);
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);
 int queueInit(Threadcommon *arg);
 void setBackTermios(Threadcommon *arg,struct termios *old,struct termios *term);

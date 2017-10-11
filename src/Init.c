@@ -22,7 +22,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     serial[2]="/dev/ttyS2";
 
     openlog(NULL,LOG_PID,LOG_LOCAL1);
-    if(!init || !init->numbOfDev)
+    if(!init || !init->numbOfDev || old_term)
         return -1;
 
     init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
@@ -36,13 +36,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         {
             errornum=(int)init->fd;
             syslog(LOG_ERR,"%s\n",strerror(errornum));
-            return 1;
+            return -1;
         }
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
             syslog(LOG_ERR,"There is no memory for term\n");
-            return 1;
+            return -1;
         }
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
@@ -62,16 +62,16 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         {
             syslog(LOG_ERR,"%s\n",strerror(errornum));
             closelog();
-            return 1;
+            return -1;
         }
 
 }
 
-void ReadConfig(Threadcommon *arg)
+int ReadConfig(Threadcommon *arg)
 {
     assert(arg);
     if(!arg)
-        return;
+        return -1;
 
     char *buffer[MAXLINE];
 
@@ -82,7 +82,10 @@ void ReadConfig(Threadcommon *arg)
     arg->samplingTime=ZERO;
     arg->time=ZERO;
 
-    configlist(buffer,arg);
+   if(configlist(buffer,arg))
+        return -1;
+   else
+        return 0;
 
 }
 int configlist(char **buffer,Threadcommon *arg)
@@ -285,7 +288,7 @@ int configlist(char **buffer,Threadcommon *arg)
 
 
         }
-
+    return 0;
 }
 
 
@@ -296,13 +299,15 @@ int configlist(char **buffer,Threadcommon *arg)
 int queueInit(Threadcommon *arg)
 {
 
-    if(!arg)
+    if(!(arg && &arg->head))
         return -1;
 
     TAILQ_INIT(&arg->head);
-    assert(pthread_mutex_init(&arg->mutex,NULL)==0);
-    pthread_mutex_init(&arg->mutex,NULL);
-    return 0;
+    //assert(pthread_mutex_init(&arg->mutex,NULL)==0);
+    if(pthread_mutex_init(&arg->mutex,NULL))
+        return -1;
+    else
+        return 0;
 }
 
 

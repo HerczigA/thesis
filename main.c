@@ -16,13 +16,16 @@ int main()
     test_counting();
     test_crc();
 
-    ReadConfig(&threadHandle);
+    if(ReadConfig(&threadHandle))
+        return -1;
 
     test_Init(&threadHandle);
 
     if(InitSerialPort(&old_term,term,&threadHandle))
         return -1;
-    queueInit(&threadHandle);
+    if(queueInit(&threadHandle))
+        return -1;
+
     pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
     pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
     pthread_create(&processor_thread,NULL,(void*)takeoutFromQueue,&threadHandle);
