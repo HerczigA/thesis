@@ -20,6 +20,7 @@
 #include <syslog.h>
 #include <ctype.h>
 #include <assert.h>
+#include <errno.h>
 #define RX 15
 #define TX 16
 #define ZERO 0

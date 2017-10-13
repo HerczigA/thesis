@@ -17,12 +17,11 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     PacketState State=EmptyState;
     Threadcommon *common=arg;
-    int errnum;
 
-    if (common->fd <0 )
+
+    if (common->fd <0 || !common)
         {
-            errnum=common->fd;
-            syslog(LOG_ERR,"%s\n",strerror(errnum));
+            syslog(LOG_ERR,"%s\n",strerror(errno));
             return;
         }
 

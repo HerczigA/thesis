@@ -7,6 +7,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "header.h"
+#include <errno.h>
 #define LIMIT 1024
 #define FF 0xFF
 #define MAXREQUEST 30

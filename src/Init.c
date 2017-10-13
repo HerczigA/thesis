@@ -4,17 +4,17 @@
 #include "../header/counting.h"
 #include "../header/reading.h"
 #include <assert.h>
+//#include <errno.h>
 
 /*************should set back at the end termios***********/
 
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 {
     //RPI init and PIN out need to def RX and TX/
-    wiringPiSetup();
+    //wiringPiSetup();
     pinMode(RX,INPUT);      //Rx=Pin number
     pinMode(TX,OUTPUT);     //Tx=Pin number
     //*********************************************
-    int errornum;
     Threadcommon *init=arg;
     char *serial[3];
     serial[0]="/dev/ttyS0";
@@ -22,20 +22,23 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     serial[2]="/dev/ttyS2";
 
     openlog(NULL,LOG_PID,LOG_LOCAL1);
-    if(!init || !init->numbOfDev || old_term)
+
+    if(!init || !init->numbOfDev || !old_term)
         return -1;
 
+
     init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
+
     if(init->fd<0)
         init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC);
 
-    if(init->fd<0)
+    else if(init->fd<0)
         init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC);
 
-    if(init->fd<0)
+    else if(init->fd<0)
         {
-            errornum=(int)init->fd;
-            syslog(LOG_ERR,"%s\n",strerror(errornum));
+
+            syslog(LOG_ERR,"%s\n",strerror(errno));
             return -1;
         }
     term=(struct termios*)malloc(sizeof(struct termios));
@@ -52,15 +55,15 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     cfsetospeed(term,init->BAUD);
 
     tcflush(init->fd, TCIOFLUSH);
-    errornum=tcsetattr(init->fd,TCSANOW,term);
-    if(!errornum)
+    if(!tcsetattr(init->fd,TCSANOW,term))
         {
+            syslog(LOG_INFO,"Serial port has succesfully initialized\n");
             closelog();
             return 0;
         }
     else
         {
-            syslog(LOG_ERR,"%s\n",strerror(errornum));
+            syslog(LOG_ERR,"%s\n",strerror(errno));
             closelog();
             return -1;
         }
@@ -82,9 +85,9 @@ int ReadConfig(Threadcommon *arg)
     arg->samplingTime=ZERO;
     arg->time=ZERO;
 
-   if(configlist(buffer,arg))
+    if(configlist(buffer,arg))
         return -1;
-   else
+    else
         return 0;
 
 }
@@ -99,17 +102,17 @@ int configlist(char **buffer,Threadcommon *arg)
     char *p=NULL;
     char *seged=NULL;
     FILE *fconfig=NULL;
-    int i,len;
+    int i,j,len;
     i=0;
     openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
-    assert(fconfig!=NULL);
+    // assert(fconfig!=NULL);
     if(!fconfig)
         {
             syslog(LOG_ERR,"Wrong path\n");
             return -1;
         }
-        /**Read from file line by line. Only reads which are ended by ';'.*/
+    /**Read from file line by line. Only reads which are ended by ';'.*/
     else
         {
             temp=malloc(MAXCHAR*sizeof(char));
@@ -224,23 +227,24 @@ int configlist(char **buffer,Threadcommon *arg)
                 arg->samplingTime=DEFTIME;
             if(!arg->time)
                 arg->time=REQUESTTIME;
-
-            if(arg->numbOfDev)
+            j=arg->numbOfDev;
+            if(j)
                 {
                     arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
                     if(!arg->sensors)
-                    {
-                        syslog(LOG_ERR,"No more memory for sensors\n");
-                        return -1;
-                    }
+                        {
+                            syslog(LOG_ERR,"No more memory for sensors\n");
+                            return -1;
+                        }
 
 
                     int sensnmb=0;
                     i=0;
-                    while(--arg->numbOfDev)
+                    while(j)
                         {
                             if((p=strrchr(buffer[i],tab)))
                                 {
+
                                     p++;
                                     seged=buffer[i];
                                     len=strlen(p)-1;
@@ -248,11 +252,15 @@ int configlist(char **buffer,Threadcommon *arg)
                                         {
                                             p[len-1]='\0';
                                             arg->sensors[sensnmb].state=atoi(p);
+                                            //assert(isdigit(arg->sensors[sensnmb].state));
+                                            //syslog(LOG_INFO,"State:%d\n",arg->sensors[sensnmb].state);
                                         }
                                     else if(p[len]==';')
                                         {
                                             p[len]='\0';
                                             arg->sensors[sensnmb].state=atoi(p);
+                                            //assert(isdigit(arg->sensors[sensnmb].state));
+                                            //syslog(LOG_INFO,"State:%d\n",arg->sensors[sensnmb].state);
                                         }
                                     while(!(isalpha(*seged)))
                                         seged++;
@@ -261,25 +269,29 @@ int configlist(char **buffer,Threadcommon *arg)
                                         p++;
                                     *p='\0';
                                     arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
-                                    strcpy(arg->sensors[sensnmb].names,p);
+                                    strcpy(arg->sensors[sensnmb].names,seged);
+                                    //syslog(LOG_INFO,"Names:%s\n",arg->sensors[sensnmb].names);
                                     p=buffer[i];
                                     while(isdigit(*p))
                                         p++;
                                     *p='\0';
                                     arg->sensors[sensnmb].address=atoi(buffer[i]);
-                                    i++;
+                                    // syslog(LOG_INFO,"Address:%d\n",arg->sensors[sensnmb].address);       //LOG_INFO,
                                     sensnmb++;
-
-                                    closelog();
-                                    p=NULL;
-                                    seged=NULL;
-                                    return 0;
-
+                                    j--;
                                 }
+                            i++;
+
                         }
+                    syslog(LOG_INFO,"Reading config file succesfully\n");
+                    closelog();
+                    p=NULL;
+                    seged=NULL;
+                    return 0;
                 }
-                else
+            else
                 {
+                    syslog(LOG_ERR,"Something wrong\n");
                     closelog();
                     p=NULL;
                     seged=NULL;
@@ -288,7 +300,7 @@ int configlist(char **buffer,Threadcommon *arg)
 
 
         }
-    return 0;
+
 }
 
 
@@ -303,16 +315,12 @@ int queueInit(Threadcommon *arg)
         return -1;
 
     TAILQ_INIT(&arg->head);
-    //assert(pthread_mutex_init(&arg->mutex,NULL)==0);
+    assert(pthread_mutex_init(&arg->mutex,NULL)==0);
     if(pthread_mutex_init(&arg->mutex,NULL))
         return -1;
     else
         return 0;
 }
-
-
-
-
 
 
 void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *term)

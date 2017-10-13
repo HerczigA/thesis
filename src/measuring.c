@@ -6,13 +6,15 @@
 
 void takeoutFromQueue(void *arg)
 {
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
     Threadcommon *common=arg;
-
+    if(!common)
+        syslog(LOG_ERR,"NULL pointer received\n");
+        exit(EXIT_FAILURE);
     movAverage *devices=NULL;
     float temp;
     float finalResult;
     int i=1;
-
     QueueData *tempPacket=NULL;
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
     if(!devices)

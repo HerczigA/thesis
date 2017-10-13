@@ -210,7 +210,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1507759346 source:/home/herczig/thesis/main.c
+1507895001 source:/home/herczig/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -223,7 +223,7 @@
 1507743409 /home/herczig/thesis/header/crc.h
 	<stdint.h>
 
-1507759371 /home/herczig/thesis/header/header.h
+1507894557 /home/herczig/thesis/header/header.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
@@ -241,8 +241,9 @@
 	<syslog.h>
 	<ctype.h>
 	<assert.h>
+	<errno.h>
 
-1507743409 /home/herczig/thesis/header/reading.h
+1507894631 /home/herczig/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -250,6 +251,7 @@
 	<pthread.h>
 	<unistd.h>
 	"header.h"
+	<errno.h>
 
 1507743409 /home/herczig/thesis/header/counting.h
 	"measuring.h"
@@ -268,13 +270,13 @@
 	"../header/reading.h"
 	"../header/measuring.h"
 
-1507743409 source:/home/herczig/thesis/src/crc.c
+1507882392 source:/home/herczig/thesis/src/crc.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
 	"../header/crc.h"
 
-1507759500 source:/home/herczig/thesis/src/Init.c
+1507895017 source:/home/herczig/thesis/src/Init.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
@@ -282,14 +284,14 @@
 	"../header/reading.h"
 	<assert.h>
 
-1507743409 source:/home/herczig/thesis/src/measuring.c
+1507881932 source:/home/herczig/thesis/src/measuring.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1507743409 source:/home/herczig/thesis/src/reading.c
+1507894675 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
@@ -297,7 +299,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1507759259 source:/home/herczig/thesis/src/test.c
+1507882470 source:/home/herczig/thesis/src/test.c
 	<stdio.h>
 	<stdlib.h>
 	<assert.h>

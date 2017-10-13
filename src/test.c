@@ -37,7 +37,7 @@ assert(mov_average(&teszt,4.0)==(float)8.725);
 
 void test_crc()
 {
-    int calcrc=20;
+    //int calcrc=20;
     assert(addCRC(16,2)==4528);
 
 
