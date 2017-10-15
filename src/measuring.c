@@ -6,7 +6,6 @@
 
 void takeoutFromQueue(void *arg)
 {
-    openlog(NULL,LOG_PID,LOG_LOCAL1);
     Threadcommon *common=arg;
     if(!common)
         syslog(LOG_ERR,"NULL pointer received\n");
@@ -49,7 +48,7 @@ void takeoutFromQueue(void *arg)
             sleep(common->samplingTime);
         }
 
-    closelog();
+
     free(devices);
 
 }

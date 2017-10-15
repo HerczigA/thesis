@@ -10,7 +10,7 @@
 void test_counting();
 void test_crc();
 void test_queueInit();
-void test_Init(void *arg);
+void test_Init();
 void test_Reading();
 
 #endif // TEST_H_INCLUDED

@@ -13,15 +13,16 @@ int main()
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
 
-    //test_counting();
-    //test_crc();
-
+    test_counting();
+    test_crc();
+    test_Init();
+    test_Reading();
     if(ReadConfig(&threadHandle))
         return -1;
 
-    //test_Init(&threadHandle);
-   /* if(InitSerialPort(&old_term,term,&threadHandle))
-        return -1;*/
+
+    if(InitSerialPort(&old_term,term,&threadHandle))
+        return -1;
     if(queueInit(&threadHandle))
         return -1;
 /*
@@ -31,8 +32,8 @@ int main()
     pthread_join(requesting_thread,NULL);
     pthread_join(reading_thread,NULL);
     pthread_join(processor_thread,NULL);
-
-    setBackTermios(&threadHandle,&old_term,term);
 */
+    setBackTermios(&threadHandle,&old_term,term);
+
     return 0;
 }

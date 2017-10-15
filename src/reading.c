@@ -17,17 +17,23 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     PacketState State=EmptyState;
     Threadcommon *common=arg;
+    int error=0;
 
 
-    if (common->fd <0 || !common)
+    if (!common || common->fd <0 )
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
+            Packetstatistic.error++;
             return;
         }
 
-    while(read(common->fd,&data,ONEBYTE))
+    while(error=read(common->fd,&data,ONEBYTE))
         {
-            openlog(NULL,LOG_PID,LOG_LOCAL1);
+            if (error==-1)
+            {
+                syslog(LOG_ERR,"%s",strerror(errno));
+                exit(EXIT_FAILURE);
+            }
             switch (State)
                 {
 
@@ -43,6 +49,7 @@ void  readingFromSerial(void *arg)
                             if(i==6)
                                 {
                                     syslog(LOG_ERR,"Too much 0x55 received\tReceived numbers of data:%d\n",i);
+                                    Packetstatistic.error++;
                                     break;
                                 }
                             continue;
@@ -164,7 +171,7 @@ void  readingFromSerial(void *arg)
                                 }
                             else
                                 {
-                                    Packetstatistic.emptyPacket++;
+                                    Packetstatistic.pollPacket++;
                                     syslog(LOG_NOTICE,"Slave Keep Alive:%c\n",receivingData->address);
                                 }
 
@@ -178,10 +185,9 @@ void  readingFromSerial(void *arg)
             syslog(LOG_NOTICE,"packet=%d\n",Packetstatistic.packet);
             syslog(LOG_NOTICE,"validPacket=%d\n",Packetstatistic.validPacket);
             syslog(LOG_NOTICE,"overrun=%d\n",Packetstatistic.overrun);
-            syslog(LOG_NOTICE,"emptyPacket=%d\n",Packetstatistic.emptyPacket);
+            syslog(LOG_NOTICE,"emptyPacket=%d\n",Packetstatistic.pollPacket);
 
-            closelog();
-            sleep(SAMPTIME);    // alvoido
+            sleep(common->samplingTime);    // alvoido
         }
 
 
@@ -262,7 +268,9 @@ void sendRequest(void *arg)
     unsigned char requestCounter=0;
     const char cmdPing=0;
     const char cmdTerm=1;
-
+    Statistic packet;
+    packet.TermPacket=0;
+    packet.pollPacket=0;
     while(1)
         {
 
@@ -279,6 +287,8 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[addresses].state)
                                 sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
+                                packet.TermPacket++;
+                                syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
                                 addresses++;
                                 sleep(common->time);
                         }
@@ -292,6 +302,8 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[addresses].state)
                                 sendPacket(&common->fd,addresses, cmdPing, NULL,0);
+                                packet.pollPacket++;
+                                syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d\n",packet.pollPacket);
                                 addresses++;
                                 sleep(common->time);
                         }

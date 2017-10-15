@@ -47,22 +47,29 @@ void test_crc()
 
 
 
-void test_Init(void *arg)
+void test_Init()
 {
-    Threadcommon *test=arg;
+    char testbuffer[MAXLINE];
+    Threadcommon test,*testp=NULL;
+    struct termios old, *testterm=NULL;
+    assert(ReadConfig(testp)==-1);
+    assert(configlist(NULL,testp)==-1);
+    assert(configlist(NULL,&test)==-1);
+    assert(configlist(testbuffer,&test)==0);
+    assert(queueInit(testp)==-1);
+    assert(queueInit(&test)==0);
     assert(InitSerialPort(NULL,NULL,NULL)==-1);
-    assert(InitSerialPort(NULL,NULL,test)==-1);
-    assert(queueInit(NULL)==-1);
-    assert(queueInit(arg)==0);
-    //assert(configlist(NULL,NULL));
-    //assert(configlist(NULL,arg));
+    assert(InitSerialPort(NULL,NULL,testp)==-1);
+   // assert(InitSerialPort(&old,testterm,&test)==0);
 }
 
-/*void test_Reading()
+void test_Reading()
 {
-    Threadcommon test;
-        test->fd=0;
-        assert(readingFromSerial(&test)==-1);
-
+    Threadcommon test,*testp;
+    test.fd=-1;
+    testp=&test;
+    readingFromSerial(&test);
+    readingFromSerial(testp);
+    readingFromSerial(NULL);
 }
-*/
+

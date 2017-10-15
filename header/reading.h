@@ -59,8 +59,9 @@ typedef struct statistic
     int packet;
     int validPacket;
     int overrun;
-    int emptyPacket;
-
+    int pollPacket;
+    int TermPacket;
+    int error;
 } Statistic;
 
 
