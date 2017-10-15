@@ -15,7 +15,7 @@ int main()
 
     test_counting();
     test_crc();
-    test_Init();
+   // test_Init();
     test_Reading();
     if(ReadConfig(&threadHandle))
         return -1;

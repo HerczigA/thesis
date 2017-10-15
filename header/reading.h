@@ -61,7 +61,8 @@ typedef struct statistic
     int overrun;
     int pollPacket;
     int TermPacket;
-    int error;
+    int wError;
+    int rError;
 } Statistic;
 
 

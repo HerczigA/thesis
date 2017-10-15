@@ -49,7 +49,7 @@ void test_crc()
 
 void test_Init()
 {
-    char testbuffer[MAXLINE];
+    char *testbuffer[MAXLINE];
     Threadcommon test,*testp=NULL;
     struct termios old, *testterm=NULL;
     assert(ReadConfig(testp)==-1);
@@ -60,16 +60,21 @@ void test_Init()
     assert(queueInit(&test)==0);
     assert(InitSerialPort(NULL,NULL,NULL)==-1);
     assert(InitSerialPort(NULL,NULL,testp)==-1);
-   // assert(InitSerialPort(&old,testterm,&test)==0);
+    assert(InitSerialPort(NULL,testterm,&test)==-1);
+
 }
 
 void test_Reading()
 {
+    char test_data;
     Threadcommon test,*testp;
     test.fd=-1;
     testp=&test;
     readingFromSerial(&test);
     readingFromSerial(testp);
     readingFromSerial(NULL);
+    assert(reserve(test_data)!=NULL);
+    //assert(sendPacket());
+
 }
 

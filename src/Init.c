@@ -15,13 +15,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     pinMode(TX,OUTPUT);     //Tx=Pin number
     //*********************************************
     Threadcommon *init=arg;
-    char *serial[3];
+    char *serial[4];
     serial[0]="/dev/ttyS0";
     serial[1]="/dev/ttyS1";
     serial[2]="/dev/ttyS2";
+    serial[3]="/home/herczig/thesis/test_fd";
 
-
-    if(!(init && init->numbOfDev && old_term))
+    if(!(init && old_term && init->numbOfDev ))
         return -1;
 
     init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
@@ -31,6 +31,9 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     else if(init->fd<0)
         init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC);
+
+   else if(init->fd<0)
+        init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC);
 
     else if(init->fd<0)
         {

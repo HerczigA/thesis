@@ -23,11 +23,11 @@ void  readingFromSerial(void *arg)
     if (!common || common->fd <0 )
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
-            Packetstatistic.error++;
+            Packetstatistic.rError++;
             return;
         }
 
-    while(error=read(common->fd,&data,ONEBYTE))
+    while(error==read(common->fd,&data,ONEBYTE))
         {
             if (error==-1)
             {
@@ -49,7 +49,7 @@ void  readingFromSerial(void *arg)
                             if(i==6)
                                 {
                                     syslog(LOG_ERR,"Too much 0x55 received\tReceived numbers of data:%d\n",i);
-                                    Packetstatistic.error++;
+                                    Packetstatistic.rError++;
                                     break;
                                 }
                             continue;
@@ -186,6 +186,7 @@ void  readingFromSerial(void *arg)
             syslog(LOG_NOTICE,"validPacket=%d\n",Packetstatistic.validPacket);
             syslog(LOG_NOTICE,"overrun=%d\n",Packetstatistic.overrun);
             syslog(LOG_NOTICE,"emptyPacket=%d\n",Packetstatistic.pollPacket);
+            syslog(LOG_NOTICE,"Error=%d\n",Packetstatistic.rError);
 
             sleep(common->samplingTime);    // alvoido
         }
@@ -198,7 +199,7 @@ QueueData *reserve(char data)
     QueueData *temp;
     temp=(QueueData *)malloc(sizeof(QueueData));
     if (!temp)
-        return 0;
+        return NULL;
     temp->address=data;
     temp->dlen = 0;
     temp->data = NULL;
@@ -209,8 +210,14 @@ QueueData *reserve(char data)
 
 int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
 {
-    if (fd < 0 || (!data && dLen))
-        return 0;
+    Statistic packet;
+    packet.wError=0;
+    if ((!data && dLen) ||fd < 0 )
+        {
+        syslog(LOG_ERR,"%s\nStatistics:%d",strerror(errno),packet.wError++);
+        return -1;
+        }
+
     int i;
     uint16_t crc=0;
     uint16_t datalength;
@@ -268,6 +275,7 @@ void sendRequest(void *arg)
     unsigned char requestCounter=0;
     const char cmdPing=0;
     const char cmdTerm=1;
+    int retvalue;
     Statistic packet;
     packet.TermPacket=0;
     packet.pollPacket=0;
@@ -286,11 +294,18 @@ void sendRequest(void *arg)
                     while(addresses<=common->numbOfDev)
                         {
                             if(common->sensors[addresses].state)
-                                sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
+                               retvalue=sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
+                                if(retvalue>0);
+                                {
                                 packet.TermPacket++;
                                 syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
                                 addresses++;
                                 sleep(common->time);
+                                }
+                                if(retvalue==-1)
+                                    syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
+
+
                         }
 
                     requestCounter++;
