@@ -51,7 +51,7 @@ typedef enum PacketState
     /*! high byte of crc  Packet*/
     CrcHigh
 
-} PacketState;
+} packetState;
 
 typedef struct statistic
 {

@@ -15,14 +15,16 @@ int main()
 
     test_counting();
     test_crc();
-   // test_Init();
+    test_Init();
     test_Reading();
+
     if(ReadConfig(&threadHandle))
         return -1;
 
 
     if(InitSerialPort(&old_term,term,&threadHandle))
         return -1;
+    printf("eddig fasza");
     if(queueInit(&threadHandle))
         return -1;
 /*

@@ -60,20 +60,22 @@ void test_Init()
     assert(queueInit(&test)==0);
     assert(InitSerialPort(NULL,NULL,NULL)==-1);
     assert(InitSerialPort(NULL,NULL,testp)==-1);
-    assert(InitSerialPort(NULL,testterm,&test)==-1);
+    assert(InitSerialPort(&old,testterm,&test)==-1);
 
 }
 
 void test_Reading()
 {
-    char test_data;
+    char test_data=0x04;
     Threadcommon test,*testp;
     test.fd=-1;
     testp=&test;
     readingFromSerial(&test);
+    test.fd=4;
     readingFromSerial(testp);
     readingFromSerial(NULL);
     assert(reserve(test_data)!=NULL);
+
     //assert(sendPacket());
 
 }

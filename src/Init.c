@@ -24,23 +24,26 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     if(!(init && old_term && init->numbOfDev ))
         return -1;
 
-    init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC);
+    init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY, S_IRWXU);
 
     if(init->fd<0)
-        init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC);
+        init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY, S_IRWXU);
 
     else if(init->fd<0)
-        init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC);
+        init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY, S_IRWXU);
 
    else if(init->fd<0)
-        init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC);
-
-    else if(init->fd<0)
         {
-
             syslog(LOG_ERR,"%s\n",strerror(errno));
+            //init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC);
             return -1;
         }
+   /* else if(init->fd<0)
+        {
+
+
+            return -1;
+        }*/
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
