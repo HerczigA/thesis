@@ -11,14 +11,14 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL;
-    unsigned char j=0;
+    unsigned char data,j=0;
     Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
     Statistic Packetstatistic= {0};
     packetState State=EmptyState;
     Threadcommon *common=arg;
     int error=0;
-    unsigned char data[]={0x55,0xFF,0x01,0x01,0x00,0x05,0x00,0x34,0x20,0x12};
+
     if (!common || common->fd <0 )
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
@@ -26,7 +26,8 @@ void  readingFromSerial(void *arg)
             return;
         }
     int i=0;
-    while(/*error==read(common->fd,&data,ONEBYTE)*/i++!=12)
+
+    while(error==read(common->fd,&data,ONEBYTE))
         {
             if (error==-1)
             {
@@ -37,13 +38,12 @@ void  readingFromSerial(void *arg)
                 {
 
                 case EmptyState:
-                    //if (data[i] == 0x55)
+                    if (data == 0x55)
                         State= moto55;
-                        printf("%c\n",data[i]);
                         continue;
 
                 case moto55:
-                    if (data[i] == 0x55)
+                    if (data == 0x55)
                         {
                             j++;
                             if(i==5)
@@ -54,7 +54,7 @@ void  readingFromSerial(void *arg)
                                 }
                             continue;
                         }
-                    if (data[i] == FF)
+                    if (data== FF)
                         {
                             State=motoFF;
                             continue;
@@ -67,7 +67,7 @@ void  readingFromSerial(void *arg)
                         }
 
                 case motoFF:
-                    if(data[i]==1)
+                    if(data==1)
                         {
                             State=moto1;
                             continue;
@@ -81,7 +81,7 @@ void  readingFromSerial(void *arg)
 
 
                 case moto1:
-                    if(data[i])
+                    if(data)
                         {
                             State= address;
                             Packetstatistic.packet++;
@@ -92,8 +92,8 @@ void  readingFromSerial(void *arg)
                 case address:
                     if (!receivingData)
                         {
-                            calculateCrc = addCRC(calculateCrc, data[i]);
-                            receivingData=reserve(data[i]);
+                            calculateCrc = addCRC(calculateCrc, data);
+                            receivingData=reserve(data);
                             if (!receivingData)
                                 {
                                     syslog(LOG_ERR,"Cannot reserved memory to receivingData\n");
@@ -108,20 +108,20 @@ void  readingFromSerial(void *arg)
                     break;
 
                 case command :
-                    calculateCrc = addCRC(calculateCrc,data[i]);
-                    receivingData->cmd = data[i];
+                    calculateCrc = addCRC(calculateCrc,data);
+                    receivingData->cmd = data;
                     State = DLenLow;
                     continue;
 
                 case DLenLow :
-                    calculateCrc = addCRC(calculateCrc, data[i]);
-                    receivingData->dlen = data[i];
+                    calculateCrc = addCRC(calculateCrc, data);
+                    receivingData->dlen = data;
                     State = DLenHigh;
                     continue;
 
                 case DLenHigh :
-                    calculateCrc = addCRC(calculateCrc, data[i]);
-                    receivingData->dlen|= (data[i] << BYTE) ;
+                    calculateCrc = addCRC(calculateCrc, data);
+                    receivingData->dlen|= (data << BYTE) ;
 
                     if (receivingData->dlen > 0)
                         {
@@ -148,18 +148,18 @@ void  readingFromSerial(void *arg)
                             continue;
                         }
                 case Data :
-                    calculateCrc = addCRC(calculateCrc, data[i]);
-                    *(receivingData->data) = data[i];
+                    calculateCrc = addCRC(calculateCrc, data);
+                    *(receivingData->data) = data;
                     State = CrcLow;
                     continue;
 
                 case CrcLow :
-                    packetCrc = data[i];
+                    packetCrc = data;
                     State = CrcHigh;
                     continue;
 
                 case CrcHigh:
-                    packetCrc |=( data[i]<< BYTE);
+                    packetCrc |=( data<< BYTE);
                     if (compareCRC(packetCrc, calculateCrc))
                         {
                             if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm =1, not polling
@@ -208,11 +208,12 @@ QueueData *reserve(char data)
 
 
 
-int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, uint16_t dLen)
+int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, char dLen)
 {
     Statistic packet;
     packet.wError=0;
-    if ((!data && dLen) ||fd < 0 )
+
+    if ( (!(fd && data) || dLen<0 ) || *fd<0  )
         {
         syslog(LOG_ERR,"%s\nStatistics:%d",strerror(errno),packet.wError++);
         return -1;
@@ -235,14 +236,13 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
     write(*fd,&cmd,ONEBYTE);
     datalength= dLen;
     crc = addCRC(crc,datalength);
-    write(*fd, &datalength, ONEBYTE);
-    datalength |= (dLen << BYTE);
+    datalength = (dLen >> BYTE);
     crc = addCRC(crc, datalength);
     write(*fd, &datalength, ONEBYTE);
 
-    if(datalength>0)
+    if(dLen>0)
         {
-            for (i=0; i<datalength; i++,data++)
+            for (i=0; i<dLen; i++,data++)
                 {
                     crc = addCRC(crc, *data);
                     write(*fd,data,ONEBYTE);
@@ -255,13 +255,12 @@ int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char 
             write(*fd,data,ONEBYTE);
 
         }
-    else
-        return 0;
 
-    crc=addCRC(crc,crc);
+
     write(*fd,&crc,ONEBYTE);
-    crc|=(crc <<BYTE);
+    crc=(crc >>BYTE);
     write(*fd,&crc,ONEBYTE);
+
 
     return 1;
 }

@@ -76,7 +76,28 @@ void test_Reading()
     readingFromSerial(NULL);
     assert(reserve(test_data)!=NULL);
 
-    //assert(sendPacket());
+
+}
+void test_SendPacket()
+{
+    Threadcommon test,*testp;
+    test.fd=4;
+    unsigned char taddress,tcmd,tdata;
+    uint16_t tDlen=2;
+    Crc crc1,crc2;
+    crc1=0;
+    crc2=0;
+    taddress=4;
+    tcmd=0;
+    tdata=0x54;
+
+    assert(sendPacket(&test.fd,0,0,&tdata,-1)==-1);
+    assert(sendPacket(NULL,0,0,NULL,0)==-1);
+    assert(sendPacket(&test.fd,0,0,NULL,0)==-1);
+    assert(sendPacket(&test.fd,address,tcmd,&tdata,tDlen)==1);
+    test.fd=-1;
+    assert(sendPacket(&test.fd,0,0,NULL,0)==-1);
+
 
 }
 
