@@ -10,26 +10,26 @@
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 {
     //RPI init and PIN out need to def RX and TX/
-    //wiringPiSetup();
+    wiringPiSetup();
     pinMode(RX,INPUT);      //Rx=Pin number
     pinMode(TX,OUTPUT);     //Tx=Pin number
     //*********************************************
     Threadcommon *init=arg;
     char *serial[3];
-    serial[0]="/dev/ttyS0";
+    serial[0]="/dev/ttyAMA0";
     serial[1]="/dev/ttyS1";
     serial[2]="/dev/ttyS2";
 
     if(!(init && old_term && init->numbOfDev ))
         return -1;
 
-    init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY, S_IRWXU);
+    init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
     if(init->fd<0)
-        init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY, S_IRWXU);
+        init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
     else if(init->fd<0)
-        init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY, S_IRWXU);
+        init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
    else if(init->fd<0)
         {
@@ -44,8 +44,11 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         }
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
-    term->c_iflag =0;
+    /*term->c_iflag = IGNPAR;
     term->c_oflag =0;
+    term->c_lflag=0;
+    term->c_cc[VTIME]=0;
+    term->c_cc[VMIN]=1;*/
     cfsetispeed(term,(speed_t)init->BAUD);
     cfsetospeed(term,(speed_t)init->BAUD);
 
@@ -266,7 +269,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     *p='\0';
                                     arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
                                     strcpy(arg->sensors[sensnmb].names,seged);
-                                    //printf("Names:%s\n",arg->sensors[sensnmb].names);
+                                    printf("Names:%s\n",arg->sensors[sensnmb].names);
                                     p=buffer[i];
                                     while(isdigit(*p))
                                         p++;

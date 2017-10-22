@@ -5,7 +5,7 @@
 #include "header/reading.h"
 #include "header/counting.h"
 #include "header/measuring.h"
-#include "header/test.h"
+//#include "header/test.h"
 int main()
 {
     struct termios old_term,*term=NULL;
@@ -25,9 +25,9 @@ int main()
 
     if(InitSerialPort(&old_term,term,&threadHandle))
         return -1;
-    printf("eddig fasza");
     if(queueInit(&threadHandle))
         return -1;
+    printf("eddig fasza");
 
     pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
     pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);

@@ -8,14 +8,11 @@
 #define MAXTIME 1000000
 #define DEFTIME 100
 #define REQUESTTIME 1000
-#include <errno.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <termios.h>
-#include <sys/queue.h>
 #include <string.h>
 #include <pthread.h>
 #include <wiringPi.h>
@@ -23,8 +20,8 @@
 #include <ctype.h>
 #include <assert.h>
 #include <errno.h>
-#define RX 15
-#define TX 16
+#define RX 16
+#define TX 15
 #define ZERO 0
 #define DEVMIN 0
 #define DEVMAX 99
@@ -36,7 +33,8 @@
 #define TOPMEASURES 15
 #define MAXLINE 100
 #define MAXCHAR 128
-#define pathOfConfig "/home/herczig/thesis/util/config.txt"
+//#define pathOfConfig "/home/herczig/thesis/util/config.txt"
+#define pathOfConfig "/home/Herczigdoktor/thesis/thesis/util/config.txt"
 
 typedef struct devices
 {
