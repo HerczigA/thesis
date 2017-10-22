@@ -27,13 +27,15 @@ void  readingFromSerial(void *arg)
         }
     int i=0;
 
-    while(error==read(common->fd,&data,ONEBYTE))
+    while(1)
         {
+            error=read(common->fd,&data,ONEBYTE);
             if (error==-1)
             {
                 syslog(LOG_ERR,"%s",strerror(errno));
                 exit(EXIT_FAILURE);
             }
+            else{
             switch (State)
                 {
 
@@ -178,6 +180,7 @@ void  readingFromSerial(void *arg)
                         }
                     break;
                 }
+            }
 
             receivingData=NULL;
             State = EmptyState;

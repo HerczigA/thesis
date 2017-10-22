@@ -13,12 +13,12 @@ int main()
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
 
-    test_counting();
+/*    test_counting();
     test_crc();
     test_Init();
     test_Reading();
     test_SendPacket();
-
+*/
     if(ReadConfig(&threadHandle))
         return -1;
 

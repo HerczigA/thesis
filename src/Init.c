@@ -15,11 +15,10 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     pinMode(TX,OUTPUT);     //Tx=Pin number
     //*********************************************
     Threadcommon *init=arg;
-    char *serial[4];
+    char *serial[3];
     serial[0]="/dev/ttyS0";
     serial[1]="/dev/ttyS1";
     serial[2]="/dev/ttyS2";
-    serial[3]="/home/herczig/thesis/test_fd";
 
     if(!(init && old_term && init->numbOfDev ))
         return -1;
@@ -35,15 +34,8 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
    else if(init->fd<0)
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
-            //init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC);
             return -1;
         }
-   /* else if(init->fd<0)
-        {
-
-
-            return -1;
-        }*/
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
@@ -54,19 +46,21 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     term->c_cflag = CS8 | CLOCAL | CREAD ;
     term->c_iflag =0;
     term->c_oflag =0;
-    cfsetispeed(term,init->BAUD);
-    cfsetospeed(term,init->BAUD);
+    cfsetispeed(term,(speed_t)init->BAUD);
+    cfsetospeed(term,(speed_t)init->BAUD);
 
     tcflush(init->fd, TCIOFLUSH);
     if(!tcsetattr(init->fd,TCSANOW,term))
         {
             syslog(LOG_INFO,"Serial port has succesfully initialized\n");
-            closelog();
+            printf("%d\n",init->fd);
+
             return 0;
         }
     else
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
+            close(init->fd);
             return -1;
         }
 
@@ -272,7 +266,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     *p='\0';
                                     arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
                                     strcpy(arg->sensors[sensnmb].names,seged);
-                                    printf("Names:%s\n",arg->sensors[sensnmb].names);
+                                    //printf("Names:%s\n",arg->sensors[sensnmb].names);
                                     p=buffer[i];
                                     while(isdigit(*p))
                                         p++;
@@ -334,6 +328,7 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *t
             free(fileconf->sensors[fileconf->numbOfDev].names);
             free(&fileconf->sensors[fileconf->numbOfDev]);
         }
+    close(fileconf->fd);
     free(term);
     closelog();
 }

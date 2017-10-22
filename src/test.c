@@ -78,7 +78,7 @@ void test_Reading()
 
 
 }
-void test_SendPacket()
+/*void test_SendPacket()
 {
     Threadcommon test,*testp;
     test.fd=4;
@@ -101,3 +101,4 @@ void test_SendPacket()
 
 }
 
+*/
