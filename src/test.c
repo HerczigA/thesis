@@ -60,7 +60,7 @@ void test_Init()
     assert(queueInit(&test)==0);
     assert(InitSerialPort(NULL,NULL,NULL)==-1);
     assert(InitSerialPort(NULL,NULL,testp)==-1);
-    assert(InitSerialPort(&old,testterm,&test)==-1);
+    assert(InitSerialPort(&old,testterm,&test)==0);
 
 }
 
@@ -78,27 +78,27 @@ void test_Reading()
 
 
 }
-/*void test_SendPacket()
+void test_SendPacket(void *arg)
 {
     Threadcommon test,*testp;
-    test.fd=4;
-    unsigned char taddress,tcmd,tdata;
-    uint16_t tDlen=2;
+    testp=arg;
+    unsigned char taddress,tcmd,tdata,tdLen;
     Crc crc1,crc2;
     crc1=0;
     crc2=0;
-    taddress=4;
+    taddress=1;
     tcmd=0;
-    tdata=0x54;
+    tdata=0x55;
+    tdLen=1;
 
-    assert(sendPacket(&test.fd,0,0,&tdata,-1)==-1);
+    assert(sendPacket(testp->fd,taddress,tcmd,&tdata,tdLen)==1);
     assert(sendPacket(NULL,0,0,NULL,0)==-1);
-    assert(sendPacket(&test.fd,0,0,NULL,0)==-1);
-    assert(sendPacket(&test.fd,address,tcmd,&tdata,tDlen)==1);
+    assert(sendPacket(testp->fd,0,0,NULL,0)==-1);
+    assert(sendPacket(NULL,0,0,&tdata,0)==-1);
+/*    assert(sendPacket(&test.fd,address,tcmd,&tdata,tDlen)==1);
     test.fd=-1;
     assert(sendPacket(&test.fd,0,0,NULL,0)==-1);
-
+*/
 
 }
 
-*/

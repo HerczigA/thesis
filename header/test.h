@@ -12,5 +12,5 @@ void test_crc();
 void test_queueInit();
 void test_Init();
 void test_Reading();
-void test_SendPacket();
+void test_SendPacket(void *arg);
 #endif // TEST_H_INCLUDED

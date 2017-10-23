@@ -15,8 +15,9 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     pinMode(TX,OUTPUT);     //Tx=Pin number
     //*********************************************
     Threadcommon *init=arg;
-    char *serial[3];
+    char *serial[4];
     serial[0]="/dev/ttyAMA0";
+    serial[1]="/dev/ttyS0";
     serial[1]="/dev/ttyS1";
     serial[2]="/dev/ttyS2";
 
@@ -25,13 +26,16 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
-    if(init->fd<0)
-        init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
+        if(init->fd<0)
+	    init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
-    else if(init->fd<0)
-        init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
+	else if(init->fd<0)
+    	    init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
-   else if(init->fd<0)
+	else if(init->fd<0)
+            init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
+
+	else if(init->fd<0)
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
             return -1;
@@ -44,11 +48,11 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         }
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
-    /*term->c_iflag = IGNPAR;
+    term->c_iflag = IGNPAR;
     term->c_oflag =0;
     term->c_lflag=0;
     term->c_cc[VTIME]=0;
-    term->c_cc[VMIN]=1;*/
+    term->c_cc[VMIN]=1;
     cfsetispeed(term,(speed_t)init->BAUD);
     cfsetospeed(term,(speed_t)init->BAUD);
 
@@ -62,7 +66,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         }
     else
         {
-            syslog(LOG_ERR,"%s\n",strerror(errno));
+            syslog(LOG_ERR,"JAAAAAAAAAAAA%s\n",strerror(errno));
             close(init->fd);
             return -1;
         }

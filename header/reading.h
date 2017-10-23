@@ -11,10 +11,10 @@
 #define LIMIT 1024
 #define FF 0xFF
 #define MAXREQUEST 30
-#define ONEBYTE 1
+#define ONE 1
 #define SAMPTIME 1000
 #define ZERO 0
-
+#define MAXU 5
 
 typedef enum PacketState
 {
@@ -81,5 +81,5 @@ typedef struct queueData
 void  readingFromSerial(void *arg);
 QueueData *reserve(char data);
 void sendRequest(void *arg);
-int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data,  char  dLen);
+int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data,  char  dLen);
 #endif // READING_H_INCLUDED

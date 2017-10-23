@@ -17,7 +17,6 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     packetState State=EmptyState;
     Threadcommon *common=arg;
-    int error=0;
 
     if (!common || common->fd <0 )
         {
@@ -27,16 +26,10 @@ void  readingFromSerial(void *arg)
         }
     int i=0;
 
-    while(1)
+    while(read(common->fd,&data,ONE))
         {
-            error=read(common->fd,&data,ONEBYTE);
-            if (error==-1)
-            {
-                syslog(LOG_ERR,"%s",strerror(errno));
-                exit(EXIT_FAILURE);
-            }
-            else{
-            switch (State)
+                printf("elunk?\n");
+	    switch (State)
                 {
 
                 case EmptyState:
@@ -180,7 +173,7 @@ void  readingFromSerial(void *arg)
                         }
                     break;
                 }
-            }
+            
 
             receivingData=NULL;
             State = EmptyState;
@@ -211,58 +204,52 @@ QueueData *reserve(char data)
 
 
 
-int sendPacket(int *fd, unsigned char address, unsigned char cmd, unsigned char *data, char dLen)
+int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data, char dLen)
 {
     Statistic packet;
     packet.wError=0;
 
-    if ( (!(fd && data) || dLen<0 ) || *fd<0  )
+    if ( !(data && &fd)|| fd<0 || dLen<0  )
         {
-        syslog(LOG_ERR,"%s\nStatistics:%d",strerror(errno),packet.wError++);
+        syslog(LOG_ERR,"%s fd=%d,data=%c,dLen=%c   \nWriting Error:%d",strerror(errno), fd,*data,dLen,packet.wError++);
         return -1;
         }
 
     int i;
     uint16_t crc=0;
-    uint16_t datalength;
+    uint16_t temp;
 
     char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
 
-    for (i=0; i<5; i++)
-        write(*fd,&motorola55,ONEBYTE);
+    for (i=0; i<MAXU; i++)
+        write(fd,&motorola55,ONE);
 
-    write(*fd,&motorolaFF,ONEBYTE);
-    write(*fd,&motorola1,ONEBYTE);
+    write(fd,&motorolaFF,ONE);
+    write(fd,&motorola1,ONE);
     crc = addCRC(crc, address);
-    write (*fd,&address,ONEBYTE);
+    write (fd,&address,ONE);
     crc = addCRC(crc, cmd);
-    write(*fd,&cmd,ONEBYTE);
-    datalength= dLen;
-    crc = addCRC(crc,datalength);
-    datalength = (dLen >> BYTE);
-    crc = addCRC(crc, datalength);
-    write(*fd, &datalength, ONEBYTE);
+    write(fd,&cmd,ONE);
+    temp= dLen;
+    crc = addCRC(crc,temp);
+    write(fd,&temp,ONE);
+    temp = (dLen >> BYTE);
+    crc = addCRC(crc, temp);
+    write(fd, &temp, ONE);
 
     if(dLen>0)
         {
             for (i=0; i<dLen; i++,data++)
                 {
                     crc = addCRC(crc, *data);
-                    write(*fd,data,ONEBYTE);
+                    write(fd,data,ONE);
                 }
         }
-    else if(!datalength)
-        {
-            *data=ZERO;
-            crc = addCRC(crc, *data);
-            write(*fd,data,ONEBYTE);
 
-        }
-
-
-    write(*fd,&crc,ONEBYTE);
+    
+    write(fd,&crc,ONE);
     crc=(crc >>BYTE);
-    write(*fd,&crc,ONEBYTE);
+    write(fd,&crc,ONE);
 
 
     return 1;
@@ -277,7 +264,6 @@ void sendRequest(void *arg)
     unsigned char requestCounter=0;
     const char cmdPing=0;
     const char cmdTerm=1;
-    int retvalue;
     Statistic packet;
     packet.TermPacket=0;
     packet.pollPacket=0;
@@ -296,17 +282,21 @@ void sendRequest(void *arg)
                     while(addresses<=common->numbOfDev)
                         {
                             if(common->sensors[addresses].state)
-                               retvalue=sendPacket(&common->fd,addresses, cmdTerm, NULL,0);
-                                if(retvalue>0);
                                 {
-                                packet.TermPacket++;
-                                syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
-                                addresses++;
-                                sleep(common->time);
-                                }
-                                if(retvalue==-1)
-                                    syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
+				    if(sendPacket(common->fd,addresses, cmdTerm, 0,0)>0)
+                            	    {
+                            		packet.TermPacket++;
+                            		syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
+                            		addresses++;
+                            		sleep(common->time);
+                            	    }
+                            	    else
+				    { 
+                                	syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
+					return;
+				    }
 
+				}
 
                         }
 
@@ -318,7 +308,7 @@ void sendRequest(void *arg)
                     while(addresses<=common->numbOfDev)
                         {
                             if(common->sensors[addresses].state)
-                                sendPacket(&common->fd,addresses, cmdPing, NULL,0);
+                                sendPacket(common->fd,addresses, cmdPing, 0,0);
                                 packet.pollPacket++;
                                 syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d\n",packet.pollPacket);
                                 addresses++;
