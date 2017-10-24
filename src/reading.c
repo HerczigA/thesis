@@ -28,14 +28,14 @@ void  readingFromSerial(void *arg)
 
     while(read(common->fd,&data,ONE))
         {
-                printf("elunk?\n");
-	    switch (State)
+            printf("elunk?\n");
+            switch (State)
                 {
 
                 case EmptyState:
                     if (data == 0x55)
                         State= moto55;
-                        continue;
+                    continue;
 
                 case moto55:
                     if (data == 0x55)
@@ -211,8 +211,8 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *
 
     if ( !data || fd<0 || dLen<0  )
         {
-        syslog(LOG_ERR,"%s fd=%d,data=%p,dLen=%c   \nWriting Error:%d",strerror(errno), fd,data,dLen,packet.wError++);
-        return -1;
+            syslog(LOG_ERR,"%s fd=%d,data=%p  \nWriting Error:%d",strerror(errno), fd,data,packet.wError++);
+            return -1;
         }
 
     int i;
@@ -267,6 +267,7 @@ void sendRequest(void *arg)
     Statistic packet;
     packet.TermPacket=0;
     packet.pollPacket=0;
+    char data=0;
     while(1)
         {
 
@@ -283,20 +284,21 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[addresses].state)
                                 {
-				    if(sendPacket(common->fd,addresses, cmdTerm, 0,0)>0)
-                            	    {
-                            		packet.TermPacket++;
-                            		syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
-                            		addresses++;
-                            		sleep(common->time);
-                            	    }
-                            	    else
-				    {
-                                	syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
-					return;
-				    }
+                                    if(sendPacket(common->fd,addresses, cmdTerm, &data,0)>0)
+                                        {
+                                            packet.TermPacket++;
+                                            syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
+                                            sleep(1);
+                                        }
+                                    else
+                                        {
+                                            syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
+                                            return;
+                                        }
 
-				}
+
+                                }
+                            addresses++;
 
                         }
 
@@ -308,11 +310,19 @@ void sendRequest(void *arg)
                     while(addresses<=common->numbOfDev)
                         {
                             if(common->sensors[addresses].state)
-                                sendPacket(common->fd,addresses, cmdPing, 0,0);
-                                packet.pollPacket++;
-                                syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d\n",packet.pollPacket);
-                                addresses++;
-                                sleep(common->time);
+                                if(sendPacket(common->fd,addresses, cmdPing, &data,0)>0)
+                                    {
+                                        packet.pollPacket++;
+                                        syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d\n",packet.pollPacket);
+                                        sleep(1);
+                                    }
+                                else
+                                    {
+                                        syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
+                                        return;
+                                    }
+
+                            addresses++;
                         }
 
                     requestCounter++;

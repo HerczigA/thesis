@@ -25,7 +25,7 @@ int main()
     if(queueInit(&threadHandle))
         return -1;
     test_SendPacket(&threadHandle);
-        test_Reading(&threadHandle);
+//        test_Reading(&threadHandle);
 
 
 
