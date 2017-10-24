@@ -5,9 +5,10 @@
 #include <termios.h>
 #include "../header/reading.h"
 #include <pthread.h>
-#define MAXTIME 1000000
-#define DEFTIME 100
-#define REQUESTTIME 1000
+#define DEFTIME 10
+#define DEFMAXTIME 60
+#define REQUESTTIME 60
+#define MAXTIME 10800
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>

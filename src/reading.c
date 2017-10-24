@@ -26,7 +26,7 @@ void  readingFromSerial(void *arg)
         }
     int i=0;
 
-    while(read(common->fd,&data,ONE))
+        while(read(common->fd,&data,ONE))
         {
             printf("elunk?\n");
             switch (State)
@@ -211,7 +211,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *
 
     if ( !data || fd<0 || dLen<0  )
         {
-            syslog(LOG_ERR,"%s fd=%d,data=%p  \nWriting Error:%d",strerror(errno), fd,data,packet.wError++);
+            syslog(LOG_ERR,"%s fd=%d,data=%p  \nWriting Error:%d",strerror(errno), fd,data,++packet.wError);
             return -1;
         }
 
@@ -288,7 +288,7 @@ void sendRequest(void *arg)
                                         {
                                             packet.TermPacket++;
                                             syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
-                                            sleep(1);
+
                                         }
                                     else
                                         {
@@ -303,6 +303,7 @@ void sendRequest(void *arg)
                         }
 
                     requestCounter++;
+                    sleep(common->time);
 
                 }
             else
@@ -310,22 +311,24 @@ void sendRequest(void *arg)
                     while(addresses<=common->numbOfDev)
                         {
                             if(common->sensors[addresses].state)
-                                if(sendPacket(common->fd,addresses, cmdPing, &data,0)>0)
+                                {
+                                    if(sendPacket(common->fd,addresses, cmdPing, &data,0)>0)
                                     {
                                         packet.pollPacket++;
                                         syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d\n",packet.pollPacket);
-                                        sleep(1);
+
                                     }
                                 else
                                     {
                                         syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
                                         return;
                                     }
-
-                            addresses++;
+                                }
+                        addresses++;
                         }
 
                     requestCounter++;
+                    sleep(common->time);
                 }
 
 

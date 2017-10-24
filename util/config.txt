@@ -1,9 +1,9 @@
 /*ConfigFile*/
-RequestTIME=10000;
+RequestTIME=300;
 
 numberOfDevice=5;
 
-samplingTime=1000;
+samplingTime=10;
 
 Baudrate=38400;
 

@@ -168,7 +168,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                         p[len-1]='\0';
 
                                     arg->samplingTime=atoi(p);
-                                    if(arg->samplingTime<DEFTIME|| arg->samplingTime>MAXTIME|| !arg->samplingTime)
+                                    if(arg->samplingTime<DEFTIME|| arg->samplingTime>DEFMAXTIME|| !arg->samplingTime)
                                         arg->samplingTime=DEFTIME;
                                 }
                             if(strstr(buffer[i],"Baud"))
