@@ -15,7 +15,7 @@ int main()
     test_counting();
     test_crc();
     test_Init();
-//    test_Reading();
+
 
 
     if(ReadConfig(&threadHandle))
@@ -25,7 +25,7 @@ int main()
     if(queueInit(&threadHandle))
         return -1;
     test_SendPacket(&threadHandle);
-
+        test_Reading(&threadHandle);
 
 
 
@@ -38,6 +38,6 @@ int main()
 //    pthread_join(processor_thread,NULL);
     printf("shit");
     setBackTermios(&threadHandle,&old_term,term);
-    
+
     return 0;
 }

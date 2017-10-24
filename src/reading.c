@@ -173,7 +173,7 @@ void  readingFromSerial(void *arg)
                         }
                     break;
                 }
-            
+
 
             receivingData=NULL;
             State = EmptyState;
@@ -209,9 +209,9 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *
     Statistic packet;
     packet.wError=0;
 
-    if ( !(data && &fd)|| fd<0 || dLen<0  )
+    if ( !data || fd<0 || dLen<0  )
         {
-        syslog(LOG_ERR,"%s fd=%d,data=%c,dLen=%c   \nWriting Error:%d",strerror(errno), fd,*data,dLen,packet.wError++);
+        syslog(LOG_ERR,"%s fd=%d,data=%p,dLen=%c   \nWriting Error:%d",strerror(errno), fd,data,dLen,packet.wError++);
         return -1;
         }
 
@@ -246,7 +246,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *
                 }
         }
 
-    
+
     write(fd,&crc,ONE);
     crc=(crc >>BYTE);
     write(fd,&crc,ONE);
@@ -291,7 +291,7 @@ void sendRequest(void *arg)
                             		sleep(common->time);
                             	    }
                             	    else
-				    { 
+				    {
                                 	syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
 					return;
 				    }

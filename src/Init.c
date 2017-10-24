@@ -9,14 +9,14 @@
 
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 {
-    //RPI init and PIN out need to def RX and TX/
+    /*RPI init and PIN out need to def RX and TX/
     wiringPiSetup();
     pinMode(RX,INPUT);      //Rx=Pin number
     pinMode(TX,OUTPUT);     //Tx=Pin number
-    //*********************************************
+    //*********************************************/
     Threadcommon *init=arg;
     char *serial[4];
-    serial[0]="/dev/ttyAMA0";
+    serial[0]="/dev/ttyUSB0";
     serial[1]="/dev/ttyS0";
     serial[1]="/dev/ttyS1";
     serial[2]="/dev/ttyS2";
@@ -60,13 +60,11 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     if(!tcsetattr(init->fd,TCSANOW,term))
         {
             syslog(LOG_INFO,"Serial port has succesfully initialized\n");
-            printf("%d\n",init->fd);
-
             return 0;
         }
     else
         {
-            syslog(LOG_ERR,"JAAAAAAAAAAAA%s\n",strerror(errno));
+            syslog(LOG_ERR,"%s\n",strerror(errno));
             close(init->fd);
             return -1;
         }
@@ -108,7 +106,6 @@ int configlist(char **buffer,Threadcommon *arg)
     int i,j,len;
     i=0;
     fconfig=fopen(pathOfConfig,"r");
-    // assert(fconfig!=NULL);
     if(!fconfig)
         {
             syslog(LOG_ERR,"Wrong path : %s\n",pathOfConfig);

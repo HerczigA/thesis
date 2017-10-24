@@ -5,7 +5,7 @@ SRC_ALL=$(wildcard src/*.c)
 OBJ:=obj/%.o
 OBJDIR=obj/
 ALL_OBJ:=$(patsubst src/%.c,obj/%.o,$(SRC_ALL) main.c)
-RESULT=thesis
+RESULT=app/thesis
 
 $(RESULT):$(ALL_OBJ)
 	$(CC) -o $@ $(ALL_OBJ) $(CFLAGS)
