@@ -28,7 +28,7 @@ void  readingFromSerial(void *arg)
 
         while(read(common->fd,&data,ONE))
         {
-            printf("elunk?\n");
+
             switch (State)
                 {
 
@@ -204,7 +204,7 @@ QueueData *reserve(char data)
 
 
 
-int sendPacket(int fd, unsigned char address, unsigned char cmd, unsigned char *data, char dLen)
+int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data, char dLen)
 {
     Statistic packet;
     packet.wError=0;
@@ -267,7 +267,7 @@ void sendRequest(void *arg)
     Statistic packet;
     packet.TermPacket=0;
     packet.pollPacket=0;
-    char data=0;
+    unsigned char data=0;
     while(1)
         {
 

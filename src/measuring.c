@@ -8,13 +8,16 @@ void takeoutFromQueue(void *arg)
 {
     Threadcommon *common=arg;
     if(!common)
-        syslog(LOG_ERR,"NULL pointer received\n");
-        exit(EXIT_FAILURE);
+       {
+         syslog(LOG_ERR,"NULL pointer received\n");
+         exit(EXIT_FAILURE);
+       }
     movAverage *devices=NULL;
     float temp;
     float finalResult;
     int i=1;
     QueueData *tempPacket=NULL;
+    QueueData *asd=NULL;
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
     if(!devices)
         {
@@ -31,6 +34,24 @@ void takeoutFromQueue(void *arg)
             devices[i].summary=0;
             i++;
         }
+
+
+       float  ics=2.0;
+
+asd=malloc(5*sizeof(*asd));
+while(ics!=5)
+{
+
+    //asd=(QueueData*)malloc(sizeof(QueueData));
+
+
+    *asd->data=ics;
+    TAILQ_INSERT_TAIL(&common->head,asd,entries);
+    printf("%.2f\n",*asd->data);
+    asd++;
+    ics=ics*2.0;
+
+}
     while(!TAILQ_EMPTY(&common->head))
         {
             pthread_mutex_lock(&common->mutex);

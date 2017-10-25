@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g -Wall -lpthread -lwiringPi -Iheader
+CFLAGS=-g -Wall -Werror -lpthread -lwiringPi -Iheader
 SRC:=src/%.c
 SRC_ALL=$(wildcard src/*.c)
 OBJ:=obj/%.o
