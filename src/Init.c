@@ -17,8 +17,8 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     Threadcommon *init=arg;
     char *serial[4];
     serial[0]="/dev/ttyUSB0";
-    serial[1]="/dev/ttyS0";
-    serial[1]="/dev/ttyS1";
+    serial[1]="/dev/ttyUSB1";
+    serial[1]="/dev/ttyUSB2";
     serial[2]="/dev/ttyS2";
 
     if(!(init && old_term && init->numbOfDev ))
@@ -29,13 +29,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         if(init->fd<0)
 	    init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
-	else if(init->fd<0)
+	 if(init->fd<0)
     	    init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
 
-	else if(init->fd<0)
+	 if(init->fd<0)
             init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
-
-	else if(init->fd<0)
+    printf("%d",init->fd);
+	 if(init->fd<0)
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
             return -1;
@@ -46,6 +46,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
             syslog(LOG_ERR,"There is no memory for term\n");
             return -1;
         }
+        printf("%d\n",init->fd);
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
     term->c_iflag = IGNPAR;
