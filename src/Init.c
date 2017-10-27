@@ -64,7 +64,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         }
     else
         {
-            syslog(LOG_ERR,"%s\n",strerror(errno));
+            syslog(LOG_ERR,"%s            %d",strerror(errno),init->fd);
             close(init->fd);
             return -1;
         }
@@ -92,10 +92,9 @@ int ReadConfig(Threadcommon *arg)
         return 0;
 
 }
-int configlist(char **buffer,Threadcommon *arg)
-{
 
-    if(!buffer)
+int configlist(char **buffer,Threadcommon *arg)
+{ if(!buffer)
         return -1 ;
     const char equalsign='=';
     const char tab='\t';
@@ -105,10 +104,12 @@ int configlist(char **buffer,Threadcommon *arg)
     FILE *fconfig=NULL;
     int i,j,len;
     i=0;
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
+
     if(!fconfig)
         {
-            syslog(LOG_ERR,"Wrong path : %s\n",pathOfConfig);
+            syslog(LOG_ERR,"Wrong path\n");
             return -1;
         }
     /**Read from file line by line. Only reads which are ended by ';'.*/
@@ -168,7 +169,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                         p[len-1]='\0';
 
                                     arg->samplingTime=atoi(p);
-                                    if(arg->samplingTime<DEFTIME|| arg->samplingTime>DEFMAXTIME|| !arg->samplingTime)
+                                    if(arg->samplingTime<DEFTIME|| arg->samplingTime>MAXTIME|| !arg->samplingTime)
                                         arg->samplingTime=DEFTIME;
                                 }
                             if(strstr(buffer[i],"Baud"))
@@ -227,11 +228,6 @@ int configlist(char **buffer,Threadcommon *arg)
             if(!arg->time)
                 arg->time=REQUESTTIME;
             j=arg->numbOfDev;
-            syslog(LOG_NOTICE,"BAUDRATE=%d\n",arg->BAUD);
-            syslog(LOG_NOTICE,"Delta=%.2f\n",arg->Delta);
-            syslog(LOG_NOTICE,"Member=%.2f\n",arg->members);
-            syslog(LOG_NOTICE,"sampling Time=%d\n",arg->samplingTime);
-            syslog(LOG_NOTICE,"Requesttime=%d\n",arg->time);
             if(j)
                 {
                     arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
@@ -241,9 +237,9 @@ int configlist(char **buffer,Threadcommon *arg)
                             return -1;
                         }
 
+
                     int sensnmb=0;
                     i=0;
-                    syslog(LOG_NOTICE,"Addresses         Names             State\n");
                     while(j)
                         {
                             if((p=strrchr(buffer[i],tab)))
@@ -256,11 +252,13 @@ int configlist(char **buffer,Threadcommon *arg)
                                         {
                                             p[len-1]='\0';
                                             arg->sensors[sensnmb].state=atoi(p);
+
                                         }
                                     else if(p[len]==';')
                                         {
                                             p[len]='\0';
                                             arg->sensors[sensnmb].state=atoi(p);
+
                                         }
                                     while(!(isalpha(*seged)))
                                         seged++;
@@ -270,13 +268,13 @@ int configlist(char **buffer,Threadcommon *arg)
                                     *p='\0';
                                     arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
                                     strcpy(arg->sensors[sensnmb].names,seged);
-                                    printf("Names:%s\n",arg->sensors[sensnmb].names);
+
                                     p=buffer[i];
                                     while(isdigit(*p))
                                         p++;
                                     *p='\0';
                                     arg->sensors[sensnmb].address=atoi(buffer[i]);
-                                    syslog(LOG_NOTICE,"%d               %s                %d\n",arg->sensors[sensnmb].address,arg->sensors[sensnmb].names,arg->sensors[sensnmb].state);
+
                                     sensnmb++;
                                     j--;
                                 }
@@ -284,13 +282,15 @@ int configlist(char **buffer,Threadcommon *arg)
 
                         }
                     syslog(LOG_INFO,"Reading config file succesfully\n");
+                    closelog();
                     p=NULL;
                     seged=NULL;
                     return 0;
                 }
             else
                 {
-                    syslog(LOG_ERR,"No Number of Devices!\n");
+                    syslog(LOG_ERR,"Something wrong\n");
+                    closelog();
                     p=NULL;
                     seged=NULL;
                     return -1;

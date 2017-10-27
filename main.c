@@ -12,9 +12,12 @@ int main()
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
-    test_counting();
-    test_crc();
+    //test_counting();
+    //test_crc();
     //test_Init();
+
+
+
 
 
 

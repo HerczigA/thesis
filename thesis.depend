@@ -6,7 +6,7 @@
 	<unistd.h>
 	<math.h>
 
-1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/main.c
+1509108022 source:/home/herczig/Dokumentumok/thesis/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -14,29 +14,31 @@
 	"header/reading.h"
 	"header/counting.h"
 	"header/measuring.h"
+	"header/test.h"
 
-1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/crc.h
+1509093113 /home/herczig/Dokumentumok/thesis/thesis/header/crc.h
 	<stdint.h>
 
-1505742532 /home/herczig/Dokumentumok/thesis/thesis/header/header.h
+1509093368 /home/herczig/Dokumentumok/thesis/thesis/header/header.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
 	"../header/reading.h"
 	<pthread.h>
-	<errno.h>
 	<fcntl.h>
 	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/stat.h>
 	<unistd.h>
-	<termios.h>
-	<sys/queue.h>
 	<string.h>
 	<pthread.h>
 	<wiringPi.h>
 	<syslog.h>
 	<ctype.h>
+	<assert.h>
+	<errno.h>
 
-1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/reading.h
+1509093113 /home/herczig/Dokumentumok/thesis/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -44,11 +46,12 @@
 	<pthread.h>
 	<unistd.h>
 	"header.h"
+	<errno.h>
 
-1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/counting.h
+1509093113 /home/herczig/Dokumentumok/thesis/thesis/header/counting.h
 	"measuring.h"
 
-1505280615 /home/herczig/Dokumentumok/thesis/thesis/header/measuring.h
+1509093113 /home/herczig/Dokumentumok/thesis/thesis/header/measuring.h
 	<unistd.h>
 	<syslog.h>
 	<sys/queue.h>
@@ -174,7 +177,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/counting.c
+1509093113 source:/home/herczig/Dokumentumok/thesis/thesis/src/counting.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -182,27 +185,28 @@
 	"../header/reading.h"
 	"../header/measuring.h"
 
-1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/crc.c
+1509093113 source:/home/herczig/Dokumentumok/thesis/thesis/src/crc.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
 	"../header/crc.h"
 
-1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/Init.c
+1509108580 source:/home/herczig/Dokumentumok/thesis/thesis/src/Init.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/header.h"
+	"../header/counting.h"
+	"../header/reading.h"
+	<assert.h>
+
+1509093113 source:/home/herczig/Dokumentumok/thesis/thesis/src/measuring.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1505280615 source:/home/herczig/Dokumentumok/thesis/thesis/src/measuring.c
-	<stdio.h>
-	<stdlib.h>
-	"../header/header.h"
-	"../header/counting.h"
-	"../header/reading.h"
-
-1505742472 source:/home/herczig/Dokumentumok/thesis/thesis/src/reading.c
+1509093113 source:/home/herczig/Dokumentumok/thesis/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
@@ -314,4 +318,21 @@
 	"header.h"
 	"measuring.h"
 	"reading.h"
+
+1509093113 /home/herczig/Dokumentumok/thesis/thesis/header/test.h
+	"counting.h"
+	"crc.h"
+	"header.h"
+	"measuring.h"
+	"reading.h"
+
+1509093113 source:/home/herczig/Dokumentumok/thesis/thesis/src/test.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"../header/counting.h"
+	"../header/crc.h"
+	"../header/header.h"
+	"../header/measuring.h"
+	"../header/reading.h"
 
