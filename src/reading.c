@@ -12,6 +12,7 @@ void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL;
     unsigned char data,j=0;
+    int i=0;
     Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
     Statistic Packetstatistic= {0};
@@ -24,11 +25,11 @@ void  readingFromSerial(void *arg)
             Packetstatistic.rError++;
             return;
         }
-    int i=0;
 
-        while(read(common->fd,&data,ONE))
+        while(1)
         {
-
+            read(common->fd,&data,ONE);
+            printf("%d\n",data);
             switch (State)
                 {
 
@@ -40,10 +41,10 @@ void  readingFromSerial(void *arg)
                 case moto55:
                     if (data == 0x55)
                         {
-                            j++;
+                            i++;
                             if(i==5)
                                 {
-                                    syslog(LOG_ERR,"Too much 0x55 received\tReceived numbers of data[i]:%d\n",i);
+                                    syslog(LOG_ERR,"Too much 0x55 received.Received numbers of data[%d]:%d\n",i,i);
                                     Packetstatistic.rError++;
                                     break;
                                 }
@@ -57,7 +58,7 @@ void  readingFromSerial(void *arg)
                     else
                         {
                             Packetstatistic.packetError++;
-                            syslog(LOG_ERR,"After 0x55 did not receive proper data(0xFF)\n");
+                            syslog(LOG_ERR,"After 0x55 did not receive proper data(0xFF)");
                             break;
                         }
 
@@ -70,7 +71,7 @@ void  readingFromSerial(void *arg)
                     else
                         {
                             Packetstatistic.packetError++;
-                            syslog(LOG_ERR,"After 0xFF did not receive proper data(0x01)\n\n");
+                            syslog(LOG_ERR,"After 0xFF did not receive proper data(0x01)");
                             break;
                         }
 
@@ -85,13 +86,14 @@ void  readingFromSerial(void *arg)
                         break;
 
                 case address:
+                    calculateCrc=0;
                     if (!receivingData)
                         {
                             calculateCrc = addCRC(calculateCrc, data);
                             receivingData=reserve(data);
                             if (!receivingData)
                                 {
-                                    syslog(LOG_ERR,"Cannot reserved memory to receivingData\n");
+                                    syslog(LOG_ERR,"Cannot reserved memory to receivingData");
                                     break;
                                 }
 
@@ -122,10 +124,10 @@ void  readingFromSerial(void *arg)
                         {
                             if (receivingData->dlen <= LIMIT)
                                 {
-                                    receivingData->data =(float *)malloc(receivingData->dlen*sizeof(QueueData));
+                                    receivingData->data =(float *)malloc(receivingData->dlen*sizeof(float));
                                     if(!receivingData->data)
                                         {
-                                            syslog(LOG_ERR,"No enough memory\n");
+                                            syslog(LOG_ERR,"No enough memory");
                                             Packetstatistic.packetError++;
                                             break;
                                         }
@@ -133,7 +135,7 @@ void  readingFromSerial(void *arg)
                                 }
                             else
                                 {
-                                    syslog(LOG_ERR,"Too big the datalength\n");
+                                    syslog(LOG_ERR,"Too big the datalength");
                                     break;
                                 }
                         }
@@ -157,7 +159,7 @@ void  readingFromSerial(void *arg)
                     packetCrc |=( data<< BYTE);
                     if (compareCRC(packetCrc, calculateCrc))
                         {
-                            if(receivingData->cmd==1 && *(receivingData->data))           //cmdTerm =1, not polling
+                            if(receivingData->cmd==1)           //cmdTerm =1, not polling
                                 {
                                     pthread_mutex_lock(&common->mutex);
                                     TAILQ_INSERT_TAIL(&common->head,receivingData,entries);
@@ -167,7 +169,7 @@ void  readingFromSerial(void *arg)
                             else
                                 {
                                     Packetstatistic.pollPacket++;
-                                    syslog(LOG_NOTICE,"Slave Keep Alive:%c\n",receivingData->address);
+                                    syslog(LOG_NOTICE,"Slave Keep Alive:%c",receivingData->address);
                                 }
 
                         }
@@ -175,14 +177,14 @@ void  readingFromSerial(void *arg)
                 }
 
 
-            receivingData=NULL;
+            free(receivingData);
             State = EmptyState;
-            syslog(LOG_NOTICE,"\n Packetstatistic\n packetError=%d\n",Packetstatistic.packetError);
-            syslog(LOG_NOTICE,"packet=%d\n",Packetstatistic.packet);
-            syslog(LOG_NOTICE,"validPacket=%d\n",Packetstatistic.validPacket);
-            syslog(LOG_NOTICE,"overrun=%d\n",Packetstatistic.overrun);
-            syslog(LOG_NOTICE,"emptyPacket=%d\n",Packetstatistic.pollPacket);
-            syslog(LOG_NOTICE,"Error=%d\n",Packetstatistic.rError);
+            syslog(LOG_NOTICE,"Packetstatistic packetError=%d",Packetstatistic.packetError);
+            syslog(LOG_NOTICE,"packet=%d",Packetstatistic.packet);
+            syslog(LOG_NOTICE,"validPacket=%d",Packetstatistic.validPacket);
+            syslog(LOG_NOTICE,"overrun=%d",Packetstatistic.overrun);
+            syslog(LOG_NOTICE,"emptyPacket=%d",Packetstatistic.pollPacket);
+            syslog(LOG_NOTICE,"Error=%d",Packetstatistic.rError);
 
             sleep(common->samplingTime);    // alvoido
         }
@@ -211,7 +213,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
 
     if ( !data || fd<0 || dLen<0  )
         {
-            syslog(LOG_ERR,"%s fd=%d,data=%p  \nWriting Error:%d",strerror(errno), fd,data,++packet.wError);
+            syslog(LOG_ERR,"%s fd=%d,data=%p  Writing Error:%d",strerror(errno), fd,data,++packet.wError);
             return -1;
         }
 
@@ -287,12 +289,12 @@ void sendRequest(void *arg)
                                     if(sendPacket(common->fd,addresses, cmdTerm, &data,0)>0)
                                         {
                                             packet.TermPacket++;
-                                            syslog(LOG_NOTICE,"Asking Term packet transmitted :%d\n",packet.TermPacket);
+                                            syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
 
                                         }
                                     else
                                         {
-                                            syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
+                                            syslog(LOG_ERR,"Shit happened:%s",strerror(errno));
                                             return;
                                         }
 
@@ -315,12 +317,12 @@ void sendRequest(void *arg)
                                     if(sendPacket(common->fd,addresses, cmdPing, &data,0)>0)
                                     {
                                         packet.pollPacket++;
-                                        syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d\n",packet.pollPacket);
+                                        syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
 
                                     }
                                 else
                                     {
-                                        syslog(LOG_ERR,"Shit happened:%s\n",strerror(errno));
+                                        syslog(LOG_ERR,"Shit happened:%s",strerror(errno));
                                         return;
                                     }
                                 }

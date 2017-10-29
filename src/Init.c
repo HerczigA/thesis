@@ -16,29 +16,30 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     Threadcommon *init=arg;
     char *serial[4];
     serial[0]="/dev/ttyUSB0";
-    serial[1]="/dev/ttyS0";
-    serial[2]="/dev/ttyS1";
-    serial[3]="/dev/ttyS2";
+    serial[1]="/dev/ttyAMA0";
+    serial[2]="/dev/ttyS0";
+    serial[3]="/dev/ttyS1";
 
     if(!(init && old_term && init->numbOfDev ))
         return -1;
 
-    init->fd=open(serial[0],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
+    init->fd=open(serial[0],O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-        if(init->fd<0)
-	    init->fd=open(serial[1],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
+    if(init->fd<0)
+        init->fd=open(serial[1],O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-	 if(init->fd<0)
-    	    init->fd=open(serial[2],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
+    if(init->fd<0)
+        init->fd=open(serial[2],O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-	 if(init->fd<0)
-            init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
+    if(init->fd<0)
+        init->fd=open(serial[3],O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-	 if(init->fd<0)
+    if(init->fd<0)
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
             return -1;
         }
+        fcntl(init->fd,F_SETFL,O_RDWR);
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
@@ -49,10 +50,12 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
     term->c_iflag = IGNPAR;
-    term->c_oflag =0;
-    term->c_lflag=0;
-    term->c_cc[VTIME]=0;
-    term->c_cc[VMIN]=1;
+    term->c_oflag &= ~PARENB;
+    term->c_oflag &= ~CSIZE;
+    term->c_oflag &= ~CSTOPB;
+    term->c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+    term->c_cc[VTIME]=5;
+    term->c_cc[VMIN]=0;
     cfsetispeed(term,(speed_t)init->BAUD);
     cfsetospeed(term,(speed_t)init->BAUD);
 
@@ -78,10 +81,10 @@ int ReadConfig(Threadcommon *arg)
     openlog(NULL,LOG_PID,LOG_LOCAL1);
 
     if(!arg)
-    {
-        syslog(LOG_ERR,"ReadConfig got NULL");
-        return -1;
-    }
+        {
+            syslog(LOG_ERR,"ReadConfig got NULL");
+            return -1;
+        }
 
     char *buffer[MAXLINE];
 
@@ -151,6 +154,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     arg->time=atoi(p);
                                     if(arg->time<REQUESTTIME || arg->time>MAXTIME || !arg->time)
                                         arg->time=REQUESTTIME;
+                                    free(buffer[i]);
 
                                 }
                             if(strstr(buffer[i],"Device"))
@@ -164,6 +168,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     arg->numbOfDev=atoi(p);
                                     if(arg->numbOfDev<DEVMIN|| arg->numbOfDev>DEVMAX|| !arg->numbOfDev)
                                         arg->numbOfDev=DEVMIN;
+                                    free(buffer[i]);
                                 }
                             if(strstr(buffer[i],"sampling"))
                                 {
@@ -176,6 +181,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     arg->samplingTime=atoi(p);
                                     if(arg->samplingTime<DEFTIME|| arg->samplingTime>MAXTIME|| !arg->samplingTime)
                                         arg->samplingTime=DEFTIME;
+                                    free(buffer[i]);
                                 }
                             if(strstr(buffer[i],"Baud"))
                                 {
@@ -187,7 +193,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     arg->BAUD=atoi(p);
                                     if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
                                         arg->BAUD=DEFBAUD;
-
+                                    free(buffer[i]);
                                 }
                             if(strstr(buffer[i],"Delta"))
                                 {
@@ -200,6 +206,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     arg->Delta=atof(p);
                                     if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX|| !arg->Delta)
                                         arg->Delta=DELTAMIN;
+                                    free(buffer[i]);
                                 }
                             if(strstr(buffer[i],"member"))
                                 {
@@ -209,14 +216,16 @@ int configlist(char **buffer,Threadcommon *arg)
                                     else
                                         p[len-1]='\0';
 
-                                    arg->members=atof(p);
+                                    arg->members=atoi(p);
                                     if(arg->members<MEMBERSMIN || arg->members>MEMBERSMAX|| !arg->members)
                                         arg->members=MEMBERSMIN;
-
+                                    free(buffer[i]);
                                 }
                             i++;
                         }
                 }
+            //strcpy(buffer[1],"na");
+            //          printf("%s",buffer[1]);
             if(!arg->BAUD)
                 arg->BAUD=DEFBAUD;
             if(!arg->Delta)
@@ -241,7 +250,6 @@ int configlist(char **buffer,Threadcommon *arg)
                             syslog(LOG_ERR,"No more memory for sensors\n");
                             return -1;
                         }
-
 
                     int sensnmb=0;
                     i=0;
@@ -273,10 +281,10 @@ int configlist(char **buffer,Threadcommon *arg)
                                     *p='\0';
                                     arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
                                     if(!arg->sensors[sensnmb].names)
-                                    {
-                                        syslog(LOG_ERR,"Cannot allocate memory");
-                                        return -2;
-                                    }
+                                        {
+                                            syslog(LOG_ERR,"Cannot allocate memory");
+                                            return -2;
+                                        }
                                     strcpy(arg->sensors[sensnmb].names,seged);
                                     p=buffer[i];
                                     while(isdigit(*p))
@@ -298,6 +306,7 @@ int configlist(char **buffer,Threadcommon *arg)
                 }
             else
                 {
+                    free(buffer[i]);
                     syslog(LOG_ERR,"Something wrong\n");
                     closelog();
                     p=NULL;
@@ -334,29 +343,16 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old)
             syslog(LOG_ERR,"there is a NULL in argumentum list.\n");
             return;
         }
-        int i=0;
+    int i=0;
     tcflush(fileconf->fd,TCIOFLUSH);
     tcsetattr(fileconf->fd,TCSANOW,old);
-
-printf("%p\n",&fileconf->sensors[i]);
-printf("%p\n",&fileconf->sensors[1]);
-printf("%p\n",&fileconf->sensors[2]);
-printf("%p\n",&fileconf->sensors[3]);
-printf("%p\n",&fileconf->sensors[4]);
-   while(i<fileconf->numbOfDev)
+    while(i<fileconf->numbOfDev)
         {
             free(fileconf->sensors[i].names);
             i++;
         }
-        i--;
-               free(&fileconf->sensors[0]);
-               free(&fileconf->sensors[1]);
-   /*while(i)
-        {
-            free(&fileconf->sensors[i]);
-            i--;
-        }
-*/
+    free(fileconf->sensors);
+    syslog(LOG_INFO,"Setting back is succesfully done");
     close(fileconf->fd);
     closelog();
 }

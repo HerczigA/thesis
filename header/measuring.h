@@ -4,7 +4,7 @@
 #include <syslog.h>
 #include <sys/queue.h>
 #include <string.h>
-//#define TRUE 1
+#define ON 1
 typedef struct m_average
 {
     float k_prev;

@@ -48,20 +48,20 @@ float mov_average(movAverage *temp,int members)
 {
     float result=0.0;
     float sum;
-    if(members==3.0)
+    if(members==3)
         {
             sum=temp->k+temp->k_next+temp->k_prev;
 
 
             temp->k_prev=temp->k;
             temp->k=temp->k_next;
-            result=sum/members;
+            result=sum/(float)members;
 
         }
     else
         {
-            sum=(temp->k+temp->k_next+temp->k_prev+temp->k_fourth)/members;
-            result=(sum+temp->summary)/(members/2.0);
+            sum=(temp->k+temp->k_next+temp->k_prev+temp->k_fourth)/(float)members;
+            result=(sum+temp->summary)/((float)members/2.0);
             temp->k_prev=temp->k;
             temp->k=temp->k_fourth;
             temp->k_fourth=temp->k_next;

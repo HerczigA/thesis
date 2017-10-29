@@ -8,14 +8,14 @@ void takeoutFromQueue(void *arg)
 {
     Threadcommon *common=arg;
     if(!common)
-       {
-         syslog(LOG_ERR,"NULL pointer received\n");
-         exit(EXIT_FAILURE);
-       }
+        {
+            syslog(LOG_ERR,"NULL pointer received\n");
+            exit(EXIT_FAILURE);
+        }
     movAverage *devices=NULL;
     float temp;
     float finalResult;
-    int i=1;
+    int i=0;
     QueueData *tempPacket=NULL;
     QueueData *jameson=NULL;
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
@@ -25,7 +25,7 @@ void takeoutFromQueue(void *arg)
             exit(EXIT_FAILURE);
         }
 
-    while (i<=common->numbOfDev)
+    while (i<common->numbOfDev)
         {
             devices[i].k=0;
             devices[i].k_prev=0;
@@ -35,31 +35,44 @@ void takeoutFromQueue(void *arg)
             i++;
         }
 
-    while(TRUE)
+        int lofasz=10;
+    jameson=malloc(sizeof(QueueData));
+    *jameson->data=(float)lofasz;
+    printf("%.2f\n",*jameson->data);
+
+/*while(lofasz++!=5)
+{
+    *jameson->data=(float)lofasz;
+    TAILQ_INSERT_TAIL(&common->head,jameson,entries);
+
+}*/
+    while(ON)
         {
             if(!TAILQ_EMPTY(&common->head))
-            {
-            pthread_mutex_lock(&common->mutex);
-            tempPacket=(QueueData *)TAILQ_FIRST(&common->head);
-            TAILQ_REMOVE(&common->head,tempPacket,entries);
-            pthread_mutex_unlock(&common->mutex);
+                {
+                    pthread_mutex_lock(&common->mutex);
+                    tempPacket=(QueueData *)TAILQ_FIRST(&common->head);
+                    TAILQ_REMOVE(&common->head,tempPacket,entries);
+                    pthread_mutex_unlock(&common->mutex);
 
-            devices[tempPacket->address].k_next=*(tempPacket->data);
+                    devices[tempPacket->address].k_next=*(tempPacket->data);
 
-            temp=mov_average(&devices[tempPacket->address],common->members);
-            finalResult=moving_hysteresis(common->Delta,temp);
+                    temp=mov_average(&devices[tempPacket->address],common->members);
+                    finalResult=moving_hysteresis(common->Delta,temp);
 
-            syslog(LOG_INFO,"Measured temperature from %d address of device with moving average and moving hysteresis :%.2f\n",
-                   tempPacket->address,finalResult);
-            sleep(common->samplingTime);
-            }
+                    syslog(LOG_INFO,"Measured temperature from %d address of device with moving average and moving hysteresis :%.2f\n",
+                           tempPacket->address,finalResult);
+                    free(tempPacket->data);
+                    free(tempPacket);
+                    sleep(common->samplingTime);
+                }
             else
-        {
-            printf("anyad\n");
+                {
 
-               syslog(LOG_ERR,"There is no memory for term\n");
-            }
-                sleep(common->time);
+                    syslog(LOG_INFO,"QUEUE is EMPTY\n");
+                    sleep(common->time);
+                }
+
         }
 
 

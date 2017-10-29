@@ -35,7 +35,7 @@
 #define MAXCHAR 128
 #define pathOfConfig "/home/herczig/thesis/util/config.txt"
 //#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
-//#define pathOfConfig "/home/Herczigdoktor/thesis/thesis/util/config.txt"
+//#define pathOfConfig "/home/Herczigdoktor/thesis/util/config.txt"
 
 typedef struct devices
 {
@@ -56,7 +56,7 @@ typedef struct communication
     int BAUD;
     int samplingTime;
     float Delta;
-    float members;
+    int members;
     Slaves *sensors;
 
 } Threadcommon;
