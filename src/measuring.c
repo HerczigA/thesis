@@ -17,7 +17,7 @@ void takeoutFromQueue(void *arg)
     float finalResult;
     int i=1;
     QueueData *tempPacket=NULL;
-    QueueData *asd=NULL;
+    QueueData *jameson=NULL;
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
     if(!devices)
         {
@@ -35,25 +35,10 @@ void takeoutFromQueue(void *arg)
             i++;
         }
 
-
-       float  ics=2.0;
-
-asd=malloc(5*sizeof(*asd));
-while(ics!=5)
-{
-
-    //asd=(QueueData*)malloc(sizeof(QueueData));
-
-
-    *asd->data=ics;
-    TAILQ_INSERT_TAIL(&common->head,asd,entries);
-    printf("%.2f\n",*asd->data);
-    asd++;
-    ics=ics*2.0;
-
-}
-    while(!TAILQ_EMPTY(&common->head))
+    while(TRUE)
         {
+            if(!TAILQ_EMPTY(&common->head))
+            {
             pthread_mutex_lock(&common->mutex);
             tempPacket=(QueueData *)TAILQ_FIRST(&common->head);
             TAILQ_REMOVE(&common->head,tempPacket,entries);
@@ -67,6 +52,14 @@ while(ics!=5)
             syslog(LOG_INFO,"Measured temperature from %d address of device with moving average and moving hysteresis :%.2f\n",
                    tempPacket->address,finalResult);
             sleep(common->samplingTime);
+            }
+            else
+        {
+            printf("anyad\n");
+
+               syslog(LOG_ERR,"There is no memory for term\n");
+            }
+                sleep(common->time);
         }
 
 

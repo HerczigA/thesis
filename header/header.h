@@ -19,7 +19,6 @@
 #include <wiringPi.h>
 #include <syslog.h>
 #include <ctype.h>
-#include <assert.h>
 #include <errno.h>
 #define RX 16
 #define TX 15
@@ -34,8 +33,8 @@
 #define TOPMEASURES 15
 #define MAXLINE 100
 #define MAXCHAR 128
-//#define pathOfConfig "/home/herczig/thesis/thesis/util/config.txt"
-#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
+#define pathOfConfig "/home/herczig/thesis/util/config.txt"
+//#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
 //#define pathOfConfig "/home/Herczigdoktor/thesis/thesis/util/config.txt"
 
 typedef struct devices
@@ -67,7 +66,7 @@ int configlist(char **buffer,Threadcommon *arg);
 int ReadConfig(Threadcommon *arg);
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);
 int queueInit(Threadcommon *arg);
-void setBackTermios(Threadcommon *arg,struct termios *old,struct termios *term);
+void setBackTermios(Threadcommon *arg,struct termios *old);
 
 
 

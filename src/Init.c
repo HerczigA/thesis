@@ -3,7 +3,6 @@
 #include "../header/header.h"
 #include "../header/counting.h"
 #include "../header/reading.h"
-#include <assert.h>
 
 /*************should set back at the end termios***********/
 
@@ -17,9 +16,9 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     Threadcommon *init=arg;
     char *serial[4];
     serial[0]="/dev/ttyUSB0";
-    serial[1]="/dev/ttyUSB1";
-    serial[1]="/dev/ttyUSB2";
-    serial[2]="/dev/ttyS2";
+    serial[1]="/dev/ttyS0";
+    serial[2]="/dev/ttyS1";
+    serial[3]="/dev/ttyS2";
 
     if(!(init && old_term && init->numbOfDev ))
         return -1;
@@ -34,7 +33,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
 	 if(init->fd<0)
             init->fd=open(serial[3],O_RDWR|O_CREAT|O_TRUNC | O_NOCTTY);
-    printf("%d",init->fd);
+
 	 if(init->fd<0)
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
@@ -46,7 +45,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
             syslog(LOG_ERR,"There is no memory for term\n");
             return -1;
         }
-        printf("%d\n",init->fd);
+
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
     term->c_iflag = IGNPAR;
@@ -60,11 +59,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     tcflush(init->fd, TCIOFLUSH);
     if(!tcsetattr(init->fd,TCSANOW,term))
         {
+            free(term);
             syslog(LOG_INFO,"Serial port has succesfully initialized\n");
             return 0;
         }
     else
         {
+            free(term);
             syslog(LOG_ERR,"%s            %d",strerror(errno),init->fd);
             close(init->fd);
             return -1;
@@ -74,12 +75,16 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
 int ReadConfig(Threadcommon *arg)
 {
+    openlog(NULL,LOG_PID,LOG_LOCAL1);
 
     if(!arg)
+    {
+        syslog(LOG_ERR,"ReadConfig got NULL");
         return -1;
+    }
 
     char *buffer[MAXLINE];
-    openlog(NULL,LOG_PID,LOG_LOCAL1);
+
     arg->BAUD=ZERO;
     arg->Delta=ZERO;
     arg->members=ZERO;
@@ -95,8 +100,8 @@ int ReadConfig(Threadcommon *arg)
 }
 
 int configlist(char **buffer,Threadcommon *arg)
-{ if(!buffer)
-        return -1 ;
+{
+
     const char equalsign='=';
     const char tab='\t';
     char *temp=NULL;
@@ -105,7 +110,6 @@ int configlist(char **buffer,Threadcommon *arg)
     FILE *fconfig=NULL;
     int i,j,len;
     i=0;
-    openlog(NULL,LOG_PID,LOG_LOCAL1);
     fconfig=fopen(pathOfConfig,"r");
 
     if(!fconfig)
@@ -116,13 +120,13 @@ int configlist(char **buffer,Threadcommon *arg)
     /**Read from file line by line. Only reads which are ended by ';'.*/
     else
         {
-            temp=malloc(MAXCHAR*sizeof(char));
+            temp=(char*)malloc(MAXCHAR*sizeof(char));
 
             while(fgets(temp,MAXCHAR,fconfig))
                 {
                     if(strchr(temp,';'))
                         {
-                            buffer[i]=malloc((strlen(temp))*sizeof(char));
+                            buffer[i]=malloc(MAXCHAR*sizeof(char));
                             strcpy(buffer[i],temp);
                             i++;
                         }
@@ -231,7 +235,7 @@ int configlist(char **buffer,Threadcommon *arg)
             j=arg->numbOfDev;
             if(j)
                 {
-                    arg->sensors=malloc(arg->numbOfDev*sizeof(arg->sensors));
+                    arg->sensors=malloc(arg->numbOfDev*sizeof(Slaves));
                     if(!arg->sensors)
                         {
                             syslog(LOG_ERR,"No more memory for sensors\n");
@@ -268,14 +272,18 @@ int configlist(char **buffer,Threadcommon *arg)
                                         p++;
                                     *p='\0';
                                     arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
+                                    if(!arg->sensors[sensnmb].names)
+                                    {
+                                        syslog(LOG_ERR,"Cannot allocate memory");
+                                        return -2;
+                                    }
                                     strcpy(arg->sensors[sensnmb].names,seged);
-
                                     p=buffer[i];
                                     while(isdigit(*p))
                                         p++;
                                     *p='\0';
                                     arg->sensors[sensnmb].address=atoi(buffer[i]);
-
+                                    free(buffer[i]);
                                     sensnmb++;
                                     j--;
                                 }
@@ -318,23 +326,38 @@ int queueInit(Threadcommon *arg)
 }
 
 
-void setBackTermios(Threadcommon *fileconf,struct termios *old,struct termios *term)
+void setBackTermios(Threadcommon *fileconf,struct termios *old)
 {
-    openlog(NULL,LOG_PID,LOG_LOCAL1);
-    if(!(old&&term&&fileconf))
+
+    if(!(old&&fileconf))
         {
             syslog(LOG_ERR,"there is a NULL in argumentum list.\n");
             return;
         }
+        int i=0;
     tcflush(fileconf->fd,TCIOFLUSH);
     tcsetattr(fileconf->fd,TCSANOW,old);
-    while(fileconf->numbOfDev--)
+
+printf("%p\n",&fileconf->sensors[i]);
+printf("%p\n",&fileconf->sensors[1]);
+printf("%p\n",&fileconf->sensors[2]);
+printf("%p\n",&fileconf->sensors[3]);
+printf("%p\n",&fileconf->sensors[4]);
+   while(i<fileconf->numbOfDev)
         {
-            free(fileconf->sensors[fileconf->numbOfDev].names);
-            free(&fileconf->sensors[fileconf->numbOfDev]);
+            free(fileconf->sensors[i].names);
+            i++;
         }
+        i--;
+               free(&fileconf->sensors[0]);
+               free(&fileconf->sensors[1]);
+   /*while(i)
+        {
+            free(&fileconf->sensors[i]);
+            i--;
+        }
+*/
     close(fileconf->fd);
-    free(term);
     closelog();
 }
 
