@@ -11,7 +11,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL;
-    unsigned char data,j=0;
+    unsigned char data;
     int i=0;
     Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
@@ -29,7 +29,7 @@ void  readingFromSerial(void *arg)
         while(1)
         {
             read(common->fd,&data,ONE);
-            printf("%d\n",data);
+
             switch (State)
                 {
 

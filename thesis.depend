@@ -214,7 +214,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1509303563 source:/home/herczig/thesis/main.c
+1509314602 source:/home/herczig/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -278,21 +278,21 @@
 	"../header/reading.h"
 	"../header/crc.h"
 
-1509300520 source:/home/herczig/thesis/src/Init.c
+1509312109 source:/home/herczig/thesis/src/Init.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1509301923 source:/home/herczig/thesis/src/measuring.c
+1509314890 source:/home/herczig/thesis/src/measuring.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1509308055 source:/home/herczig/thesis/src/reading.c
+1509311523 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
@@ -300,7 +300,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1509122749 source:/home/herczig/thesis/src/test.c
+1509314963 source:/home/herczig/thesis/src/test.c
 	<stdio.h>
 	<stdlib.h>
 	<assert.h>

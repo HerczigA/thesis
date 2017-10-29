@@ -12,8 +12,8 @@
   <line>Command: /home/herczig/thesis/bin/Debug/thesis</line>
 </preamble>
 
-<pid>4340</pid>
-<ppid>4185</ppid>
+<pid>15036</pid>
+<ppid>14173</ppid>
 <tool>memcheck</tool>
 
 <args>
@@ -31,7 +31,7 @@
 
 <status>
   <state>RUNNING</state>
-  <time>00:00:00:00.373 </time>
+  <time>00:00:00:00.392 </time>
 </status>
 
 <error>
@@ -41,7 +41,7 @@
   <what>Invalid write of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C2BEA7</ip>
+      <ip>0x4C2EEA7</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>strcpy</fn>
       <dir>./memcheck/../shared</dir>
@@ -49,34 +49,34 @@
       <line>506</line>
     </frame>
     <frame>
-      <ip>0x401995</ip>
+      <ip>0x401A50</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>126</line>
+      <line>134</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6270391 is 0 bytes after a block of size 17 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270181 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -84,28 +84,28 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
@@ -117,7 +117,7 @@
   <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C2B970</ip>
+      <ip>0x4C2E970</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>__GI_strchr</fn>
       <dir>./memcheck/../shared</dir>
@@ -125,34 +125,34 @@
       <line>246</line>
     </frame>
     <frame>
-      <ip>0x401E19</ip>
+      <ip>0x401F94</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>135</line>
+      <line>143</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6270391 is 0 bytes after a block of size 17 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270181 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -160,28 +160,28 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
@@ -193,7 +193,7 @@
   <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C2BDB4</ip>
+      <ip>0x4C2EDB4</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>strlen</fn>
       <dir>./memcheck/../shared</dir>
@@ -201,34 +201,34 @@
       <line>454</line>
     </frame>
     <frame>
-      <ip>0x401A1B</ip>
+      <ip>0x401AD6</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>139</line>
+      <line>147</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6270391 is 0 bytes after a block of size 17 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270181 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -236,28 +236,28 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
@@ -269,34 +269,34 @@
   <what>Invalid write of size 1</what>
   <stack>
     <frame>
-      <ip>0x401A5D</ip>
+      <ip>0x401B1C</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>143</line>
+      <line>151</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6270391 is 0 bytes after a block of size 17 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270181 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -304,40 +304,40 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x10</unique>
+  <unique>0xe</unique>
   <tid>1</tid>
   <kind>InvalidRead</kind>
   <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C30544</ip>
+      <ip>0x4C33544</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>strstr</fn>
       <dir>./memcheck/../shared</dir>
@@ -345,34 +345,69 @@
       <line>1623</line>
     </frame>
     <frame>
-      <ip>0x401A4A</ip>
+      <ip>0x401BB9</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>141</line>
+      <line>161</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x62703f2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270170 is 0 bytes inside a block of size 17 free'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -380,260 +415,671 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x11</unique>
+  <unique>0x1e</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401C6A</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>174</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6270170 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x24</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33560</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401C6A</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>174</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6270176 is 6 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x2f</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401D1E</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>187</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6270170 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x3f</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401DE5</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>199</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6270170 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x4f</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401EBF</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>212</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6270170 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x61</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401B05</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>149</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62701e2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x62</unique>
   <tid>1</tid>
   <kind>InvalidWrite</kind>
   <what>Invalid write of size 1</what>
   <stack>
     <frame>
-      <ip>0x401AEE</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>155</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x62703f2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x40196C</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>125</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x15</unique>
-  <tid>1</tid>
-  <kind>InvalidRead</kind>
-  <what>Invalid read of size 1</what>
-  <stack>
-    <frame>
-      <ip>0x4C30544</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>strstr</fn>
-      <dir>./memcheck/../shared</dir>
-      <file>vg_replace_strmem.c</file>
-      <line>1623</line>
-    </frame>
-    <frame>
-      <ip>0x401ADB</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>152</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x6270451 is 0 bytes after a block of size 17 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x40196C</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>125</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x16</unique>
-  <tid>1</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 1</what>
-  <stack>
-    <frame>
-      <ip>0x401B7C</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>167</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x6270451 is 0 bytes after a block of size 17 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x40196C</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>125</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x1b</unique>
-  <tid>1</tid>
-  <kind>InvalidRead</kind>
-  <what>Invalid read of size 1</what>
-  <stack>
-    <frame>
-      <ip>0x4C30544</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>strstr</fn>
-      <dir>./memcheck/../shared</dir>
-      <file>vg_replace_strmem.c</file>
-      <line>1623</line>
-    </frame>
-    <frame>
-      <ip>0x401B69</ip>
+      <ip>0x401BD0</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
@@ -641,26 +1087,26 @@
       <line>164</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x62704b0 is 0 bytes after a block of size 16 alloc'd</auxwhat>
+  <auxwhat>Address 0x62701e2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -668,108 +1114,40 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x1c</unique>
-  <tid>1</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 1</what>
-  <stack>
-    <frame>
-      <ip>0x401C0D</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>179</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x62704b0 is 0 bytes after a block of size 16 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x40196C</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>125</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x22</unique>
+  <unique>0x8e</unique>
   <tid>1</tid>
   <kind>InvalidRead</kind>
   <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C30544</ip>
+      <ip>0x4C33560</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>strstr</fn>
       <dir>./memcheck/../shared</dir>
@@ -777,34 +1155,69 @@
       <line>1623</line>
     </frame>
     <frame>
-      <ip>0x401BFA</ip>
+      <ip>0x401DE5</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>176</line>
+      <line>199</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x62704fc is 0 bytes after a block of size 12 alloc'd</auxwhat>
+  <auxwhat>Address 0x62701d9 is 9 bytes inside a block of size 18 free'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401C46</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>172</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -812,108 +1225,40 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x23</unique>
-  <tid>1</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 1</what>
-  <stack>
-    <frame>
-      <ip>0x401CB5</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>191</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x62704fc is 0 bytes after a block of size 12 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x40196C</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>125</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x2a</unique>
+  <unique>0x9b</unique>
   <tid>1</tid>
   <kind>InvalidRead</kind>
   <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C30544</ip>
+      <ip>0x4C33560</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>strstr</fn>
       <dir>./memcheck/../shared</dir>
@@ -921,34 +1266,69 @@
       <line>1623</line>
     </frame>
     <frame>
-      <ip>0x401C9E</ip>
+      <ip>0x401EBF</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>188</line>
+      <line>212</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x627055c is 0 bytes after a block of size 28 alloc'd</auxwhat>
+  <auxwhat>Address 0x62701d3 is 3 bytes inside a block of size 18 free'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401C46</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>172</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -956,67 +1336,67 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x2b</unique>
+  <unique>0xae</unique>
   <tid>1</tid>
   <kind>InvalidWrite</kind>
   <what>Invalid write of size 1</what>
   <stack>
     <frame>
-      <ip>0x401D70</ip>
+      <ip>0x401C81</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>203</line>
+      <line>177</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x627055c is 0 bytes after a block of size 28 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270241 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1024,40 +1404,244 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x2c</unique>
+  <unique>0xe7</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401D35</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>190</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62702a0 is 0 bytes after a block of size 16 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x10c</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401DFC</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>202</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62702ec is 0 bytes after a block of size 12 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x11f</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401ED6</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>215</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x627034c is 0 bytes after a block of size 28 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x120</unique>
   <tid>1</tid>
   <kind>InvalidRead</kind>
   <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C2B804</ip>
+      <ip>0x4C2E804</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>rindex</fn>
       <dir>./memcheck/../shared</dir>
@@ -1065,34 +1649,69 @@
       <line>199</line>
     </frame>
     <frame>
-      <ip>0x401F75</ip>
+      <ip>0x4020E8</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>246</line>
+      <line>257</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x62705b2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270170 is 0 bytes inside a block of size 17 free'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x40369F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>58</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>17</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1100,40 +1719,40 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x2d</unique>
+  <unique>0x187</unique>
   <tid>1</tid>
   <kind>InvalidRead</kind>
   <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C2BDB4</ip>
+      <ip>0x4C2EDB4</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>strlen</fn>
       <dir>./memcheck/../shared</dir>
@@ -1141,34 +1760,34 @@
       <line>454</line>
     </frame>
     <frame>
-      <ip>0x401FB0</ip>
+      <ip>0x402123</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>251</line>
+      <line>262</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x62705b2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
+  <auxwhat>Address 0x62703a2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1176,40 +1795,40 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40196C</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x2e</unique>
+  <unique>0x188</unique>
   <tid>1</tid>
   <kind>InvalidWrite</kind>
   <what>Invalid write of size 1</what>
   <stack>
     <frame>
-      <ip>0x4C2BEA7</ip>
+      <ip>0x4C2EEA7</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>strcpy</fn>
       <dir>./memcheck/../shared</dir>
@@ -1217,34 +1836,34 @@
       <line>506</line>
     </frame>
     <frame>
-      <ip>0x402136</ip>
+      <ip>0x4022EE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>271</line>
+      <line>287</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x62707e8 is 0 bytes after a block of size 8 alloc'd</auxwhat>
+  <auxwhat>Address 0x6270628 is 0 bytes after a block of size 8 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1252,340 +1871,76 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x402101</ip>
+      <ip>0x402274</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>270</line>
+      <line>281</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x31</unique>
-  <tid>1</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 4</what>
-  <stack>
-    <frame>
-      <ip>0x402009</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>255</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x6270798 is 0 bytes after a block of size 40 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x401F07</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>234</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x36</unique>
-  <tid>1</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 8</what>
-  <stack>
-    <frame>
-      <ip>0x402102</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>270</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x62707a8 is 16 bytes after a block of size 40 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x401F07</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>234</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x37</unique>
-  <tid>1</tid>
-  <kind>InvalidRead</kind>
-  <what>Invalid read of size 8</what>
-  <stack>
-    <frame>
-      <ip>0x402124</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>271</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x62707a8 is 16 bytes after a block of size 40 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x401F07</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>234</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x39</unique>
-  <tid>1</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 4</what>
-  <stack>
-    <frame>
-      <ip>0x4021C6</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>277</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-  <auxwhat>Address 0x62707a0 is 8 bytes after a block of size 40 alloc'd</auxwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x401F07</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>234</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x47</unique>
+  <unique>0x195</unique>
   <tid>1</tid>
   <kind>SyscallParam</kind>
   <what>Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)</what>
   <stack>
     <frame>
-      <ip>0x5B6686A</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
+      <ip>0x5B6C4A8</ip>
+      <obj>/lib/x86_64-linux-gnu/libc-2.24.so</obj>
       <fn>tcsetattr</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/termios/../sysdeps/unix/sysv/linux</dir>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/termios/../sysdeps/unix/sysv/linux</dir>
       <file>tcsetattr.c</file>
-      <line>87</line>
+      <line>83</line>
     </frame>
     <frame>
-      <ip>0x40175C</ip>
+      <ip>0x4017FD</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>InitSerialPort</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>61</line>
+      <line>63</line>
     </frame>
     <frame>
-      <ip>0x401217</ip>
+      <ip>0x403795</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>63</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>26</line>
+      <line>17</line>
     </frame>
   </stack>
-  <auxwhat>Address 0xfff000560 is on thread 1's stack</auxwhat>
+  <auxwhat>Address 0xfff000174 is on thread 1's stack</auxwhat>
   <auxwhat>Uninitialised value was created by a heap allocation</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1593,7 +1948,7 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40168B</ip>
+      <ip>0x4016F6</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>InitSerialPort</fn>
       <dir>/home/herczig/thesis/src</dir>
@@ -1601,51 +1956,67 @@
       <line>43</line>
     </frame>
     <frame>
-      <ip>0x401217</ip>
+      <ip>0x403795</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>test_Init</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>test.c</file>
+      <line>63</line>
+    </frame>
+    <frame>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>26</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x48</unique>
-  <tid>2</tid>
+  <unique>0x196</unique>
+  <tid>1</tid>
   <kind>InvalidWrite</kind>
-  <what>Invalid write of size 4</what>
+  <what>Invalid write of size 1</what>
   <stack>
     <frame>
-      <ip>0x402483</ip>
+      <ip>0x4C2EEA7</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strcpy</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>506</line>
+    </frame>
+    <frame>
+      <ip>0x401A50</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>30</line>
+      <file>Init.c</file>
+      <line>134</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6275cd8 is 4 bytes after a block of size 100 alloc'd</auxwhat>
+  <auxwhat>Address 0x6276271 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1653,67 +2024,75 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x402430</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>21</line>
+      <file>Init.c</file>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x49</unique>
-  <tid>2</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 4</what>
+  <unique>0x1a1</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4024AA</ip>
+      <ip>0x4C2E970</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>__GI_strchr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>246</line>
+    </frame>
+    <frame>
+      <ip>0x401F94</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>31</line>
+      <file>Init.c</file>
+      <line>143</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6275cd4 is 0 bytes after a block of size 100 alloc'd</auxwhat>
+  <auxwhat>Address 0x6276271 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1721,67 +2100,75 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x402430</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>21</line>
+      <file>Init.c</file>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x4a</unique>
-  <tid>2</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 4</what>
+  <unique>0x1a2</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x4024D0</ip>
+      <ip>0x4C2EDB4</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strlen</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>454</line>
+    </frame>
+    <frame>
+      <ip>0x401AD6</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>32</line>
+      <file>Init.c</file>
+      <line>147</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6275cdc is 8 bytes after a block of size 100 alloc'd</auxwhat>
+  <auxwhat>Address 0x6276271 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1789,67 +2176,67 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x402430</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>21</line>
+      <file>Init.c</file>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x4b</unique>
-  <tid>2</tid>
+  <unique>0x1a3</unique>
+  <tid>1</tid>
   <kind>InvalidWrite</kind>
-  <what>Invalid write of size 4</what>
+  <what>Invalid write of size 1</what>
   <stack>
     <frame>
-      <ip>0x4024F7</ip>
+      <ip>0x401B1C</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>33</line>
+      <file>Init.c</file>
+      <line>151</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6275ce0 is 12 bytes after a block of size 100 alloc'd</auxwhat>
+  <auxwhat>Address 0x6276271 is 0 bytes after a block of size 17 alloc'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1857,67 +2244,110 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x402430</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>21</line>
+      <file>Init.c</file>
+      <line>133</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x4c</unique>
-  <tid>2</tid>
-  <kind>InvalidWrite</kind>
-  <what>Invalid write of size 4</what>
+  <unique>0x1a4</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
   <stack>
     <frame>
-      <ip>0x40251E</ip>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401BB9</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
-      <line>34</line>
+      <file>Init.c</file>
+      <line>161</line>
     </frame>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
-      <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
-      <file>clone.S</file>
-      <line>111</line>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
-  <auxwhat>Address 0x6275ce4 is 16 bytes after a block of size 100 alloc'd</auxwhat>
+  <auxwhat>Address 0x6276260 is 0 bytes inside a block of size 17 free'd</auxwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -1925,28 +2355,1725 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x402430</ip>
+      <ip>0x401A27</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>takeoutFromQueue</fn>
+      <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>measuring.c</file>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x1b4</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401C6A</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>174</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276260 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x1ba</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33560</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401C6A</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>174</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276266 is 6 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x1c5</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401D1E</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>187</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276260 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x1d5</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401DE5</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>199</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276260 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x1e5</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401EBF</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>212</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276260 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x1f7</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33544</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401B05</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>149</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62762d2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x1f8</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401BD0</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>164</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62762d2 is 0 bytes after a block of size 18 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x224</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33560</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401DE5</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>199</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62762c9 is 9 bytes inside a block of size 18 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401C46</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>172</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x231</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C33560</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strstr</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>1623</line>
+    </frame>
+    <frame>
+      <ip>0x401EBF</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>212</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62762c3 is 3 bytes inside a block of size 18 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401C46</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>172</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x244</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401C81</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>177</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276331 is 0 bytes after a block of size 17 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x27d</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401D35</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>190</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276390 is 0 bytes after a block of size 16 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x2a2</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401DFC</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>202</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62763dc is 0 bytes after a block of size 12 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x2b5</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x401ED6</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>215</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x627643c is 0 bytes after a block of size 28 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x2b6</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C2E804</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>rindex</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>199</line>
+    </frame>
+    <frame>
+      <ip>0x4020E8</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>257</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276260 is 0 bytes inside a block of size 17 free'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2CDDB</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>free</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>530</line>
+    </frame>
+    <frame>
+      <ip>0x401B95</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>158</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Block was alloc'd at</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x31d</unique>
+  <tid>1</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C2EDB4</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strlen</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>454</line>
+    </frame>
+    <frame>
+      <ip>0x402123</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>262</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276492 is 0 bytes after a block of size 18 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x401A27</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>133</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x31e</unique>
+  <tid>1</tid>
+  <kind>InvalidWrite</kind>
+  <what>Invalid write of size 1</what>
+  <stack>
+    <frame>
+      <ip>0x4C2EEA7</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>strcpy</fn>
+      <dir>./memcheck/../shared</dir>
+      <file>vg_replace_strmem.c</file>
+      <line>506</line>
+    </frame>
+    <frame>
+      <ip>0x4022EE</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>287</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x6276718 is 0 bytes after a block of size 8 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x402274</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>281</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x32b</unique>
+  <tid>1</tid>
+  <kind>SyscallParam</kind>
+  <what>Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)</what>
+  <stack>
+    <frame>
+      <ip>0x5B6C4A8</ip>
+      <obj>/lib/x86_64-linux-gnu/libc-2.24.so</obj>
+      <fn>tcsetattr</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/termios/../sysdeps/unix/sysv/linux</dir>
+      <file>tcsetattr.c</file>
+      <line>83</line>
+    </frame>
+    <frame>
+      <ip>0x4017FD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>InitSerialPort</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>63</line>
+    </frame>
+    <frame>
+      <ip>0x401205</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
       <line>21</line>
     </frame>
+  </stack>
+  <auxwhat>Address 0xfff000554 is on thread 1's stack</auxwhat>
+  <auxwhat>Uninitialised value was created by a heap allocation</auxwhat>
+  <stack>
     <frame>
-      <ip>0x5871063</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
-      <fn>start_thread</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
-      <file>pthread_create.c</file>
-      <line>309</line>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
     </frame>
     <frame>
-      <ip>0x5B6E62C</ip>
-      <obj>/lib/x86_64-linux-gnu/libc-2.19.so</obj>
+      <ip>0x4016F6</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>InitSerialPort</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>43</line>
+    </frame>
+    <frame>
+      <ip>0x401205</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>21</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x32c</unique>
+  <tid>2</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 4</what>
+  <stack>
+    <frame>
+      <ip>0x4030F4</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>sendRequest</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>reading.c</file>
+      <line>287</line>
+    </frame>
+    <frame>
+      <ip>0x5876493</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
+      <fn>start_thread</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
+      <file>pthread_create.c</file>
+      <line>333</line>
+    </frame>
+    <frame>
+      <ip>0x5B74AFE</ip>
+      <obj>/lib/x86_64-linux-gnu/libc-2.24.so</obj>
       <fn>clone</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
       <file>clone.S</file>
-      <line>111</line>
+      <line>97</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62766d8 is 16 bytes after a block of size 120 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x40207A</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>246</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x32d</unique>
+  <tid>3</tid>
+  <kind>UninitCondition</kind>
+  <what>Conditional jump or move depends on uninitialised value(s)</what>
+  <stack>
+    <frame>
+      <ip>0x402940</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>readingFromSerial</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>reading.c</file>
+      <line>37</line>
+    </frame>
+    <frame>
+      <ip>0x5876493</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
+      <fn>start_thread</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
+      <file>pthread_create.c</file>
+      <line>333</line>
+    </frame>
+    <frame>
+      <ip>0x5B74AFE</ip>
+      <obj>/lib/x86_64-linux-gnu/libc-2.24.so</obj>
+      <fn>clone</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
+      <file>clone.S</file>
+      <line>97</line>
+    </frame>
+  </stack>
+  <auxwhat>Uninitialised value was created by a stack allocation</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x40286C</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>readingFromSerial</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>reading.c</file>
+      <line>12</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0x585</unique>
+  <tid>2</tid>
+  <kind>InvalidRead</kind>
+  <what>Invalid read of size 4</what>
+  <stack>
+    <frame>
+      <ip>0x4031C6</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>sendRequest</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>reading.c</file>
+      <line>315</line>
+    </frame>
+    <frame>
+      <ip>0x5876493</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
+      <fn>start_thread</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
+      <file>pthread_create.c</file>
+      <line>333</line>
+    </frame>
+    <frame>
+      <ip>0x5B74AFE</ip>
+      <obj>/lib/x86_64-linux-gnu/libc-2.24.so</obj>
+      <fn>clone</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/misc/../sysdeps/unix/sysv/linux/x86_64</dir>
+      <file>clone.S</file>
+      <line>97</line>
+    </frame>
+  </stack>
+  <auxwhat>Address 0x62766d8 is 16 bytes after a block of size 120 alloc'd</auxwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2BBAF</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>malloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>299</line>
+    </frame>
+    <frame>
+      <ip>0x40207A</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>configlist</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>246</line>
+    </frame>
+    <frame>
+      <ip>0x401936</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>ReadConfig</fn>
+      <dir>/home/herczig/thesis/src</dir>
+      <file>Init.c</file>
+      <line>98</line>
+    </frame>
+    <frame>
+      <ip>0x4011DD</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>19</line>
     </frame>
   </stack>
 </error>
@@ -1958,20 +4085,20 @@
   <sicode>0</sicode>
   <stack>
     <frame>
-      <ip>0x587249B</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
+      <ip>0x58776CD</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
       <fn>pthread_join</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
       <file>pthread_join.c</file>
-      <line>92</line>
+      <line>90</line>
     </frame>
     <frame>
-      <ip>0x40126D</ip>
+      <ip>0x4012B0</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>40</line>
+      <line>33</line>
     </frame>
   </stack>
 </fatal_signal>
@@ -1979,66 +4106,21 @@
 
 <status>
   <state>FINISHED</state>
-  <time>00:00:21:09.925 </time>
+  <time>00:00:18:51.534 </time>
 </status>
 
 <error>
-  <unique>0x4e</unique>
+  <unique>0xc08</unique>
   <tid>1</tid>
   <kind>Leak_DefinitelyLost</kind>
   <xwhat>
-    <text>22 bytes in 3 blocks are definitely lost in loss record 2 of 7</text>
-    <leakedbytes>22</leakedbytes>
-    <leakedblocks>3</leakedblocks>
-  </xwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x402101</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>configlist</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>270</line>
-    </frame>
-    <frame>
-      <ip>0x40186E</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
-    </frame>
-    <frame>
-      <ip>0x4011EF</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>24</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x50</unique>
-  <tid>1</tid>
-  <kind>Leak_DefinitelyLost</kind>
-  <xwhat>
-    <text>60 bytes in 1 blocks are definitely lost in loss record 4 of 7</text>
-    <leakedbytes>60</leakedbytes>
+    <text>156 (120 direct, 36 indirect) bytes in 1 blocks are definitely lost in loss record 5 of 8</text>
+    <leakedbytes>156</leakedbytes>
     <leakedblocks>1</leakedblocks>
   </xwhat>
   <stack>
     <frame>
-      <ip>0x4C28BAF</ip>
+      <ip>0x4C2BBAF</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>malloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -2046,81 +4128,44 @@
       <line>299</line>
     </frame>
     <frame>
-      <ip>0x40168B</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>InitSerialPort</fn>
-      <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>43</line>
-    </frame>
-    <frame>
-      <ip>0x401217</ip>
-      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>main</fn>
-      <dir>/home/herczig/thesis</dir>
-      <file>main.c</file>
-      <line>26</line>
-    </frame>
-  </stack>
-</error>
-
-<error>
-  <unique>0x52</unique>
-  <tid>1</tid>
-  <kind>Leak_DefinitelyLost</kind>
-  <xwhat>
-    <text>196 bytes in 11 blocks are definitely lost in loss record 6 of 7</text>
-    <leakedbytes>196</leakedbytes>
-    <leakedblocks>11</leakedblocks>
-  </xwhat>
-  <stack>
-    <frame>
-      <ip>0x4C28BAF</ip>
-      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
-      <fn>malloc</fn>
-      <dir>./coregrind/m_replacemalloc</dir>
-      <file>vg_replace_malloc.c</file>
-      <line>299</line>
-    </frame>
-    <frame>
-      <ip>0x40196C</ip>
+      <ip>0x40207A</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>configlist</fn>
       <dir>/home/herczig/thesis/src</dir>
       <file>Init.c</file>
-      <line>125</line>
+      <line>246</line>
     </frame>
     <frame>
-      <ip>0x40186E</ip>
+      <ip>0x40369F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
-      <fn>ReadConfig</fn>
+      <fn>test_Init</fn>
       <dir>/home/herczig/thesis/src</dir>
-      <file>Init.c</file>
-      <line>90</line>
+      <file>test.c</file>
+      <line>58</line>
     </frame>
     <frame>
-      <ip>0x4011EF</ip>
+      <ip>0x4011CE</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>24</line>
+      <line>17</line>
     </frame>
   </stack>
 </error>
 
 <error>
-  <unique>0x53</unique>
+  <unique>0xc09</unique>
   <tid>1</tid>
   <kind>Leak_PossiblyLost</kind>
   <xwhat>
-    <text>288 bytes in 1 blocks are possibly lost in loss record 7 of 7</text>
+    <text>288 bytes in 1 blocks are possibly lost in loss record 6 of 8</text>
     <leakedbytes>288</leakedbytes>
     <leakedblocks>1</leakedblocks>
   </xwhat>
   <stack>
     <frame>
-      <ip>0x4C2ABC5</ip>
+      <ip>0x4C2DBC5</ip>
       <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
       <fn>calloc</fn>
       <dir>./coregrind/m_replacemalloc</dir>
@@ -2128,124 +4173,310 @@
       <line>711</line>
     </frame>
     <frame>
-      <ip>0x40111C1</ip>
-      <obj>/lib/x86_64-linux-gnu/ld-2.19.so</obj>
+      <ip>0x4011F41</ip>
+      <obj>/lib/x86_64-linux-gnu/ld-2.24.so</obj>
       <fn>allocate_dtv</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/elf</dir>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/elf</dir>
       <file>dl-tls.c</file>
-      <line>296</line>
+      <line>322</line>
     </frame>
     <frame>
-      <ip>0x40118CD</ip>
-      <obj>/lib/x86_64-linux-gnu/ld-2.19.so</obj>
+      <ip>0x40128CD</ip>
+      <obj>/lib/x86_64-linux-gnu/ld-2.24.so</obj>
       <fn>_dl_allocate_tls</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/elf</dir>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/elf</dir>
       <file>dl-tls.c</file>
-      <line>460</line>
+      <line>539</line>
     </frame>
     <frame>
-      <ip>0x5871BE7</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
+      <ip>0x587700B</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
       <fn>allocate_stack</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
       <file>allocatestack.c</file>
-      <line>589</line>
+      <line>580</line>
     </frame>
     <frame>
-      <ip>0x5871BE7</ip>
-      <obj>/lib/x86_64-linux-gnu/libpthread-2.19.so</obj>
+      <ip>0x587700B</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
       <fn>pthread_create@@GLIBC_2.2.5</fn>
-      <dir>/build/glibc-6V9RKT/glibc-2.19/nptl</dir>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
       <file>pthread_create.c</file>
-      <line>495</line>
+      <line>539</line>
     </frame>
     <frame>
-      <ip>0x40125C</ip>
+      <ip>0x40125F</ip>
       <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
       <fn>main</fn>
       <dir>/home/herczig/thesis</dir>
       <file>main.c</file>
-      <line>37</line>
+      <line>30</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0xc0a</unique>
+  <tid>1</tid>
+  <kind>Leak_PossiblyLost</kind>
+  <xwhat>
+    <text>288 bytes in 1 blocks are possibly lost in loss record 7 of 8</text>
+    <leakedbytes>288</leakedbytes>
+    <leakedblocks>1</leakedblocks>
+  </xwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2DBC5</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>calloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>711</line>
+    </frame>
+    <frame>
+      <ip>0x4011F41</ip>
+      <obj>/lib/x86_64-linux-gnu/ld-2.24.so</obj>
+      <fn>allocate_dtv</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/elf</dir>
+      <file>dl-tls.c</file>
+      <line>322</line>
+    </frame>
+    <frame>
+      <ip>0x40128CD</ip>
+      <obj>/lib/x86_64-linux-gnu/ld-2.24.so</obj>
+      <fn>_dl_allocate_tls</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/elf</dir>
+      <file>dl-tls.c</file>
+      <line>539</line>
+    </frame>
+    <frame>
+      <ip>0x587700B</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
+      <fn>allocate_stack</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
+      <file>allocatestack.c</file>
+      <line>580</line>
+    </frame>
+    <frame>
+      <ip>0x587700B</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
+      <fn>pthread_create@@GLIBC_2.2.5</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
+      <file>pthread_create.c</file>
+      <line>539</line>
+    </frame>
+    <frame>
+      <ip>0x40127F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>31</line>
+    </frame>
+  </stack>
+</error>
+
+<error>
+  <unique>0xc0b</unique>
+  <tid>1</tid>
+  <kind>Leak_PossiblyLost</kind>
+  <xwhat>
+    <text>288 bytes in 1 blocks are possibly lost in loss record 8 of 8</text>
+    <leakedbytes>288</leakedbytes>
+    <leakedblocks>1</leakedblocks>
+  </xwhat>
+  <stack>
+    <frame>
+      <ip>0x4C2DBC5</ip>
+      <obj>/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so</obj>
+      <fn>calloc</fn>
+      <dir>./coregrind/m_replacemalloc</dir>
+      <file>vg_replace_malloc.c</file>
+      <line>711</line>
+    </frame>
+    <frame>
+      <ip>0x4011F41</ip>
+      <obj>/lib/x86_64-linux-gnu/ld-2.24.so</obj>
+      <fn>allocate_dtv</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/elf</dir>
+      <file>dl-tls.c</file>
+      <line>322</line>
+    </frame>
+    <frame>
+      <ip>0x40128CD</ip>
+      <obj>/lib/x86_64-linux-gnu/ld-2.24.so</obj>
+      <fn>_dl_allocate_tls</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/elf</dir>
+      <file>dl-tls.c</file>
+      <line>539</line>
+    </frame>
+    <frame>
+      <ip>0x587700B</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
+      <fn>allocate_stack</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
+      <file>allocatestack.c</file>
+      <line>580</line>
+    </frame>
+    <frame>
+      <ip>0x587700B</ip>
+      <obj>/lib/x86_64-linux-gnu/libpthread-2.24.so</obj>
+      <fn>pthread_create@@GLIBC_2.2.5</fn>
+      <dir>/build/glibc-p3Km7c/glibc-2.24/nptl</dir>
+      <file>pthread_create.c</file>
+      <line>539</line>
+    </frame>
+    <frame>
+      <ip>0x40129F</ip>
+      <obj>/home/herczig/thesis/bin/Debug/thesis</obj>
+      <fn>main</fn>
+      <dir>/home/herczig/thesis</dir>
+      <file>main.c</file>
+      <line>32</line>
     </frame>
   </stack>
 </error>
 
 <errorcounts>
   <pair>
-    <count>1</count>
-    <unique>0x4c</unique>
-  </pair>
-  <pair>
-    <count>1</count>
-    <unique>0x4b</unique>
-  </pair>
-  <pair>
-    <count>1</count>
-    <unique>0x4a</unique>
-  </pair>
-  <pair>
-    <count>1</count>
-    <unique>0x49</unique>
-  </pair>
-  <pair>
-    <count>1</count>
-    <unique>0x48</unique>
-  </pair>
-  <pair>
-    <count>1</count>
-    <unique>0x47</unique>
-  </pair>
-  <pair>
-    <count>3</count>
-    <unique>0x39</unique>
-  </pair>
-  <pair>
-    <count>5</count>
-    <unique>0x2e</unique>
-  </pair>
-  <pair>
-    <count>3</count>
-    <unique>0x37</unique>
-  </pair>
-  <pair>
-    <count>3</count>
-    <unique>0x36</unique>
-  </pair>
-  <pair>
-    <count>5</count>
-    <unique>0x2d</unique>
-  </pair>
-  <pair>
-    <count>5</count>
-    <unique>0x2c</unique>
-  </pair>
-  <pair>
-    <count>3</count>
-    <unique>0x31</unique>
-  </pair>
-  <pair>
-    <count>1</count>
-    <unique>0x2b</unique>
-  </pair>
-  <pair>
-    <count>1</count>
-    <unique>0x2a</unique>
+    <count>2260</count>
+    <unique>0x32d</unique>
   </pair>
   <pair>
     <count>2</count>
-    <unique>0x22</unique>
+    <unique>0x32c</unique>
   </pair>
   <pair>
-    <count>3</count>
-    <unique>0x1b</unique>
+    <count>2</count>
+    <unique>0x585</unique>
   </pair>
   <pair>
-    <count>4</count>
-    <unique>0x15</unique>
+    <count>1</count>
+    <unique>0x32b</unique>
   </pair>
   <pair>
     <count>5</count>
-    <unique>0x10</unique>
+    <unique>0x31e</unique>
+  </pair>
+  <pair>
+    <count>5</count>
+    <unique>0x31d</unique>
+  </pair>
+  <pair>
+    <count>107</count>
+    <unique>0x2b6</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x2b5</unique>
+  </pair>
+  <pair>
+    <count>65</count>
+    <unique>0x1d5</unique>
+  </pair>
+  <pair>
+    <count>51</count>
+    <unique>0x1c5</unique>
+  </pair>
+  <pair>
+    <count>36</count>
+    <unique>0x1b4</unique>
+  </pair>
+  <pair>
+    <count>20</count>
+    <unique>0x1a4</unique>
+  </pair>
+  <pair>
+    <count>5</count>
+    <unique>0x1f7</unique>
+  </pair>
+  <pair>
+    <count>6</count>
+    <unique>0x1a2</unique>
+  </pair>
+  <pair>
+    <count>6</count>
+    <unique>0x1a1</unique>
+  </pair>
+  <pair>
+    <count>75</count>
+    <unique>0x1e5</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x2a2</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x27d</unique>
+  </pair>
+  <pair>
+    <count>4</count>
+    <unique>0x231</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x244</unique>
+  </pair>
+  <pair>
+    <count>2</count>
+    <unique>0x224</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x1f8</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x1ba</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x1a3</unique>
+  </pair>
+  <pair>
+    <count>11</count>
+    <unique>0x196</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x195</unique>
+  </pair>
+  <pair>
+    <count>5</count>
+    <unique>0x188</unique>
+  </pair>
+  <pair>
+    <count>5</count>
+    <unique>0x187</unique>
+  </pair>
+  <pair>
+    <count>107</count>
+    <unique>0x120</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x11f</unique>
+  </pair>
+  <pair>
+    <count>65</count>
+    <unique>0x3f</unique>
+  </pair>
+  <pair>
+    <count>51</count>
+    <unique>0x2f</unique>
+  </pair>
+  <pair>
+    <count>36</count>
+    <unique>0x1e</unique>
+  </pair>
+  <pair>
+    <count>20</count>
+    <unique>0xe</unique>
+  </pair>
+  <pair>
+    <count>5</count>
+    <unique>0x61</unique>
   </pair>
   <pair>
     <count>6</count>
@@ -2256,20 +4487,36 @@
     <unique>0xb</unique>
   </pair>
   <pair>
-    <count>1</count>
-    <unique>0x23</unique>
+    <count>75</count>
+    <unique>0x4f</unique>
   </pair>
   <pair>
     <count>1</count>
-    <unique>0x1c</unique>
+    <unique>0x10c</unique>
   </pair>
   <pair>
     <count>1</count>
-    <unique>0x16</unique>
+    <unique>0xe7</unique>
+  </pair>
+  <pair>
+    <count>4</count>
+    <unique>0x9b</unique>
   </pair>
   <pair>
     <count>1</count>
-    <unique>0x11</unique>
+    <unique>0xae</unique>
+  </pair>
+  <pair>
+    <count>2</count>
+    <unique>0x8e</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x62</unique>
+  </pair>
+  <pair>
+    <count>1</count>
+    <unique>0x24</unique>
   </pair>
   <pair>
     <count>1</count>

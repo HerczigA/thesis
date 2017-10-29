@@ -66,25 +66,25 @@ void test_Init()
 
 void test_Reading(void *arg)
 {
-
+    char test_data=0x01;
     Threadcommon *testp=arg;
     readingFromSerial(testp);
     readingFromSerial(NULL);
-    //assert(reserve(test_data)!=NULL);
+    assert(reserve(test_data)!=NULL);
 
 
 }
 void test_SendPacket(void *arg)
 {
-    Threadcommon test,*testp;
+    Threadcommon /*test,*/*testp;
     testp=arg;
     unsigned char taddress,tcmd,tdata,tdLen;
-    Crc crc1,crc2;
+   /* Crc crc1,crc2;
     crc1=0;
-    crc2=0;
+    crc2=0;*/
     taddress=1;
     tcmd=0;
-    tdata=0x55;
+    tdata=1;
     tdLen=1;
 
     assert(sendPacket(testp->fd,taddress,tcmd,&tdata,tdLen)==1);

@@ -17,7 +17,6 @@ void takeoutFromQueue(void *arg)
     float finalResult;
     int i=0;
     QueueData *tempPacket=NULL;
-    QueueData *jameson=NULL;
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
     if(!devices)
         {
@@ -35,17 +34,7 @@ void takeoutFromQueue(void *arg)
             i++;
         }
 
-        int lofasz=10;
-    jameson=malloc(sizeof(QueueData));
-    *jameson->data=(float)lofasz;
-    printf("%.2f\n",*jameson->data);
 
-/*while(lofasz++!=5)
-{
-    *jameson->data=(float)lofasz;
-    TAILQ_INSERT_TAIL(&common->head,jameson,entries);
-
-}*/
     while(ON)
         {
             if(!TAILQ_EMPTY(&common->head))
@@ -69,7 +58,7 @@ void takeoutFromQueue(void *arg)
             else
                 {
 
-                    syslog(LOG_INFO,"QUEUE is EMPTY\n");
+                    syslog(LOG_NOTICE,"QUEUE is EMPTY\n");
                     sleep(common->time);
                 }
 

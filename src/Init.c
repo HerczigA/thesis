@@ -12,7 +12,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     wiringPiSetup();
     pinMode(RX,INPUT);      //Rx=Pin number
     pinMode(TX,OUTPUT);     //Tx=Pin number
-    /*********************************************/
+    *********************************************/
     Threadcommon *init=arg;
     char *serial[4];
     serial[0]="/dev/ttyUSB0";
@@ -36,14 +36,14 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     if(init->fd<0)
         {
-            syslog(LOG_ERR,"%s\n",strerror(errno));
+            syslog(LOG_ERR,"%s",strerror(errno));
             return -1;
         }
         fcntl(init->fd,F_SETFL,O_RDWR);
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
-            syslog(LOG_ERR,"There is no memory for term\n");
+            syslog(LOG_ERR,"There is no memory for term");
             return -1;
         }
 
@@ -63,7 +63,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     if(!tcsetattr(init->fd,TCSANOW,term))
         {
             free(term);
-            syslog(LOG_INFO,"Serial port has succesfully initialized\n");
+            syslog(LOG_INFO,"Serial port has succesfully initialized");
             return 0;
         }
     else
@@ -104,7 +104,8 @@ int ReadConfig(Threadcommon *arg)
 
 int configlist(char **buffer,Threadcommon *arg)
 {
-
+    if(!(buffer && arg))
+        return-1;
     const char equalsign='=';
     const char tab='\t';
     char *temp=NULL;
@@ -129,7 +130,7 @@ int configlist(char **buffer,Threadcommon *arg)
                 {
                     if(strchr(temp,';'))
                         {
-                            buffer[i]=malloc(MAXCHAR*sizeof(char));
+                            buffer[i]=malloc((strlen(temp))*sizeof(char));
                             strcpy(buffer[i],temp);
                             i++;
                         }
@@ -224,8 +225,6 @@ int configlist(char **buffer,Threadcommon *arg)
                             i++;
                         }
                 }
-            //strcpy(buffer[1],"na");
-            //          printf("%s",buffer[1]);
             if(!arg->BAUD)
                 arg->BAUD=DEFBAUD;
             if(!arg->Delta)
@@ -235,7 +234,7 @@ int configlist(char **buffer,Threadcommon *arg)
             if(!arg->numbOfDev)
                 {
                     arg->numbOfDev=DEVMIN;
-                    syslog(LOG_ERR,"There are no devices in config \n");
+                    syslog(LOG_ERR,"There are no devices in config ");
                 }
             if(!arg->samplingTime)
                 arg->samplingTime=DEFTIME;
@@ -247,7 +246,7 @@ int configlist(char **buffer,Threadcommon *arg)
                     arg->sensors=malloc(arg->numbOfDev*sizeof(Slaves));
                     if(!arg->sensors)
                         {
-                            syslog(LOG_ERR,"No more memory for sensors\n");
+                            syslog(LOG_ERR,"No more memory for sensors");
                             return -1;
                         }
 
@@ -298,7 +297,7 @@ int configlist(char **buffer,Threadcommon *arg)
                             i++;
 
                         }
-                    syslog(LOG_INFO,"Reading config file succesfully\n");
+                    syslog(LOG_INFO,"Reading config file succesfully");
                     closelog();
                     p=NULL;
                     seged=NULL;
@@ -307,7 +306,7 @@ int configlist(char **buffer,Threadcommon *arg)
             else
                 {
                     free(buffer[i]);
-                    syslog(LOG_ERR,"Something wrong\n");
+                    syslog(LOG_ERR,"no device, I am out");
                     closelog();
                     p=NULL;
                     seged=NULL;
@@ -340,7 +339,7 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old)
 
     if(!(old&&fileconf))
         {
-            syslog(LOG_ERR,"there is a NULL in argumentum list.\n");
+            syslog(LOG_ERR,"there is a NULL in argumentum list.");
             return;
         }
     int i=0;
@@ -352,7 +351,7 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old)
             i++;
         }
     free(fileconf->sensors);
-    syslog(LOG_INFO,"Setting back is succesfully done");
+    syslog(LOG_NOTICE,"Setting back is succesfully done");
     close(fileconf->fd);
     closelog();
 }
