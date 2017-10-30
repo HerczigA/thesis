@@ -8,11 +8,7 @@
 
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 {
-    /*RPI init and PIN out need to def RX and TX/
-    wiringPiSetup();
-    pinMode(RX,INPUT);      //Rx=Pin number
-    pinMode(TX,OUTPUT);     //Tx=Pin number
-    *********************************************/
+
     Threadcommon *init=arg;
     char *serial[4];
     serial[0]="/dev/ttyUSB0";
@@ -104,8 +100,8 @@ int ReadConfig(Threadcommon *arg)
 
 int configlist(char **buffer,Threadcommon *arg)
 {
-    if(!(buffer && arg))
-        return-1;
+    //if(!(buffer && arg))
+      //  return-1;
     const char equalsign='=';
     const char tab='\t';
     char *temp=NULL;

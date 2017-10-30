@@ -65,20 +65,6 @@ void  readingFromSerial(void *arg)
                             break;
                         }
 
- /*               case motoFF:
-                    if(data==1)
-                        {
-                            State=moto1;
-                            continue;
-                        }
-                    else
-                        {
-                            Packetstatistic.packetError++;
-                            syslog(LOG_ERR,"After 0xFF did not receive proper data(0x01)");
-                            break;
-                        }
-*/
-
                 case moto1:
                     if(data==1)
                         {

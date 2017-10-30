@@ -24,9 +24,6 @@ typedef enum PacketState
     /*! min. one 0x55 received*/
     moto55,
 
-    /*!after n*0x55, 0xFF received */
-    motoFF,
-
     /*! after 0xFF, 0x01 received*/
     moto1,
 
