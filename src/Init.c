@@ -126,7 +126,7 @@ int configlist(char **buffer,Threadcommon *arg)
                 {
                     if(strchr(temp,';'))
                         {
-                            buffer[i]=malloc((strlen(temp))*sizeof(char));
+                            buffer[i]=malloc(MAXCHAR*sizeof(char));
                             strcpy(buffer[i],temp);
                             i++;
                         }
