@@ -350,6 +350,7 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old)
             free(fileconf->sensors[i].names);
             i++;
         }
+    pthread_mutex_destroy(&fileconf->mutex);
     free(fileconf->sensors);
     syslog(LOG_NOTICE,"Setting back is succesfully done");
     close(fileconf->fd);

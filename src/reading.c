@@ -13,6 +13,7 @@ void  readingFromSerial(void *arg)
     QueueData *receivingData=NULL;
     unsigned char data;
     int i=0;
+    int dataIndex;
     Crc packetCrc,calculateCrc;
     calculateCrc=packetCrc=0;
     Statistic Packetstatistic= {0};
@@ -29,6 +30,7 @@ void  readingFromSerial(void *arg)
         while(1)
         {
             read(common->fd,&data,ONE);
+            printf("%x\n",(unsigned)data&0xFF);
 
             switch (State)
                 {
@@ -36,6 +38,7 @@ void  readingFromSerial(void *arg)
                 case EmptyState:
                     if (data == 0x55)
                         State= moto55;
+                        i=0;
                     continue;
 
                 case moto55:
@@ -44,7 +47,7 @@ void  readingFromSerial(void *arg)
                             i++;
                             if(i==5)
                                 {
-                                    syslog(LOG_ERR,"Too much 0x55 received.Received numbers of data[%d]:%d\n",i,i);
+                                    syslog(LOG_ERR,"Too much 0x55 received.");
                                     Packetstatistic.rError++;
                                     break;
                                 }
@@ -52,7 +55,7 @@ void  readingFromSerial(void *arg)
                         }
                     if (data== FF)
                         {
-                            State=motoFF;
+                            State=moto1;
                             continue;
                         }
                     else
@@ -62,7 +65,7 @@ void  readingFromSerial(void *arg)
                             break;
                         }
 
-                case motoFF:
+ /*               case motoFF:
                     if(data==1)
                         {
                             State=moto1;
@@ -74,11 +77,12 @@ void  readingFromSerial(void *arg)
                             syslog(LOG_ERR,"After 0xFF did not receive proper data(0x01)");
                             break;
                         }
-
+*/
 
                 case moto1:
-                    if(data)
+                    if(data==1)
                         {
+                            calculateCrc=0;
                             State= address;
                             Packetstatistic.packet++;
                         }
@@ -86,7 +90,7 @@ void  readingFromSerial(void *arg)
                         break;
 
                 case address:
-                    calculateCrc=0;
+
                     if (!receivingData)
                         {
                             calculateCrc = addCRC(calculateCrc, data);
@@ -112,14 +116,14 @@ void  readingFromSerial(void *arg)
 
                 case DLenLow :
                     calculateCrc = addCRC(calculateCrc, data);
-                    receivingData->dlen = data;
+                    receivingData->dlen = (data & 0xff);
                     State = DLenHigh;
                     continue;
 
                 case DLenHigh :
                     calculateCrc = addCRC(calculateCrc, data);
-                    receivingData->dlen|= (data << BYTE) ;
-
+                    receivingData->dlen|= (data& 0xff) << BYTE ;
+                    dataIndex=0;
                     if (receivingData->dlen > 0)
                         {
                             if (receivingData->dlen <= LIMIT)
@@ -146,17 +150,18 @@ void  readingFromSerial(void *arg)
                         }
                 case Data :
                     calculateCrc = addCRC(calculateCrc, data);
-                    *(receivingData->data) = data;
-                    State = CrcLow;
+                    *((receivingData->data)+dataIndex) = data;
+                    if(++dataIndex>=receivingData->dlen)
+                        State = CrcLow;
                     continue;
 
                 case CrcLow :
-                    packetCrc = data;
+                    packetCrc = (data & 0xff);
                     State = CrcHigh;
                     continue;
 
                 case CrcHigh:
-                    packetCrc |=( data<< BYTE);
+                    packetCrc |=( data & 0xff)<< BYTE;
                     if (compareCRC(packetCrc, calculateCrc))
                         {
                             if(receivingData->cmd==1)           //cmdTerm =1, not polling
@@ -176,7 +181,7 @@ void  readingFromSerial(void *arg)
                     break;
                 }
 
-
+            if(receivingData)
             free(receivingData);
             State = EmptyState;
             syslog(LOG_NOTICE,"Packetstatistic packetError=%d",Packetstatistic.packetError);
@@ -221,7 +226,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     uint16_t crc=0;
     uint16_t temp;
 
-    char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
+    unsigned char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
 
     for (i=0; i<MAXU; i++)
         write(fd,&motorola55,ONE);
@@ -235,7 +240,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     temp= dLen;
     crc = addCRC(crc,temp);
     write(fd,&temp,ONE);
-    temp = (dLen >> BYTE);
+    temp = (dLen >> BYTE) & 0xff;
     crc = addCRC(crc, temp);
     write(fd, &temp, ONE);
 
@@ -248,9 +253,9 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
                 }
         }
 
-
+    temp=crc & 0xff;
     write(fd,&crc,ONE);
-    crc=(crc >>BYTE);
+    crc=(crc >>BYTE) & 0xff;
     write(fd,&crc,ONE);
 
 
@@ -334,7 +339,7 @@ void sendRequest(void *arg)
                 }
 
 
-            addresses=0;
+            addresses=1;
         }
 }
 
