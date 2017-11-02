@@ -11,10 +11,10 @@ Source from Zidarics Zoltan a.k.a Zamek
 #include "../header/crc.h"
 
 
-uint16_t addCRC(uint16_t packetCrc, uint16_t countedCrc)
+uint16_t addCRC(uint16_t packetCrc, unsigned char countedCrc)
 {
     char bit;
-    packetCrc^= ( countedCrc<< BYTE);
+    packetCrc^= ( countedCrc<< (WIDTH-BYTE));
     for (bit=BYTE; bit >0; --bit)
         if (packetCrc& TOPBIT)
             packetCrc= (packetCrc<< 1) ^ POLYNOMIAL;

@@ -5,7 +5,7 @@ numberOfDevice=5;
 
 samplingTime=10;
 
-Baudrate=38400;
+Baudrate=9600;
 
 Delta=10.0;
 

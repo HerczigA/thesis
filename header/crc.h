@@ -11,7 +11,7 @@
 
 typedef uint16_t Crc;
 
-uint16_t addCRC(uint16_t packetCrc, uint16_t countedCrc);
+uint16_t addCRC(uint16_t packetCrc,unsigned char countedCrc);
 
 int compareCRC(uint16_t crc1, uint16_t crc2);
 

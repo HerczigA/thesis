@@ -30,7 +30,7 @@ void  readingFromSerial(void *arg)
         while(1)
         {
             read(common->fd,&data,ONE);
-            printf("%x\n",(unsigned)data&0xFF);
+            printf("%x\n",(unsigned)data);
 
             switch (State)
                 {
@@ -139,6 +139,8 @@ void  readingFromSerial(void *arg)
                     *((receivingData->data)+dataIndex) = data;
                     if(++dataIndex>=receivingData->dlen)
                         State = CrcLow;
+		    else
+			State = Data;
                     continue;
 
                 case CrcLow :
@@ -197,7 +199,7 @@ QueueData *reserve(char data)
 
 
 
-int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data, char dLen)
+int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data, int dLen)
 {
     Statistic packet;
     packet.wError=0;
@@ -207,44 +209,48 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
             syslog(LOG_ERR,"%s fd=%d,data=%p  Writing Error:%d",strerror(errno), fd,data,++packet.wError);
             return -1;
         }
-
-    int i;
+    char *buff=(char*)malloc((dLen+13)*sizeof(char));
+    int i=12;
     uint16_t crc=0;
-    uint16_t temp;
+    unsigned char len1,len2,crc1,crc2;
 
-    unsigned char motorola55=0x55,motorolaFF=0XFF,motorola1=0x01;
-
-    for (i=0; i<MAXU; i++)
-        write(fd,&motorola55,ONE);
-
-    write(fd,&motorolaFF,ONE);
-    write(fd,&motorola1,ONE);
     crc = addCRC(crc, address);
-    write (fd,&address,ONE);
     crc = addCRC(crc, cmd);
-    write(fd,&cmd,ONE);
-    temp= dLen;
-    crc = addCRC(crc,temp);
-    write(fd,&temp,ONE);
-    temp = (dLen >> BYTE) & 0xff;
-    crc = addCRC(crc, temp);
-    write(fd, &temp, ONE);
+    len1= dLen & 0xff;
+    crc = addCRC(crc,len1);
+    len2 = (dLen >> BYTE) & 0xff;
+    crc = addCRC(crc, len2);
+    crc1=crc & 0xff;
+    crc2=(crc>>BYTE) & 0xff;
 
     if(dLen>0)
         {
-            for (i=0; i<dLen; i++,data++)
-                {
-                    crc = addCRC(crc, *data);
-                    write(fd,data,ONE);
-                }
+	    int j;
+            for (j=0; j<dLen; j++,data++)
+        	{
+		    buff[i]=*data;
+		    crc = addCRC(crc, *data);
+		    i++;
+		}
         }
 
-    temp=crc & 0xff;
-    write(fd,&crc,ONE);
-    crc=(crc >>BYTE) & 0xff;
-    write(fd,&crc,ONE);
+    while(i!=5)
+    {
+	buff[i]=0x55;
+        i++;
+    }
+    buff[5]=0xFF;
+    buff[6]=0x01;
+    buff[7]=address;
+    buff[8]=cmd;
+    buff[9]=len1;
+    buff[10]=len2;
+    buff[11]=*data;
+    buff[i]=crc1;
+    buff[i++]=crc2;
 
-
+    write(fd,buff,i);
+    free(buff);
     return 1;
 }
 
@@ -252,7 +258,8 @@ void sendRequest(void *arg)
 {
 
     Threadcommon *common=arg;
-    int addresses=1;
+    char addresses=1;
+    int devices=1;
     unsigned char requestType;
     unsigned char requestCounter=0;
     const char cmdPing=0;
@@ -273,9 +280,9 @@ void sendRequest(void *arg)
 
             if(!requestType)
                 {
-                    while(addresses<=common->numbOfDev)
+                    while(devices<=common->numbOfDev)
                         {
-                            if(common->sensors[addresses].state)
+                            if(common->sensors[devices].state)
                                 {
                                     if(sendPacket(common->fd,addresses, cmdTerm, &data,0)>0)
                                         {
@@ -291,19 +298,20 @@ void sendRequest(void *arg)
 
 
                                 }
+			    devices++;
                             addresses++;
-
+                    sleep(common->time);
                         }
 
                     requestCounter++;
-                    sleep(common->time);
+
 
                 }
             else
                 {
-                    while(addresses<=common->numbOfDev)
+                    while(devices<=common->numbOfDev)
                         {
-                            if(common->sensors[addresses].state)
+                            if(common->sensors[devices].state)
                                 {
                                     if(sendPacket(common->fd,addresses, cmdPing, &data,0)>0)
                                     {
@@ -317,11 +325,13 @@ void sendRequest(void *arg)
                                         return;
                                     }
                                 }
+			devices++;
                         addresses++;
+                    sleep(common->time);
                         }
 
                     requestCounter++;
-                    sleep(common->time);
+//                    sleep(common->time);
                 }
 
 

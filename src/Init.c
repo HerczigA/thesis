@@ -19,10 +19,10 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     if(!(init && old_term && init->numbOfDev ))
         return -1;
 
-    init->fd=open(serial[0],O_RDWR | O_NOCTTY | O_NONBLOCK);
+    init->fd=open(serial[0],O_RDWR | O_NOCTTY | O_NONBLOCK );
 
     if(init->fd<0)
-        init->fd=open(serial[1],O_RDWR | O_NOCTTY | O_NONBLOCK);
+        init->fd=open(serial[1],O_RDWR | O_NOCTTY | O_NONBLOCK );
 
     if(init->fd<0)
         init->fd=open(serial[2],O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -35,7 +35,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
             syslog(LOG_ERR,"%s",strerror(errno));
             return -1;
         }
-        fcntl(init->fd,F_SETFL,O_RDWR);
+    //    fcntl(init->fd,F_SETFL,O_RDWR);
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {
@@ -46,11 +46,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
     term->c_iflag = IGNPAR;
-    term->c_oflag &= ~PARENB;
+    term->c_oflag &= ~PARENB;		//NO parity
     term->c_oflag &= ~CSIZE;
-    term->c_oflag &= ~CSTOPB;
-    term->c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-    term->c_cc[VTIME]=5;
+    term->c_oflag &= ~CSTOPB;		//just 1 Stop bit not 2
+    //term->c_oflag =0;
+
+//    term->c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+    term->c_cc[VTIME]=10;
     term->c_cc[VMIN]=0;
     cfsetispeed(term,(speed_t)init->BAUD);
     cfsetospeed(term,(speed_t)init->BAUD);
@@ -248,6 +250,7 @@ int configlist(char **buffer,Threadcommon *arg)
 
                     int sensnmb=0;
                     i=0;
+		    int cim;
                     while(j)
                         {
                             if((p=strrchr(buffer[i],tab)))
@@ -285,7 +288,8 @@ int configlist(char **buffer,Threadcommon *arg)
                                     while(isdigit(*p))
                                         p++;
                                     *p='\0';
-                                    arg->sensors[sensnmb].address=atoi(buffer[i]);
+				    cim=atoi(buffer[i]);
+                                    arg->sensors[sensnmb].address=(char)cim;
                                     free(buffer[i]);
                                     sensnmb++;
                                     j--;
