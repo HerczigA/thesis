@@ -11,7 +11,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     Threadcommon *init=arg;
     char *serial[4];
-    serial[0]="/dev/ttyUSB0";
+    serial[0]="/dev/ttyUSB";
     serial[1]="/dev/ttyAMA0";
     serial[2]="/dev/ttyS0";
     serial[3]="/dev/ttyS1";
@@ -19,23 +19,23 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     if(!(init && old_term && init->numbOfDev ))
         return -1;
 
-    init->fd=open(serial[0],O_RDWR | O_NOCTTY | O_NONBLOCK );
+    init->fd=open(serial[0],O_RDWR | O_NOCTTY );
 
     if(init->fd<0)
-        init->fd=open(serial[1],O_RDWR | O_NOCTTY | O_NONBLOCK );
+        init->fd=open(serial[1],O_RDWR |O_NOCTTY);
 
     if(init->fd<0)
-        init->fd=open(serial[2],O_RDWR | O_NOCTTY | O_NONBLOCK);
+        init->fd=open(serial[2],O_RDWR | O_NOCTTY);
 
     if(init->fd<0)
-        init->fd=open(serial[3],O_RDWR | O_NOCTTY | O_NONBLOCK);
+        init->fd=open(serial[3],O_RDWR | O_NOCTTY);
 
     if(init->fd<0)
         {
             syslog(LOG_ERR,"%s",strerror(errno));
             return -1;
         }
-    //    fcntl(init->fd,F_SETFL,O_RDWR);
+    fcntl(init->fd,F_SETFL,O_RDWR);
     term=(struct termios*)malloc(sizeof(struct termios));
     if(!term)
         {

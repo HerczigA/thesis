@@ -26,19 +26,21 @@ void  readingFromSerial(void *arg)
             Packetstatistic.rError++;
             return;
         }
-
+            printf("mi a fasz\n");
         while(1)
         {
             read(common->fd,&data,ONE);
-            printf("%x\n",(unsigned)data);
+            printf("%x\n",data);
 
             switch (State)
                 {
 
                 case EmptyState:
                     if (data == 0x55)
-                        State= moto55;
-                        i=0;
+                        {
+			    State= moto55;
+                    	    i=0;
+			}
                     continue;
 
                 case moto55:
@@ -61,7 +63,7 @@ void  readingFromSerial(void *arg)
                     else
                         {
                             Packetstatistic.packetError++;
-                            syslog(LOG_ERR,"After 0x55 did not receive proper data(0xFF)");
+                            syslog(LOG_ERR,"After 0x55 did not receive proper data(%d)",data);
                             break;
                         }
 
@@ -167,6 +169,7 @@ void  readingFromSerial(void *arg)
 
                         }
                     break;
+
                 }
 
             if(receivingData)
@@ -179,7 +182,7 @@ void  readingFromSerial(void *arg)
             syslog(LOG_NOTICE,"emptyPacket=%d",Packetstatistic.pollPacket);
             syslog(LOG_NOTICE,"Error=%d",Packetstatistic.rError);
 
-            sleep(common->samplingTime);    // alvoido
+    //        sleep(1);    // alvoido
         }
 
 
@@ -204,13 +207,19 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     Statistic packet;
     packet.wError=0;
 
-    if ( !data || fd<0 || dLen<0  )
+    if ( !data || fd <0 || dLen <0 )
         {
             syslog(LOG_ERR,"%s fd=%d,data=%p  Writing Error:%d",strerror(errno), fd,data,++packet.wError);
             return -1;
         }
     char *buff=(char*)malloc((dLen+13)*sizeof(char));
-    int i=12;
+    if(!buff)
+    {	
+	syslog(LOG_ERR,"No enough memory");
+	return -1;
+    }
+    int i=0;
+    int dataElement=11;
     uint16_t crc=0;
     unsigned char len1,len2,crc1,crc2;
 
@@ -228,9 +237,9 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
 	    int j;
             for (j=0; j<dLen; j++,data++)
         	{
-		    buff[i]=*data;
+		    buff[dataElement]=*data;
 		    crc = addCRC(crc, *data);
-		    i++;
+		    dataElement++;
 		}
         }
 
@@ -245,13 +254,24 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     buff[8]=cmd;
     buff[9]=len1;
     buff[10]=len2;
-    buff[11]=*data;
-    buff[i]=crc1;
-    buff[i++]=crc2;
+    buff[dataElement]=crc1;
+    dataElement++;
+    buff[dataElement]=crc2;
+    dataElement++;
 
-    write(fd,buff,i);
+    i=write(fd,buff,dataElement);
+    if(i!=dataElement)
+    {
+    syslog(LOG_ERR,"%d",i);
+    free(buff);
+    return -1;
+    }
+    else
+{
+    syslog(LOG_INFO,"%d",i);
     free(buff);
     return 1;
+}
 }
 
 void sendRequest(void *arg)
@@ -300,9 +320,9 @@ void sendRequest(void *arg)
                                 }
 			    devices++;
                             addresses++;
-                    sleep(common->time);
-                        }
 
+                        }
+                    sleep(common->time);
                     requestCounter++;
 
 
@@ -327,11 +347,11 @@ void sendRequest(void *arg)
                                 }
 			devices++;
                         addresses++;
-                    sleep(common->time);
+//                    sleep(common->time);
                         }
 
                     requestCounter++;
-//                    sleep(common->time);
+                    sleep(common->time);
                 }
 
 
