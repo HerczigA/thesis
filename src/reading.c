@@ -26,10 +26,9 @@ void  readingFromSerial(void *arg)
             Packetstatistic.rError++;
             return;
         }
-            printf("mi a fasz\n");
-        while(1)
+        while(read(common->fd,&data,ONE)!=-1)
         {
-            read(common->fd,&data,ONE);
+            
             printf("%x\n",data);
 
             switch (State)
