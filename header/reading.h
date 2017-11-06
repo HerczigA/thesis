@@ -79,4 +79,5 @@ void  readingFromSerial(void *arg);
 QueueData *reserve(char data);
 void sendRequest(void *arg);
 int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data,int  dLen);
+void closeOnFAIL(void *arg);
 #endif // READING_H_INCLUDED

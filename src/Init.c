@@ -11,7 +11,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     Threadcommon *init=arg;
     char *serial[4];
-    serial[0]="/dev/ttyUSB";
+    serial[0]="/dev/ttyUSB0";
     serial[1]="/dev/ttyAMA0";
     serial[2]="/dev/ttyS0";
     serial[3]="/dev/ttyS1";
@@ -19,16 +19,16 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     if(!(init && old_term && init->numbOfDev ))
         return -1;
 
-    init->fd=open(serial[0],O_RDWR | O_NOCTTY );
+    init->fd=open(serial[0],O_RDWR | O_NOCTTY | O_NDELAY );
 
     if(init->fd<0)
-        init->fd=open(serial[1],O_RDWR |O_NOCTTY);
+        init->fd=open(serial[1],O_RDWR |O_NOCTTY | O_NDELAY);
 
     if(init->fd<0)
-        init->fd=open(serial[2],O_RDWR | O_NOCTTY);
+        init->fd=open(serial[2],O_RDWR | O_NOCTTY | O_NDELAY);
 
     if(init->fd<0)
-        init->fd=open(serial[3],O_RDWR | O_NOCTTY);
+        init->fd=open(serial[3],O_RDWR | O_NOCTTY | O_NDELAY);
 
     if(init->fd<0)
         {
@@ -45,15 +45,12 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
-    term->c_iflag = IGNPAR;
-    term->c_oflag &= ~PARENB;		//NO parity
-    term->c_oflag &= ~CSIZE;
-    term->c_oflag &= ~CSTOPB;		//just 1 Stop bit not 2
+    term->c_cflag &= ~(CRTSCTS | PARENB | CSIZE |CSTOPB);
+    term->c_iflag = 0;
+    term->c_lflag &= ~( ICANON | ECHO | ECHOE | ISIG);
     //term->c_oflag =0;
-
-//    term->c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-    term->c_cc[VTIME]=10;
-    term->c_cc[VMIN]=0;
+    term->c_cc[VTIME]=0;
+    term->c_cc[VMIN]=1;
     cfsetispeed(term,(speed_t)init->BAUD);
     cfsetospeed(term,(speed_t)init->BAUD);
 
@@ -66,6 +63,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         }
     else
         {
+            closeOnFAIL(init);
             free(term);
             syslog(LOG_ERR,"%s            %d",strerror(errno),init->fd);
             close(init->fd);
@@ -357,7 +355,18 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old)
     closelog();
 }
 
+void closeOnFAIL(void *arg)
+{
+    Threadcommon *temp=arg;
+    int i=0;
+     while(i<temp->numbOfDev)
+        {
+            free(temp->sensors[i].names);
+            i++;
+        }
+    free(temp->sensors);
 
+}
 
 
 
