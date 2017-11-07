@@ -30,7 +30,7 @@ void  readingFromSerial(void *arg)
         while(read(common->fd,&data,ONE)!=-1)
         {
 
-            printf("%x\n",data);
+            printf("%c\t%d\t%x\n",data,data,data);
 
             switch (State)
                 {
