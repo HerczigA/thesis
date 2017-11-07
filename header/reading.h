@@ -6,6 +6,7 @@
 #include <syslog.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <signal.h>
 #include "header.h"
 #include <errno.h>
 #define LIMIT 1024

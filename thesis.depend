@@ -214,7 +214,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1509393964 source:/home/herczig/thesis/main.c
+1510083627 source:/home/herczig/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -223,11 +223,12 @@
 	"header/counting.h"
 	"header/measuring.h"
 	"header/test.h"
+	<signal.h>
 
-1509122749 /home/herczig/thesis/header/crc.h
+1509998779 /home/herczig/thesis/header/crc.h
 	<stdint.h>
 
-1509291545 /home/herczig/thesis/header/header.h
+1510083389 /home/herczig/thesis/header/header.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
@@ -245,26 +246,27 @@
 	<ctype.h>
 	<errno.h>
 
-1509401699 /home/herczig/thesis/header/reading.h
+1510075187 /home/herczig/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
 	<syslog.h>
 	<pthread.h>
 	<unistd.h>
+	<signal.h>
 	"header.h"
 	<errno.h>
 
-1509122749 /home/herczig/thesis/header/counting.h
+1509998779 /home/herczig/thesis/header/counting.h
 	"measuring.h"
 
-1509291442 /home/herczig/thesis/header/measuring.h
+1509998779 /home/herczig/thesis/header/measuring.h
 	<unistd.h>
 	<syslog.h>
 	<sys/queue.h>
 	<string.h>
 
-1509290025 source:/home/herczig/thesis/src/counting.c
+1509998779 source:/home/herczig/thesis/src/counting.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -272,35 +274,36 @@
 	"../header/reading.h"
 	"../header/measuring.h"
 
-1509122749 source:/home/herczig/thesis/src/crc.c
+1509998779 source:/home/herczig/thesis/src/crc.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
 	"../header/crc.h"
 
-1509401877 source:/home/herczig/thesis/src/Init.c
+1510083379 source:/home/herczig/thesis/src/Init.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1509314890 source:/home/herczig/thesis/src/measuring.c
+1509998779 source:/home/herczig/thesis/src/measuring.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1509401699 source:/home/herczig/thesis/src/reading.c
+1510083627 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/crc.h"
 	"../header/reading.h"
 	"../header/reading.h"
+	<signal.h>
 
-1509314963 source:/home/herczig/thesis/src/test.c
+1509998779 source:/home/herczig/thesis/src/test.c
 	<stdio.h>
 	<stdlib.h>
 	<assert.h>
@@ -310,7 +313,7 @@
 	"../header/measuring.h"
 	"../header/reading.h"
 
-1509122749 /home/herczig/thesis/header/test.h
+1509998779 /home/herczig/thesis/header/test.h
 	"counting.h"
 	"crc.h"
 	"header.h"

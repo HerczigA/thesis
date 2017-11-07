@@ -6,6 +6,7 @@
 #include "header/counting.h"
 #include "header/measuring.h"
 #include "header/test.h"
+#include <signal.h>
 int main()
 {
     struct termios old_term,*term=NULL;
@@ -22,17 +23,16 @@ int main()
         return -1;
     if(queueInit(&threadHandle))
         return -1;
-
-printf("%d\n",threadHandle.fd);
-     // test_SendPacket(&threadHandle);
+    // test_SendPacket(&threadHandle);
     //        test_Reading(&threadHandle);
 
-//    pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
-    pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
+    pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
+//    pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
     //pthread_create(&processor_thread,NULL,(void*)takeoutFromQueue,&threadHandle);
-//    pthread_join(requesting_thread,NULL);
-    pthread_join(reading_thread,NULL);
+    pthread_join(requesting_thread,NULL);
+//       pthread_join(reading_thread,NULL);
     //pthread_join(processor_thread,NULL);
+
     setBackTermios(&threadHandle,&old_term);
 
     return 0;

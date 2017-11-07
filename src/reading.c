@@ -4,6 +4,7 @@
 #include "../header/crc.h"
 #include "../header/reading.h"
 #include "../header/reading.h"
+#include <signal.h>
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
@@ -28,7 +29,7 @@ void  readingFromSerial(void *arg)
         }
         while(read(common->fd,&data,ONE)!=-1)
         {
-            
+
             printf("%x\n",data);
 
             switch (State)
@@ -213,7 +214,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
         }
     char *buff=(char*)malloc((dLen+13)*sizeof(char));
     if(!buff)
-    {	
+    {
 	syslog(LOG_ERR,"No enough memory");
 	return -1;
     }
@@ -239,7 +240,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
 		    buff[dataElement]=*data;
 		    crc = addCRC(crc, *data);
 		    dataElement++;
-		}
+            }
         }
 
     while(i!=5)
@@ -258,7 +259,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     buff[dataElement]=crc2;
     dataElement++;
 
-    i=write(fd,buff,dataElement);
+    i=write(fd,"a",1);
     if(i!=dataElement)
     {
     syslog(LOG_ERR,"%d",i);

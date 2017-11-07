@@ -45,9 +45,9 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
-    term->c_cflag &= ~(CRTSCTS | PARENB | CSIZE |CSTOPB);
+    //term->c_cflag &= ~( PARENB | CSIZE |CSTOPB);
     term->c_iflag = 0;
-    term->c_lflag &= ~( ICANON | ECHO | ECHOE | ISIG);
+    //term->c_lflag &= ~( ICANON | ECHO | ECHOE | ISIG);
     //term->c_oflag =0;
     term->c_cc[VTIME]=0;
     term->c_cc[VMIN]=1;
@@ -367,7 +367,6 @@ void closeOnFAIL(void *arg)
     free(temp->sensors);
 
 }
-
 
 
 
