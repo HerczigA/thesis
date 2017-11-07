@@ -202,7 +202,7 @@ QueueData *reserve(char data)
 
 
 
-int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data, int dLen)
+int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data, uint16_t dLen)
 {
     Statistic packet;
     packet.wError=0;
@@ -259,7 +259,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     buff[dataElement]=crc2;
     dataElement++;
 
-    i=write(fd,"a",1);
+    i=write(fd,buff,dataElement);
     if(i!=dataElement)
     {
     syslog(LOG_ERR,"%d",i);
@@ -280,10 +280,11 @@ void sendRequest(void *arg)
     Threadcommon *common=arg;
     char addresses=1;
     int devices=1;
-    unsigned char requestType;
-    unsigned char requestCounter=0;
+    int requestType;
+    int requestCounter=0;
     const char cmdPing=0;
     const char cmdTerm=1;
+    uint16_t DLEN=0;
     Statistic packet;
     packet.TermPacket=0;
     packet.pollPacket=0;
@@ -304,7 +305,7 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[devices].state)
                                 {
-                                    if(sendPacket(common->fd,addresses, cmdTerm, &data,0)>0)
+                                    if(sendPacket(common->fd,addresses, cmdTerm, &data,DLEN)>0)
                                         {
                                             packet.TermPacket++;
                                             syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
@@ -333,7 +334,7 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[devices].state)
                                 {
-                                    if(sendPacket(common->fd,addresses, cmdPing, &data,0)>0)
+                                    if(sendPacket(common->fd,addresses, cmdPing, &data,DLEN)>0)
                                     {
                                         packet.pollPacket++;
                                         syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);

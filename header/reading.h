@@ -79,6 +79,6 @@ typedef struct queueData
 void  readingFromSerial(void *arg);
 QueueData *reserve(char data);
 void sendRequest(void *arg);
-int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data,int  dLen);
+int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data,uint16_t  dLen);
 void closeOnFAIL(void *arg);
 #endif // READING_H_INCLUDED
