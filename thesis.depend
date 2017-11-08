@@ -214,7 +214,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1510180353 source:/home/herczig/thesis/main.c
+1510183959 source:/home/herczig/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -293,7 +293,7 @@
 	"../header/counting.h"
 	"../header/reading.h"
 
-1510180040 source:/home/herczig/thesis/src/reading.c
+1510184556 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"

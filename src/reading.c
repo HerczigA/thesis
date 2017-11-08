@@ -164,7 +164,7 @@ void  readingFromSerial(void *arg)
                     printf("CRCHIGH CRC:%d\n",calculateCrc);
                     if (compareCRC(packetCrc, calculateCrc))
                         {
-                            if(receivingData->cmd==1)           //cmdTerm =1, not polling
+                            if(receivingData->cmd==1 && receivingData->data)           //cmdTerm =1, not polling
                                 {
                                     toQueueuPacket=receivingData;
                                     pthread_mutex_lock(&common->mutex);
@@ -178,10 +178,12 @@ void  readingFromSerial(void *arg)
                                 {
                                     Packetstatistic.pollPacket++;
                                     syslog(LOG_NOTICE,"Slave Keep Alive:%c",receivingData->address);
+                                    free(receivingData);
                                     receivingData=NULL;
                                     State=EmptyState;
                                 }
-
+                            else
+                                syslog(LOG_ERR,"ERROR Packet");
                         }
                     break;
 
@@ -244,15 +246,15 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     unsigned char len1,len2,crc1,crc2;
 
     crc = addCRC(crc, address);
-    printf("Address CRC:%d\n",calculateCrc);
+    printf("Address CRC:%d\n",crc);
     crc = addCRC(crc, cmd);
-    printf("Cmd CRC:%d\n",calculateCrc);
+    printf("Cmd CRC:%d\n",crc);
     len1= dLen & 0xff;
     crc = addCRC(crc,len1);
-    printf("DLenLOW CRC:%d\n",calculateCrc);
+    printf("DLenLOW CRC:%d\n",crc);
     len2 = (dLen >> BYTE) & 0xff;
     crc = addCRC(crc, len2);
-    printf("DLenHIGH CRC:%d\n",calculateCrc);
+    printf("DLenHIGH CRC:%d\n",crc);
     if(dLen>0)
         {
             int j;
@@ -260,14 +262,14 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
                 {
                     buff[dataElement]=*data;
                     crc = addCRC(crc, *data);
-                    printf("Data CRC:%d\n",calculateCrc);
+                    printf("Data CRC:%d\n",crc);
                     dataElement++;
                 }
         }
     crc1=crc & 0xff;
-    printf("CRClow CRC:%d\n",calculateCrc);
+    printf("CRClow CRC:%d\n",crc);
     crc2=(crc>>BYTE) & 0xff;
-    printf("CRChigh CRC:%d\n",calculateCrc);
+    printf("CRChigh CRC:%d\n",crc);
     while(i!=5)
         {
             buff[i]=0x55;
@@ -305,8 +307,8 @@ void sendRequest(void *arg)
     int devices=1;
     int requestType;
     int requestCounter=0;
-    const char heartBit=0x69;
-    const char cmdTerm=1;
+    unsigned const char heartBit=0x69;
+    unsigned const char cmdTerm=1;
     uint16_t DLEN=0;
     Statistic packet;
     packet.TermPacket=0;
@@ -320,7 +322,7 @@ void sendRequest(void *arg)
 
 
             requestType = requestCounter % 3;
-            ++requestCounter;
+            //++requestCounter;
 
             if(!requestType)
                 {
@@ -378,7 +380,7 @@ void sendRequest(void *arg)
                     sleep(common->time);
                 }
 
-
+            devices=1;
             addresses=1;
         }
 }
