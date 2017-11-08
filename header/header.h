@@ -30,9 +30,9 @@
 #define TOPMEASURES 15
 #define MAXLINE 100
 #define MAXCHAR 128
-//#define pathOfConfig "/home/herczig/thesis/util/config.txt"
+#define pathOfConfig "/home/herczig/thesis/util/config.txt"
 //#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
-#define pathOfConfig "/home/pi/thesis/util/config.txt"
+//#define pathOfConfig "/home/pi/thesis/util/config.txt"
 
 typedef struct devices
 {

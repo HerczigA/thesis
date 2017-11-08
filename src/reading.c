@@ -85,6 +85,7 @@ void  readingFromSerial(void *arg)
                     if (!receivingData)
                         {
                             calculateCrc = addCRC(calculateCrc, data);
+                            printf("ADDRESS CRC:%d\n",calculateCrc);
                             receivingData=reserve(data);
                             if (!receivingData)
                                 {
@@ -101,18 +102,21 @@ void  readingFromSerial(void *arg)
 
                 case command :
                     calculateCrc = addCRC(calculateCrc,data);
+                    printf("CMD CRC:%d\n",calculateCrc);
                     receivingData->cmd = data;
                     State = DLenLow;
                     continue;
 
                 case DLenLow :
                     calculateCrc = addCRC(calculateCrc, data);
+                    printf("DLenLow CRC:%d\n",calculateCrc);
                     receivingData->dlen = (data & 0xff);
                     State = DLenHigh;
                     continue;
 
                 case DLenHigh :
                     calculateCrc = addCRC(calculateCrc, data);
+                    printf("DLenHIGH CRC:%d\n",calculateCrc);
                     receivingData->dlen |= (data& 0xff) << BYTE ;
                     dataIndex=0;
                     if (receivingData->dlen > 0)
@@ -141,6 +145,7 @@ void  readingFromSerial(void *arg)
                         }
                 case Data :
                     calculateCrc = addCRC(calculateCrc, data);
+                    printf("Data CRC:%d\n",calculateCrc);
                     *((receivingData->data)+dataIndex) = data;
                     if(++dataIndex>=receivingData->dlen)
                         State = CrcLow;
@@ -150,11 +155,13 @@ void  readingFromSerial(void *arg)
 
                 case CrcLow :
                     packetCrc = (data & 0xff);
+                    printf("CRCLOW  CRC:%d\n",calculateCrc);
                     State = CrcHigh;
                     continue;
 
                 case CrcHigh:
                     packetCrc |= ( data & 0xff)<< BYTE;
+                    printf("CRCHIGH CRC:%d\n",calculateCrc);
                     if (compareCRC(packetCrc, calculateCrc))
                         {
                             if(receivingData->cmd==1)           //cmdTerm =1, not polling
@@ -237,25 +244,30 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     unsigned char len1,len2,crc1,crc2;
 
     crc = addCRC(crc, address);
+    printf("Address CRC:%d\n",calculateCrc);
     crc = addCRC(crc, cmd);
+    printf("Cmd CRC:%d\n",calculateCrc);
     len1= dLen & 0xff;
     crc = addCRC(crc,len1);
+    printf("DLenLOW CRC:%d\n",calculateCrc);
     len2 = (dLen >> BYTE) & 0xff;
     crc = addCRC(crc, len2);
-
+    printf("DLenHIGH CRC:%d\n",calculateCrc);
     if(dLen>0)
         {
             int j;
-            for (j=0; j<dLen; j++,data++)
+            for (j=0; j<dLen; ++j,++data)
                 {
                     buff[dataElement]=*data;
                     crc = addCRC(crc, *data);
+                    printf("Data CRC:%d\n",calculateCrc);
                     dataElement++;
                 }
         }
     crc1=crc & 0xff;
+    printf("CRClow CRC:%d\n",calculateCrc);
     crc2=(crc>>BYTE) & 0xff;
-
+    printf("CRChigh CRC:%d\n",calculateCrc);
     while(i!=5)
         {
             buff[i]=0x55;
