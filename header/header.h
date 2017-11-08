@@ -19,8 +19,6 @@
 #include <syslog.h>
 #include <ctype.h>
 #include <errno.h>
-#define RX 16
-#define TX 15
 #define ZERO 0
 #define DEVMIN 0
 #define DEVMAX 99

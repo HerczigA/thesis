@@ -11,7 +11,8 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 
 void  readingFromSerial(void *arg)
 {
-    QueueData *receivingData=NULL;
+    QueueData *receivingData=NULL,
+              *toQueueuPacket=NULL;
     unsigned char data;
     int i=0;
     int dataIndex;
@@ -27,7 +28,7 @@ void  readingFromSerial(void *arg)
             Packetstatistic.rError++;
             return;
         }
-        while(read(common->fd,&data,ONE)!=-1)
+    while(read(common->fd,&data,ONE)!=-1)
         {
 
             printf("%c\t%d\t%x\n",data,data,data);
@@ -38,9 +39,9 @@ void  readingFromSerial(void *arg)
                 case EmptyState:
                     if (data == 0x55)
                         {
-			    State= moto55;
-                    	    i=0;
-			}
+                            State= moto55;
+                            i=0;
+                        }
                     continue;
 
                 case moto55:
@@ -73,7 +74,9 @@ void  readingFromSerial(void *arg)
                             calculateCrc=0;
                             State= address;
                             Packetstatistic.packet++;
+                            continue;
                         }
+
                     else
                         break;
 
@@ -110,7 +113,7 @@ void  readingFromSerial(void *arg)
 
                 case DLenHigh :
                     calculateCrc = addCRC(calculateCrc, data);
-                    receivingData->dlen|= (data& 0xff) << BYTE ;
+                    receivingData->dlen |= (data& 0xff) << BYTE ;
                     dataIndex=0;
                     if (receivingData->dlen > 0)
                         {
@@ -141,8 +144,8 @@ void  readingFromSerial(void *arg)
                     *((receivingData->data)+dataIndex) = data;
                     if(++dataIndex>=receivingData->dlen)
                         State = CrcLow;
-		    else
-			State = Data;
+                    else
+                        State = Data;
                     continue;
 
                 case CrcLow :
@@ -151,30 +154,40 @@ void  readingFromSerial(void *arg)
                     continue;
 
                 case CrcHigh:
-                    packetCrc |=( data & 0xff)<< BYTE;
+                    packetCrc |= ( data & 0xff)<< BYTE;
                     if (compareCRC(packetCrc, calculateCrc))
                         {
                             if(receivingData->cmd==1)           //cmdTerm =1, not polling
                                 {
+                                    toQueueuPacket=receivingData;
                                     pthread_mutex_lock(&common->mutex);
-                                    TAILQ_INSERT_TAIL(&common->head,receivingData,entries);
+                                    TAILQ_INSERT_TAIL(&common->head,toQueueuPacket,entries);
                                     pthread_mutex_unlock(&common->mutex);
+                                    receivingData=NULL;
+                                    State=EmptyState;
                                     Packetstatistic.validPacket++;
                                 }
-                            else
+                            else if (receivingData->cmd==0x69)
                                 {
                                     Packetstatistic.pollPacket++;
                                     syslog(LOG_NOTICE,"Slave Keep Alive:%c",receivingData->address);
+                                    receivingData=NULL;
+                                    State=EmptyState;
                                 }
 
                         }
                     break;
 
                 }
-
+            State=EmptyState;
             if(receivingData)
-            free(receivingData);
-            State = EmptyState;
+            {
+                if(receivingData->data)
+                    free(receivingData->data);
+                free(receivingData);
+                receivingData=NULL;
+            }
+
             syslog(LOG_NOTICE,"Packetstatistic packetError=%d",Packetstatistic.packetError);
             syslog(LOG_NOTICE,"packet=%d",Packetstatistic.packet);
             syslog(LOG_NOTICE,"validPacket=%d",Packetstatistic.validPacket);
@@ -182,7 +195,7 @@ void  readingFromSerial(void *arg)
             syslog(LOG_NOTICE,"emptyPacket=%d",Packetstatistic.pollPacket);
             syslog(LOG_NOTICE,"Error=%d",Packetstatistic.rError);
 
-    //        sleep(1);    // alvoido
+            sleep(common->samplingTime);    // alvoido
         }
 
 
@@ -214,10 +227,10 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
         }
     char *buff=(char*)malloc((dLen+13)*sizeof(char));
     if(!buff)
-    {
-	syslog(LOG_ERR,"No enough memory");
-	return -1;
-    }
+        {
+            syslog(LOG_ERR,"No enough memory");
+            return -1;
+        }
     int i=0;
     int dataElement=11;
     uint16_t crc=0;
@@ -229,25 +242,25 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     crc = addCRC(crc,len1);
     len2 = (dLen >> BYTE) & 0xff;
     crc = addCRC(crc, len2);
-    crc1=crc & 0xff;
-    crc2=(crc>>BYTE) & 0xff;
 
     if(dLen>0)
         {
-	    int j;
+            int j;
             for (j=0; j<dLen; j++,data++)
-        	{
-		    buff[dataElement]=*data;
-		    crc = addCRC(crc, *data);
-		    dataElement++;
-            }
+                {
+                    buff[dataElement]=*data;
+                    crc = addCRC(crc, *data);
+                    dataElement++;
+                }
         }
+    crc1=crc & 0xff;
+    crc2=(crc>>BYTE) & 0xff;
 
     while(i!=5)
-    {
-	buff[i]=0x55;
-        i++;
-    }
+        {
+            buff[i]=0x55;
+            i++;
+        }
     buff[5]=0xFF;
     buff[6]=0x01;
     buff[7]=address;
@@ -257,21 +270,19 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     buff[dataElement]=crc1;
     dataElement++;
     buff[dataElement]=crc2;
-    dataElement++;
-
     i=write(fd,buff,dataElement);
     if(i!=dataElement)
-    {
-    syslog(LOG_ERR,"%d",i);
-    free(buff);
-    return -1;
-    }
+        {
+            syslog(LOG_ERR,"%d",i);
+            free(buff);
+            return -1;
+        }
     else
-{
-    syslog(LOG_INFO,"%d",i);
-    free(buff);
-    return 1;
-}
+        {
+            syslog(LOG_INFO,"%d",i);
+            free(buff);
+            return 1;
+        }
 }
 
 void sendRequest(void *arg)
@@ -282,7 +293,7 @@ void sendRequest(void *arg)
     int devices=1;
     int requestType;
     int requestCounter=0;
-    const char cmdPing=0;
+    const char heartBit=0x69;
     const char cmdTerm=1;
     uint16_t DLEN=0;
     Statistic packet;
@@ -313,13 +324,14 @@ void sendRequest(void *arg)
                                         }
                                     else
                                         {
+
                                             syslog(LOG_ERR,"Shit happened:%s",strerror(errno));
                                             return;
                                         }
 
 
                                 }
-			    devices++;
+                            devices++;
                             addresses++;
 
                         }
@@ -334,21 +346,20 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[devices].state)
                                 {
-                                    if(sendPacket(common->fd,addresses, cmdPing, &data,DLEN)>0)
-                                    {
-                                        packet.pollPacket++;
-                                        syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
+                                    if(sendPacket(common->fd,addresses, heartBit, &data,DLEN)>0)
+                                        {
+                                            packet.pollPacket++;
+                                            syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
 
-                                    }
-                                else
-                                    {
-                                        syslog(LOG_ERR,"Shit happened:%s",strerror(errno));
-                                        return;
-                                    }
+                                        }
+                                    else
+                                        {
+                                            syslog(LOG_ERR,"Shit happened:%s",strerror(errno));
+                                            return;
+                                        }
                                 }
-			devices++;
-                        addresses++;
-//                    sleep(common->time);
+                            devices++;
+                            addresses++;
                         }
 
                     requestCounter++;
