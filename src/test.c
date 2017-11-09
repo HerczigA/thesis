@@ -20,19 +20,19 @@ void test_counting()
     teszt.k_fourth=13.3;
     teszt.summary=0.0;
 
-assert(moving_hysteresis(delta,-4.00)==1.00);
-assert(moving_hysteresis(delta,1.0)==1.0);
-assert(moving_hysteresis(delta,1.25)==(float)1.25);
-assert(moving_hysteresis(delta,6.69)==(float)1.69);
-assert(moving_hysteresis(delta,-2.69)==(float)2.31);
-assert(moving_hysteresis(delta,-5.00)==(float)0.00);
-assert(moving_hysteresis(delta,-6.01)==(float)-1.01000023);
-assert(mov_average(&teszt,3.0)==(float)5.4);
-assert(mov_average(&teszt,3.0)==(float)9.0);
-assert(mov_average(&teszt,3.0)==(float)12.0);
-/*assert(mov_average(&teszt,4.0)==(float)3.6875);
-assert(mov_average(&teszt,4.0)==(float)8.725);
-*/
+    assert(moving_hysteresis(delta,-4.00)==1.00);
+    assert(moving_hysteresis(delta,1.0)==1.0);
+    assert(moving_hysteresis(delta,1.25)==(float)1.25);
+    assert(moving_hysteresis(delta,6.69)==(float)1.69);
+    assert(moving_hysteresis(delta,-2.69)==(float)2.31);
+    assert(moving_hysteresis(delta,-5.00)==(float)0.00);
+    assert(moving_hysteresis(delta,-6.01)==(float)-1.01000023);
+    assert(mov_average(&teszt,3.0)==(float)5.4);
+    assert(mov_average(&teszt,3.0)==(float)9.0);
+    assert(mov_average(&teszt,3.0)==(float)12.0);
+    /*assert(mov_average(&teszt,4.0)==(float)3.6875);
+    assert(mov_average(&teszt,4.0)==(float)8.725);
+    */
 }
 
 void test_crc()
@@ -79,9 +79,9 @@ void test_SendPacket(void *arg)
     Threadcommon /*test,*/*testp;
     testp=arg;
     unsigned char taddress,tcmd,tdata,tdLen;
-   /* Crc crc1,crc2;
-    crc1=0;
-    crc2=0;*/
+    /* Crc crc1,crc2;
+     crc1=0;
+     crc2=0;*/
     taddress=1;
     tcmd=0;
     tdata=1;
@@ -93,10 +93,10 @@ void test_SendPacket(void *arg)
     assert(sendPacket(0,0,0,&tdata,0)==1);
     tdata=0;
     assert(sendPacket(7,1,1,&tdata,0)==1);
-/*    assert(sendPacket(&test.fd,address,tcmd,&tdata,tDlen)==1);
-    test.fd=-1;
-    assert(sendPacket(&test.fd,0,0,NULL,0)==-1);
-*/
+    /*    assert(sendPacket(&test.fd,address,tcmd,&tdata,tDlen)==1);
+        test.fd=-1;
+        assert(sendPacket(&test.fd,0,0,NULL,0)==-1);
+    */
 
 }
 

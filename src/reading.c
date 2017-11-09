@@ -12,7 +12,7 @@ Reading from the serial port. To check the incoming packet, use the Motorola pro
 void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL,
-              *toQueueuPacket=NULL;
+               *toQueueuPacket=NULL;
     unsigned char data;
     int i=0;
     int dataIndex;
@@ -161,7 +161,7 @@ void  readingFromSerial(void *arg)
 
                 case CrcHigh:
                     packetCrc |= ( data & 0xff)<< BYTE;
-                    printf("CRCHIGH CRC:%d\n",calculateCrc);
+                    printf("CRCHIGH CRC:%d\nPactkerCRC:%d\n",calculateCrc,packetCrc);
                     if (compareCRC(packetCrc, calculateCrc))
                         {
                             if(receivingData->cmd==1 && receivingData->data)           //cmdTerm =1, not polling
@@ -190,12 +190,12 @@ void  readingFromSerial(void *arg)
                 }
             State=EmptyState;
             if(receivingData)
-            {
-                if(receivingData->data)
-                    free(receivingData->data);
-                free(receivingData);
-                receivingData=NULL;
-            }
+                {
+                    if(receivingData->data)
+                        free(receivingData->data);
+                    free(receivingData);
+                    receivingData=NULL;
+                }
 
             syslog(LOG_NOTICE,"Packetstatistic packetError=%d",Packetstatistic.packetError);
             syslog(LOG_NOTICE,"packet=%d",Packetstatistic.packet);
@@ -258,7 +258,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     if(dLen>0)
         {
             int j;
-            for (j=0; j<dLen; ++j,++data)
+            for (j=0; j<dLen; j++,data++)
                 {
                     buff[dataElement]=*data;
                     crc = addCRC(crc, *data);
@@ -304,7 +304,6 @@ void sendRequest(void *arg)
 
     Threadcommon *common=arg;
     char addresses=1;
-    int devices=1;
     int requestType;
     int requestCounter=0;
     unsigned const char heartBit=0x69;
@@ -322,13 +321,12 @@ void sendRequest(void *arg)
 
 
             requestType = requestCounter % 3;
-            //++requestCounter;
 
             if(!requestType)
                 {
-                    while(devices<=common->numbOfDev)
+                    while((int)addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[devices].state)
+                            if(common->sensors[(int)addresses].state)
                                 {
                                     if(sendPacket(common->fd,addresses, cmdTerm, &data,DLEN)>0)
                                         {
@@ -345,7 +343,6 @@ void sendRequest(void *arg)
 
 
                                 }
-                            devices++;
                             addresses++;
 
                         }
@@ -356,9 +353,9 @@ void sendRequest(void *arg)
                 }
             else
                 {
-                    while(devices<=common->numbOfDev)
+                    while((int)addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[devices].state)
+                            if(common->sensors[(int)addresses].state)
                                 {
                                     if(sendPacket(common->fd,addresses, heartBit, &data,DLEN)>0)
                                         {
@@ -372,15 +369,12 @@ void sendRequest(void *arg)
                                             return;
                                         }
                                 }
-                            devices++;
                             addresses++;
                         }
 
                     requestCounter++;
                     sleep(common->time);
                 }
-
-            devices=1;
             addresses=1;
         }
 }

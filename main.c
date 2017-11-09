@@ -13,9 +13,9 @@ int main()
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
-   // test_counting();
+    // test_counting();
     //test_crc();
-   // test_Init();
+    // test_Init();
 
     if(ReadConfig(&threadHandle))
         return -1;
@@ -26,12 +26,12 @@ int main()
     // test_SendPacket(&threadHandle);
     //        test_Reading(&threadHandle);
 
-    pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
-    //pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
-    //pthread_create(&processor_thread,NULL,(void*)takeoutFromQueue,&threadHandle);
-    pthread_join(requesting_thread,NULL);
-    //pthread_join(reading_thread,NULL);
-    //pthread_join(processor_thread,NULL);
+    //pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
+     pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
+     pthread_create(&processor_thread,NULL,(void*)takeoutFromQueue,&threadHandle);
+    //pthread_join(requesting_thread,NULL);
+     pthread_join(reading_thread,NULL);
+     pthread_join(processor_thread,NULL);
 
     setBackTermios(&threadHandle,&old_term);
 

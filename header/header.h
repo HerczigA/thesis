@@ -40,7 +40,7 @@ typedef struct devices
     char *names;
     int state;
 
-}Slaves;
+} Slaves;
 
 
 typedef struct communication

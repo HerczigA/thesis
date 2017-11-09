@@ -45,7 +45,6 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
-//    term->c_cflag &= ~( PARENB | CSIZE |CSTOPB);
     term->c_iflag &=~(IXON | IXOFF | IXANY);
     term->c_lflag &= ~( ICANON | ECHO | ECHOE | ISIG);
     term->c_oflag =0;
@@ -101,7 +100,7 @@ int ReadConfig(Threadcommon *arg)
 int configlist(char **buffer,Threadcommon *arg)
 {
     //if(!(buffer && arg))
-      //  return-1;
+    //  return-1;
     const char equalsign='=';
     const char tab='\t';
     char *temp=NULL;
@@ -248,7 +247,7 @@ int configlist(char **buffer,Threadcommon *arg)
 
                     int sensnmb=0;
                     i=0;
-		    int cim;
+                    int cim;
                     while(j)
                         {
                             if((p=strrchr(buffer[i],tab)))
@@ -286,7 +285,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     while(isdigit(*p))
                                         p++;
                                     *p='\0';
-				    cim=atoi(buffer[i]);
+                                    cim=atoi(buffer[i]);
                                     arg->sensors[sensnmb].address=(char)cim;
                                     free(buffer[i]);
                                     sensnmb++;
@@ -359,7 +358,7 @@ void closeOnFAIL(void *arg)
 {
     Threadcommon *temp=arg;
     int i=0;
-     while(i<temp->numbOfDev)
+    while(i<temp->numbOfDev)
         {
             free(temp->sensors[i].names);
             i++;
