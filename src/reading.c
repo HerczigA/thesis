@@ -82,7 +82,6 @@ void  readingFromSerial(void *arg)
                     if (!receivingData)
                         {
                             calculateCrc = addCRC(calculateCrc, data);
-                            printf("ADDRESS CRC:%d\n",calculateCrc);
                             receivingData=reserve(data);
                             if (!receivingData)
                                 {
@@ -117,7 +116,7 @@ void  readingFromSerial(void *arg)
                         {
                             if (receivingData->dlen <= LIMIT)
                                 {
-                                    receivingData->data =(float *)malloc(receivingData->dlen*sizeof(float));
+                                receivingData->data =(char*)malloc((receivingData->dlen)*sizeof(char));//ideiglenes dlen+1!!!!!!!!!
                                     if(!receivingData->data)
                                         {
                                             syslog(LOG_ERR,"No enough memory");
@@ -125,6 +124,7 @@ void  readingFromSerial(void *arg)
                                             break;
                                         }
                                     State = Data;
+                                    continue;
                                 }
                             else
                                 {
@@ -168,7 +168,7 @@ void  readingFromSerial(void *arg)
                             else if (receivingData->cmd==0x69)
                                 {
                                     Packetstatistic.pollPacket++;
-                                    syslog(LOG_NOTICE,"Slave Keep Alive: %d",(int)receivingData->address);
+                                    syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address].names);
                                     Packetstatistic.validPacket++;
                                     free(receivingData);
                                     receivingData=NULL;
@@ -216,7 +216,7 @@ QueueData *reserve(char data)
 
 
 
-int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data, uint16_t dLen)
+int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint16_t dLen)
 {
     Statistic packet;
     packet.wError=0;
@@ -279,7 +279,6 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
         }
     else
         {
-            syslog(LOG_INFO,"%d",i);
             free(buff);
             return 1;
         }
@@ -292,13 +291,13 @@ void sendRequest(void *arg)
     char addresses=1;
     int requestType;
     int requestCounter=0;
-    unsigned const char heartBit=0x69;
-    unsigned const char cmdTerm=1;
+    const char heartBit=0x69;
+    const char cmdTerm=0x01;
     uint16_t DLEN=0;
     Statistic packet;
     packet.TermPacket=0;
     packet.pollPacket=0;
-    unsigned char data=0;
+    char Data=0;
     while(1)
         {
 
@@ -314,7 +313,7 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[(int)addresses].state)
                                 {
-                                    if(sendPacket(common->fd,addresses, cmdTerm, &data,DLEN)>0)
+                                    if(sendPacket(common->fd,addresses, cmdTerm, &Data,DLEN)>0)
                                         {
                                             packet.TermPacket++;
                                             syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
@@ -343,7 +342,7 @@ void sendRequest(void *arg)
                         {
                             if(common->sensors[(int)addresses].state)
                                 {
-                                    if(sendPacket(common->fd,addresses, heartBit, &data,DLEN)>0)
+                                    if(sendPacket(common->fd,addresses, heartBit,&Data,DLEN)>0)
                                         {
                                             packet.pollPacket++;
                                             syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);

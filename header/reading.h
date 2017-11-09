@@ -17,6 +17,7 @@
 #define ZERO 0
 #define MAXU 5
 
+
 typedef enum PacketState
 {
     /*! Default condition*/
@@ -70,7 +71,7 @@ typedef struct queueData
     char address;
     char cmd;
     uint16_t dlen;
-    float *data;
+    char *data;
     /**  packet item use a TAILQ. This is for TAILQ entry */
     TAILQ_ENTRY(queueData) entries;
 } QueueData;
@@ -79,6 +80,6 @@ typedef struct queueData
 void  readingFromSerial(void *arg);
 QueueData *reserve(char data);
 void sendRequest(void *arg);
-int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data,uint16_t  dLen);
+int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data,uint16_t  dLen);
 void closeOnFAIL(void *arg);
 #endif // READING_H_INCLUDED

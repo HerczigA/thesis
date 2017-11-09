@@ -43,13 +43,12 @@ void takeoutFromQueue(void *arg)
                     tempPacket=(QueueData *)TAILQ_FIRST(&common->head);
                     TAILQ_REMOVE(&common->head,tempPacket,entries);
                     pthread_mutex_unlock(&common->mutex);
-
-                    devices[(int)tempPacket->address].k_next=*(tempPacket->data);
+                    devices[(int)tempPacket->address].k_next=atof(tempPacket->data);
 
                     temp=mov_average(&devices[(int)tempPacket->address],common->members);
                     finalResult=moving_hysteresis(common->Delta,temp);
 
-                    syslog(LOG_INFO,"Measured temperature from %d address of device with moving average and moving hysteresis :%.2f\n",
+                    syslog(LOG_INFO,"Measured temperature from %d address of device with moving average and moving hysteresis :%.2f°C\n",
                            tempPacket->address,finalResult);
                     free(tempPacket->data);
                     free(tempPacket);
