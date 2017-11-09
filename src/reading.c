@@ -30,9 +30,6 @@ void  readingFromSerial(void *arg)
         }
     while(read(common->fd,&data,ONE)!=-1)
         {
-
-            printf("%c\t%d\t%x\n",data,data,data);
-
             switch (State)
                 {
 
@@ -102,21 +99,18 @@ void  readingFromSerial(void *arg)
 
                 case command :
                     calculateCrc = addCRC(calculateCrc,data);
-                    printf("CMD CRC:%d\n",calculateCrc);
                     receivingData->cmd = data;
                     State = DLenLow;
                     continue;
 
                 case DLenLow :
                     calculateCrc = addCRC(calculateCrc, data);
-                    printf("DLenLow CRC:%d\n",calculateCrc);
                     receivingData->dlen = (data & 0xff);
                     State = DLenHigh;
                     continue;
 
                 case DLenHigh :
                     calculateCrc = addCRC(calculateCrc, data);
-                    printf("DLenHIGH CRC:%d\n",calculateCrc);
                     receivingData->dlen |= (data& 0xff) << BYTE ;
                     dataIndex=0;
                     if (receivingData->dlen > 0)
@@ -145,7 +139,6 @@ void  readingFromSerial(void *arg)
                         }
                 case Data :
                     calculateCrc = addCRC(calculateCrc, data);
-                    printf("Data CRC:%d\n",calculateCrc);
                     *((receivingData->data)+dataIndex) = data;
                     if(++dataIndex>=receivingData->dlen)
                         State = CrcLow;
@@ -155,13 +148,11 @@ void  readingFromSerial(void *arg)
 
                 case CrcLow :
                     packetCrc = (data & 0xff);
-                    printf("CRCLOW  CRC:%d\n",calculateCrc);
                     State = CrcHigh;
                     continue;
 
                 case CrcHigh:
                     packetCrc |= ( data & 0xff)<< BYTE;
-                    printf("CRCHIGH CRC:%d\nPactkerCRC:%d\n",calculateCrc,packetCrc);
                     if (compareCRC(packetCrc, calculateCrc))
                         {
                             if(receivingData->cmd==1 && receivingData->data)           //cmdTerm =1, not polling
@@ -177,7 +168,8 @@ void  readingFromSerial(void *arg)
                             else if (receivingData->cmd==0x69)
                                 {
                                     Packetstatistic.pollPacket++;
-                                    syslog(LOG_NOTICE,"Slave Keep Alive:%c",receivingData->address);
+                                    syslog(LOG_NOTICE,"Slave Keep Alive: %d",(int)receivingData->address);
+                                    Packetstatistic.validPacket++;
                                     free(receivingData);
                                     receivingData=NULL;
                                     State=EmptyState;
@@ -246,15 +238,11 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     unsigned char len1,len2,crc1,crc2;
 
     crc = addCRC(crc, address);
-    printf("Address CRC:%d\n",crc);
     crc = addCRC(crc, cmd);
-    printf("Cmd CRC:%d\n",crc);
     len1= dLen & 0xff;
     crc = addCRC(crc,len1);
-    printf("DLenLOW CRC:%d\n",crc);
     len2 = (dLen >> BYTE) & 0xff;
     crc = addCRC(crc, len2);
-    printf("DLenHIGH CRC:%d\n",crc);
     if(dLen>0)
         {
             int j;
@@ -262,14 +250,11 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
                 {
                     buff[dataElement]=*data;
                     crc = addCRC(crc, *data);
-                    printf("Data CRC:%d\n",crc);
                     dataElement++;
                 }
         }
     crc1=crc & 0xff;
-    printf("CRClow CRC:%d\n",crc);
     crc2=(crc>>BYTE) & 0xff;
-    printf("CRChigh CRC:%d\n",crc);
     while(i!=5)
         {
             buff[i]=0x55;
@@ -284,10 +269,11 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *d
     buff[dataElement]=crc1;
     dataElement++;
     buff[dataElement]=crc2;
+    dataElement++;
     i=write(fd,buff,dataElement);
     if(i!=dataElement)
         {
-            syslog(LOG_ERR,"%d",i);
+            syslog(LOG_ERR,"%s:%d",strerror(errno),i);
             free(buff);
             return -1;
         }
