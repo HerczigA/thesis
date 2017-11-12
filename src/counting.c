@@ -51,8 +51,6 @@ float mov_average(movAverage *temp,int members)
     if(members==3)
         {
             sum=temp->k+temp->k_next+temp->k_prev;
-
-
             temp->k_prev=temp->k;
             temp->k=temp->k_next;
             result=sum/(float)members;

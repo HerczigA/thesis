@@ -82,4 +82,5 @@ QueueData *reserve(char data);
 void sendRequest(void *arg);
 int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data,uint16_t  dLen);
 void closeOnFAIL(void *arg);
+void signalcatch(int sig);
 #endif // READING_H_INCLUDED

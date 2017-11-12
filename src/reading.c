@@ -21,7 +21,7 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     packetState State=EmptyState;
     Threadcommon *common=arg;
-
+    signal(SIGSEGV,signalcatch);
     if (!common || common->fd <0 )
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
@@ -99,6 +99,7 @@ void  readingFromSerial(void *arg)
                 case command :
                     calculateCrc = addCRC(calculateCrc,data);
                     receivingData->cmd = data;
+                    printf("parancsok%d\n",receivingData->cmd );
                     State = DLenLow;
                     continue;
 
@@ -116,7 +117,7 @@ void  readingFromSerial(void *arg)
                         {
                             if (receivingData->dlen <= LIMIT)
                                 {
-                                receivingData->data =(char*)malloc((receivingData->dlen)*sizeof(char));//ideiglenes dlen+1!!!!!!!!!
+                                receivingData->data =(char*)malloc((receivingData->dlen)*sizeof(char));
                                     if(!receivingData->data)
                                         {
                                             syslog(LOG_ERR,"No enough memory");
@@ -160,6 +161,7 @@ void  readingFromSerial(void *arg)
                                     toQueueuPacket=receivingData;
                                     pthread_mutex_lock(&common->mutex);
                                     TAILQ_INSERT_TAIL(&common->head,toQueueuPacket,entries);
+                                    printf("josag? segfault? tuqueuePacket:%d\n",toQueueuPacket->address);
                                     pthread_mutex_unlock(&common->mutex);
                                     receivingData=NULL;
                                     State=EmptyState;
@@ -168,8 +170,8 @@ void  readingFromSerial(void *arg)
                             else if (receivingData->cmd==0x69)
                                 {
                                     Packetstatistic.pollPacket++;
-                                    syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address].names);
                                     Packetstatistic.validPacket++;
+                                    syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address].names);
                                     free(receivingData);
                                     receivingData=NULL;
                                     State=EmptyState;
@@ -288,11 +290,11 @@ void sendRequest(void *arg)
 {
 
     Threadcommon *common=arg;
-    char addresses=1;
+    unsigned char addresses=1;
     int requestType;
     int requestCounter=0;
-    const char heartBit=0x69;
-    const char cmdTerm=0x01;
+    unsigned const char heartBit=0x69;
+    unsigned const char cmdTerm=0x01;
     uint16_t DLEN=0;
     Statistic packet;
     packet.TermPacket=0;
@@ -311,7 +313,7 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[(int)addresses].state)
+                            if(common->sensors[(int)addresses-1].state)
                                 {
                                     if(sendPacket(common->fd,addresses, cmdTerm, &Data,DLEN)>0)
                                         {
@@ -340,7 +342,7 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[(int)addresses].state)
+                            if(common->sensors[(int)addresses-1].state)
                                 {
                                     if(sendPacket(common->fd,addresses, heartBit,&Data,DLEN)>0)
                                         {
@@ -363,4 +365,8 @@ void sendRequest(void *arg)
             addresses=1;
         }
 }
-
+void signalcatch(int sig)
+{
+    if(signal)
+        printf("%d\t\t\t%s\n",sig,strerror(errno));
+}
