@@ -16,7 +16,7 @@
 #define SAMPTIME 1000
 #define ZERO 0
 #define MAXU 5
-
+#define PING 0x69
 
 typedef enum PacketState
 {

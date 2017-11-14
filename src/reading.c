@@ -99,7 +99,6 @@ void  readingFromSerial(void *arg)
                 case command :
                     calculateCrc = addCRC(calculateCrc,data);
                     receivingData->cmd = data;
-                    printf("parancsok%d\n",receivingData->cmd );
                     State = DLenLow;
                     continue;
 
@@ -161,23 +160,20 @@ void  readingFromSerial(void *arg)
                                     toQueueuPacket=receivingData;
                                     pthread_mutex_lock(&common->mutex);
                                     TAILQ_INSERT_TAIL(&common->head,toQueueuPacket,entries);
-                                    printf("josag? segfault? tuqueuePacket:%d\n",toQueueuPacket->address);
                                     pthread_mutex_unlock(&common->mutex);
                                     receivingData=NULL;
                                     State=EmptyState;
                                     Packetstatistic.validPacket++;
                                 }
-                            else if (receivingData->cmd==0x69)
+                            else if (receivingData->cmd==PING)
                                 {
                                     Packetstatistic.pollPacket++;
                                     Packetstatistic.validPacket++;
-                                    syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address].names);
-                                    //free(receivingData);
-                                    receivingData=NULL;
-                                    State=EmptyState;
+                                    syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[((int)(receivingData->address))-1].names);
                                 }
                             else
-                                syslog(LOG_ERR,"ERROR Packet");
+                                  syslog(LOG_ERR,"ERROR Packet");
+
                         }
                     break;
 
@@ -293,7 +289,7 @@ void sendRequest(void *arg)
     unsigned char addresses=1;
     int requestType;
     int requestCounter=0;
-    unsigned const char heartBit=0x69;
+    unsigned const char heartBit=PING;
     unsigned const char cmdTerm=0x01;
     uint16_t DLEN=0;
     Statistic packet;

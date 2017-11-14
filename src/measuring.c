@@ -41,11 +41,9 @@ void takeoutFromQueue(void *arg)
                 {
                     pthread_mutex_lock(&common->mutex);
                     tempPacket=(QueueData *)TAILQ_FIRST(&common->head);
-                    printf("%d\n",((int)tempPacket->address)-1);
                     TAILQ_REMOVE(&common->head,tempPacket,entries);
                     pthread_mutex_unlock(&common->mutex);
                     devices[((int)tempPacket->address)-1].k_next=atof(tempPacket->data);
-                    printf("%d\t%.2f\n",((int)tempPacket->address)-1,   devices[((int)tempPacket->address)-1].k_next);
                     temp=mov_average(&devices[((int)tempPacket->address-1)],common->members);
                     finalResult=moving_hysteresis(common->Delta,temp);
 
@@ -53,7 +51,6 @@ void takeoutFromQueue(void *arg)
                     free(tempPacket->data);
                     free(tempPacket);
                     tempPacket=NULL;
-                    sleep(common->samplingTime);
                 }
             else
                 {
