@@ -3,9 +3,10 @@
 #include "../header/header.h"
 #include "../header/counting.h"
 #include "../header/reading.h"
-
+//int loop=1;
 void takeoutFromQueue(void *arg)
 {
+
     Threadcommon *common=arg;
     if(!common)
         {
@@ -17,6 +18,7 @@ void takeoutFromQueue(void *arg)
     float finalResult;
     int i=0;
     QueueData *tempPacket=NULL;
+    //signal(SIGINT,signalget);
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
     if(!devices)
         {
@@ -35,7 +37,7 @@ void takeoutFromQueue(void *arg)
         }
 
 
-    while(ON)
+    while(1)
         {
             if(!TAILQ_EMPTY(&common->head))
                 {
@@ -61,8 +63,14 @@ void takeoutFromQueue(void *arg)
 
         }
 
-
+    printf("infinity is not infinity anymore\n");
     free(devices);
 
 }
-
+/*
+void signalget(int sig)
+{
+    if(sig)
+        loop=!loop;
+}
+*/

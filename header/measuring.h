@@ -4,7 +4,7 @@
 #include <syslog.h>
 #include <sys/queue.h>
 #include <string.h>
-#define ON 1
+
 typedef struct m_average
 {
     float k_prev;
@@ -17,5 +17,6 @@ typedef struct m_average
 
 
 void takeoutFromQueue(void *arg);
+void signalget(int sig);
 
 #endif // MEASURING_H_INCLUDED

@@ -7,6 +7,7 @@
 #include "header/measuring.h"
 #include "header/test.h"
 #include <signal.h>
+
 int main()
 {
     struct termios old_term,*term=NULL;

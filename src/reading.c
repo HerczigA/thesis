@@ -8,6 +8,7 @@
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
+//int loop=1;
 
 void  readingFromSerial(void *arg)
 {
@@ -21,14 +22,14 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     packetState State=EmptyState;
     Threadcommon *common=arg;
-    signal(SIGSEGV,signalcatch);
+  //  signal(SIGINT,signalcatch);
     if (!common || common->fd <0 )
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
             Packetstatistic.rError++;
             return;
         }
-    while(read(common->fd,&data,ONE)!=-1)
+    while(read(common->fd,&data,ONE)!=-1 /*&& loop*/)
         {
             switch (State)
                 {
@@ -169,7 +170,7 @@ void  readingFromSerial(void *arg)
                                 {
                                     Packetstatistic.pollPacket++;
                                     Packetstatistic.validPacket++;
-                                    syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[((int)(receivingData->address))-1].names);
+                                    syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address-1].names);
                                 }
                             else
                                   syslog(LOG_ERR,"ERROR Packet");
@@ -197,7 +198,7 @@ void  readingFromSerial(void *arg)
             sleep(common->samplingTime);    // alvoido
         }
 
-
+    syslog(LOG_ERR,"Reading thread finished");
 }
 
 QueueData *reserve(char data)
@@ -361,8 +362,10 @@ void sendRequest(void *arg)
             addresses=1;
         }
 }
-void signalcatch(int sig)
+/*void signalcatch(int sig)
 {
     if(signal)
-        printf("%d\t\t\t%s\n",sig,strerror(errno));
+        loop=!loop;
+       //pthread_exit(NULL);
 }
+*/
