@@ -172,7 +172,7 @@ void  readingFromSerial(void *arg)
                                     Packetstatistic.pollPacket++;
                                     Packetstatistic.validPacket++;
                                     syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address].names);
-                                    free(receivingData);
+                                    //free(receivingData);
                                     receivingData=NULL;
                                     State=EmptyState;
                                 }
