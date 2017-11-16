@@ -6,6 +6,7 @@
 #include "header/counting.h"
 #include "header/measuring.h"
 #include "header/test.h"
+#include "header/threads.h"
 #include <signal.h>
 
 int main()
@@ -24,16 +25,10 @@ int main()
         return -1;
     if(queueInit(&threadHandle))
         return -1;
-    // test_SendPacket(&threadHandle);
-    //        test_Reading(&threadHandle);
-
-    //pthread_create(&requesting_thread,NULL,(void*)sendRequest,&threadHandle);
-     pthread_create(&reading_thread,NULL,(void*)readingFromSerial,&threadHandle);
-     pthread_create(&processor_thread,NULL,(void*)takeoutFromQueue,&threadHandle);
-    //pthread_join(requesting_thread,NULL);
-     pthread_join(reading_thread,NULL);
-     pthread_join(processor_thread,NULL);
-
+    //threadHandle.loop=0;
+    //test_SendPacket(&threadHandle);
+    //test_Reading(&threadHandle);
+    threads(&requesting_thread,&reading_thread,&processor_thread,&threadHandle);
     setBackTermios(&threadHandle,&old_term);
 
     return 0;

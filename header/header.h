@@ -4,11 +4,6 @@
 #include <stdint.h>
 #include <termios.h>
 #include "../header/reading.h"
-#include <pthread.h>
-#define DEFTIME 1
-#define DEFMAXTIME 60
-#define REQUESTTIME 1
-#define MAXTIME 10800
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
@@ -19,6 +14,10 @@
 #include <syslog.h>
 #include <ctype.h>
 #include <errno.h>
+#define DEFTIME 10
+#define DEFMAXTIME 60
+#define REQUESTTIME 60
+#define MAXTIME 10800
 #define ZERO 0
 #define DEVMIN 0
 #define DEVMAX 99
@@ -55,6 +54,7 @@ typedef struct communication
     float Delta;
     int members;
     Slaves *sensors;
+
 
 } Threadcommon;
 

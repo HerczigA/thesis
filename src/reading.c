@@ -8,8 +8,7 @@
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
-//int loop=1;
-
+int loop=1;
 void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL,
@@ -22,15 +21,19 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     packetState State=EmptyState;
     Threadcommon *common=arg;
-  //  signal(SIGINT,signalcatch);
+
     if (!common || common->fd <0 )
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
             Packetstatistic.rError++;
             return;
         }
-    while(read(common->fd,&data,ONE)!=-1 /*&& loop*/)
+    signal(SIGINT,signalcatch);
+
+
+    while(read(common->fd,&data,ONE)!=-1 && loop)
         {
+
             switch (State)
                 {
 
@@ -117,7 +120,7 @@ void  readingFromSerial(void *arg)
                         {
                             if (receivingData->dlen <= LIMIT)
                                 {
-                                receivingData->data =(char*)malloc((receivingData->dlen)*sizeof(char));
+                                    receivingData->data =(char*)malloc((receivingData->dlen)*sizeof(char));
                                     if(!receivingData->data)
                                         {
                                             syslog(LOG_ERR,"No enough memory");
@@ -173,7 +176,7 @@ void  readingFromSerial(void *arg)
                                     syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address-1].names);
                                 }
                             else
-                                  syslog(LOG_ERR,"ERROR Packet");
+                                syslog(LOG_ERR,"ERROR Packet");
 
                         }
                     break;
@@ -197,7 +200,13 @@ void  readingFromSerial(void *arg)
 
             sleep(common->samplingTime);    // alvoido
         }
-
+    if(receivingData)
+        {
+            if(receivingData->data)
+                free(receivingData->data);
+            free(receivingData);
+            receivingData=NULL;
+        }
     syslog(LOG_ERR,"Reading thread finished");
 }
 
@@ -297,7 +306,8 @@ void sendRequest(void *arg)
     packet.TermPacket=0;
     packet.pollPacket=0;
     char Data=0;
-    while(1)
+    signal(SIGINT,signalcatch);
+    while(loop)
         {
 
             if(requestCounter==MAXREQUEST)
@@ -321,7 +331,7 @@ void sendRequest(void *arg)
                                     else
                                         {
 
-                                            syslog(LOG_ERR,"Shit happened:%s",strerror(errno));
+                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(errno));
                                             return;
                                         }
 
@@ -349,7 +359,7 @@ void sendRequest(void *arg)
                                         }
                                     else
                                         {
-                                            syslog(LOG_ERR,"Shit happened:%s",strerror(errno));
+                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(errno));
                                             return;
                                         }
                                 }
@@ -362,10 +372,10 @@ void sendRequest(void *arg)
             addresses=1;
         }
 }
-/*void signalcatch(int sig)
+void signalcatch(int sig)
 {
-    if(signal)
-        loop=!loop;
-       //pthread_exit(NULL);
+    syslog(LOG_INFO,"signal received: %d",sig);
+    loop=0;
+
 }
-*/
+

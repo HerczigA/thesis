@@ -214,7 +214,7 @@
 	"../header/reading.h"
 	"../header/reading.h"
 
-1510700070 source:/home/herczig/thesis/main.c
+1510874743 source:/home/herczig/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -223,17 +223,17 @@
 	"header/counting.h"
 	"header/measuring.h"
 	"header/test.h"
+	"header/threads.h"
 	<signal.h>
 
 1510679547 /home/herczig/thesis/header/crc.h
 	<stdint.h>
 
-1510679547 /home/herczig/thesis/header/header.h
+1510873958 /home/herczig/thesis/header/header.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
 	"../header/reading.h"
-	<pthread.h>
 	<fcntl.h>
 	<sys/ioctl.h>
 	<sys/types.h>
@@ -245,7 +245,7 @@
 	<ctype.h>
 	<errno.h>
 
-1510694801 /home/herczig/thesis/header/reading.h
+1510782732 /home/herczig/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -259,7 +259,7 @@
 1510679547 /home/herczig/thesis/header/counting.h
 	"measuring.h"
 
-1510700291 /home/herczig/thesis/header/measuring.h
+1510873528 /home/herczig/thesis/header/measuring.h
 	<unistd.h>
 	<syslog.h>
 	<sys/queue.h>
@@ -279,21 +279,21 @@
 	"../header/reading.h"
 	"../header/crc.h"
 
-1510679547 source:/home/herczig/thesis/src/Init.c
+1510873962 source:/home/herczig/thesis/src/Init.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1510700965 source:/home/herczig/thesis/src/measuring.c
+1510874054 source:/home/herczig/thesis/src/measuring.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1510700973 source:/home/herczig/thesis/src/reading.c
+1510874062 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/header.h"
@@ -335,4 +335,17 @@
 	"../header/header.h"
 	"../header/measuring.h"
 	"../header/reading.h"
+
+1510874555 /home/herczig/thesis/header/threads.h
+
+1510874815 source:/home/herczig/thesis/src/threads.c
+	<stdio.h>
+	<pthread.h>
+	"../header/crc.h"
+	"../header/header.h"
+	"../header/reading.h"
+	"../header/counting.h"
+	"../header/measuring.h"
+	"../header/test.h"
+	<signal.h>
 

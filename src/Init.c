@@ -99,8 +99,7 @@ int ReadConfig(Threadcommon *arg)
 
 int configlist(char **buffer,Threadcommon *arg)
 {
-    //if(!(buffer && arg))
-    //  return-1;
+
     const char equalsign='=';
     const char tab='\t';
     char *temp=NULL;
@@ -364,6 +363,7 @@ void closeOnFAIL(void *arg)
             i++;
         }
     free(temp->sensors);
+    syslog(LOG_ERR,"Close on Fail successfully.");
 
 }
 

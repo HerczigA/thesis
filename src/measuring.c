@@ -3,10 +3,12 @@
 #include "../header/header.h"
 #include "../header/counting.h"
 #include "../header/reading.h"
-//int loop=1;
+
+
 void takeoutFromQueue(void *arg)
 {
 
+    signal(SIGINT,signalcatch);
     Threadcommon *common=arg;
     if(!common)
         {
@@ -15,10 +17,10 @@ void takeoutFromQueue(void *arg)
         }
     movAverage *devices=NULL;
     float temp;
+    int loop=1;
     float finalResult;
     int i=0;
     QueueData *tempPacket=NULL;
-    //signal(SIGINT,signalget);
     devices=(movAverage*)malloc(common->numbOfDev*sizeof(movAverage));
     if(!devices)
         {
@@ -37,7 +39,7 @@ void takeoutFromQueue(void *arg)
         }
 
 
-    while(1)
+    while(loop)
         {
             if(!TAILQ_EMPTY(&common->head))
                 {
@@ -53,24 +55,24 @@ void takeoutFromQueue(void *arg)
                     free(tempPacket->data);
                     free(tempPacket);
                     tempPacket=NULL;
+                    sleep(common->samplingTime);
+                    loop=1;
                 }
             else
                 {
+                    loop++;
+                    if(loop==MAXFAIL)
+                        {
+                            loop=0;
+                            syslog(LOG_ERR,"measuring finished\n");
+                        }
 
                     syslog(LOG_NOTICE,"QUEUE is EMPTY\n");
-                    sleep(common->time);
+                    sleep(common->samplingTime);
                 }
 
         }
 
-    printf("infinity is not infinity anymore\n");
     free(devices);
 
 }
-/*
-void signalget(int sig)
-{
-    if(sig)
-        loop=!loop;
-}
-*/
