@@ -7,7 +7,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <signal.h>
-#include "header.h"
+#include "Init.h"
 #include <errno.h>
 #define LIMIT 1024
 #define FF 0xFF
@@ -17,8 +17,7 @@
 #define ZERO 0
 #define MAXU 5
 #define PING 0x69
-#define ON 1
-#define OFF 0
+
 typedef enum PacketState
 {
     /*! Default condition*/
@@ -79,9 +78,11 @@ typedef struct queueData
 
 
 void  readingFromSerial(void *arg);
+
 QueueData *reserve(char data);
-void sendRequest(void *arg);
+
 int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data,uint16_t  dLen);
-void closeOnFAIL(void *arg);
+
 void signalcatch(int sig);
+
 #endif // READING_H_INCLUDED

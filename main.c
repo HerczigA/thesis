@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "header/crc.h"
-#include "header/header.h"
+#include "header/Init.h"
 #include "header/reading.h"
 #include "header/counting.h"
-#include "header/measuring.h"
+#include "header/processing.h"
 #include "header/test.h"
-#include "header/threads.h"
-#include <signal.h>
+#include "header/threadHandling.h"
+#include "header/sending.h"
+#include "header/closing.h"
 
 int main()
 {
@@ -25,10 +26,9 @@ int main()
         return -1;
     if(queueInit(&threadHandle))
         return -1;
-    //threadHandle.loop=0;
     //test_SendPacket(&threadHandle);
     //test_Reading(&threadHandle);
-    threads(&requesting_thread,&reading_thread,&processor_thread,&threadHandle);
+    threadsHandling(&requesting_thread,&reading_thread,&processor_thread,&threadHandle);
     setBackTermios(&threadHandle,&old_term);
 
     return 0;

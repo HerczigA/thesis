@@ -1,7 +1,7 @@
 /*ConfigFile*/
 RequestTIME=1;
 
-numberOfDevice=5;
+numberDevice=5;
 
 samplingTime=1;
 

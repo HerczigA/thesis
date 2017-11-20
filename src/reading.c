@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../header/header.h"
+#include "../header/Init.h"
 #include "../header/crc.h"
-#include "../header/reading.h"
 #include "../header/reading.h"
 #include <signal.h>
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
-int loop=1;
+static int loop=1;
 void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL,
@@ -21,7 +20,6 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     packetState State=EmptyState;
     Threadcommon *common=arg;
-
     if (!common || common->fd <0 )
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
@@ -30,21 +28,20 @@ void  readingFromSerial(void *arg)
         }
     signal(SIGINT,signalcatch);
 
-
     while(read(common->fd,&data,ONE)!=-1 && loop)
         {
 
+            printf("readelünk geci?\n");
             switch (State)
                 {
-
                 case EmptyState:
                     if (data == 0x55)
                         {
+                            printf("Unknow data %c\n",data);
                             State= moto55;
                             i=0;
                         }
                     continue;
-
                 case moto55:
                     if (data == 0x55)
                         {
@@ -68,7 +65,6 @@ void  readingFromSerial(void *arg)
                             syslog(LOG_ERR,"After 0x55 did not receive proper data(%d)",data);
                             break;
                         }
-
                 case moto1:
                     if(data==1)
                         {
@@ -77,12 +73,9 @@ void  readingFromSerial(void *arg)
                             Packetstatistic.packet++;
                             continue;
                         }
-
                     else
                         break;
-
                 case address:
-
                     if (!receivingData)
                         {
                             calculateCrc = addCRC(calculateCrc, data);
@@ -92,26 +85,22 @@ void  readingFromSerial(void *arg)
                                     syslog(LOG_ERR,"Cannot reserved memory to receivingData");
                                     break;
                                 }
-
                             State = command;
                             continue;
                         }
                     else
                         Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
                     break;
-
                 case command :
                     calculateCrc = addCRC(calculateCrc,data);
                     receivingData->cmd = data;
                     State = DLenLow;
                     continue;
-
                 case DLenLow :
                     calculateCrc = addCRC(calculateCrc, data);
                     receivingData->dlen = (data & 0xff);
                     State = DLenHigh;
                     continue;
-
                 case DLenHigh :
                     calculateCrc = addCRC(calculateCrc, data);
                     receivingData->dlen |= (data& 0xff) << BYTE ;
@@ -149,12 +138,10 @@ void  readingFromSerial(void *arg)
                     else
                         State = Data;
                     continue;
-
                 case CrcLow :
                     packetCrc = (data & 0xff);
                     State = CrcHigh;
                     continue;
-
                 case CrcHigh:
                     packetCrc |= ( data & 0xff)<< BYTE;
                     if (compareCRC(packetCrc, calculateCrc))
@@ -162,6 +149,7 @@ void  readingFromSerial(void *arg)
                             if(receivingData->cmd==1 && receivingData->data)           //cmdTerm =1, not polling
                                 {
                                     toQueueuPacket=receivingData;
+                                    printf("%s\n",toQueueuPacket->data);
                                     pthread_mutex_lock(&common->mutex);
                                     TAILQ_INSERT_TAIL(&common->head,toQueueuPacket,entries);
                                     pthread_mutex_unlock(&common->mutex);
@@ -177,10 +165,8 @@ void  readingFromSerial(void *arg)
                                 }
                             else
                                 syslog(LOG_ERR,"ERROR Packet");
-
                         }
                     break;
-
                 }
             State=EmptyState;
             if(receivingData)
@@ -190,15 +176,20 @@ void  readingFromSerial(void *arg)
                     free(receivingData);
                     receivingData=NULL;
                 }
+            syslog(LOG_NOTICE,"Packetstatistic: packetError=%d"
+                              " packet=%d"
+                              " validPacket=%d"
+                              " overrun=%d"
+                              " emptyPacket=%d"
+                              " Error=%d"
+                              ,Packetstatistic.packetError
+                              ,Packetstatistic.packet
+                              ,Packetstatistic.validPacket
+                              ,Packetstatistic.overrun
+                              ,Packetstatistic.pollPacket
+                              ,Packetstatistic.rError);
 
-            syslog(LOG_NOTICE,"Packetstatistic packetError=%d",Packetstatistic.packetError);
-            syslog(LOG_NOTICE,"packet=%d",Packetstatistic.packet);
-            syslog(LOG_NOTICE,"validPacket=%d",Packetstatistic.validPacket);
-            syslog(LOG_NOTICE,"overrun=%d",Packetstatistic.overrun);
-            syslog(LOG_NOTICE,"emptyPacket=%d",Packetstatistic.pollPacket);
-            syslog(LOG_NOTICE,"Error=%d",Packetstatistic.rError);
 
-            sleep(common->samplingTime);    // alvoido
         }
     if(receivingData)
         {
@@ -207,8 +198,9 @@ void  readingFromSerial(void *arg)
             free(receivingData);
             receivingData=NULL;
         }
+
     syslog(LOG_ERR,"Reading thread finished");
-}
+    }
 
 QueueData *reserve(char data)
 {
@@ -223,155 +215,6 @@ QueueData *reserve(char data)
 }
 
 
-
-int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint16_t dLen)
-{
-    Statistic packet;
-    packet.wError=0;
-
-    if ( !data || fd <0 || dLen <0 )
-        {
-            syslog(LOG_ERR,"%s fd=%d,data=%p  Writing Error:%d",strerror(errno), fd,data,++packet.wError);
-            return -1;
-        }
-    char *buff=(char*)malloc((dLen+13)*sizeof(char));
-    if(!buff)
-        {
-            syslog(LOG_ERR,"No enough memory");
-            return -1;
-        }
-    int i=0;
-    int dataElement=11;
-    uint16_t crc=0;
-    unsigned char len1,len2,crc1,crc2;
-
-    crc = addCRC(crc, address);
-    crc = addCRC(crc, cmd);
-    len1= dLen & 0xff;
-    crc = addCRC(crc,len1);
-    len2 = (dLen >> BYTE) & 0xff;
-    crc = addCRC(crc, len2);
-    if(dLen>0)
-        {
-            int j;
-            for (j=0; j<dLen; j++,data++)
-                {
-                    buff[dataElement]=*data;
-                    crc = addCRC(crc, *data);
-                    dataElement++;
-                }
-        }
-    crc1=crc & 0xff;
-    crc2=(crc>>BYTE) & 0xff;
-    while(i!=5)
-        {
-            buff[i]=0x55;
-            i++;
-        }
-    buff[5]=0xFF;
-    buff[6]=0x01;
-    buff[7]=address;
-    buff[8]=cmd;
-    buff[9]=len1;
-    buff[10]=len2;
-    buff[dataElement]=crc1;
-    dataElement++;
-    buff[dataElement]=crc2;
-    dataElement++;
-    i=write(fd,buff,dataElement);
-    if(i!=dataElement)
-        {
-            syslog(LOG_ERR,"%s:%d",strerror(errno),i);
-            free(buff);
-            return -1;
-        }
-    else
-        {
-            free(buff);
-            return 1;
-        }
-}
-
-void sendRequest(void *arg)
-{
-
-    Threadcommon *common=arg;
-    unsigned char addresses=1;
-    int requestType;
-    int requestCounter=0;
-    unsigned const char heartBit=PING;
-    unsigned const char cmdTerm=0x01;
-    uint16_t DLEN=0;
-    Statistic packet;
-    packet.TermPacket=0;
-    packet.pollPacket=0;
-    char Data=0;
-    signal(SIGINT,signalcatch);
-    while(loop)
-        {
-
-            if(requestCounter==MAXREQUEST)
-                requestCounter=0;
-
-
-            requestType = requestCounter % 3;
-
-            if(!requestType)
-                {
-                    while((int)addresses<=common->numbOfDev)
-                        {
-                            if(common->sensors[(int)addresses-1].state)
-                                {
-                                    if(sendPacket(common->fd,addresses, cmdTerm, &Data,DLEN)>0)
-                                        {
-                                            packet.TermPacket++;
-                                            syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
-
-                                        }
-                                    else
-                                        {
-
-                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(errno));
-                                            return;
-                                        }
-
-
-                                }
-                            addresses++;
-
-                        }
-                    sleep(common->time);
-                    requestCounter++;
-
-
-                }
-            else
-                {
-                    while((int)addresses<=common->numbOfDev)
-                        {
-                            if(common->sensors[(int)addresses-1].state)
-                                {
-                                    if(sendPacket(common->fd,addresses, heartBit,&Data,DLEN)>0)
-                                        {
-                                            packet.pollPacket++;
-                                            syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
-
-                                        }
-                                    else
-                                        {
-                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(errno));
-                                            return;
-                                        }
-                                }
-                            addresses++;
-                        }
-
-                    requestCounter++;
-                    sleep(common->time);
-                }
-            addresses=1;
-        }
-}
 void signalcatch(int sig)
 {
     syslog(LOG_INFO,"signal received: %d",sig);

@@ -3,8 +3,8 @@
 #include <assert.h>
 #include "../header/counting.h"
 #include "../header/crc.h"
-#include "../header/header.h"
-#include "../header/measuring.h"
+#include "../header/Init.h"
+#include "../header/processing.h"
 #include "../header/reading.h"
 
 /** Must not test mov_average with 3 and 4 members in one time! */
@@ -14,12 +14,12 @@ void test_counting()
     float delta=5.00;
     movAverage teszt;
 
-    teszt.k=3.0;
+/*    teszt.k=3.0;
     teszt.k_next=12.0;
     teszt.k_prev=1.2;
     teszt.k_fourth=13.3;
     teszt.summary=0.0;
-
+*/
     assert(moving_hysteresis(delta,-4.00)==1.00);
     assert(moving_hysteresis(delta,1.0)==1.0);
     assert(moving_hysteresis(delta,1.25)==(float)1.25);
@@ -74,14 +74,14 @@ void test_Reading(void *arg)
 
 
 }
-void test_SendPacket(void *arg)
+/*void test_SendPacket(void *arg)
 {
-    Threadcommon /*test,*/*testp;
+    Threadcommon *testp;
     testp=arg;
     unsigned char taddress,tcmd,tdata,tdLen;
-    /* Crc crc1,crc2;
+    Crc crc1,crc2;
      crc1=0;
-     crc2=0;*/
+     crc2=0;
     taddress=1;
     tcmd=0;
     tdata=1;
@@ -93,10 +93,10 @@ void test_SendPacket(void *arg)
     assert(sendPacket(0,0,0,&tdata,0)==1);
     tdata=0;
     assert(sendPacket(7,1,1,&tdata,0)==1);
-    /*    assert(sendPacket(&test.fd,address,tcmd,&tdata,tDlen)==1);
+       assert(sendPacket(&test.fd,address,tcmd,&tdata,tDlen)==1);
         test.fd=-1;
         assert(sendPacket(&test.fd,0,0,NULL,0)==-1);
-    */
 
-}
+
+}*/
 

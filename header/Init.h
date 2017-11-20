@@ -29,8 +29,8 @@
 #define TOPMEASURES 15
 #define MAXLINE 100
 #define MAXCHAR 128
-#define pathOfConfig "/home/herczig/thesis/util/config.txt"
-//#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
+//#define pathOfConfig "/home/herczig/thesis/util/config.txt"
+#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
 //#define pathOfConfig "/home/pi/thesis/util/config.txt"
 
 typedef struct devices
@@ -40,7 +40,6 @@ typedef struct devices
     int state;
 
 } Slaves;
-
 
 typedef struct communication
 {
@@ -54,17 +53,14 @@ typedef struct communication
     float Delta;
     int members;
     Slaves *sensors;
-
-
 } Threadcommon;
 
+int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);
+
+int ReadConfig(Threadcommon *arg);
 
 int configlist(char **buffer,Threadcommon *arg);
-int ReadConfig(Threadcommon *arg);
-int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);
+
 int queueInit(Threadcommon *arg);
-void setBackTermios(Threadcommon *arg,struct termios *old);
-
-
 
 #endif // HEADER_H_INCLUDED
