@@ -218,7 +218,7 @@
 	"../header/reading.h"
 	<signal.h>
 
-1511122943 source:/home/herczig/thesis/main.c
+1511209446 source:/home/herczig/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	"header/crc.h"
@@ -231,7 +231,7 @@
 	"header/sending.h"
 	"header/closing.h"
 
-1510679547 /home/herczig/thesis/header/crc.h
+1511209446 /home/herczig/thesis/header/crc.h
 	<stdint.h>
 
 1511111481 /home/herczig/thesis/header/header.h
@@ -250,7 +250,7 @@
 	<ctype.h>
 	<errno.h>
 
-1511120689 /home/herczig/thesis/header/reading.h
+1511209446 /home/herczig/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -261,7 +261,7 @@
 	"Init.h"
 	<errno.h>
 
-1511120315 /home/herczig/thesis/header/counting.h
+1511209446 /home/herczig/thesis/header/counting.h
 	"processing.h"
 
 1511111297 /home/herczig/thesis/header/measuring.h
@@ -270,7 +270,7 @@
 	<sys/queue.h>
 	<string.h>
 
-1511133418 source:/home/herczig/thesis/src/counting.c
+1511209446 source:/home/herczig/thesis/src/counting.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -278,13 +278,13 @@
 	"../header/reading.h"
 	"../header/processing.h"
 
-1511111469 source:/home/herczig/thesis/src/crc.c
+1511209446 source:/home/herczig/thesis/src/crc.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
 	"../header/crc.h"
 
-1511125131 source:/home/herczig/thesis/src/Init.c
+1511209446 source:/home/herczig/thesis/src/Init.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/Init.h"
@@ -299,7 +299,7 @@
 	"../header/counting.h"
 	"../header/reading.h"
 
-1511124974 source:/home/herczig/thesis/src/reading.c
+1511209446 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/Init.h"
@@ -307,7 +307,7 @@
 	"../header/reading.h"
 	<signal.h>
 
-1511125298 source:/home/herczig/thesis/src/test.c
+1511209446 source:/home/herczig/thesis/src/test.c
 	<stdio.h>
 	<stdlib.h>
 	<assert.h>
@@ -317,7 +317,7 @@
 	"../header/processing.h"
 	"../header/reading.h"
 
-1511120367 /home/herczig/thesis/header/test.h
+1511209446 /home/herczig/thesis/header/test.h
 	"counting.h"
 	"crc.h"
 	"Init.h"
@@ -354,7 +354,7 @@
 	"../header/test.h"
 	<signal.h>
 
-1511124482 /home/herczig/thesis/header/Init.h
+1511209576 /home/herczig/thesis/header/Init.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
@@ -370,19 +370,19 @@
 	<ctype.h>
 	<errno.h>
 
-1511131443 /home/herczig/thesis/header/processing.h
+1511209446 /home/herczig/thesis/header/processing.h
 	<unistd.h>
 	<syslog.h>
 	<sys/queue.h>
 	<string.h>
 
-1511122949 /home/herczig/thesis/header/threadHandling.h
+1511209446 /home/herczig/thesis/header/threadHandling.h
 
-1511116217 /home/herczig/thesis/header/sending.h
+1511209446 /home/herczig/thesis/header/sending.h
 
-1511119447 /home/herczig/thesis/header/closing.h
+1511209446 /home/herczig/thesis/header/closing.h
 
-1511124833 source:/home/herczig/thesis/src/closing.c
+1511209446 source:/home/herczig/thesis/src/closing.c
 	<stdio.h>
 	<syslog.h>
 	<stdlib.h>
@@ -390,19 +390,20 @@
 	"../header/reading.h"
 	<pthread.h>
 
-1511133442 source:/home/herczig/thesis/src/processing.c
+1511211972 source:/home/herczig/thesis/src/processing.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/Init.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1511125238 source:/home/herczig/thesis/src/sending.c
+1511209446 source:/home/herczig/thesis/src/sending.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
+	"../header/writing.h"
 
-1511122953 source:/home/herczig/thesis/src/threadHandling.c
+1511209503 source:/home/herczig/thesis/src/threadHandling.c
 	<stdio.h>
 	<pthread.h>
 	"../header/crc.h"
@@ -411,7 +412,7 @@
 	"../header/counting.h"
 	"../header/processing.h"
 	"../header/test.h"
-	<signal.h>
+	"../header/sending.h"
 
 1511178163 /home/herczig/Dokumentumok/thesis/thesis/header/Init.h
 	<sys/queue.h>
@@ -476,6 +477,14 @@
 1511178645 /home/herczig/Dokumentumok/thesis/thesis/header/writing.h
 
 1511179635 source:/home/herczig/Dokumentumok/thesis/thesis/src/writing.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/reading.h"
+	"../header/crc.h"
+
+1511209446 /home/herczig/thesis/header/writing.h
+
+1511209446 source:/home/herczig/thesis/src/writing.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"

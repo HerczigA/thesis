@@ -44,6 +44,7 @@
 		<Unit filename="header/sending.h" />
 		<Unit filename="header/test.h" />
 		<Unit filename="header/threadHandling.h" />
+		<Unit filename="header/writing.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -73,6 +74,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/threadHandling.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/writing.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="version.h" />

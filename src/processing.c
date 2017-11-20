@@ -57,7 +57,6 @@ void takeoutFromQueue(void *arg)
             pthread_mutex_unlock(&common->mutex);
             for(tempaddress=0; tempaddress!=(int)tempPacket->address-1; tempaddress++)
                 ;
-            tempaddress--;
             devices[tempaddress].k_element[ZERO]=atof(tempPacket->data);
             temp=mov_average(&devices[tempaddress],common->members);
             finalResult=moving_hysteresis(common->Delta,temp);
@@ -85,9 +84,8 @@ void takeoutFromQueue(void *arg)
     }
     while(i<common->numbOfDev)
     {
-        for(j=0; j< (int)common->members; j++)
-            free(&devices[i].k_element[j]);
-        free(&devices[i]);
-        i++;
+            free(devices[i].k_element);
+            i++;
     }
+    free(devices);
 }
