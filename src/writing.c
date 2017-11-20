@@ -8,16 +8,16 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
     Statistic packet;
     packet.wError=0;
     if ( !data || fd <0 || dLen <0 )
-        {
-            syslog(LOG_ERR,"sendPacket, data is NULL or invalid Filedescriptor or datalength.Writing Error:%d",++packet.wError);
-            return -1;
-        }
+    {
+        syslog(LOG_ERR,"sendPacket, data is NULL or invalid Filedescriptor or datalength.Writing Error:%d",++packet.wError);
+        return -1;
+    }
     char *buff=(char*)malloc((dLen+13)*sizeof(char));
     if(!buff)
-        {
-            syslog(LOG_ERR,"No enough memory");
-            return -1;
-        }
+    {
+        syslog(LOG_ERR,"No enough memory");
+        return -1;
+    }
     int i=0;
     int dataElement=11;
     uint16_t crc=0;
@@ -29,22 +29,22 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
     len2 = (dLen >> BYTE) & 0xff;
     crc = addCRC(crc, len2);
     if(dLen>0)
+    {
+        int j;
+        for (j=0; j<dLen; j++,data++)
         {
-            int j;
-            for (j=0; j<dLen; j++,data++)
-                {
-                    buff[dataElement]=*data;
-                    crc = addCRC(crc, *data);
-                    dataElement++;
-                }
+            buff[dataElement]=*data;
+            crc = addCRC(crc, *data);
+            dataElement++;
         }
+    }
     crc1=crc & 0xff;
     crc2=(crc>>BYTE) & 0xff;
     while(i!=5)
-        {
-            buff[i]=0x55;
-            i++;
-        }
+    {
+        buff[i]=0x55;
+        i++;
+    }
     buff[5]=0xFF;
     buff[6]=0x01;
     buff[7]=address;
@@ -57,15 +57,15 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
     dataElement++;
     i=write(fd,buff,dataElement);
     if(i!=dataElement)
-        {
-            syslog(LOG_ERR,"%s",strerror(i));
-            free(buff);
-            return -1;
-        }
+    {
+        syslog(LOG_ERR,"%s",strerror(i));
+        free(buff);
+        return -1;
+    }
     else
-        {
-            free(buff);
-            return 1;
-        }
+    {
+        free(buff);
+        return 1;
+    }
 }
 

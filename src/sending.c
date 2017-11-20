@@ -8,7 +8,7 @@ void sendRequest(void *arg)
 {
     if(!arg)
         syslog(LOG_ERR,"Threadhandle is NULL");
-        return;
+    return;
     Threadcommon *common=arg;
     unsigned char addresses=1;
     int requestType;
@@ -23,56 +23,55 @@ void sendRequest(void *arg)
     char Data=0;
     signal(SIGINT,signalcatch);
     while(loop)
+    {
+        if(requestCounter==MAXREQUEST)
+            requestCounter=0;
+        requestType = requestCounter % 3;
+        if(!requestType)
         {
-
-            if(requestCounter==MAXREQUEST)
-                requestCounter=0;
-            requestType = requestCounter % 3;
-            if(!requestType)
+            while((int)addresses<=common->numbOfDev)
+            {
+                if(common->sensors[(int)addresses-1].state)
                 {
-                    while((int)addresses<=common->numbOfDev)
-                        {
-                            if(common->sensors[(int)addresses-1].state)
-                                {
-                                    if((error=sendPacket(common->fd,addresses, cmdTerm, &Data,DLEN))>0)
-                                        {
-                                            packet.TermPacket++;
-                                            syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
-                                        }
-                                    else
-                                        {
-                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
-                                            return;
-                                        }
-                                }
-                            addresses++;
-                        }
-                    sleep(common->time);
-                    requestCounter++;
+                    if((error=sendPacket(common->fd,addresses, cmdTerm, &Data,DLEN))>0)
+                    {
+                        packet.TermPacket++;
+                        syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
+                    }
+                    else
+                    {
+                        syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                        return;
+                    }
                 }
-            else
-                {
-                    while((int)addresses<=common->numbOfDev)
-                        {
-                            if(common->sensors[(int)addresses-1].state)
-                                {
-                                    if((error=sendPacket(common->fd,addresses, heartBit,&Data,DLEN))>0)
-                                        {
-                                            packet.pollPacket++;
-                                            syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
-
-                                        }
-                                    else
-                                        {
-                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
-                                            return;
-                                        }
-                                }
-                            addresses++;
-                        }
-                    requestCounter++;
-                    sleep(common->time);
-                }
-            addresses=1;
+                addresses++;
+            }
+            sleep(common->time);
+            requestCounter++;
         }
+        else
+        {
+            while((int)addresses<=common->numbOfDev)
+            {
+                if(common->sensors[(int)addresses-1].state)
+                {
+                    if((error=sendPacket(common->fd,addresses, heartBit,&Data,DLEN))>0)
+                    {
+                        packet.pollPacket++;
+                        syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
+
+                    }
+                    else
+                    {
+                        syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                        return;
+                    }
+                }
+                addresses++;
+            }
+            requestCounter++;
+            sleep(common->time);
+        }
+        addresses=1;
+    }
 }
