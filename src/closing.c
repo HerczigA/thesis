@@ -22,7 +22,7 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old)
     }
     pthread_mutex_destroy(&fileconf->mutex);
     free(fileconf->sensors);
-    printf("All allocated memory is free and mutex destroyed succesfully"
+    printf("All allocated memory is free and mutex destroyed succesfully."
            "Setting back is succesfully done.\n "
            "Thank you for use this device, hope you enjoy it!\n");
     syslog(LOG_NOTICE,"Setting back is succesfully done");

@@ -6,9 +6,12 @@
 static int loop=1;
 void sendRequest(void *arg)
 {
+
     if(!arg)
+    {
         syslog(LOG_ERR,"Threadhandle is NULL");
-    return;
+        return;
+    }
     Threadcommon *common=arg;
     unsigned char addresses=1;
     int requestType;
@@ -21,8 +24,8 @@ void sendRequest(void *arg)
     packet.TermPacket=0;
     packet.pollPacket=0;
     char Data=0;
-    signal(SIGINT,signalcatch);
-    while(loop)
+  //  signal(SIGINT,signalcatch);
+    while(1)
     {
         if(requestCounter==MAXREQUEST)
             requestCounter=0;

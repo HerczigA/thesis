@@ -10,6 +10,7 @@ typedef struct m_average
 {
     float summary;
     float *k_element;
+
 } movAverage;
 
 void takeoutFromQueue(void *arg);
