@@ -14,12 +14,12 @@
 void threadsHandling(pthread_t *thread_request,pthread_t *thread_read,pthread_t *thread_measure,Threadcommon *arg)
 {
     Threadcommon *common=arg;
-    /*if(pthread_create(thread_request,NULL,(void*)sendRequest,common))
+    if(pthread_create(thread_request,NULL,(void*)sendRequest,common))
     {
         syslog(LOG_ERR,"%s",strerror(errno));
         return ;
-    }*/
-    if(pthread_create(thread_read,NULL,(void*)readingFromSerial,common))
+    }
+    /*if(pthread_create(thread_read,NULL,(void*)readingFromSerial,common))
     {
         syslog(LOG_ERR,"%s",strerror(errno));
         return ;
@@ -30,10 +30,10 @@ void threadsHandling(pthread_t *thread_request,pthread_t *thread_read,pthread_t 
         syslog(LOG_ERR,"%s",strerror(errno));
         return;
 
-    }
-    //pthread_kill(*thread_request,0);
-    pthread_kill(*thread_read,0);
-    //pthread_join(*thread_request,NULL);
-    pthread_join(*thread_read,NULL);
-    pthread_join(*thread_measure,NULL);
+    }*/
+    pthread_kill(*thread_request,0);
+    //pthread_kill(*thread_read,0);
+    pthread_join(*thread_request,NULL);
+    //pthread_join(*thread_read,NULL);
+    //pthread_join(*thread_measure,NULL);
 }

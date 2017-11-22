@@ -390,20 +390,20 @@
 	"../header/reading.h"
 	<pthread.h>
 
-1511211972 source:/home/herczig/thesis/src/processing.c
+1511217048 source:/home/herczig/thesis/src/processing.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/Init.h"
 	"../header/counting.h"
 	"../header/reading.h"
 
-1511209446 source:/home/herczig/thesis/src/sending.c
+1511217897 source:/home/herczig/thesis/src/sending.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
 	"../header/writing.h"
 
-1511209503 source:/home/herczig/thesis/src/threadHandling.c
+1511217992 source:/home/herczig/thesis/src/threadHandling.c
 	<stdio.h>
 	<pthread.h>
 	"../header/crc.h"

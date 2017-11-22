@@ -18,12 +18,13 @@ void sendRequest(void *arg)
     int requestCounter=0;
     unsigned const char heartBit=PING;
     unsigned const char cmdTerm=0x01;
-    uint16_t DLEN=0;
     Statistic packet;
     int error;
     packet.TermPacket=0;
     packet.pollPacket=0;
-    char Data=0;
+    char Data[]="6.72";
+    uint16_t DLEN=strlen(Data);
+    char pollData=0;
   //  signal(SIGINT,signalcatch);
     while(1)
     {
@@ -36,7 +37,7 @@ void sendRequest(void *arg)
             {
                 if(common->sensors[(int)addresses-1].state)
                 {
-                    if((error=sendPacket(common->fd,addresses, cmdTerm, &Data,DLEN))>0)
+                    if((error=sendPacket(common->fd,addresses, cmdTerm, Data,DLEN))>0)
                     {
                         packet.TermPacket++;
                         syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
@@ -58,7 +59,7 @@ void sendRequest(void *arg)
             {
                 if(common->sensors[(int)addresses-1].state)
                 {
-                    if((error=sendPacket(common->fd,addresses, heartBit,&Data,DLEN))>0)
+                    if((error=sendPacket(common->fd,addresses, heartBit,&pollData,DLEN))>0)
                     {
                         packet.pollPacket++;
                         syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
