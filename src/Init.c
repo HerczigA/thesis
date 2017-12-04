@@ -47,8 +47,8 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
 
     tcgetattr(init->fd,old_term);
     term->c_cflag = CS8 | CLOCAL | CREAD ;
-    term->c_iflag &=~(IXON | IXOFF | IXANY);
-    term->c_lflag &= ~( ICANON | ECHO | ECHOE | ISIG);
+    term->c_iflag = IGNPAR;
+    term->c_lflag &= ~( ICANON | ECHO | ISIG);
     term->c_oflag =0;
     term->c_cc[VTIME]=0;
     term->c_cc[VMIN]=1;
@@ -78,6 +78,7 @@ int ReadConfig(Threadcommon *arg)
     openlog(NULL,LOG_PID,LOG_LOCAL1);
     if(!arg)
     {
+        printf("ReadConfig got NULL\n");
         syslog(LOG_ERR,"threadHandle is NULL");
         return -1;
     }
@@ -103,7 +104,9 @@ int configlist(char **buffer,Threadcommon *arg)
     char *p=NULL;
     char *seged=NULL;
     FILE *fconfig=NULL;
-    int i,j,len;
+    int i,j,k,len;
+    int sensnmb=0;
+    int address;
     i=0;
     fconfig=fopen(pathOfConfig,"r");
     if(!fconfig)
@@ -116,19 +119,35 @@ int configlist(char **buffer,Threadcommon *arg)
     else
     {
         temp=(char*)malloc(MAXCHAR*sizeof(char));
+        if(!temp)
+        {
+            printf("no memory for temp\n");
+            fclose(fconfig);
+            return -1;
+        }
         while(fgets(temp,MAXCHAR,fconfig))
         {
             if(strchr(temp,';'))
             {
-                buffer[i]=malloc(MAXCHAR*sizeof(char));
-                strcpy(buffer[i],temp);
-                i++;
+                buffer[i]=(char*)malloc((strlen(temp)+1)*sizeof(char));
+                if(!buffer[i])
+                {
+                    printf("no memory to buffer[i]\n");
+                    free(temp);
+                    fclose(fconfig);
+                    return -1;
+                }
+                else
+                {
+                    strcpy(buffer[i],temp);
+                    i++;
+                }
             }
         }
         fclose(fconfig);
         free(temp);
         i=0;
-        /**First of all check the array of pointers by the parameters. Checking by '='.*/
+        /**First of all, check the array of pointers by the parameters. Checking by '='.*/
         while(!(strchr(buffer[i],tab)))
         {
             if((p=strchr(buffer[i],equalsign)))
@@ -228,9 +247,6 @@ int configlist(char **buffer,Threadcommon *arg)
                 syslog(LOG_ERR,"No more memory for sensors");
                 return -1;
             }
-            int sensnmb=0;
-            i=0;
-            int address;
             while(j)
             {
                 if((p=strrchr(buffer[i],tab)))
@@ -241,12 +257,12 @@ int configlist(char **buffer,Threadcommon *arg)
                     if(p[len]=='\n')
                     {
                         p[len-1]='\0';
-                        arg->sensors[sensnmb].state=atoi(p);
+                        arg->sensors[sensnmb].time=atoi(p);
                     }
                     else if(p[len]==';')
                     {
                         p[len]='\0';
-                        arg->sensors[sensnmb].state=atoi(p);
+                        arg->sensors[sensnmb].time=atoi(p);
                     }
                     while(!(isalpha(*seged)))
                         seged++;
@@ -254,22 +270,39 @@ int configlist(char **buffer,Threadcommon *arg)
                     while(isalpha(*p))
                         p++;
                     *p='\0';
-                    arg->sensors[sensnmb].names=malloc((p-seged)*sizeof(char));
+                    arg->sensors[sensnmb].names=malloc((strlen(seged)+1)*sizeof(char));
                     if(!arg->sensors[sensnmb].names)
                     {
                         syslog(LOG_ERR,"Cannot allocate memory");
                         return -2;
                     }
                     strcpy(arg->sensors[sensnmb].names,seged);
+                    while(!(isdigit(*p)))
+                        p++;
+                    arg->sensors[sensnmb].state=atoi(p);
                     p=buffer[i];
                     while(isdigit(*p))
                         p++;
                     *p='\0';
                     address=atoi(buffer[i]);
                     arg->sensors[sensnmb].address=(char)address;
+
                     free(buffer[i]);
-                    sensnmb++;
                     j--;
+                    k=0;
+                    while(k<sensnmb)
+                    {
+                        if(arg->sensors[k].address==arg->sensors[sensnmb].address)
+                        {
+                            arg->sensors[k].state=0;
+                            arg->sensors[sensnmb].state=0;
+                            printf("There is an address conflict occured.\n"
+                                   "The problems are in the following devices:\n%s\t\t%s\n\n",
+                                   arg->sensors[k].names,arg->sensors[sensnmb].names);
+                        }
+                    k++;
+                    }
+                    sensnmb++;
                 }
                 i++;
             }

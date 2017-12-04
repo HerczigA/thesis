@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../header/reading.h"
 #include "../header/writing.h"
-
+#define MILTIME 10
 static int loop=1;
 void sendRequest(void *arg)
 {
@@ -50,7 +50,7 @@ void sendRequest(void *arg)
                 }
                 addresses++;
             }
-            sleep(common->time);
+            sleep(common->sensors[(int)addresses-1].time * MILTIME);
             requestCounter++;
         }
         else
