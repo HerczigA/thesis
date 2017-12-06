@@ -16,7 +16,7 @@
 #include <errno.h>
 #define DEFTIME 10
 #define DEFMAXTIME 60
-#define REQUESTTIME 60
+#define POLLTIME 60
 #define MAXTIME 10800
 #define ZERO 0
 #define DEVMIN 0
@@ -45,7 +45,7 @@ typedef struct communication
     pthread_mutex_t mutex;
     TAILQ_HEAD(tailhead,queueData) head;
     int fd;
-    int time;
+    int pollTime;
     int numbOfDev;
     int BAUD;
     int samplingTime;

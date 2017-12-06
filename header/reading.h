@@ -11,7 +11,6 @@
 #include <errno.h>
 #define LIMIT 1024
 #define FF 0xFF
-#define MAXREQUEST 30
 #define ONE 1
 #define SAMPTIME 1000
 #define ZERO 0

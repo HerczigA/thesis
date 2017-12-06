@@ -88,7 +88,7 @@ int ReadConfig(Threadcommon *arg)
     arg->members=ZERO;
     arg->numbOfDev=ZERO;
     arg->samplingTime=ZERO;
-    arg->time=ZERO;
+    arg->pollTime=ZERO;
     if(configlist(buffer,arg))
         return -1;
     else
@@ -154,15 +154,15 @@ int configlist(char **buffer,Threadcommon *arg)
             {
                 len=strlen(p)-1;
                 p++;
-                if(strstr(buffer[i],"Request"))
+                if(strstr(buffer[i],"Polling"))
                 {
                     if((p[len]='\n'))
                         p[len-2]='\0';
                     else
                         p[len-1]='\0';
-                    arg->time=atoi(p);
-                    if(arg->time<REQUESTTIME || arg->time>MAXTIME || !arg->time)
-                        arg->time=REQUESTTIME;
+                    arg->pollTime=atoi(p);
+                    if(arg->pollTime<POLLTIME || arg->pollTime>MAXTIME || !arg->pollTime)
+                        arg->pollTime=POLLTIME;
                     free(buffer[i]);
                 }
                 if(strstr(buffer[i],"Device"))
@@ -176,7 +176,7 @@ int configlist(char **buffer,Threadcommon *arg)
                         arg->numbOfDev=DEVMIN;
                     free(buffer[i]);
                 }
-                if(strstr(buffer[i],"sampling"))
+                if(strstr(buffer[i],"Sampling"))
                 {
                     if((p[len]='\n'))
                         p[len-2]='\0';
@@ -209,7 +209,7 @@ int configlist(char **buffer,Threadcommon *arg)
                         arg->Delta=DELTAMIN;
                     free(buffer[i]);
                 }
-                if(strstr(buffer[i],"member"))
+                if(strstr(buffer[i],"Member"))
                 {
                     if((p[len]='\n'))
                         p[len-2]='\0';
@@ -236,8 +236,8 @@ int configlist(char **buffer,Threadcommon *arg)
         }
         if(!arg->samplingTime)
             arg->samplingTime=DEFTIME;
-        if(!arg->time)
-            arg->time=REQUESTTIME;
+        if(!arg->pollTime)
+            arg->pollTime=POLLTIME;
         j=arg->numbOfDev;
         if(j)
         {

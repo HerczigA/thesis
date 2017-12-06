@@ -6,7 +6,6 @@
 
 void takeoutFromQueue(void *arg)
 {
-    signal(SIGINT,signalcatch);
     Threadcommon *common=arg;
     if(!common)
     {
@@ -24,7 +23,7 @@ void takeoutFromQueue(void *arg)
     if(!devices)
     {
         syslog(LOG_ERR,"Can not allocate memory for devices struct\n");
-        exit(EXIT_FAILURE);
+        pthread_exit(NULL);
     }
     /**Malloc for the devices by number of member*/
     while(i<common->numbOfDev)
@@ -32,8 +31,9 @@ void takeoutFromQueue(void *arg)
         devices[i].k_element=(float*)malloc(common->members*sizeof(float));
         if(!devices[i].k_element)
         {
+            free(devices);
             syslog(LOG_ERR,"Can not allocate memory for elements of devices\n");
-            exit(EXIT_FAILURE);
+            pthread_exit(NULL);
         }
         i++;
     }
@@ -52,7 +52,7 @@ void takeoutFromQueue(void *arg)
         if(!TAILQ_EMPTY(&common->head))
         {
             pthread_mutex_lock(&common->mutex);
-            tempPacket=(QueueData *)TAILQ_FIRST(&common->head);
+            tempPacket=TAILQ_FIRST(&common->head);
             TAILQ_REMOVE(&common->head,tempPacket,entries);
             pthread_mutex_unlock(&common->mutex);
             for(tempaddress=0; tempaddress!=(int)tempPacket->address-1; tempaddress++)

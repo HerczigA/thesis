@@ -1,15 +1,15 @@
 /*ConfigFile*/
-RequestTIME=1;
+PollingTime=1;
 
-numberDevice=5;
+SumberDevice=5;
 
-samplingTime=1;
+SamplingTime=1;
 
 Baudrate=9600;
 
 Delta=10.0;
 
-membersOfMovingAverage=3.4;
+MembersOfMovingAverage=3.4;
 
 address(es)			name(s)			state(s)
 1				eloszoba		1;

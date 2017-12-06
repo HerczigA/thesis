@@ -3,6 +3,8 @@
 #include "../header/reading.h"
 #include "../header/writing.h"
 #define MILTIME 10
+#define MAXREQUEST 30
+
 static int loop=1;
 void sendRequest(void *arg)
 {
@@ -17,7 +19,7 @@ void sendRequest(void *arg)
     int requestType;
     int requestCounter=0;
     unsigned const char heartBit=PING;
-    unsigned const char cmdTerm=0x01;
+    unsigned const char termBit=0x01;
     Statistic packet;
     int error;
     packet.TermPacket=0;
@@ -26,7 +28,7 @@ void sendRequest(void *arg)
     uint16_t DLEN=strlen(Data);
     char pollData=0;
   //  signal(SIGINT,signalcatch);
-    while(1)
+    while(loop)
     {
         if(requestCounter==MAXREQUEST)
             requestCounter=0;
@@ -37,7 +39,8 @@ void sendRequest(void *arg)
             {
                 if(common->sensors[(int)addresses-1].state)
                 {
-                    if((error=sendPacket(common->fd,addresses, cmdTerm, Data,DLEN))>0)
+                    sleep(common->sensors[(int)addresses-1].time * MILTIME);
+                    if((error=sendPacket(common->fd,addresses, termBit, Data,DLEN))>0)
                     {
                         packet.TermPacket++;
                         syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
@@ -50,7 +53,6 @@ void sendRequest(void *arg)
                 }
                 addresses++;
             }
-            sleep(common->sensors[(int)addresses-1].time * MILTIME);
             requestCounter++;
         }
         else
@@ -59,6 +61,7 @@ void sendRequest(void *arg)
             {
                 if(common->sensors[(int)addresses-1].state)
                 {
+                    sleep(common->pollTime);
                     if((error=sendPacket(common->fd,addresses, heartBit,&pollData,DLEN))>0)
                     {
                         packet.pollPacket++;
@@ -74,7 +77,6 @@ void sendRequest(void *arg)
                 addresses++;
             }
             requestCounter++;
-            sleep(common->time);
         }
         addresses=1;
     }

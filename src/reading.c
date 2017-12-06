@@ -205,6 +205,7 @@ QueueData *reserve(char data)
     if (!temp)
         return NULL;
     temp->address=data;
+    temp->cmd=0;
     temp->dlen = 0;
     temp->data = NULL;
     return temp;
