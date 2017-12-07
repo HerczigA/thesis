@@ -20,7 +20,7 @@ void test_counting()
     teszt.k_fourth=13.3;
     teszt.summary=0.0;
 */
-    assert(moving_hysteresis(delta,-4.00)==1.00);
+  /*  assert(moving_hysteresis(delta,-4.00)==1.00);
     assert(moving_hysteresis(delta,1.0)==1.0);
     assert(moving_hysteresis(delta,1.25)==(float)1.25);
     assert(moving_hysteresis(delta,6.69)==(float)1.69);

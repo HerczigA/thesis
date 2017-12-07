@@ -24,7 +24,7 @@ void  readingFromSerial(void *arg)
     {
         syslog(LOG_ERR,"%s\n",strerror(errno));
         Packetstatistic.rError++;
-        return;
+        pthread_exit(NULL);
     }
     signal(SIGINT,signalcatch);
 

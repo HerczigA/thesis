@@ -5,12 +5,14 @@
 #include <sys/queue.h>
 #include <string.h>
 #define MAXFAIL 50
-
+#define ZEROFLOAT 0.0
 typedef struct m_average
 {
     float summary;
     float *k_element;
-
+    float act_min_val;
+    float measuredValue;
+    float act_max_value;
 } movAverage;
 
 void takeoutFromQueue(void *arg);

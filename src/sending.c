@@ -27,7 +27,7 @@ void sendRequest(void *arg)
     char Data[]="6.72";
     uint16_t DLEN=strlen(Data);
     char pollData=0;
-  //  signal(SIGINT,signalcatch);
+    signal(SIGINT,signalcatch);
     while(loop)
     {
         if(requestCounter==MAXREQUEST)

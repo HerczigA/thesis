@@ -7,28 +7,29 @@
 /**
 Moving hysteresis counting by the measured value with a delta.
 */
-float moving_hysteresis(float Delta,float temp)
+float moving_hysteresis(float Delta,movAverage *temp)
 {
-    float delta=Delta;
-    float temp_min=ZERO;
-    float temp_max=delta;
     float result;
-    if(temp<=temp_max)
+
+    if(temp->measuredValue<=temp->act_max_value)
     {
-        if(temp>=temp_min)
+        if(temp->measuredValue >= temp->act_min_val)
         {
-            result=temp;
+            result=temp->act_min_val;
             return result;
         }
         else
         {
-            result=temp+delta;
+            temp->act_min_val=temp->measuredValue;
+            temp->act_max_value=temp->act_min_val+Delta;
+            result=temp->act_min_val;
             return result;
         }
     }
     else
     {
-        result=temp-delta;
+        temp->act_max_value=temp->measuredValue;
+        temp->act_min_val=temp->act_max_value-Delta;
         return  result;
     }
 }

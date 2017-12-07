@@ -4,7 +4,7 @@
 #define ZERO 0
 
 
-float moving_hysteresis(float Delta,float temp);
+float moving_hysteresis(float Delta,movAverage *temp);
 
 float mov_average(movAverage *temp,int members);
 
