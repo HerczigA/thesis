@@ -28,7 +28,7 @@ int main()
         return -1;
     //test_SendPacket(&threadHandle);
     //test_Reading(&threadHandle);
-    //threadsHandling(&requesting_thread,&reading_thread,&processor_thread,&threadHandle);
+    threadsHandling(&requesting_thread,&reading_thread,&processor_thread,&threadHandle);
     setBackTermios(&threadHandle,&old_term);
 
     return 0;

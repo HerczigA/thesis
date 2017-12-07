@@ -16,7 +16,7 @@
 #define ZERO 0
 #define MAXU 5
 #define PING 0x69
-
+#define TERMCMD 0x01
 typedef enum PacketState
 {
     /*! Default condition*/
