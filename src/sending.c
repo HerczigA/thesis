@@ -5,7 +5,7 @@
 #define MILTIME 10
 #define MAXREQUEST 30
 
-static int loop=1;
+
 void sendRequest(void *arg)
 {
 
@@ -24,11 +24,11 @@ void sendRequest(void *arg)
     int error;
     packet.TermPacket=0;
     packet.pollPacket=0;
-    char Data[]="6.72";
-    uint16_t DLEN=strlen(Data);
+    //char Data[]="6.72";
+    //uint16_t DLEN=strlen(Data);
+    char *termData=NULL;
     char pollData=0;
-    signal(SIGINT,signalcatch);
-    while(loop)
+    while(1)
         {
             if(requestCounter==MAXREQUEST)
                 requestCounter=0;
@@ -40,7 +40,7 @@ void sendRequest(void *arg)
                             if(common->sensors[(int)addresses-1].state)
                                 {
                                     sleep(common->sensors[(int)addresses-1].time * MILTIME);
-                                    if((error=sendPacket(common->fd,addresses, termBit, Data,DLEN))>0)
+                                    if((error=sendPacket(common->fd,addresses, termBit, termData,pollData))>0)
                                         {
                                             packet.TermPacket++;
                                             syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
@@ -62,7 +62,7 @@ void sendRequest(void *arg)
                             if(common->sensors[(int)addresses-1].state)
                                 {
                                     sleep(common->pollTime);
-                                    if((error=sendPacket(common->fd,addresses, heartBit,&pollData,DLEN))>0)
+                                    if((error=sendPacket(common->fd,addresses, heartBit,&pollData,pollData))>0)
                                         {
                                             packet.pollPacket++;
                                             syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);

@@ -7,7 +7,7 @@
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
-static int loop=1;
+
 void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL,
@@ -26,9 +26,7 @@ void  readingFromSerial(void *arg)
             Packetstatistic.rError++;
             pthread_exit(NULL);
         }
-    signal(SIGINT,signalcatch);
-
-    while(read(common->fd,&data,ONE)!=-1 && loop)
+    while(read(common->fd,&data,ONE)!=-1)
         {
             switch (State)
                 {
@@ -212,10 +210,4 @@ QueueData *reserve(char data)
 }
 
 
-void signalcatch(int sig)
-{
-    syslog(LOG_INFO,"signal received: %d",sig);
-    loop=0;
-
-}
 

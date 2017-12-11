@@ -3,7 +3,6 @@
 #include <sys/queue.h>
 #include <stdint.h>
 #include <termios.h>
-#include "../header/reading.h"
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
@@ -14,6 +13,8 @@
 #include <syslog.h>
 #include <ctype.h>
 #include <errno.h>
+#include <signal.h>
+#include "../header/reading.h"
 #define DEFTIME 10
 #define DEFMAXTIME 60
 #define POLLTIME 60
@@ -52,6 +53,7 @@ typedef struct communication
     float Delta;
     int members;
     Slaves *sensors;
+    int loop;
 } Threadcommon;
 
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);

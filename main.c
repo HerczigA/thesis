@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 #include "header/crc.h"
 #include "header/Init.h"
 #include "header/reading.h"
@@ -26,6 +27,7 @@ int main()
         return -1;
     if(queueInit(&threadHandle))
         return -1;
+
     //test_SendPacket(&threadHandle);
     //test_Reading(&threadHandle);
     threadsHandling(&requesting_thread,&reading_thread,&processor_thread,&threadHandle);
@@ -33,3 +35,4 @@ int main()
 
     return 0;
 }
+
