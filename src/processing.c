@@ -59,7 +59,9 @@ void takeoutFromQueue(void *arg)
                     for(tempaddress=0; tempaddress!=(int)tempPacket->address-1; tempaddress++)
                         ;
                     devices[tempaddress].k_element[ZERO]=atof(tempPacket->data);
-                    devices[tempaddress].measuredValue=mov_average(&devices[tempaddress],common->members);
+
+                    devices[tempaddress].measuredValue=mov_average(&devices[tempaddress],common,tempaddress);
+
                     finalResult=moving_hysteresis(common->Delta,&devices[tempaddress]);
                     printf("Measured temperature from %s with moving average and moving hysteresis :%.2f°C\n",
                            common->sensors[(int)tempPacket->address-1].names,finalResult);

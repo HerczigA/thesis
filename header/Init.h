@@ -38,7 +38,7 @@ typedef struct devices
     char *names;
     int state;
     int time;
-
+    int movAve_tag_number;
 } Slaves;
 
 typedef struct communication
@@ -53,7 +53,6 @@ typedef struct communication
     float Delta;
     int members;
     Slaves *sensors;
-    int loop;
 } Threadcommon;
 
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);

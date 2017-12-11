@@ -35,30 +35,35 @@ float moving_hysteresis(float Delta,movAverage *temp)
         }
 }
 /**
-Moving average with 3 members in default
+Moving average with 3 tagNumber in default
 */
-float mov_average(movAverage *temp,int members)
+float mov_average(movAverage *temp,Threadcommon *Tag,int address)
 {
     float result=0.0;
     float sum;
     int i,j;
-    /**Members are odd */
-    if(members%2)
+    int tagNumber;
+    if(Tag->sensors[address].movAve_tag_number)
+                    tagNumber=Tag->sensors[address].movAve_tag_number;
+                else
+                    tagNumber=Tag->members;
+    /**tagNumber are odd */
+    if(tagNumber%2)
         {
-            for(i=0; i<members; i++)
+            for(i=0; i<tagNumber; i++)
                 sum+=temp->k_element[i];
-            for(j=0; j<members-1; j++)
+            for(j=0; j<tagNumber-1; j++)
                 temp->k_element[j+1]=temp->k_element[j];
-            result=sum/(float)members;
+            result=sum/(float)tagNumber;
         }
     else
         {
-            for(i=0; i<members; i++)
+            for(i=0; i<tagNumber; i++)
                 sum+=(temp->k_element[i]);
-            for(j=0; j<members-1; j++)
+            for(j=0; j<tagNumber-1; j++)
                 temp->k_element[j+1]=temp->k_element[j];
-            sum=sum/(float)members;
-            result=(sum+temp->summary)/((float)members/2.0);
+            sum=sum/(float)tagNumber;
+            result=(sum+temp->summary)/((float)tagNumber/2.0);
             temp->summary=sum;
         }
     return result;

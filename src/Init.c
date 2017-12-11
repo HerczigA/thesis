@@ -258,12 +258,16 @@ int configlist(char **buffer,Threadcommon *arg)
                                     if(p[len]=='\n')
                                         {
                                             p[len-1]='\0';
-                                            arg->sensors[sensnmb].time=atoi(p);
+                                            arg->sensors[sensnmb].movAve_tag_number=atoi(p);
+                                            if(!arg->sensors[sensnmb].movAve_tag_number)
+                                                arg->sensors[sensnmb].movAve_tag_number=3;
                                         }
                                     else if(p[len]==';')
                                         {
                                             p[len]='\0';
-                                            arg->sensors[sensnmb].time=atoi(p);
+                                            arg->sensors[sensnmb].movAve_tag_number=atoi(p);
+                                            if(!arg->sensors[sensnmb].movAve_tag_number)
+                                                arg->sensors[sensnmb].movAve_tag_number=3;
                                         }
                                     //second the names of devices
                                     while(!(isalpha(*seged)))
@@ -275,6 +279,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     arg->sensors[sensnmb].names=malloc((strlen(seged)+1)*sizeof(char));
                                     if(!arg->sensors[sensnmb].names)
                                         {
+                                            printf("No more memory for allocating names of device.\n");
                                             syslog(LOG_ERR,"Cannot allocate memory");
                                             return -2;
                                         }
@@ -283,6 +288,11 @@ int configlist(char **buffer,Threadcommon *arg)
                                         p++;
                                     //third the states
                                     arg->sensors[sensnmb].state=atoi(p);
+                                        p++;
+                                    while(!(isdigit(*p)))
+                                        p++;
+                                    //fourth for time
+                                    arg->sensors[sensnmb].time=atoi(p);
                                     p=buffer[i];
                                     while(isdigit(*p))
                                         p++;
@@ -314,7 +324,7 @@ int configlist(char **buffer,Threadcommon *arg)
                     j=0;
                     while(j!=arg->numbOfDev)
                         {
-                            printf("Address=%d\tName:%s\tstate:%d\tTime:%d\n",arg->sensors[j].address,arg->sensors[j].names,arg->sensors[j].state,arg->sensors[j].time);
+                            printf("Address=%d\tName:%s\tstate:%d\tTime:%d\t\tMovAve_tag_Number=%d\n",arg->sensors[j].address,arg->sensors[j].names,arg->sensors[j].state,arg->sensors[j].time,arg->sensors[j].movAve_tag_number);
                             j++;
                         }
                     printf("Reading config file succesfully\n");
