@@ -1,7 +1,7 @@
 /*ConfigFile*/
 PollingTime=1;
 
-SumberDevice=5;
+numbersofDevice=5;
 
 SamplingTime=1;
 
