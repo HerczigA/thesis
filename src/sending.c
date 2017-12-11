@@ -26,8 +26,9 @@ void sendRequest(void *arg)
     packet.pollPacket=0;
     //char Data[]="6.72";
     //uint16_t DLEN=strlen(Data);
-    char *termData=NULL;
+    char termData=0;
     char pollData=0;
+    int len=0;
     while(1)
         {
             if(requestCounter==MAXREQUEST)
@@ -40,7 +41,7 @@ void sendRequest(void *arg)
                             if(common->sensors[(int)addresses-1].state)
                                 {
                                     sleep(common->sensors[(int)addresses-1].time * MILTIME);
-                                    if((error=sendPacket(common->fd,addresses, termBit, termData,pollData))>0)
+                                    if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
                                         {
                                             packet.TermPacket++;
                                             syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
@@ -62,7 +63,7 @@ void sendRequest(void *arg)
                             if(common->sensors[(int)addresses-1].state)
                                 {
                                     sleep(common->pollTime);
-                                    if((error=sendPacket(common->fd,addresses, heartBit,&pollData,pollData))>0)
+                                    if((error=sendPacket(common->fd,addresses, heartBit,&pollData,len))>0)
                                         {
                                             packet.pollPacket++;
                                             syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);

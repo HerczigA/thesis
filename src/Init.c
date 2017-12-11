@@ -59,11 +59,13 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     if(!tcsetattr(init->fd,TCSANOW,term))
         {
             free(term);
-            syslog(LOG_INFO,"Serial port has succesfully initialized");
+            printf("Serial port has succesfully initialized\n");
+            syslog(LOG_INFO,"Serial port OK");
             return 0;
         }
     else
         {
+            perror("serial setting");
             closeOnFAIL(init);
             free(term);
             syslog(LOG_ERR,"%s %d",strerror(errno),init->fd);
@@ -288,7 +290,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                         p++;
                                     //third the states
                                     arg->sensors[sensnmb].state=atoi(p);
-                                        p++;
+                                    p++;
                                     while(!(isdigit(*p)))
                                         p++;
                                     //fourth for time
