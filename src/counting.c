@@ -30,6 +30,7 @@ float moving_hysteresis(float Delta,movAverage *temp)
         {
             temp->act_max_value=temp->measuredValue;
             temp->act_min_val=temp->act_max_value-Delta;
+            result=temp->act_min_val;
             return  result;
         }
 }
