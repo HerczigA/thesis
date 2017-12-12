@@ -21,7 +21,7 @@
 #define MAXTIME 10800
 #define ZERO 0
 #define DEVMIN 0
-#define DEVMAX 99
+#define DEVMAX 32
 #define DEFBAUD 9600
 #define DELTAMAX 50.0
 #define DELTAMIN 1.0

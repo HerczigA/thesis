@@ -37,10 +37,6 @@ void test_counting()
 
 void test_crc()
 {
-    //int calcrc=20;
-    assert(addCRC(16,2)==4528);
-
-
     assert(compareCRC(2,2)==1);
     assert(compareCRC(2,1)==0);
 }

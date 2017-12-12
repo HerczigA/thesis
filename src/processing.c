@@ -27,7 +27,7 @@ void takeoutFromQueue(void *arg)
     /**Malloc for the devices by number of member*/
     while(i<common->numbOfDev)
         {
-            devices[i].k_element=(float*)malloc(common->members*sizeof(float));
+            devices[i].k_element=(float*)malloc(common->sensors[i].movAve_tag_number*sizeof(float));
             if(!devices[i].k_element)
                 {
                     free(devices);
@@ -40,7 +40,7 @@ void takeoutFromQueue(void *arg)
     /**Init the allocated elements*/
     while(i<common->numbOfDev)
         {
-            for(j=0; j<common->members; j++)
+            for(j=0; j<common->sensors[i].movAve_tag_number; j++)
                 devices[i].k_element[j]=ZEROFLOAT;
             devices[i].summary=ZEROFLOAT;
             devices[i].act_min_val=ZEROFLOAT;

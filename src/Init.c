@@ -211,7 +211,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                         arg->Delta=DELTAMIN;
                                     free(buffer[i]);
                                 }
-                            if(strstr(buffer[i],"Member"))
+                         /*   if(strstr(buffer[i],"Member"))
                                 {
                                     if((p[len]='\n'))
                                         p[len-2]='\0';
@@ -221,7 +221,7 @@ int configlist(char **buffer,Threadcommon *arg)
                                     if(arg->members<MEMBERSMIN || arg->members>MEMBERSMAX|| !arg->members)
                                         arg->members=MEMBERSMIN;
                                     free(buffer[i]);
-                                }
+                                }*/
                             i++;
                         }
                 }
@@ -253,7 +253,7 @@ int configlist(char **buffer,Threadcommon *arg)
                         {
                             if((p=strrchr(buffer[i],tab)))
                                 {
-                                    //First the times of devices
+                                    //First the tagnumbers of devices
                                     p++;
                                     seged=buffer[i];
                                     len=strlen(p)-1;
@@ -261,14 +261,14 @@ int configlist(char **buffer,Threadcommon *arg)
                                         {
                                             p[len-1]='\0';
                                             arg->sensors[sensnmb].movAve_tag_number=atoi(p);
-                                            if(!arg->sensors[sensnmb].movAve_tag_number)
+                                            if(!arg->sensors[sensnmb].movAve_tag_number || arg->sensors[sensnmb].movAve_tag_number=1 || arg->sensors[sensnmb].movAve_tag_number=2)
                                                 arg->sensors[sensnmb].movAve_tag_number=3;
                                         }
                                     else if(p[len]==';')
                                         {
                                             p[len]='\0';
                                             arg->sensors[sensnmb].movAve_tag_number=atoi(p);
-                                            if(!arg->sensors[sensnmb].movAve_tag_number)
+                                            if(!arg->sensors[sensnmb].movAve_tag_number || arg->sensors[sensnmb].movAve_tag_number=1 || arg->sensors[sensnmb].movAve_tag_number=2)
                                                 arg->sensors[sensnmb].movAve_tag_number=3;
                                         }
                                     //second the names of devices

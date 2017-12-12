@@ -43,10 +43,8 @@ float mov_average(movAverage *temp,Threadcommon *Tag,int address)
     float sum;
     int i,j;
     int tagNumber;
-    if(Tag->sensors[address].movAve_tag_number)
-        tagNumber=Tag->sensors[address].movAve_tag_number;
-    else
-        tagNumber=Tag->members;
+    tagNumber=Tag->sensors[address].movAve_tag_number;
+
     /**tagNumber are odd */
     if(tagNumber%2)
         {

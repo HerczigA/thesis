@@ -6,6 +6,7 @@
 #include <string.h>
 #define MAXFAIL 50
 #define ZEROFLOAT 0.0
+
 typedef struct m_average
 {
     float summary;
