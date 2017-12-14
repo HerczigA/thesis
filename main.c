@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include "header/config.h"
 #include "header/crc.h"
 #include "header/Init.h"
 #include "header/reading.h"
@@ -21,7 +22,7 @@ int main()
     //test_crc();
     // test_Init();
 
-    if(ReadConfig(&threadHandle))
+    if(config(&threadHandle))
         return -1;
     if(InitSerialPort(&old_term,term,&threadHandle))
         return -1;

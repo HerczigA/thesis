@@ -37,6 +37,7 @@
 		</Compiler>
 		<Unit filename="header/Init.h" />
 		<Unit filename="header/closing.h" />
+		<Unit filename="header/config.h" />
 		<Unit filename="header/counting.h" />
 		<Unit filename="header/crc.h" />
 		<Unit filename="header/processing.h" />
@@ -53,6 +54,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/closing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/config.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/counting.c">

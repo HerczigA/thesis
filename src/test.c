@@ -6,6 +6,7 @@
 #include "../header/Init.h"
 #include "../header/processing.h"
 #include "../header/reading.h"
+#define MAXLINE 100
 
 /** Must not test mov_average with 3 and 4 members in one time! */
 
@@ -43,12 +44,12 @@ void test_crc()
 
 
 
-void test_Init()
+/*void test_Init()
 {
     char *testbuffer[MAXLINE];
     Threadcommon test,*testp=NULL;
     struct termios old, *testterm=NULL;
-    assert(ReadConfig(testp)==-1);
+    assert(config(testp)==-1);
     assert(configlist(NULL,testp)==-1);
     assert(configlist(NULL,&test)==-1);
     assert(configlist(testbuffer,&test)==0);

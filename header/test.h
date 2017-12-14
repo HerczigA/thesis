@@ -6,7 +6,7 @@
 #include "Init.h"
 #include "processing.h"
 #include "reading.h"
-
+#include "config.h"
 void test_counting();
 
 void test_crc();

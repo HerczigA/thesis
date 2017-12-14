@@ -45,4 +45,5 @@ void closeOnFAIL(void *arg)
            "when setting serial port\n"
            "Used memory is free\n");
     syslog(LOG_ERR,"Close on Fail successfully.");
+    closelog();
 }

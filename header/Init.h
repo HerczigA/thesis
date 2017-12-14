@@ -10,27 +10,12 @@
 #include <unistd.h>
 #include <string.h>
 #include <pthread.h>
-#include <syslog.h>
 #include <ctype.h>
 #include <errno.h>
 #include <signal.h>
 #include "../header/reading.h"
-#define DEFTIME 10
-#define DEFMAXTIME 60
-#define POLLTIME 60
-#define MAXTIME 10800
-#define ZERO 0
-#define DEVMIN 0
-#define DEVMAX 32
-#define DEFBAUD 9600
-#define DELTAMAX 50.0
-#define DELTAMIN 1.0
-#define MEMBERSMIN 3.0
-#define MEMBERSMAX 4.0
-#define TOPMEASURES 15
-#define MAXLINE 100
-#define MAXCHAR 128
-#define pathOfConfig "./util/config.txt"
+
+
 
 typedef struct devices
 {
@@ -56,10 +41,6 @@ typedef struct communication
 } Threadcommon;
 
 int InitSerialPort(struct termios *old_term,struct termios *term,void *arg);
-
-int ReadConfig(Threadcommon *arg);
-
-int configlist(char **buffer,Threadcommon *arg);
 
 int queueInit(Threadcommon *arg);
 
