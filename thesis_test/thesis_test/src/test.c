@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "../header/counting.h"
-#include "../header/crc.h"
-#include "../header/Init.h"
-#include "../header/processing.h"
-#include "../header/reading.h"
+#include "/home/herczig/thesis/header/counting.h"
+#include "/home/herczig/thesis/header/crc.h"
+#include "/home/herczig/thesis/header/Init.h"
+#include "/home/herczig/thesis/header/processing.h"
+#include "/home/herczig/thesis/header/reading.h"
 #define MAXLINE 100
 
 /** Must not test mov_average with 3 and 4 members in one time! */

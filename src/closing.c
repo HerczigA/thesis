@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <termios.h>
 #include "../header/reading.h"
+#include "../header/config.h"
 #include <pthread.h>
 
 void setBackTermios(Threadcommon *fileconf,struct termios *old)

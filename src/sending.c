@@ -38,20 +38,17 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[(int)addresses-1].state)
-                                {
-                                    sleep(common->sensors[(int)addresses-1].time * MILTIME);
-                                    if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
-                                        {
-                                            packet.TermPacket++;
-                                            syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
-                                        }
-                                    else
-                                        {
-                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
-                                            return;
-                                        }
-                                }
+                            sleep(common->sensors[(int)addresses-1].time * MILTIME);
+                            if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
+                            {
+                                packet.TermPacket++;
+                                syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
+                            }
+                            else
+                            {
+                                syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                                return;
+                            }
                             addresses++;
                         }
                     requestCounter++;
@@ -60,21 +57,17 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev)
                         {
-                            if(common->sensors[(int)addresses-1].state)
-                                {
-                                    sleep(common->pollTime);
-                                    if((error=sendPacket(common->fd,addresses, heartBit,&pollData,len))>0)
-                                        {
-                                            packet.pollPacket++;
-                                            syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
-
-                                        }
-                                    else
-                                        {
-                                            syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
-                                            return;
-                                        }
-                                }
+                            sleep(common->pollTime);
+                            if((error=sendPacket(common->fd,addresses, heartBit,&pollData,len))>0)
+                            {
+                                packet.pollPacket++;
+                                syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
+                            }
+                            else
+                            {
+                                syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                                return;
+                            }
                             addresses++;
                         }
                     requestCounter++;

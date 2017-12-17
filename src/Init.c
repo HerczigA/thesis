@@ -4,6 +4,7 @@
 #include "../header/counting.h"
 #include "../header/reading.h"
 #include "../header/closing.h"
+#include "../header/config.h"
 
 /*************should set back at the end termios***********/
 

@@ -23,8 +23,10 @@ int Read_config(char **buffer);
 
 int config(Threadcommon *arg);
 
-int Processing_Config(char **configbuffer,int lineNumber,Threadcommon *arg);
+int Processing_Config(char **configbuffer,Threadcommon *arg);
 
-int deviceparameters(Threadcommon *arg,char **configbuffer);
+int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int allLine);
+
+void free_configBuffer(char **configbuffer,int allLine);
 
 #endif // CONFIG_H_INCLUDED

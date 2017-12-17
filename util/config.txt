@@ -1,17 +1,34 @@
-/*ConfigFile*/
-PollingTime=1;
+Serial.Baud=9600
 
-numbersofDevice=5;
+Serial.NumDevice=10
 
-SamplingTime=1;
+Serial.PollingTime=30
 
-Baudrate=9600;
+Serial.SamplingTime=50
 
-Delta=10.0;
+Delta=5.0
 
-address(es)		name(s)			state(s)	times		MovingAverage Tagnumbers
-1			eloszoba		1		5		f;
-2			konyha			1		2.3		5;
-3			haloszoba		0		7		3;
-4			nappali			1		9		4;
-1			erkely			1		15		6;
+device.1.address=1
+device.1.name=konyha
+device.1.measuringTime=10
+device.1.movingAverage=3
+
+device.2.address=2
+device.2.name=kisszoba
+device.2.measuringTime=12
+device.2.movingAverage=4
+
+device.3.address=3
+device.3.name=nagyszoba
+device.3.measuringTime=5
+device.3.movingAverage=3
+
+device.4.address=4
+device.4.name=haloszoba
+device.4.measuringTime=6
+device.4.movingAverage=2
+
+device.5.address=5
+device.5.name=eloszoba
+device.5.measuringTime=15
+device.5.movingAverage=3
