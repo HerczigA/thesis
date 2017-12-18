@@ -41,6 +41,7 @@ void sendRequest(void *arg)
                             sleep(common->sensors[(int)addresses-1].time * MILTIME);
                             if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
                             {
+                                common->sensors[(int)addresses-1].watchdog++;
                                 packet.TermPacket++;
                                 syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
                             }

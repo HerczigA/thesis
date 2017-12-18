@@ -32,19 +32,19 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
         {
             int j;
             for (j=0; j<dLen; j++,data++)
-                {
-                    buff[dataElement]=*data;
-                    crc = addCRC(crc, *data);
-                    dataElement++;
-                }
+            {
+                buff[dataElement]=*data;
+                crc = addCRC(crc, *data);
+                dataElement++;
+            }
         }
     crc1=crc & 0xff;
     crc2=(crc>>BYTE) & 0xff;
     while(i!=5)
-        {
-            buff[i]=0x55;
-            i++;
-        }
+    {
+        buff[i]=0x55;
+        i++;
+    }
     buff[5]=0xFF;
     buff[6]=0x01;
     buff[7]=address;
@@ -57,15 +57,15 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
     dataElement++;
     i=write(fd,buff,dataElement);
     if(i!=dataElement)
-        {
-            syslog(LOG_ERR,"%s",strerror(i));
-            free(buff);
-            return -1;
-        }
+    {
+        syslog(LOG_ERR,"%s",strerror(i));
+        free(buff);
+        return -1;
+    }
     else
-        {
-            free(buff);
-            return 1;
-        }
+    {
+        free(buff);
+        return 1;
+    }
 }
 

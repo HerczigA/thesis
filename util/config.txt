@@ -1,6 +1,6 @@
 Serial.Baud=9600
 
-Serial.NumDevice=10
+Serial.NumDevice=5
 
 Serial.PollingTime=30
 
@@ -18,7 +18,7 @@ device.2.name=kisszoba
 device.2.measuringTime=12
 device.2.movingAverage=4
 
-device.3.address=3
+device.3.address=1
 device.3.name=nagyszoba
 device.3.measuringTime=5
 device.3.movingAverage=3

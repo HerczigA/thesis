@@ -1,0 +1,67 @@
+# depslib dependency file v1.0
+1513602901 source:/home/herczig/Dokumentumok/thesis/thesis/thesis_test/thesis_test/main.c
+	<stdio.h>
+	<stdlib.h>
+	"header/thesis_test.h"
+
+1513602894 /home/herczig/Dokumentumok/thesis/thesis/thesis_test/thesis_test/header/thesis_test.h
+	"/home/herczig/Dokumentumok/thesis/thesis/header/counting.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/crc.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/Init.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/processing.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/reading.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/config.h"
+
+1513575754 /home/herczig/Dokumentumok/thesis/thesis/header/counting.h
+	"processing.h"
+	"Init.h"
+
+1513575754 /home/herczig/Dokumentumok/thesis/thesis/header/processing.h
+	<unistd.h>
+	<syslog.h>
+	<sys/queue.h>
+	<string.h>
+
+1513575754 /home/herczig/Dokumentumok/thesis/thesis/header/Init.h
+	<sys/queue.h>
+	<stdint.h>
+	<termios.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<unistd.h>
+	<string.h>
+	<pthread.h>
+	<ctype.h>
+	<errno.h>
+	<signal.h>
+	"../header/reading.h"
+
+1513575754 /home/herczig/Dokumentumok/thesis/thesis/header/reading.h
+	<string.h>
+	<sys/ioctl.h>
+	<sys/queue.h>
+	<syslog.h>
+	<pthread.h>
+	<unistd.h>
+	<signal.h>
+	"Init.h"
+	<errno.h>
+
+1513575754 /home/herczig/Dokumentumok/thesis/thesis/header/crc.h
+	<stdint.h>
+
+1513575754 /home/herczig/Dokumentumok/thesis/thesis/header/config.h
+	"Init.h"
+
+1513603630 source:/home/herczig/Dokumentumok/thesis/thesis/thesis_test/thesis_test/src/test.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"/home/herczig/Dokumentumok/thesis/thesis/header/counting.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/crc.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/Init.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/processing.h"
+	"/home/herczig/Dokumentumok/thesis/thesis/header/reading.h"
+

@@ -24,6 +24,7 @@ typedef struct devices
     int state;
     int time;
     int movAve_tag_number;
+    int watchdog;
 } Slaves;
 
 typedef struct communication

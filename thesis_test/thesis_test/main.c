@@ -8,7 +8,7 @@ int main()
     test_counting();
     test_crc();
     test_Init();
-    test_SendPacket(&test);
+    //test_SendPacket(&test);
     test_Reading(&test);
     printf("Test was succesfully done\n");
     return 0;

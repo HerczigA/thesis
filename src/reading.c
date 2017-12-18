@@ -145,6 +145,7 @@ void  readingFromSerial(void *arg)
                                 {
                                     toQueueuPacket=receivingData;
                                     pthread_mutex_lock(&common->mutex);
+                                    common->sensors[receivingData->address].watchdog--;
                                     TAILQ_INSERT_TAIL(&common->head,toQueueuPacket,entries);
                                     pthread_mutex_unlock(&common->mutex);
                                     receivingData=NULL;

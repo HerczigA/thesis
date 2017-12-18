@@ -43,7 +43,6 @@
 		<Unit filename="header/processing.h" />
 		<Unit filename="header/reading.h" />
 		<Unit filename="header/sending.h" />
-		<Unit filename="header/test.h" />
 		<Unit filename="header/threadHandling.h" />
 		<Unit filename="header/writing.h" />
 		<Unit filename="main.c">
@@ -72,9 +71,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/sending.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/test.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/threadHandling.c">

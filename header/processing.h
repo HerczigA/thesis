@@ -6,6 +6,7 @@
 #include <string.h>
 #define MAXFAIL 50
 #define ZEROFLOAT 0.0
+#define WATCHDOGMAX 10
 
 typedef struct m_average
 {

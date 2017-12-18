@@ -190,12 +190,11 @@ int Processing_Config(char **configbuffer,Threadcommon *arg)
 
 int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int allLine)
 {
-    int i,k,len,sensorsNumber;
-    char difference=1;
+    int i,k,len,sensorsNumber,j;
     char *s=NULL;
     char *p=NULL;
     i=nextLine;
-    k=allLine-nextLine;
+    k=allLine-nextLine+1;
     arg->sensors=malloc(arg->numbOfDev*sizeof(Slaves));
     sensorsNumber=0;
     if(!arg->sensors)
@@ -208,10 +207,8 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
         {
             p=strchr(configbuffer[i],'=');
             p++;
-            s=strtok(configbuffer[i],".");
-            s=strtok(NULL,".");
-            printf("%c",*s);
-            if(*s!=difference)
+            s=strtok(configbuffer[i],"=");
+            if(strstr(s,"address"))
                 {
                     arg->sensors[sensorsNumber].address=atoi(p);
                     if(!arg->sensors[sensorsNumber].address)
@@ -221,8 +218,7 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
                             return -1;
                         }
                     arg->sensors[sensorsNumber].state=1;
-                    difference=*s;
-                    sensorsNumber++;
+                    arg->sensors[sensorsNumber].watchdog=0;
                     i++;
                     k--;
                     continue;
@@ -230,7 +226,7 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
             else if(isalpha(*p))
                 {
                     len=strlen(p);
-                    arg->sensors[sensorsNumber].names=malloc(len*sizeof(char));
+                    arg->sensors[sensorsNumber].names=malloc((len+1)*sizeof(char));
                     if(!arg->sensors[sensorsNumber].names)
                         {
                             perror("arg->sensors[sensorsNumber].name:\n");
@@ -242,29 +238,47 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
                     k--;
                     continue;
                 }
-            else if(strstr(p,"measuringTime"))
+            else if(strstr(s,"measuringTime"))
                 {
                     arg->sensors[sensorsNumber].time=atoi(p);
                     if(!arg->sensors[sensorsNumber].time)
                         arg->sensors[sensorsNumber].time=10;
                     i++;
                     k--;
+                    continue;
                 }
-            else if(strstr(p,"movingAverage"))
+            else if(strstr(s,"movingAverage"))
                 {
-                    arg->sensors[sensorsNumber].time=atoi(p);
-                    if(!arg->sensors[sensorsNumber].time)
-                        arg->sensors[sensorsNumber].time=3;
+                    arg->sensors[sensorsNumber].movAve_tag_number=atoi(p);
+                    if(arg->sensors[sensorsNumber].movAve_tag_number<3)
+                        arg->sensors[sensorsNumber].movAve_tag_number=3;
                     i++;
                     k--;
                 }
+            /**Compare the addresses*/
+            j=0;
+            while(j<sensorsNumber)
+            {
+                if(arg->sensors[j].address==arg->sensors[sensorsNumber].address)
+                {
+                    arg->sensors[j].state=0;
+                    arg->sensors[sensorsNumber].state=0;
+                    printf("There is an address conflict occured.\n"
+                    "The problems are in the following devices:\n %s-%s\n",
+                    arg->sensors[j].names,arg->sensors[sensorsNumber].names);
+                }
+                j++;
+            }
+            sensorsNumber++;
         }
     k=0;
-    while(k!=arg->numbOfDev)
-        {
-            printf("Address=%d\tName:%s\tstate:%d\tTime:%d\t\tMovAve_tag_Number=%d\n",arg->sensors[k].address,arg->sensors[k].names,arg->sensors[k].state,arg->sensors[k].time,arg->sensors[k].movAve_tag_number);
-            k++;
-        }
+    while(k<arg->numbOfDev)
+    {
+        printf("Address=%d\nName:%s\nstate:%d\nTime:%d\nMovAve_tag_Number=%d\n",
+               arg->sensors[k].address,arg->sensors[k].names,
+               arg->sensors[k].state,arg->sensors[k].time,arg->sensors[k].movAve_tag_number);
+        k++;
+    }
     printf("Reading config file succesfully\n");
     syslog(LOG_INFO,"Reading config file succesfully");
     return 0;
