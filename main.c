@@ -17,6 +17,8 @@ int main()
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
+    if(signal(SIGINT,signalcatch))
+        threadHandle.loop=0;
     if(config(&threadHandle))
         return -1;
     if(InitSerialPort(&old_term,term,&threadHandle))

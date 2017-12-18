@@ -82,6 +82,6 @@ QueueData *reserve(char data);
 
 int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data,uint16_t  dLen);
 
-void signalcatch(int sig);
+
 
 #endif // READING_H_INCLUDED

@@ -21,8 +21,9 @@ void setBackTermios(Threadcommon *fileconf,struct termios *old)
         free(fileconf->sensors[i].names);
         i++;
     }
-    pthread_mutex_destroy(&fileconf->mutex);
     free(fileconf->sensors);
+    pthread_mutex_destroy(&fileconf->watchdog_mutex);
+    pthread_mutex_destroy(&fileconf->temperature_mutex);
     printf("All allocated memory is free and mutex destroyed succesfully."
            "Setting back is succesfully done.\n "
            "Thank you for use this device, hope you enjoy it!\n");
@@ -47,4 +48,9 @@ void closeOnFAIL(void *arg)
            "Used memory is free\n");
     syslog(LOG_ERR,"Close on Fail successfully.");
     closelog();
+}
+void signalcatch(int sig)
+{
+printf("signal received, I am exit\n");
+syslog(LOG_ERR,"Signal received");
 }

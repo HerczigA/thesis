@@ -14,6 +14,7 @@
 #include <errno.h>
 #include <signal.h>
 #include "../header/reading.h"
+#define WATCHDOGMAX 10
 
 
 
@@ -29,7 +30,7 @@ typedef struct devices
 
 typedef struct communication
 {
-    pthread_mutex_t mutex;
+    pthread_mutex_t temperature_mutex,watchdog_mutex;
     TAILQ_HEAD(tailhead,queueData) head;
     int fd;
     int pollTime;
@@ -38,6 +39,7 @@ typedef struct communication
     int samplingTime;
     float Delta;
     int members;
+    volatile int loop;
     Slaves *sensors;
 } Threadcommon;
 

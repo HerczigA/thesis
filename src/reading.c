@@ -3,7 +3,6 @@
 #include "../header/Init.h"
 #include "../header/crc.h"
 #include "../header/reading.h"
-#include <signal.h>
 /**
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
@@ -26,7 +25,7 @@ void  readingFromSerial(void *arg)
             Packetstatistic.rError++;
             pthread_exit(NULL);
         }
-    while(read(common->fd,&data,ONE)!=-1)
+    while(read(common->fd,&data,ONE)!=-1 && common->loop)
         {
             switch (State)
                 {
@@ -144,10 +143,9 @@ void  readingFromSerial(void *arg)
                             if(receivingData->cmd==1 && receivingData->data)           //cmdTerm =1, not polling
                                 {
                                     toQueueuPacket=receivingData;
-                                    pthread_mutex_lock(&common->mutex);
-                                    common->sensors[receivingData->address].watchdog--;
+                                    pthread_mutex_lock(&common->temperature_mutex);
                                     TAILQ_INSERT_TAIL(&common->head,toQueueuPacket,entries);
-                                    pthread_mutex_unlock(&common->mutex);
+                                    pthread_mutex_unlock(&common->temperature_mutex);
                                     receivingData=NULL;
                                     State=EmptyState;
                                     Packetstatistic.validPacket++;
@@ -156,6 +154,14 @@ void  readingFromSerial(void *arg)
                                 {
                                     Packetstatistic.pollPacket++;
                                     Packetstatistic.validPacket++;
+                                    pthread_mutex_lock(&common->watchdog_mutex);
+                                    common->sensors[(int)receivingData->address-1].watchdog--;
+                                    if(common->sensors[(int)receivingData->address-1].watchdog>=WATCHDOGMAX)
+                                        {
+                                            common->sensors[(int)receivingData->address-1].watchdog=0;
+                                            common->sensors[(int)receivingData->address-1].state=1;
+                                        }
+                                    pthread_mutex_unlock(&common->watchdog_mutex);
                                     syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address-1].names);
                                 }
                             else

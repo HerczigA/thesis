@@ -51,6 +51,11 @@ int config(Threadcommon *arg)
 
 int Read_config(char **buffer)
 {
+    if(!buffer)
+    {
+    printf("NULL pointer got not buffer\n");
+    return -1;
+    }
     char *temp=NULL;
     FILE *fconfig=NULL;
     int i,j;
@@ -226,7 +231,8 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
             else if(isalpha(*p))
                 {
                     len=strlen(p);
-                    arg->sensors[sensorsNumber].names=malloc((len+1)*sizeof(char));
+                    p[len-1]='\0';
+                    arg->sensors[sensorsNumber].names=malloc((len-1)*sizeof(char));
                     if(!arg->sensors[sensorsNumber].names)
                         {
                             perror("arg->sensors[sensorsNumber].name:\n");
@@ -264,8 +270,9 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
                     arg->sensors[j].state=0;
                     arg->sensors[sensorsNumber].state=0;
                     printf("There is an address conflict occured.\n"
-                    "The problems are in the following devices:\n %s-%s\n",
+                    "The problems are in the following devices:\n %s-%s\nPlease fixed the error!\n",
                     arg->sensors[j].names,arg->sensors[sensorsNumber].names);
+                    return -1;
                 }
                 j++;
             }
@@ -274,12 +281,12 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
     k=0;
     while(k<arg->numbOfDev)
     {
-        printf("Address=%d\nName:%s\nstate:%d\nTime:%d\nMovAve_tag_Number=%d\n",
+        printf("Address=%d\nName:%s\nstate:%d\nTime:%d\nMovAve_tag_Number=%d\n\n",
                arg->sensors[k].address,arg->sensors[k].names,
                arg->sensors[k].state,arg->sensors[k].time,arg->sensors[k].movAve_tag_number);
         k++;
     }
-    printf("Reading config file succesfully\n");
+    printf("\nReading config file succesfully\n");
     syslog(LOG_INFO,"Reading config file succesfully");
     return 0;
 

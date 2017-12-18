@@ -81,19 +81,19 @@ int queueInit(Threadcommon *arg)
 {
     if(!(arg && &arg->head))
         return -1;
-
+    arg->loop=1;
     TAILQ_INIT(&arg->head);
-    if(pthread_mutex_init(&arg->mutex,NULL))
-        {
-            printf("Cannot initialize mutex and-or TAILQ\n");
-            syslog(LOG_ERR,"Cannot initialize mutex and-or TAILQ");
-            return -1;
-        }
-    else
+    if(!(pthread_mutex_init(&arg->temperature_mutex,NULL) || pthread_mutex_init(&arg->watchdog_mutex,NULL)))
         {
             printf("TAILQ_INIT and pthread_mutex_init is successfully\n");
             syslog(LOG_INFO,"TAILQ_INIT and pthread_mutex_init is successfully");
             return 0;
+        }
+    else
+        {
+            printf("Cannot initialize temperature_mutex and-or watchdog_mutex\n");
+            syslog(LOG_ERR,"Cannot initialize mutexes");
+            return -1;
         }
 }
 

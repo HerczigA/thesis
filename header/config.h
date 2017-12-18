@@ -1,7 +1,7 @@
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
 
-#define pathOfConfig "/home/herczig/Dokumentumok/thesis/thesis/util/config.txt"
+#define pathOfConfig "./util/config.txt"
 #define DEFTIME 10
 #define DEFMAXTIME 60
 #define POLLTIME 60
@@ -28,5 +28,7 @@ int Processing_Config(char **configbuffer,Threadcommon *arg);
 int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int allLine);
 
 void free_configBuffer(char **configbuffer,int allLine);
+
+void signalcatch(int sig);
 
 #endif // CONFIG_H_INCLUDED

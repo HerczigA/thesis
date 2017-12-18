@@ -65,3 +65,70 @@
 	"/home/herczig/Dokumentumok/thesis/thesis/header/processing.h"
 	"/home/herczig/Dokumentumok/thesis/thesis/header/reading.h"
 
+1513637918 source:/home/herczig/thesis/thesis_test/thesis_test/main.c
+	<stdio.h>
+	<stdlib.h>
+	"header/thesis_test.h"
+
+1513636273 /home/herczig/thesis/thesis_test/thesis_test/header/thesis_test.h
+	"/home/herczig/thesis/header/counting.h"
+	"/home/herczig/thesis/header/crc.h"
+	"/home/herczig/thesis/header/Init.h"
+	"/home/herczig/thesis/header/processing.h"
+	"/home/herczig/thesis/header/reading.h"
+	"/home/herczig/thesis/header/config.h"
+
+1513623236 /home/herczig/thesis/header/counting.h
+	"processing.h"
+	"Init.h"
+
+1513630841 /home/herczig/thesis/header/processing.h
+	<unistd.h>
+	<syslog.h>
+	<sys/queue.h>
+	<string.h>
+
+1513635679 /home/herczig/thesis/header/Init.h
+	<sys/queue.h>
+	<stdint.h>
+	<termios.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<unistd.h>
+	<string.h>
+	<pthread.h>
+	<ctype.h>
+	<errno.h>
+	<signal.h>
+	"../header/reading.h"
+
+1513636053 /home/herczig/thesis/header/reading.h
+	<string.h>
+	<sys/ioctl.h>
+	<sys/queue.h>
+	<syslog.h>
+	<pthread.h>
+	<unistd.h>
+	<signal.h>
+	"Init.h"
+	<errno.h>
+
+1513623236 /home/herczig/thesis/header/crc.h
+	<stdint.h>
+
+1513636058 /home/herczig/thesis/header/config.h
+	"Init.h"
+
+1513638249 source:/home/herczig/thesis/thesis_test/thesis_test/src/test.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"/home/herczig/thesis/header/config.h"
+	"/home/herczig/thesis/header/counting.h"
+	"/home/herczig/thesis/header/crc.h"
+	"/home/herczig/thesis/header/Init.h"
+	"/home/herczig/thesis/header/processing.h"
+	"/home/herczig/thesis/header/reading.h"
+

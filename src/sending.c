@@ -36,20 +36,19 @@ void sendRequest(void *arg)
             requestType = requestCounter % 3;
             if(!requestType)
                 {
-                    while((int)addresses<=common->numbOfDev)
+                    while((int)addresses<=common->numbOfDev && common->loop)
                         {
                             sleep(common->sensors[(int)addresses-1].time * MILTIME);
                             if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
-                            {
-                                common->sensors[(int)addresses-1].watchdog++;
-                                packet.TermPacket++;
-                                syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
-                            }
+                                {
+                                    packet.TermPacket++;
+                                    syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
+                                }
                             else
-                            {
-                                syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
-                                return;
-                            }
+                                {
+                                    syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                                    return;
+                                }
                             addresses++;
                         }
                     requestCounter++;
@@ -60,15 +59,25 @@ void sendRequest(void *arg)
                         {
                             sleep(common->pollTime);
                             if((error=sendPacket(common->fd,addresses, heartBit,&pollData,len))>0)
-                            {
-                                packet.pollPacket++;
-                                syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
-                            }
+                                {
+                                    pthread_mutex_lock(&common->watchdog_mutex);
+                                    common->sensors[(int)addresses-1].watchdog++;
+                                    if(common->sensors[(int)addresses-1].watchdog>=WATCHDOGMAX)
+                                        {
+                                            common->sensors[(int)addresses-1].state=0;
+                                            printf("%s state is 0 \n don't got answers after %d tries\n"
+                                                   ,common->sensors[(int)addresses-1].names,common->sensors[(int)addresses-1].watchdog);
+                                            syslog(LOG_WARNING,"%s state is 0",common->sensors[(int)addresses-1].names);
+                                        }
+                                    pthread_mutex_unlock(&common->watchdog_mutex);
+                                    packet.pollPacket++;
+                                    syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
+                                }
                             else
-                            {
-                                syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
-                                return;
-                            }
+                                {
+                                    syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                                    return;
+                                }
                             addresses++;
                         }
                     requestCounter++;
