@@ -17,16 +17,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pthread" />
-					<Add library="header/Init.h" />
-					<Add library="header/closing.h" />
-					<Add library="header/config.h" />
-					<Add library="header/counting.h" />
-					<Add library="header/crc.h" />
-					<Add library="header/processing.h" />
-					<Add library="header/reading.h" />
-					<Add library="header/sending.h" />
-					<Add library="header/threadHandling.h" />
-					<Add library="header/writing.h" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -58,7 +48,6 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="makefile" />
 		<Unit filename="src/Init.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -89,7 +78,6 @@
 		<Unit filename="src/writing.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="version.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

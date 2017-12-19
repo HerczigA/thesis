@@ -57,6 +57,7 @@ void takeoutFromQueue(void *arg)
                     pthread_mutex_unlock(&common->temperature_mutex);
                     for(tempaddress=0; tempaddress!=(int)tempPacket->address-1; tempaddress++)
                         ;
+                        tempaddress--;
                     devices[tempaddress].k_element[ZERO]=atof(tempPacket->data);
 
                     devices[tempaddress].measuredValue=mov_average(&devices[tempaddress],common,tempaddress);

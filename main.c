@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include "header/config.h"
-#include "header/crc.h"
-#include "header/Init.h"
-#include "header/reading.h"
-#include "header/counting.h"
-#include "header/processing.h"
-#include "header/threadHandling.h"
-#include "header/sending.h"
-#include "header/closing.h"
+#include "./header/config.h"
+#include "./header/crc.h"
+#include "./header/Init.h"
+#include "./header/reading.h"
+#include "./header/counting.h"
+#include "./header/processing.h"
+#include "./header/threadHandling.h"
+#include "./header/sending.h"
+#include "./header/closing.h"
 
 int main()
 {
@@ -17,8 +17,6 @@ int main()
     pthread_t reading_thread, requesting_thread,processor_thread;
     Threadcommon threadHandle;
     threadHandle.sensors=NULL;
-    if(signal(SIGINT,signalcatch))
-        threadHandle.loop=0;
     if(config(&threadHandle))
         return -1;
     if(InitSerialPort(&old_term,term,&threadHandle))
