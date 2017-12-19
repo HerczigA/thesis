@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-/*#include "/home/herczig/Dokumentumok/thesis/thesis/header/config.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/counting.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/crc.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/Init.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/processing.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/reading.h"*/
 #include "../header/thesis_test.h"
 #define MAXLINE 100
 
@@ -14,50 +8,85 @@
 
 void test_counting()
 {
-    //float delta=5.00;
-    movAverage tesztmov[2];
-    Threadcommon teszt[2];
-    //teszt.sensors[5];
-    teszt->sensors[0].address=1;
-    teszt->sensors[0].movAve_tag_number=3;
+   Threadcommon arg;
+   float delta=5.0;
+    movAverage *tesztmov;
+    arg.numbOfDev=2;
+    arg.sensors=malloc(2*sizeof(Slaves));
+    tesztmov=malloc(2*sizeof(movAverage));
+    tesztmov[0].k_element=malloc(3*sizeof(float));
+    tesztmov[1].k_element=malloc(3*sizeof(float));
 
+    arg.sensors[0].address=1;
+    arg.sensors[0].movAve_tag_number=3;
+    arg.sensors[0].names="pince";
+    arg.sensors[0].time=20;
+    arg.sensors[0].state=1;
+    arg.sensors[0].watchdog=3;
+    arg.sensors[1].address=2;
+    arg.sensors[1].movAve_tag_number=3;
+    arg.sensors[1].names="szoba";
+    arg.sensors[1].time=30;
+    arg.sensors[1].state=1;
+    arg.sensors[1].watchdog=3;
+    tesztmov[0].k_element[0]=10.0;
+    tesztmov[0].k_element[1]=8.0;
+    tesztmov[0].k_element[2]=24.0;
+    tesztmov[0].act_min_val=1.0;
+    tesztmov[0].act_max_value=tesztmov[0].act_min_val+delta;
 
+    tesztmov[1].k_element[0]=5;
+    tesztmov[1].k_element[1]=8;
+    tesztmov[1].k_element[2]=11;
+    tesztmov[1].act_min_val=1.0;
+    tesztmov[1].act_max_value=tesztmov[1].act_min_val+delta;
+    /**With 3 moving_tag*/
+    assert(mov_average(&tesztmov[0],&arg,0)==(float)14.0);
+    assert(mov_average(&tesztmov[1],&arg,1)==(float)8.0);
+    tesztmov[0].k_element[0]=5.0;
+    assert(mov_average(&tesztmov[0],&arg,0)<=(float)7.67);
+    tesztmov[0].k_element[0]=2.0;
+    assert(mov_average(&tesztmov[0],&arg,0)<=(float)5.67);
+    tesztmov[1].k_element[0]=12.0;
+    assert(mov_average(&tesztmov[1],&arg,1)<=(float)8.34);
+    tesztmov[1].k_element[0]=32.0;
+    assert(mov_average(&tesztmov[1],&arg,1)<=(float)16.34);
+    /**End with 3 moving_tag*/
 
-    /*teszt.sensors[0].address=1;
-    teszt.sensors[0].movAve_tag_number=3;
-    teszt.sensors[1].address=2;
-    teszt.sensors[1].movAve_tag_number=3;
-    teszt.sensors[2].address=3;
-    teszt.sensors[2].movAve_tag_number=3;
-    teszt.sensors[3].address=4;
-    teszt.sensors[3].movAve_tag_number=3;
-    teszt.sensors[4].address=5;
-    teszt.sensors[4].movAve_tag_number=3;*/
-    //tesztmov[0].k_element[teszt->sensors[0].movAve_tag_number];
+    /** Start with 4 tag*/
+    arg.sensors[0].movAve_tag_number=4;
+    arg.sensors[1].movAve_tag_number=4;
+    tesztmov[0].k_element=realloc(tesztmov[0].k_element,4*sizeof(float));
+    tesztmov[1].k_element=realloc(tesztmov[1].k_element,4*sizeof(float));
+    tesztmov[0].k_element[0]=10.0;
+    tesztmov[0].k_element[1]=8.0;
+    tesztmov[0].k_element[2]=24.0;
+    tesztmov[0].k_element[3]=16.0;
+    tesztmov[0].summary=0;
+    tesztmov[1].k_element[0]=5;
+    tesztmov[1].k_element[1]=8;
+    tesztmov[1].k_element[2]=11;
+    tesztmov[1].k_element[3]=14;
+    tesztmov[1].summary=0;
+    assert(mov_average(&tesztmov[0],&arg,0)<=(float)7.76);  //result=7.75
+    assert(mov_average(&tesztmov[1],&arg,0)<=(float)4.75);  //result=4.75
+    tesztmov[0].k_element[0]=13.0;                             //summary=14.5
+    tesztmov[1].k_element[0]=7.64;                             //summary=9.5
+    assert(mov_average(&tesztmov[0],&arg,0)==(float)14.125);  //result=14.125
+    tesztmov[0].measuredValue=14.125;
+    assert(mov_average(&tesztmov[1],&arg,0)==(float)8.705);  //result=8.705
+    tesztmov[0].measuredValue=8.705;
+    /**EOF mov_average test*/
 
-    tesztmov[0].k_element[0]=10;
-    tesztmov[0].k_element[1]=8;
-    tesztmov[0].k_element[2]=24;
+    /**Start of mov_hysteresis*/
+    assert(moving_hysteresis(delta,&tesztmov[0])<=(float)9.125);
+    assert(moving_hysteresis(delta,&tesztmov[1])<=(float)3.705);
+    assert(moving_hysteresis(delta,&tesztmov[1])>=(float)-2.505);
 
-    assert(mov_average(&tesztmov[0],teszt,0)!=(float)0.0);
-  /*  assert(mov_average(&tesztmov,&teszt,3.0)==(float)9.0);
-    assert(mov_average(&tesztmov,&teszt,3.0)==(float)12.0);
-    assert(mov_average(&tesztmov,&teszt,4.0)==(float)3.6875);
-    assert(mov_average(&tesztmov,&teszt,4.0)==(float)8.725);
-
-
-
-
-
-
-
-    assert(moving_hysteresis(delta,&tesztmov)==1.00);
-    assert(moving_hysteresis(delta,&tesztmov)==1.0);
-    assert(moving_hysteresis(delta,&tesztmov)==(float)1.25);
-    assert(moving_hysteresis(delta,&tesztmov)==(float)1.69);
-    assert(moving_hysteresis(delta,&tesztmov)==(float)2.31);
-    assert(moving_hysteresis(delta,&tesztmov)==(float)0.00);
-    assert(moving_hysteresis(delta,&tesztmov)==(float)-1.01000023);*/
+    free(tesztmov[0].k_element);
+    free(tesztmov[1].k_element);
+    free(tesztmov);
+    free(arg.sensors);
 }
 
 void test_crc()

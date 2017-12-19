@@ -1,16 +1,16 @@
 #ifndef THESIS_TEST_H_INCLUDED
 #define THESIS_TEST_H_INCLUDED
 
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/counting.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/crc.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/Init.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/processing.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/reading.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/writing.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/sending.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/config.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/closing.h"
-#include "/home/herczig/Dokumentumok/thesis/thesis/header/threadHandling.h"
+#include "../../../header/counting.h"
+#include "../../../header/crc.h"
+#include "../../../header/Init.h"
+#include "../../../header/processing.h"
+#include "../../../header/reading.h"
+#include "../../../header/writing.h"
+#include "../../../header/sending.h"
+#include "../../../header/config.h"
+#include "../../../header/closing.h"
+#include "../../../header/threadHandling.h"
 
 void test_counting();
 

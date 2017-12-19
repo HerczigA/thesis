@@ -20,7 +20,7 @@ void  readingFromSerial(void *arg)
     Statistic Packetstatistic= {0};
     packetState State=EmptyState;
     Threadcommon *common=arg;
-    if (!common || common->fd <0 )
+    if (!common || common->fd <0)
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
             Packetstatistic.rError++;
@@ -28,6 +28,7 @@ void  readingFromSerial(void *arg)
         }
     while(read(common->fd,&data,ONE)!=-1 && common->loop)
         {
+
             switch (State)
                 {
                 case EmptyState:
@@ -200,8 +201,7 @@ void  readingFromSerial(void *arg)
             free(receivingData);
             receivingData=NULL;
         }
-       // common->loop=loop;
-    printf("vege a dalnak\n");
+    printf("Reading thread finished\n");
     syslog(LOG_ERR,"Reading thread finished");
 }
 
@@ -217,7 +217,5 @@ QueueData *reserve(char data)
     temp->data = NULL;
     return temp;
 }
-
-
 
 

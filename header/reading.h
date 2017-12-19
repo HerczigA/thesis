@@ -80,8 +80,4 @@ void  readingFromSerial(void *arg);
 
 QueueData *reserve(char data);
 
-int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data,uint16_t  dLen);
-
-
-
 #endif // READING_H_INCLUDED

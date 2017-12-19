@@ -72,7 +72,6 @@ void takeoutFromQueue(void *arg)
                     tempPacket=NULL;
                     sleep(common->samplingTime);
                 }
-
         }
     while(i<common->numbOfDev)
         {
@@ -80,4 +79,6 @@ void takeoutFromQueue(void *arg)
             i++;
         }
     free(devices);
+    printf("processing thread is end\n");
+    syslog(LOG_ERR,"processing thread is end");
 }
