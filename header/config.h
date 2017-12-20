@@ -1,7 +1,7 @@
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
 
-#define pathOfConfig "../util/config.txt"
+#define pathOfConfig "./util/config.txt"
 #define DEFTIME 10
 #define DEFMAXTIME 60
 #define POLLTIME 60

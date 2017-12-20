@@ -42,7 +42,7 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev && common->loop)
                         {
-                            sleep(/*common->sensors[(int)addresses-1].time * MILTIME*/1);
+                            sleep(common->sensors[(int)addresses-1].time);
                             if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
                                 {
                                     packet.TermPacket++;
@@ -61,7 +61,7 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev)
                         {
-                            sleep(/*common->pollTime*/1);
+                            sleep(common->pollTime);
                             if((error=sendPacket(common->fd,addresses, heartBit,&pollData,len))>0)
                                 {
                                     pthread_mutex_lock(&common->watchdog_mutex);
@@ -99,6 +99,6 @@ void signalcatch(int sig)
 
 loop=0;
 printf("signal received, I am exit\n");
-syslog(LOG_ERR,"Signal received");
+syslog(LOG_ERR,"Signal received:%d",sig);
 
 }

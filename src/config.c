@@ -123,9 +123,11 @@ int Processing_Config(char **configbuffer,Threadcommon *arg)
     while(i<5)
         {
             p=strchr(configbuffer[i],'=');
+            if(!p)
+                continue;
             p++;
             s=strtok(configbuffer[i],"=");
-            if(strcmp(s,"Serial.PollingTime")==0) //buffereket nem elfelejteni törölni!!!!
+            if(strcmp(s,"Serial.PollingTime")==0)//buffereket nem elfelejteni törölni!!!!
                 {
                     arg->pollTime=atoi(p);
                     if(arg->pollTime<POLLTIME || arg->pollTime>MAXTIME )
@@ -165,15 +167,15 @@ int Processing_Config(char **configbuffer,Threadcommon *arg)
                     i++;
                     continue;
                 }
+            else
+                i++;
         }
     p=NULL;
     if(!arg->numbOfDev)
         {
             printf("There is no device number in configFile\nMaybe you gave it bad\n"
-                   "Example in config list:numberOfDevice=5;\n"
-                   "Or numberDevices=2;\n"
-                   "Important to terminate the line with ';'.\n"
-                   "Moreover don't use ':' instead of '='.\nThank You!\n ");
+                   "Example in config list:Serial.NumDevice=5\n"
+                   "Moreover don't use ':' instead of '='.\nThank You!\n");
             syslog(LOG_ERR,"no device, I am out");
             return -1;
         }
@@ -258,6 +260,11 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
                     arg->sensors[sensorsNumber].movAve_tag_number=atoi(p);
                     if(arg->sensors[sensorsNumber].movAve_tag_number<3)
                         arg->sensors[sensorsNumber].movAve_tag_number=3;
+                    i++;
+                    k--;
+                }
+            else
+                {
                     i++;
                     k--;
                 }
