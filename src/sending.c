@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <signal.h>
+#include <sys/types.h>
 #include "../header/reading.h"
 #include "../header/writing.h"
-#define MILTIME 10
-#define MAXREQUEST 30
-#include <signal.h>
 #include "../header/sending.h"
- volatile static int loop=1;
+#define MAXREQUEST 30
+
+
+volatile static bool loop=true;
 
 void sendRequest(void *arg)
 {
@@ -23,16 +26,21 @@ void sendRequest(void *arg)
     unsigned const char heartBit=PING;
     unsigned const char termBit=TERMCMD;
     Statistic packet;
+    struct sigaction sig;
+    sig.sa_handler=signalcatch;
+    sig.sa_restorer=NULL;
+    sig.sa_flags=0;
+
     int error;
-    packet.TermPacket=0;
-    packet.pollPacket=0;
+    packet.send_TermPacket=0;
+    packet.send_PollPacket=0;
     //char Data[]="6.72";
     //uint16_t DLEN=strlen(Data);
     char termData=0;
     char pollData=0;
     int len=0;
-    signal(SIGINT,signalcatch);
 
+    sigaction(SIGINT,&sig,NULL);
     while(loop)
         {
             if(requestCounter==MAXREQUEST)
@@ -44,10 +52,7 @@ void sendRequest(void *arg)
                         {
                             sleep(common->sensors[(int)addresses-1].time);
                             if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
-                                {
-                                    packet.TermPacket++;
-                                    syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.TermPacket);
-                                }
+                                packet.send_TermPacket++;
                             else
                                 {
                                     syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
@@ -74,8 +79,7 @@ void sendRequest(void *arg)
                                             syslog(LOG_WARNING,"%s state is 0",common->sensors[(int)addresses-1].names);
                                         }
                                     pthread_mutex_unlock(&common->watchdog_mutex);
-                                    packet.pollPacket++;
-                                    syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.pollPacket);
+                                    packet.send_PollPacket++;
                                 }
                             else
                                 {
@@ -86,19 +90,21 @@ void sendRequest(void *arg)
                         }
                     requestCounter++;
                 }
+            syslog(LOG_NOTICE,"Asking Term packet transmitted :%d",packet.send_TermPacket);
+            syslog(LOG_NOTICE,"Asking Polling packet transmitted :%d",packet.send_PollPacket);
             addresses=1;
         }
-        printf("sending thread is end\n");
-        syslog(LOG_ERR,"sending thread is end");
-        common->loop=0;
+    printf("sending thread is end\n");
+    syslog(LOG_ERR,"sending thread is end");
+    common->loop=0;
 }
 
 
 void signalcatch(int sig)
 {
 
-loop=0;
-printf("signal received, I am exit\n");
-syslog(LOG_ERR,"Signal received:%d",sig);
+    loop=false;
+    printf("signal received, I am exit\n");
+    syslog(LOG_ERR,"Signal received:%d",sig);
 
 }

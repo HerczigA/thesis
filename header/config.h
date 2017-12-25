@@ -1,7 +1,8 @@
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
 
-#define pathOfConfig "./util/config.txt"
+#include "Init.h"
+#define pathOfConfig "../util/config.txt"
 #define DEFTIME 10
 #define DEFMAXTIME 60
 #define POLLTIME 60
@@ -17,7 +18,7 @@
 #define TOPMEASURES 15
 #define MAXCHAR 128
 #define MAXLINE 100
-#include "Init.h"
+
 
 int Read_config(char **buffer);
 

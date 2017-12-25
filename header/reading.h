@@ -7,8 +7,8 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <signal.h>
-#include "Init.h"
 #include <errno.h>
+#include "Init.h"
 #define LIMIT 1024
 #define FF 0xFF
 #define ONE 1
@@ -57,10 +57,10 @@ typedef struct statistic
     int packet;
     int validPacket;
     int overrun;
-    int pollPacket;
-    int TermPacket;
-    int wError;
-    int rError;
+    int send_PollPacket;
+    int send_TermPacket;
+    int received_PollPacket;
+    int received_TermPacket;
 } Statistic;
 
 

@@ -5,16 +5,16 @@
 
 int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint16_t dLen)
 {
-    Statistic packet;
-    packet.wError=0;
     if ( !data || fd <0 || dLen <0 )
         {
-            syslog(LOG_ERR,"sendPacket, data is NULL or invalid Filedescriptor or datalength.Writing Error:%d",++packet.wError);
+            printf("Sending Packet not happened\n data is null or invalid Filedescriptor or datalength\n");
+            syslog(LOG_ERR,"sendPacket, data is NULL or invalid Filedescriptor or datalength.Writing Error");
             return -1;
         }
     char *buff=(char*)malloc((dLen+13)*sizeof(char));
     if(!buff)
         {
+            printf("No enough memory\n");
             syslog(LOG_ERR,"No enough memory");
             return -1;
         }
@@ -32,19 +32,19 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
         {
             int j;
             for (j=0; j<dLen; j++,data++)
-            {
-                buff[dataElement]=*data;
-                crc = addCRC(crc, *data);
-                dataElement++;
-            }
+                {
+                    buff[dataElement]=*data;
+                    crc = addCRC(crc, *data);
+                    dataElement++;
+                }
         }
     crc1=crc & 0xff;
     crc2=(crc>>BYTE) & 0xff;
     while(i!=5)
-    {
-        buff[i]=0x55;
-        i++;
-    }
+        {
+            buff[i]=0x55;
+            i++;
+        }
     buff[5]=0xFF;
     buff[6]=0x01;
     buff[7]=address;
@@ -57,15 +57,15 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
     dataElement++;
     i=write(fd,buff,dataElement);
     if(i!=dataElement)
-    {
-        syslog(LOG_ERR,"%s",strerror(i));
-        free(buff);
-        return -1;
-    }
+        {
+            syslog(LOG_ERR,"%s",strerror(i));
+            free(buff);
+            return -1;
+        }
     else
-    {
-        free(buff);
-        return 1;
-    }
+        {
+            free(buff);
+            return 1;
+        }
 }
 

@@ -23,7 +23,6 @@ void  readingFromSerial(void *arg)
     if (!common || common->fd <0)
         {
             syslog(LOG_ERR,"%s\n",strerror(errno));
-            Packetstatistic.rError++;
             pthread_exit(NULL);
         }
     while(read(common->fd,&data,ONE)!=-1 && common->loop)
@@ -45,7 +44,7 @@ void  readingFromSerial(void *arg)
                             if(i==5)
                                 {
                                     syslog(LOG_ERR,"Too much 0x55 received.");
-                                    Packetstatistic.rError++;
+                                    Packetstatistic.packetError++;
                                     break;
                                 }
                             continue;
@@ -150,11 +149,12 @@ void  readingFromSerial(void *arg)
                                     pthread_mutex_unlock(&common->temperature_mutex);
                                     receivingData=NULL;
                                     State=EmptyState;
+                                    Packetstatistic.received_TermPacket++;
                                     Packetstatistic.validPacket++;
                                 }
                             else if (receivingData->cmd==PING)
                                 {
-                                    Packetstatistic.pollPacket++;
+                                    Packetstatistic.received_PollPacket++;
                                     Packetstatistic.validPacket++;
                                     pthread_mutex_lock(&common->watchdog_mutex);
                                     common->sensors[(int)receivingData->address-1].watchdog--;
@@ -183,14 +183,12 @@ void  readingFromSerial(void *arg)
                    " packet=%d"
                    " validPacket=%d"
                    " overrun=%d"
-                   " emptyPacket=%d"
-                   " Error=%d"
+                   " emptyPacket=%d\n"
                    ,Packetstatistic.packetError
                    ,Packetstatistic.packet
                    ,Packetstatistic.validPacket
                    ,Packetstatistic.overrun
-                   ,Packetstatistic.pollPacket
-                   ,Packetstatistic.rError);
+                   ,Packetstatistic.received_PollPacket);
 
 
         }
