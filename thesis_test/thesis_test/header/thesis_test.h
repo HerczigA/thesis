@@ -20,7 +20,7 @@ void test_config();
 
 void test_Init();
 
-//void test_Reading(void *arg);
+void test_Reading();
 
 //void test_SendPacket(void *arg);
 

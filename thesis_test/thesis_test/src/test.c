@@ -134,15 +134,15 @@ void test_config()
     //assert(deviceparameters(buffer,&test,5,24)==-1);    //if there are same addresses in config.txt
 
 }
-/*void test_Reading(void *arg)
+void test_Reading()
 {
     char test_data=0x01;
-    Threadcommon *testp=arg;
-    readingFromSerial(testp);
-    readingFromSerial(NULL);
+    Threadcommon testp;
+    assert(readingFromSerial(testp));
+    assert(readingFromSerial(NULL));
     assert(reserve(test_data)!=NULL);
 }
-
+/*
 void test_SendPacket(void *arg)
 {
     Threadcommon *testp;

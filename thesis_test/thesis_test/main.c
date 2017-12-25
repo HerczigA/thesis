@@ -10,7 +10,7 @@ int main()
     test_crc();
 
     //test_SendPacket(&test);
-    //test_Reading(&test);
+    test_Reading();
     printf("Test was succesfully done\n");
     return 0;
 }
