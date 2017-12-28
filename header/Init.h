@@ -3,19 +3,13 @@
 #include <sys/queue.h>
 #include <stdint.h>
 #include <termios.h>
-#include <fcntl.h>
+#include <stdbool.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <string.h>
-#include <pthread.h>
-#include <ctype.h>
-#include <errno.h>
-#include <signal.h>
 #include "../header/reading.h"
-#define WATCHDOGMAX 10
-
+#define WATCHDOGMAX 20
 
 
 typedef struct devices
@@ -39,7 +33,7 @@ typedef struct communication
     int samplingTime;
     float Delta;
     int members;
-    volatile int loop;
+    volatile bool loop;
     Slaves *sensors;
 } Threadcommon;
 

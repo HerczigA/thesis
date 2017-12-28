@@ -221,7 +221,7 @@
 	"../header/reading.h"
 	"../header/closing.h"
 
-1514226000 source:/home/herczig/thesis/main.c
+1514317981 source:/home/herczig/thesis/main.c
 	<stdio.h>
 	<stdlib.h>
 	<sys/types.h>
@@ -254,7 +254,7 @@
 	<ctype.h>
 	<errno.h>
 
-1514227412 /home/herczig/thesis/header/reading.h
+1514229874 /home/herczig/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -262,8 +262,8 @@
 	<pthread.h>
 	<unistd.h>
 	<signal.h>
-	"Init.h"
 	<errno.h>
+	"Init.h"
 
 1514226000 /home/herczig/thesis/header/counting.h
 	"processing.h"
@@ -289,9 +289,10 @@
 	"../header/reading.h"
 	"../header/crc.h"
 
-1514226000 source:/home/herczig/thesis/src/Init.c
+1514452194 source:/home/herczig/thesis/src/Init.c
 	<stdio.h>
 	<stdlib.h>
+	<fcntl.h>
 	"../header/Init.h"
 	"../header/counting.h"
 	"../header/reading.h"
@@ -362,20 +363,15 @@
 	"../header/test.h"
 	<signal.h>
 
-1514226000 /home/herczig/thesis/header/Init.h
+1514450201 /home/herczig/thesis/header/Init.h
 	<sys/queue.h>
 	<stdint.h>
 	<termios.h>
-	<fcntl.h>
+	<stdbool.h>
 	<sys/ioctl.h>
 	<sys/types.h>
 	<sys/stat.h>
 	<unistd.h>
-	<string.h>
-	<pthread.h>
-	<ctype.h>
-	<errno.h>
-	<signal.h>
 	"../header/reading.h"
 
 1514226000 /home/herczig/thesis/header/processing.h
@@ -390,7 +386,7 @@
 
 1514226000 /home/herczig/thesis/header/closing.h
 
-1514226000 source:/home/herczig/thesis/src/closing.c
+1514452382 source:/home/herczig/thesis/src/closing.c
 	<stdio.h>
 	<syslog.h>
 	<stdlib.h>
@@ -406,7 +402,7 @@
 	"../header/counting.h"
 	"../header/reading.h"
 
-1514228928 source:/home/herczig/thesis/src/sending.c
+1514321072 source:/home/herczig/thesis/src/sending.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -416,7 +412,7 @@
 	"../header/writing.h"
 	"../header/sending.h"
 
-1514226052 source:/home/herczig/thesis/src/threadHandling.c
+1514317973 source:/home/herczig/thesis/src/threadHandling.c
 	<stdio.h>
 	<pthread.h>
 	"../header/crc.h"
@@ -498,20 +494,21 @@
 
 1514226000 /home/herczig/thesis/header/writing.h
 
-1514227978 source:/home/herczig/thesis/src/writing.c
+1514229839 source:/home/herczig/thesis/src/writing.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
 	"../header/crc.h"
 
-1514229724 /home/herczig/thesis/header/config.h
+1514450967 /home/herczig/thesis/header/config.h
 	"Init.h"
 
-1514226000 source:/home/herczig/thesis/src/config.c
+1514451980 source:/home/herczig/thesis/src/config.c
 	<stdio.h>
 	<stdlib.h>
 	<syslog.h>
 	<string.h>
+	<ctype.h>
 	"../header/Init.h"
 	"../header/config.h"
 

@@ -42,8 +42,9 @@ void closeOnFAIL(void *arg)
         i++;
     }
     free(temp->sensors);
-    printf("Program finished, because filedescriptor is wrong"
-           " or there are some problems\n"
+    printf("\nProgram finished,\n"
+           "because filedescriptor is wrong\n"
+           "or there are some problems\n"
            "when setting serial port\n"
            "Used memory is free\n");
     syslog(LOG_ERR,"Close on Fail successfully.");

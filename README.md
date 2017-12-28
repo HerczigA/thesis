@@ -13,10 +13,14 @@ Important to check the config.txt path in header/header.h. You have to give the 
 Without number of device, the system shall not check the names, addresses, states etc.
 The proper usage e.g:
 
-Address		names		state		times		mov_average_tagnumber
-1		kitchen		0		5		3
+device.1.address=1
+device.1.name=kitchen
+device.1.measuringTime=20
+device.1.movingAverage=3
 
-Important the queue! There is no limit to names. If you mistake or use float number to times or mov_average just for fun,
+where measuringTime value is given in sec.After the first point the value symbolises the given address at the parameter part.
+
+There is no limit to names. If you mistake or use float number to times or mov_average just for fun,
 it will be convert to int.
 
 -logrotate.conf:

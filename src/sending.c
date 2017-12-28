@@ -96,7 +96,7 @@ void sendRequest(void *arg)
         }
     printf("sending thread is end\n");
     syslog(LOG_ERR,"sending thread is end");
-    common->loop=0;
+    common->loop=false;
 }
 
 

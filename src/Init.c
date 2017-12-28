@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include "../header/Init.h"
 #include "../header/counting.h"
 #include "../header/reading.h"
@@ -66,7 +67,6 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
         }
     else
         {
-            perror("serial setting");
             closeOnFAIL(init);
             free(term);
             syslog(LOG_ERR,"%s %d",strerror(errno),init->fd);
@@ -81,7 +81,7 @@ int queueInit(Threadcommon *arg)
 {
     if(!(arg && &arg->head))
         return -1;
-    arg->loop=1;
+    arg->loop=true;
     TAILQ_INIT(&arg->head);
     if(!(pthread_mutex_init(&arg->temperature_mutex,NULL) || pthread_mutex_init(&arg->watchdog_mutex,NULL)))
         {

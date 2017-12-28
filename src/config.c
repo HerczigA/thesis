@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <syslog.h>
 #include <string.h>
+#include <ctype.h>
 #include "../header/Init.h"
 #include "../header/config.h"
 
@@ -63,10 +64,18 @@ int Read_config(char **buffer)
     fconfig=fopen(pathOfConfig,"r");
     if(!fconfig)
         {
-            printf("There is no or mistaken path has given\n");
+            fconfig=fopen(pathOfConfigForMake,"r");
+            if(!fconfig)
+            {
+            printf("There is no or mistaken path has given\n"
+            "You should check the given path in config.h\n"
+            "Or maybe you don't have the correct permission?\n");
             syslog(LOG_ERR,"Wrong path\n");
             return -1;
+            }
+
         }
+
     /**Read from file line by line. Only reads which are ended by ';'.*/
     temp=(char*)malloc(MAXCHAR*sizeof(char));
     if(!temp)
@@ -234,7 +243,7 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
                 {
                     len=strlen(p);
                     p[len-1]='\0';
-                    arg->sensors[sensorsNumber].names=malloc((len-1)*sizeof(char));
+                    arg->sensors[sensorsNumber].names=malloc((len)*sizeof(char));
                     if(!arg->sensors[sensorsNumber].names)
                         {
                             perror("arg->sensors[sensorsNumber].name:\n");
@@ -302,7 +311,7 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
 void free_configBuffer(char **configbuffer,int allLine)
 {
     int i=0;
-    while(allLine)
+    while(allLine+1)
         {
             free(configbuffer[i]);
             i++;
