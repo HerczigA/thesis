@@ -53,7 +53,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
     term->c_lflag &= ~( ICANON | ECHO | ISIG);
     term->c_oflag =0;
     term->c_cc[VTIME]=0;
-    term->c_cc[VMIN]=1;
+    term->c_cc[VMIN]=0;
     cfsetispeed(term,(speed_t)init->BAUD);
     cfsetospeed(term,(speed_t)init->BAUD);
 

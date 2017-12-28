@@ -27,7 +27,6 @@ void  readingFromSerial(void *arg)
         }
     while(read(common->fd,&data,ONE)!=-1 && common->loop)
         {
-
             switch (State)
                 {
                 case EmptyState:

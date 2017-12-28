@@ -289,7 +289,7 @@
 	"../header/reading.h"
 	"../header/crc.h"
 
-1514452194 source:/home/herczig/thesis/src/Init.c
+1514459279 source:/home/herczig/thesis/src/Init.c
 	<stdio.h>
 	<stdlib.h>
 	<fcntl.h>
@@ -306,7 +306,7 @@
 	"../header/counting.h"
 	"../header/reading.h"
 
-1514227840 source:/home/herczig/thesis/src/reading.c
+1514459310 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/Init.h"
@@ -402,7 +402,7 @@
 	"../header/counting.h"
 	"../header/reading.h"
 
-1514321072 source:/home/herczig/thesis/src/sending.c
+1514459254 source:/home/herczig/thesis/src/sending.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -500,7 +500,7 @@
 	"../header/reading.h"
 	"../header/crc.h"
 
-1514450967 /home/herczig/thesis/header/config.h
+1514452473 /home/herczig/thesis/header/config.h
 	"Init.h"
 
 1514451980 source:/home/herczig/thesis/src/config.c
