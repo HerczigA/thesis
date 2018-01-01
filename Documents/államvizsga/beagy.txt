@@ -1,0 +1,297 @@
+1. Bzonyítsa, hogy a C nyelvben a függvények újrahívhatók!
+Igaz.
+Példa: printf függvény.
+Ez egy előre definiált függvény, amelyet egy program során többször is használhatunk, akár
+ugyanazokkal, akár különböző paraméterekkel. További bizonyíték, hogy ha írunk például egy
+adatmozgató függvényt, ami megadott algoritmus alapján mozgat egy-egy memóriatartalmat, akkor
+ezt egy cikluson belül minden további nélkül meghívhatjuk. Ha például a ciklusváltozóból
+származtatjuk a függvény valamely paraméterét (jelen példában, hogy mit hova másoljon), akkor
+így egy egy byte-os adatmozgató függvénnyel egy nagyobb blokk másolását oldhatjuk meg.
+
+2. Mi a NULL pointer, a dangling pointer, awild pointerés és a null safe programing?
+
+Mi is az a pointer: A pointer egy olyan változófajta, ami egy memóriarekeszre mutat. Segítségével írhatunk illetve olvashatunk a memória általa mutatott részéről.
+
+NULL pointer: Sehova se mutató mutató. Gyakran szokott vita lenni abból még gyakorlott programozók között is, hogy ugyanaz-e a 0 és a NULL. A C szabvány megengedi azt, hogy a NULL, vagyis a sehova nem mutató pointert 0-val jelöljük, ha a programkód szövegéből kiderül, hogy azt pointerként kell értelmezni. Bármilyen típusú mutató lehet NULL pointer. Gyakorlatilag persze kell, hogy mutasson valahova. Az adatszegmens első byte-jára. Erre a tájékra a C direkt nem helyez semmi változót, nehogy egy sehova mutató pointerrel felülírjuk. Figyeli ezt a területet, és ha változik, null pointer assignment hibaüzenettel kiszáll. (mivel ezen terület eredetileg csupa nulla, azt nem fogja észrevenni, ha egy előkészítetlen sehova mutató pointerrel nullát írunk ide, hiszen így nincs változás)
+1972-ben a C-ben a 0 konstansnak két jelentése volt, egyrészt jelentette a 0 számot, másrészt a null
+pointert. A 0 kettős jelentését úgy kezelték, hogy bevezették a NULL szimbólumot, amelyet az
+előfeldolgozó oldott fel, általában a ((void *)0) kifejezésre. Ez azonban C++ tervezésekor
+problémákat okozott, hiszen a void * mutatók nem implicit konvertálódnak más mutató típusokra,
+így a C++-ban ismét a 0 szimbólumot kellett használni null pointerként (tehát a NULL is erre
+helyettesítődött). Azonban nem oldódott meg minden probléma.
+void foo(int);
+void foo(void *);
+Ekkor a foo(NULL) kifejezés a foo(int) függvényt hívja, ami megtévesztő, és egyértelműen nem a
+programozó szándékát fejezi ki. Az új C++ szabvány bevezeti a nullptr kulcsszót a null pointer
+jelölésére. A nullptr típusa olyan, hogy tetszőleges mutató típusra implicit konvertálódik, valamint
+tetszőleges mutatóval összehasonlítható, nem konvertálódik azonban egész típusokra.
+
+Dangling pointer: Az a mutató amely olyan területre mutat ami törölve lett vagy fel lett szabadítva Dangling pointernek nevezzük. 3 különböző módon lehet egy pointer dangling pointer
+    A) De-allocation of memory
+        // Deallocating a memory pointed by ptr causes
+        // dangling pointer
+        #include <stdlib.h>
+        #include <stdio.h>
+        int main()
+        {
+            int *ptr = (int *)malloc(sizeof(int));
+ 
+            // After below free call, ptr becomes a 
+            // dangling pointer
+            free(ptr); 
+     
+            // No more a dangling pointer
+            ptr = NULL;
+        }
+        Tehát felszabadítás után a pointer Dangling pointerré vállik, addig amíg nem adunk neki új címet (Jelen esetben NULL).
+        
+    B)// The pointer pointing to local variable becomes
+    // dangling when local variable is static.
+    #include<stdio.h>
+ 
+        int *fun()
+        {
+            // x is local variable and goes out of
+            // scope after an execution of fun() is
+            // over.
+            int x = 5;
+        
+            return &x;
+        }
+        
+        // Driver Code
+        int main()
+        {
+            int *p = fun();
+            fflush(stdin);
+        
+            // p points to something which is not
+            // valid anymore
+            printf("%d", *p);
+            return 0;
+        }
+        A mutató egy függvényben használt lokális változó címét kapja meg. A függvény hívás után a lokális változó már nem létezik de ezt a címet kapja meg a mutató.
+        A mutató jelen esetben Dangling pointerré vállik így.
+        Függvény hívás után már nem lehet használni a mutató által mutatott változót, ha csak nem statikussá tesszük a lokális változót.
+        
+        // The pointer pointing to local variable doesn't
+        // become dangling when local variable is static.
+        #include<stdio.h>
+
+        int *fun()
+        {
+        // x now has scope throughout the program
+        static int x = 5;
+
+        return &x;
+        }
+
+        int main()
+        {
+        int *p = fun();
+        fflush(stdin);
+
+        // Not a dangling pointer as it points
+        // to static variable.
+        printf("%d",*p);
+        }
+        Ebben az esetben a main függvény a stdout-on 5-öt fog mutatni vagyis a lokális változó értékét, nem pedig szegfault-ot ahogy az előző hívásnál.
+        
+        C)Variable goes out of scope
+        void main()
+        {
+        int *ptr;
+        .....
+        .....
+        {
+            int ch;
+            ptr = &ch;
+        } 
+        .....   
+        // Here ptr is dangling pointer
+        }
+        Ugyan az a helyzet mint az előző esetben csak függvényen belűl történik a hibás átadás. Jól láthatóan a pointer a kapcsoszárójelen belül deklarált változó címét megkapja.
+        De kapcsoszárójelen kívül a deklarált ch változó megszünik és a mutató Dangling pointerré vállik.
+        
+Wild Pointer.
+
+    A deklarált de nem inicializált mutatót nevezzük wild pointernek. Akárhova mutathat ami komoly veszélyt hordoz magában! 
+        int main()
+        {
+        int *p;  /* wild pointer */
+    
+        int x = 10;
+    
+        // p is not a wild pointer now
+        p = &x;
+    
+        return 0;
+        }
+        
+        
+        
+3. Mi a különbség a C nyelvben az érték szerinti és a cím szerinti paraméter átadás között?
+    void csere(int * a,int * b)
+    {
+        int c=*a;
+        *a=*b;
+        *b=c;
+    }
+    
+    int main(void)
+    {
+        int x=2,y=5;
+        csere(&x,&y);
+        printf("x=%d, y=%d\n",x,y);
+        return 0;
+    }
+Pointerek segítségével. Ha ugyanis a függvény nem a változót, hanem annak a címét kapja meg
+paraméterként, akkor a cím másolódik be a paraméterként definiált pointer változóba, a cím pedig
+továbbra is az eredeti változóra mutat. Igaz, hogy az eredeti változó a hívó függvényben van, de ez
+minket egyáltalán nem zavar, jogunk van megváltoztatni annak értékét. A C nyelvben így
+valósítható meg a cím szerinti paraméterátadás.
+#include <stdio.h>
+void csere(int a,int b)
+{
+    int c=a;
+    a=b;
+    b=c;
+}
+int main(void)
+{
+    int x=2,y=5;
+    csere(x,y);
+    printf("x=%d, y=%d\n",x,y);
+    return 0;
+}
+
+Itt a paraméterként definiált változók (a,b) mindössze abban különböznek az egyszerű változóktól
+(c,x,y), hogy kezdőértékként kapják azt az értéket, amivel a függvényt meghívjuk. Vagyis a-ba
+bekerül 2, b-be pedig 5. A függvény helyesen működik, és valóban felcseréli a és b értékét, azonban
+ez semmi módon nem hat vissza x-re és y-ra. Ezt úgy mondjuk, hogy a C nyelvben érték szerinti
+paraméterátadás történik.
+
+4.Mi az adatrejtés elve, hogy használjuk a C nyelvben?
+
+Több modul használata nagy prograrnak esetén szükségszerú, hisz a fordítók
+nem képesek akármekkora forrásállományt feldolgozni. Ez a lehetőség
+azonban ennél jóval többet jelent. A C nyelv tartalmaz eszközöket a
+moduláris programozás elvének megvalósításához. A moduláris programozás
+lényege, hogy minden modul önálló fordítási egységet képez, melyeknél
+érvényesül az adatrejtés elve. Az adatrejtés elvét a későbbiekben tárgyalásra kerülő file-szintú érvényességi
+tartomány (láthatóság, scope) és a tárolási osztályok biztosítják. Ezek
+megfelelő használatával a modul bizonyos nevei kívülról (extern) is láthatók
+lesznek, míg a többi név elérhetósége a modulra korlátozódik. 
+
+Két féle megoldás létezik az adatrejtésre a C nyelvben. Az első megoldás egy olyan pointer deklarálássa ami egy olyan struktúrára mutat ami még nincs definiálva. This is used in the example to declare a typedef for the stack type that is a pointer to a stack object struct without declaring the stack object struct. The struct type is declared inside the source file. Since the header file doesn’t contain the struct definition other programmers don’t know the internal structure of the type and can’t manipulate the struct directly. Instead they have to rely on the public functions declared in the header file.
+
+1. Create a .h file and tell anyone that includes the file that there exists a struct.
+2. Put the struct with all of its datamembers in the .c file.
+3. Anyone using the .h file will see that there is a struct available but have to use the access function to use it.
+struct Person; //This line says that there _exists_ a struct called Person and does not show how it looks like.
+typedef struct Person *pPerson;
+
+
+The other feature used in this example is the use of the typing system in C to ensure that stack objects can’t be modified directly. The stack type is defined as a pointer to a const stack struct object. This ensures that a programmer can’t accidentally modify the stack object without angering the compiler. Structs in C are just different variables stored together in memory. The pointer to the struct is simply the address of the first variable in the struct. A programmer could accidentally modify the contents of the struct by assigning a value to the de-referenced stack object. By defining the stack type as pointing to a const stack struct, the compiler will complain if a programmer tries to directly modify the stack object.
+
+
+
+5.Mi a stack, mire használják a C-ben?
+
+Veremtár. Definiálható hosszúságú memóriaterület, mely egy veremtárnak
+megfelelően funkcionál, azaz amit legutoljára írtunk bele, azt tudjuk legelőször elérni. A PUSH
+utasítással lehet arra a címére adatot írni, ahova az SP mutat, illetve a POP utasítással lehet az SP
+mutató által címzett területet olvasni. A verembe a függvények lokális változói kerülnek. A verem speciális tulajdonsága, hogy a tartalma fel-le változik; ha egy függvény belsejének végrehajtásába kezdünk, akkor a verem tetején létrejönnek a függvény lokális változói, ha pedig a függvényből visszatérünk, akkor azok a változók megszűnnek. Az adott függvényhíváshoz tartozó memóriaterületet a veremben stack frame-nek nevezzük. A veremben minden függvény csak a saját lokális változóit látja. Ha a függvény saját magát hívja meg, akkor különböző és egymástól független példányok keletkeznek a lokális változóiból.
+
+6.Mi macro preprocesszálás, milyen problémák merülnek fel a használatával,
+hogyan lehet ezeket elkerülni?
+
+Makró: A makrót is csak egyszer kell megírnia a programozónak, azonban az annyiszor épül be a
+programkódba, ahányszor meg van hívva. Ez a beépülés a program fordítása során történik. Előnye,
+hogy szubrutinhívás, így nem igényel időt a meghívása és nem foglalja a stack-memória területet
+sem. Sok iterációt igénylő , ám egyszerű függvények esetén jobb hatásfokú, mint a szubrutinhívás.
+A C preprocesszor az egy makró preprocesszor mely átalakítja (behelyettesíti a makrók által definiált értékeket )a forráskódot fordítás előtt.
+
+
+7.Mi a szál (thread) fogalma, hogyan kell szálbiztos programokat írni?
+
+A szálak egy folyamaton belül egymástól külön ütemezhető, párhuzamosan futó utasítássorozatok. Míg a folyamatok között csak a végrehajtandó kód a közös, a szálak ugyanabban a címtartományban futnak. Ellentétben a folyamatokkal, a szálak osztozkodnak az erőforrásokon. Ilyenek az időzítők, a kód- és adatterületek, a fájlleírók valamint a jelzéselrendezések is a folyamaton belül. Egy szál maximum addig fut, ameddig a főszál, vagyis ameddig a folyamat be nem fejezi a futását, de akár előbb is vége lehet egy szál futásának. Viszont a vermen nem osztozkodnak a szálak, mindegyik szál rendelkezik a saját maga vermével. Viszont a szálak nem osztoznak a vermenés az utasításvégrehajtás kontextusán (processzor regiszterei). 
+Többszálú programokból hívott függvényekben ne használjunk globális és lokális változót az előző hívás adatainak az elmentésére! Globális és statikus változók helyettesítésére lehetőségünk van az egyes szálakhoz memóriaterületek, a szálspecifikus adatok (Thread Specifc Data) használatára is, amelyek egy szálon belül globális adatterületet jelentene, más szálak számára azonban hozzáférhetetlenek. Mutexek.....
+
+8.Mi a szemafor, hol használható, mik a tudnivalók a használatukkal kapcsolatban?
+
+
+
+
+9. Mi a Git, mire hasznáálhtó, mi a működési elve, mik az alap parancsok? 
+
+A Git egy verziókezelő szoftver, arra szolgál, hogy kisebb-nagyobb projektek esetén, nyomon lehessen követni a projektek állapotát, a forráskódok tartalmát és verzióját. Ez egy nyílt forráskódú ingyenes szoftver melyet anno Linus Torvalds, a Linux atyja fejlesztett ki.
+
+10. Mi a Make, mire hasznáálhtó, mi a működési elve, hogyan épül fel egy alap Makefile? 
+
+Fő célja leegyszerűsíteni és automatizálni a fordítást. A make ezt a procedúrát hidalja át azzal a technikával, hogy figyeli melyik fájl vagy fájlok módosult(ak) és csak az(oka)t fordítja le ismét
+
+
+
+
+cél : függőségek
+		parancs(ok)
+Fontos hogy a parancs(okat) ne szóköz, hanem egy tabulátor előzze meg! Egy Makefile-ban lehetőség van változók létrehozására, ezzel is egyszerűbbé téve a megírási folyamatot. 
+Továbbá a make rendelkezik automatikus változókkal is mely jelentősen leegyszerűsíti a Makefile megírását és használatát. Néhány példa az automatikus változókra. 
+
+$*		Teljes forrásfájl neve kiterjesztés nélkül
+$<		out-of-date forrásfájl neve kiterjesztéssel
+$.		forrásfájl teljes neve elérési útvonal nélkül
+$&.		forrásfájl neve elérési útvonal és kiterjesztés nélkül
+$:		csak az elérési útvonal
+$@		Teljes aktuális cél neve
+
+Ezen felül a make rendelkezik saját függvényekkel is.
+
+	$(subst from,to, text)	
+$(subst oo,OO,book on the roof)	→	bOOk on the rOOf
+
+	A függvény a megadott string mintában kicseréli azokat a karaktereket ahol két darab o van egymás mellett két darab nagy O-ra.
+
+	$(patsubst pattern,replacement,text)
+	$(patsubst %.c,%.o,counting.c reading.c)	→	counting.o, reading.o
+
+	Minden olyan fájl, mely .c-re végződik, kicseréli .o végűre. Utóbbi függvénnyel nem kell felsorolni a projektben megtalálható összes forrásfájlt, hanem így automatizálva mindig az összesre megcsinálja a hozzá tartozó objekt fájlt. Egyúttal, ha új forrásfájl kerül be a projektbe a make észre fogja venni és fordítani fogja az összes többivel együtt és nem kell külön-külön hozzáadogatni az új forrásfájlokat.
+
+11. Mi a Doxygen, mire használható, mi a működési elve, hogy kell használni? 
+
+A doxygen egy forráskód alapján automatikusan dokumentációt generáló eszköz. Alapötlete, hogy a forráskódban (most C++ esetét nézve) az osztályokat, metódusokat és attribútumokat megfelelő formázással kommentezve, a forráskódot bejárva azokból esztétikus leírások készíthetők.
+
+Számos programnyelvet támogat, a kommentárok formázásában támogatja a Markdown formátumot, kimenete pedig többek között lehet HTML vagy LaTeX forráskód is.
+
+Természetesen ennek egy fontos előfeltétele, hogy a kommentárokból tényleg egy használható dokumentáció álljon össze. Valószínűleg mindenki találkozott már olyan “dokumentációval”, amiben fel volt sorolva (ömlesztve) az összes osztály, azokban meg lehetet nézni a metódusok listáját, de ezen kívül csak kb. annyira hasznos szövegek voltak benne, hogy a “setX(int x)” metódus beállítja x értékét. Hát ezzel sokra megyünk…
+
+Viszont a Doxygent nem ezek alapján kellene megítélni: a semminél lényegesen több időt igényel, de különösebb gond nélkül össze lehet vele rakni olyan dokumentációt, ami már tényleg használható. És ha nem egy a forráskódtól független dokumentum, akkor még annak is több az esélye, hogy a kód módosításai közben a dokumentáció is friss marad. (Ami valljuk be, egy hosszabb fejlesztési folyamat során nem mindig teljesül…)
+
+Néhány szempont, amire érdemes figyelni a forráskód kommentezésénél, ha utána azt dokumentációnak is akarjuk használni:
+
+Minden osztály előtt a header fájlban érdemes egy hosszabb kommentárban leírni, hogy az az osztály mire jó: ki használja és mire, hogyan működik és hogyan kapcsolódik a többi osztályhoz.
+Ha az osztály előtt még egy példa is van a használatára (már amikor ennek van értelme), az nagyon-nagyon jól jön nekünk is, ha 6 hónappal később megint használnunk kell például a nagyon cselesen összerakott AbstractGraphBuilder magic osztályunkat, amire már csak homályosan emlékszünk.
+A metódusok elé is illik odaírni, hogy mire jó. A Doxygennek külön megadhatjuk, hogy mi a leírása az egyes paramétereknek és a visszatérési értéknek.
+Végül, de nem utolsó sorban nagyon fontos, hogy amit így generálunk, az referenciának jó (ha tudjuk, mit keresünk), de nulláról egy rendszer áttekintésére alkalmatlan, mert valószínűleg már az is csak nehezen derül ki, hogy az egésznek hol van az eleje. Éppen ezért szükség van még néhány áttekintő leírásra. A Doxygen lehetőséget ad arra is, hogy egy külön (például Markdown formátumban) elkészített dokumentumot megadjunk, mint kezdőoldal. Ha ide berakunk néhány UML diagrammot és azokon keresztül elmagyarázzuk, hogy hogyan működik a rendszer, akkor ezek alapján már sokkal könnyebb áttekinteni, hogy mi hol van. Utána pedig ha valakinek kellenek a részletek, akkor már tudni fogja, hogy mely osztályok leírásában kell tovább keresnie.
+
+A kommentárok mennyisége és a forráskód olvashatósága
+Mielőtt nekilátunk a SimpleTelemetryVisualizer példaprogram dokumentációjának elkészítéséhez, egy fontos megjegyzés a kommentárok mennyiségéről: vannak helyek, ahol előírás, hogy a forráskódban a kommentároknak kell kitenniük a sorok felét. No ez egy kissé túlzás: ezzel pont azt érjük el, hogy a megoldás két nyelven van leírva: C++-ban és angolul, aminem nem sok értelme van. Ha a forráskódban normális váltózó- és függvénynevek vannak (és nem maci, teve, valami, a, b, c stb.), akkor a forráskód olvasható lesz.
+
+@brief: egy rövid leírás (Egy bekezdés, az első üres sorig tart.) A dokumentációban ez a rész szerepel majd elöl, a többi csak a részleteknél.
+@param paraméternév leírás: egy metódus egy paraméterének a leírása
+@returns: a visszatérési érték leírása
+@warning: figyelmeztetések. Tipikusan piros vonallal emeli ki a doxygen.
+@bug: ismert hibák
+@note: megjegyzés, behúzott bekezdésbe kerül majd
+@see vagy @sa: hivatkozás például másik osztály másik metódusára. A :: jelölést (scope operator) felismeri a Doxygen.
+A Doxygen a dokumentációt elsősorban a forráskód fájlokból generálja, de ezen kívül beolvassa többek között a txt és md kiterjeszésű fájlokat is. Így az alábbi parancsokkal több oldalas, tartalomjegyzékes, oldalak közötti hivatkozásokkal teleszőtt leírásokat is tudunk készíteni:
+
+@page azonosito tényleges címsor
+@section azonosito tényleges fejezetcím
+@subsection azonosito tényleges alfejezetcím
+@ref azonosito: hivatkozás az “azonosito” oldalára, fejezetére, alfejezetére stb.
+@mainpage: ez az oldal lesz a főoldal, amivel a dokumentáció kezdődik. Ez a parancs csak egyetlen helyen szerepelhet, különben a Doxygen figyelmeztet és csak az elsőt veszi figyelembe.
+
+
+12. Mi a crosscompiling fogalma? 
