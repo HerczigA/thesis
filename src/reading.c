@@ -83,8 +83,11 @@ void  readingFromSerial(void *arg)
                             continue;
                         }
                     else
+                    {
                         Packetstatistic.overrun++;         //Packets are incoming too fast, should take bigger hold time between readings
-                    break;
+                        break;
+                    }
+
                 case command :
                     calculateCrc = addCRC(calculateCrc,data);
                     receivingData->cmd = data;
