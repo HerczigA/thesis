@@ -183,16 +183,11 @@ tartomány (láthatóság, scope) és a tárolási osztályok biztosítják. Eze
 megfelelő használatával a modul bizonyos nevei kívülról (extern) is láthatók
 lesznek, míg a többi név elérhetósége a modulra korlátozódik. 
 
-Két féle megoldás létezik az adatrejtésre a C nyelvben. Az első megoldás egy olyan pointer deklarálássa ami egy olyan struktúrára mutat ami még nincs definiálva. This is used in the example to declare a typedef for the stack type that is a pointer to a stack object struct without declaring the stack object struct. The struct type is declared inside the source file. Since the header file doesn’t contain the struct definition other programmers don’t know the internal structure of the type and can’t manipulate the struct directly. Instead they have to rely on the public functions declared in the header file.
-
-1. Create a .h file and tell anyone that includes the file that there exists a struct.
-2. Put the struct with all of its datamembers in the .c file.
-3. Anyone using the .h file will see that there is a struct available but have to use the access function to use it.
-struct Person; //This line says that there _exists_ a struct called Person and does not show how it looks like.
-typedef struct Person *pPerson;
+Két féle megoldás létezik az adatrejtésre a C nyelvben. Az első megoldás egy olyan pointer deklarálássa ami egy olyan struktúrára mutat ami még nincs definiálva. This is used in the example to declare a typedef for the stack type that is a pointer to a stack object struct without declaring the stack object struct. A struktúra típusa a forrás állományban van deklarálva. Így hogy a header nem tartalmazza a struct definicióját, más programozók nem tudják hogy mi van a struktúra belsejében és nem tudják manipulálni közvetve a struktúrát. Helyette a nyilvános függvény deklarációkra kell támaszkodniuk a header fájlban. 
 
 
-The other feature used in this example is the use of the typing system in C to ensure that stack objects can’t be modified directly. The stack type is defined as a pointer to a const stack struct object. This ensures that a programmer can’t accidentally modify the stack object without angering the compiler. Structs in C are just different variables stored together in memory. The pointer to the struct is simply the address of the first variable in the struct. A programmer could accidentally modify the contents of the struct by assigning a value to the de-referenced stack object. By defining the stack type as pointing to a const stack struct, the compiler will complain if a programmer tries to directly modify the stack object.
+
+Másik eszköz az adatrejtésre a példában a gépelési rendszer használata. C ben  ez a módszer biztosítja hogy ne lehessen közvetlenül módosítani a stack objektumait . A stack típus egy pointerként van definiálva ami egy const stack struct objektumra mutat. Ez biztosítja a programozónak hogy ne tudja hirtelen módosítani a a stack objektumát anélkül hogy kiakasztaná a fordítót. Struktúrák C-ben  különböző típusú változók tárolására szolgál a memóriában. A struktúrára mutató mutató a struktúra első elemének címére mutat. A programozó tudja módosítani a struktrúra tartalmát úgy hogy hozzárendel egy változó értéket a mutatott stack objektumához. By defining the stack type as pointing to a const stack struct, the compiler will complain if a programmer tries to directly modify the stack object.
 
 
 
@@ -202,15 +197,54 @@ Veremtár. Definiálható hosszúságú memóriaterület, mely egy veremtárnak
 megfelelően funkcionál, azaz amit legutoljára írtunk bele, azt tudjuk legelőször elérni. A PUSH
 utasítással lehet arra a címére adatot írni, ahova az SP mutat, illetve a POP utasítással lehet az SP
 mutató által címzett területet olvasni. A verembe a függvények lokális változói kerülnek. A verem speciális tulajdonsága, hogy a tartalma fel-le változik; ha egy függvény belsejének végrehajtásába kezdünk, akkor a verem tetején létrejönnek a függvény lokális változói, ha pedig a függvényből visszatérünk, akkor azok a változók megszűnnek. Az adott függvényhíváshoz tartozó memóriaterületet a veremben stack frame-nek nevezzük. A veremben minden függvény csak a saját lokális változóit látja. Ha a függvény saját magát hívja meg, akkor különböző és egymástól független példányok keletkeznek a lokális változóiból.
+A verem felhaszn´al´asa
+I F¨uggv´eny visszat´er´esi c´ıme ide ker¨ul1
+I F¨uggv´enyparam´eterek ebbe ker¨ulnek
+I Lok´alisan deklar´alt v´altoz´ok
+I Oper´atorok ki´ert´ekel´ese itt t¨ort´enik
+I F¨uggv´eny visszat´er´esi ´ert´eke ennek a tetejére kerül
 
-6.Mi macro preprocesszálás, milyen problémák merülnek fel a használatával,
+A f¨uggv´eny sosem ´ashat m´elyebbre a veremben, mint ahol a
+verem teteje a f¨uggv´enyh´ıv´as el˝ott volt
+2. Egy f¨uggv´eny megh´ıv´asa ut´an mindig le¨ur´ıti a vermet addig,
+ameddig a f¨uggv´enyh´ıv´as el˝ott volt:
+kiveszi az ¨osszes param´eter´et ´es lok´alis v´altoz´oj´at
+3. F¨uggv´enyparam´eterek ebbe ker¨ulnek
+4. Visszat´er´eskor a f¨uggv´eny mindig leteszi a visszat´er´esi ´ert´eket
+a verem tetej´ere
+5. Ha egy param´etert ´ert´ek szerint adunk ´at, akkor az
+bem´asol´odik a verembe
+6. Ha c´ım szerint adunk ´at egy param´etert, akkor annak csak a
+mutat´oja m´asol´odik be a verembe
 hogyan lehet ezeket elkerülni?
+6.Mi macro preprocesszálás, milyen problémák merülnek fel a használatával,
 
+A C preprocesszor az egy makró preprocesszor mely átalakítja (behelyettesíti a makrók által definiált értékeket )a forráskódot fordítás előtt.
 Makró: A makrót is csak egyszer kell megírnia a programozónak, azonban az annyiszor épül be a
 programkódba, ahányszor meg van hívva. Ez a beépülés a program fordítása során történik. Előnye,
 hogy szubrutinhívás, így nem igényel időt a meghívása és nem foglalja a stack-memória területet
 sem. Sok iterációt igénylő , ám egyszerű függvények esetén jobb hatásfokú, mint a szubrutinhívás.
-A C preprocesszor az egy makró preprocesszor mely átalakítja (behelyettesíti a makrók által definiált értékeket )a forráskódot fordítás előtt.
+
+Nem megfelelő makró definició során a preprocesszor a kód bármely részén kicserélheti a kódnevet a makró értékére ezáltal vagy hibásan fordítja a programot vagy le se tudja fordítani.
+#define MACRO
+    // use macro
+#undef MACRO
+
+Ez biztosítja hogy a makró véletlenül se cserélje ki az adott területen kivűli helyi makrókat.
+hibatényező #undef nem automatikus, külön le kell írni
+
+Problem #2
+
+Preprocessor code is difficult to read.  It requires an understanding of the basic process of how the preprocessor recursively expands macros, finding macro definitions, and mentally substituting the parameters of the macro.
+Solution
+Any kind of programming requires a basic understanding of how the code is executed.  Any parameterization technique, including simple functions and templates requires finding the definition and mentally substituting parameters.
+However, it is good to know a few techniques:
+By using as many local macros as reasonable, the bulk of the searching process can be eliminated.
+Code browsers and text search tools make it easier to find the definitions.
+The compiler can be used for generating the preprocessed source code in order to look for bugs.
+Before turning something into a preprocessor metaprogram, first implement a small scale version of it without the preprocessor.  The work bottom-up, replacing hand-written constructs by using the preprocessor.  This way you can test the code incrementally.  Experienced programmers often skip many stages, but if something proves too complex to write directly, it is always possible to fall back to incremental methods.
+If you insert a special symbol into the preprocessor code in places where there should be a line break, you can make code readable after preprocessing simply by using a search and replace tool.
+
 
 
 7.Mi a szál (thread) fogalma, hogyan kell szálbiztos programokat írni?
@@ -229,6 +263,7 @@ A Git egy verziókezelő szoftver, arra szolgál, hogy kisebb-nagyobb projektek 
 
 10. Mi a Make, mire hasznáálhtó, mi a működési elve, hogyan épül fel egy alap Makefile? 
 
+A make egy program felépítő eszköz ami UNIX és Linux alatt fut. 
 Fő célja leegyszerűsíteni és automatizálni a fordítást. A make ezt a procedúrát hidalja át azzal a technikával, hogy figyeli melyik fájl vagy fájlok módosult(ak) és csak az(oka)t fordítja le ismét
 
 
