@@ -183,18 +183,11 @@ tartomány (láthatóság, scope) és a tárolási osztályok biztosítják. Eze
 megfelelő használatával a modul bizonyos nevei kívülról (extern) is láthatók
 lesznek, míg a többi név elérhetósége a modulra korlátozódik. 
 
-Két féle megoldás létezik az adatrejtésre a C nyelvben. Az első megoldás egy olyan pointer deklarálássa ami egy olyan struktúrára mutat ami még nincs definiálva.
-This is used in the example to declare a typedef for the stack type that is a pointer to a stack object struct without declaring the stack object struct. 
-A struktúra típusa a forrás állományban van deklarálva. Így hogy a header nem tartalmazza a struct definicióját, más programozók nem tudják hogy mi van a struktúra belsejében és nem tudják manipulálni közvetve a struktúrát.
-Helyette a nyilvános függvény deklarációkra kell támaszkodniuk a header fájlban. 
+Két féle megoldás létezik az adatrejtésre a C nyelvben. Az első megoldás egy olyan pointer deklarálássa ami egy olyan struktúrára mutat ami még nincs definiálva. This is used in the example to declare a typedef for the stack type that is a pointer to a stack object struct without declaring the stack object struct. A struktúra típusa a forrás állományban van deklarálva. Így hogy a header nem tartalmazza a struct definicióját, más programozók nem tudják hogy mi van a struktúra belsejében és nem tudják manipulálni közvetve a struktúrát. Helyette a nyilvános függvény deklarációkra kell támaszkodniuk a header fájlban. 
 
 
 
-Másik eszköz az adatrejtésre a példában a gépelési rendszer használata.C ben  ez a módszer biztosítja hogy ne lehessen közvetlenül módosítani a stack objektumait . 
-A stack típus egy pointerként van definiálva ami egy const stack struct objektumra mutat. Ez biztosítja a programozónak hogy ne tudja hirtelen módosítani a a stack objektumát anélkül hogy kiakasztaná a fordítót. 
-Struktúrák C-ben  különböző típusú változók tárolására szolgál a memóriában. A struktúrára mutató mutató a struktúra első elemének címére mutat. 
-A programozó tudja módosítani a struktrúra tartalmát úgy hogy hozzárendel egy változó értéket a mutatott stack objektumához. 
-By defining the stack type as pointing to a const stack struct, the compiler will complain if a programmer tries to directly modify the stack object.
+Másik eszköz az adatrejtésre a példában a gépelési rendszer használata. C ben  ez a módszer biztosítja hogy ne lehessen közvetlenül módosítani a stack objektumait . A stack típus egy pointerként van definiálva ami egy const stack struct objektumra mutat. Ez biztosítja a programozónak hogy ne tudja hirtelen módosítani a a stack objektumát anélkül hogy kiakasztaná a fordítót. Struktúrák C-ben  különböző típusú változók tárolására szolgál a memóriában. A struktúrára mutató mutató a struktúra első elemének címére mutat. A programozó tudja módosítani a struktrúra tartalmát úgy hogy hozzárendel egy változó értéket a mutatott stack objektumához. By defining the stack type as pointing to a const stack struct, the compiler will complain if a programmer tries to directly modify the stack object.
 
 
 
@@ -203,11 +196,7 @@ By defining the stack type as pointing to a const stack struct, the compiler wil
 Veremtár. Definiálható hosszúságú memóriaterület, mely egy veremtárnak
 megfelelően funkcionál, azaz amit legutoljára írtunk bele, azt tudjuk legelőször elérni. A PUSH
 utasítással lehet arra a címére adatot írni, ahova az SP mutat, illetve a POP utasítással lehet az SP
-mutató által címzett területet olvasni. A verembe a függvények lokális változói kerülnek. A verem speciális tulajdonsága, hogy a tartalma fel-le változik;
-ha egy függvény belsejének végrehajtásába kezdünk, akkor a verem tetején létrejönnek a függvény lokális változói, ha pedig a függvényből visszatérünk, akkor azok a változók megszűnnek. 
-Az adott függvényhíváshoz tartozó memóriaterületet a veremben stack frame-nek nevezzük. A veremben minden függvény csak a saját lokális változóit látja. 
-Ha a függvény saját magát hívja meg, akkor különböző és egymástól független példányok keletkeznek a lokális változóiból.
-
+mutató által címzett területet olvasni. A verembe a függvények lokális változói kerülnek. A verem speciális tulajdonsága, hogy a tartalma fel-le változik; ha egy függvény belsejének végrehajtásába kezdünk, akkor a verem tetején létrejönnek a függvény lokális változói, ha pedig a függvényből visszatérünk, akkor azok a változók megszűnnek. Az adott függvényhíváshoz tartozó memóriaterületet a veremben stack frame-nek nevezzük. A veremben minden függvény csak a saját lokális változóit látja. Ha a függvény saját magát hívja meg, akkor különböző és egymástól független példányok keletkeznek a lokális változóiból.
 A verem felhasználása
 I Függvény visszatérési címe ide kerül
 I Függvényparaméterek ebbe kerülnek
@@ -225,10 +214,13 @@ kiveszi az összes paraméterét és lokális változóját
 a verem tetejére
 5. Ha egy paramétert érték szerint adunk át, akkor 
 bemásolódik a verembe
-6. Ha cím szerint adunk át egy paramétert, akkor annak csak a
-mutatója másolódik be a verembe
-hogyan lehet ezeket elkerülni?
-6.Mi macro preprocesszálás, milyen problémák merülnek fel a használatával,
+6. Ha cím szerint adunk át egy paramétert, akkor annak csak a mutatója másolódik be a verembe
+
+
+
+A verembe a függvények lokális változói kerülnek. A verem speciális tulajdonsága, hogy a tartalma fel-le változik; ha egy függvény belsejének végrehajtásába kezdünk, akkor a verem tetején létrejönnek a függvény lokális változói, ha pedig a függvényből visszatérünk, akkor azok a változók megszűnnek. Az adott függvényhíváshoz tartozó memóriaterületet a veremben stack frame-nek nevezzük. A veremben minden függvény csak a saját lokális változóit látja. Ha a függvény saját magát hívja meg, akkor különböző és egymástól független példányok keletkeznek a lokális változóiból.
+
+6.Mi macro preprocesszálás, milyen problémák merülnek fel a használatával,hogyan lehet ezeket elkerülni?
 
 A C preprocesszor az egy makró preprocesszor mely átalakítja (behelyettesíti a makrók által definiált értékeket )a forráskódot fordítás előtt.
 Makró: A makrót is csak egyszer kell megírnia a programozónak, azonban az annyiszor épül be a
@@ -246,7 +238,7 @@ hibatényező #undef nem automatikus, külön le kell írni
 
 Problem #2
 
-Preprocesszor kódot nehéz olvasni. Megértéséhez szükséges hogy a folyamat hogyan terjeszti ki rekurzívan a of the basic process of how the preprocessor recursively expands macros, finding macro definitions, and mentally substituting the parameters of the macro.
+Preprocessor code is difficult to read.  It requires an understanding of the basic process of how the preprocessor recursively expands macros, finding macro definitions, and mentally substituting the parameters of the macro.
 Solution
 Any kind of programming requires a basic understanding of how the code is executed.  Any parameterization technique, including simple functions and templates requires finding the definition and mentally substituting parameters.
 However, it is good to know a few techniques:
@@ -265,12 +257,62 @@ Többszálú programokból hívott függvényekben ne használjunk globális és
 
 8.Mi a szemafor, hol használható, mik a tudnivalók a használatukkal kapcsolatban?
 
+Gyakori szinkronizációs lehetőség a szemafor használata. A szemafor unsigned int számlálónak tekinthető, amelynek megváltoztatása oszthatatlan (atomi) művelet, vagyis más szálak és processzek nem tudják megszakítani a szemaforhoz éppen hozzáférő processzt. A szemafort egy meghatározott kezdeti értékre állítjuk. Valahányszor egy processz megszerzi /lefoglalja csökkenti annak értékét. Ha eléri  a szemafor a 0-t, több processz már nem foglalhatja le. Amennyiben egy processznek már nincs több szemafor által védendő dolga,
+nőveli a szemafor értékét, vagyis elengedi a szemafort. Az előzőekből adódik hogy a szemafor kezdeti értékadása határozza meg hogy összesen hány processz birtokolhatja/ szerezheti meg a szemafort. 1 esetén csak egy foglalhatja le ( mint mutex). A szemafor tipikus felhasznáálási területe egy adott erőforráshoz hozzáférő processzek számának a maximalizálása. Tételezzük fel, hogy egy hardvereszközt maximum 5 processz tud hatékonyan használni, különben lassúvá válik és gyakori lesz a hibás működés, illetve adatvesztés is történik. A hadvereszközhöz való hozzáférés előtt minden processz megszerzi a szemafort, vagyis eggyel csökkenti mindegyik processz a szemafor értékét. Ha a szemafor 5 és ezt 5 processz megszerezte, akkor a hatodik processz vagy várakozik hogy egy processz visszaadja a szemafort vagy megpróbálja később lefoglalni. Ez az egyszerű példa két dologra hívja fel a figyelmet. Alapértelmezésben a szinkronizáció önkéntes dolog, a processz feladata hogy megszerezze a szemafort és használat után elengedje azt. A másik hogy a processz nem vizsgála a szemafor értékét hanem egyből megpróbálja lefoglalni azt. Ellenőrzés során lehet hogy még pont lenne szemafor de mire lefoglalná megelőzte egy másik processz és sikertelenné teszi a folyamat működését. A lefoglalásnak atomi műveletnek kell lennie. 
+Szemafor létrehozása: #include <sys/sem.h>
+int semget(key_t key,int nsems, int semflg);
+key=egyedi azonosító,
+sems=szemaforok száma,
+semflg=hozzáférési jogosultság beállítása.
+Ha a key paraméter egy már létező szemaforhoz hozzá lett rendelve, akkor a semget függvény a létező szemafor azonosítóját adja vissza, egyébként léttrehoz egy új szemafort és annak a leírójával tér vissza. Így mr egy létező szemaforhoz egy másik processzől a ke paraméter segítségével kapcsolódhatunk hozzá. Ha új szemafort szeretnénk létrehozni, a kulcs generálásban segít nekünk a :
+
+#include <sys/ipc.h>
+#include <sys/types.h>
+
+key_t ftok(const char *pathname, int proj_id);
+ahol a :
+pathname: létező fájl,
+proj_id: nullánál nagyobb szám.
 
 
 
 9. Mi a Git, mire hasznáálhtó, mi a működési elve, mik az alap parancsok? 
 
 A Git egy verziókezelő szoftver, arra szolgál, hogy kisebb-nagyobb projektek esetén, nyomon lehessen követni a projektek állapotát, a forráskódok tartalmát és verzióját. Ez egy nyílt forráskódú ingyenes szoftver melyet anno Linus Torvalds, a Linux atyja fejlesztett ki.
+
+A Git egy verziókezelő, arra szolgál, hogy fileok (programok, dokumentációk, stb) különböző verzióit kordában tartsa, elkönyvelje, tárolja és megossza. Röviden összefoglalva a Git annyit csinál, hogy amikor azt mondjuk neki (commit), akkor egy directoryról csinál magának egy helyi adatbázist a .git nevű könyvtárba. Ezekkel az adatbázisokkal
+
+- nyomon tudja követni, hogy mikor hogyan változott a könyvtárunk,
+- vissza tudja állítani bármelyik korábbi (commit-olt) állapotát a könyvtárnak,
+- szinkronizálni tud egy másik gépen levő hasonló könyvtárral, közben intelligensen átvezeti a változásokat, illetve jelez, ha nem megy neki.
+
+A Gitnek megvan az a további előnye, hogy mindezt tudja titkosított csatornán (ssh-n keresztül) csinálni, ezt fogjuk mi használni ebben a leírásban.
+
+A szemléletbeli különbség ahhoz képest ahogy eddig éltünk az, hogy a dolgaink nem akkor vannak elmentve ha megnyomtuk az editorban a save gombot, hanem csak akkor, ha a git adatbázisunkba is bekerültek (commit). A dolgok tehát röviden a következőképp fognak kinézni, mindent részletesen leírok majd alább: frissítjük a helyi adatbázisunkat a központi Szerver nevű gépéről (arra az esetre gondolva, ha valaki más továbbírta azóta, hogy láttuk; pull). Ezután dolgozunk a filejainkon. Ha eljutottunk egy olyan állapotba amit érdemes menteni, akkor megmondjuk melyik filet vegye figyelembe (add, vagy stage), majd mentjük az adatbázisba (commit). Végül pedig feltöltjük a módosított adatbázist a Szerver-re (push).
+
+Először is megmondjuk a Git-nek, kik is vagyunk mink:
+git config --global user.name "bela"
+git config --global user.email "bela@rabasztam.hu"
+
+Ezután Git adatbázist szeretnénk. Git adatbázis mindig egy teljes könyvtárhoz (alkönyvtárakkal együtt) készül. Adatbázisunk kétféleképp lehet: szerzünk egyet, vagy csinálunk egyet a saját könyvtárunkról.
+
+Git adatbázist csinálni egyszerű: a kívánt könyvtárban azt mondjuk, hogy
+
+git init
+
+majd lehozzuk a reponkat a szerverről:
+
+git clone http://github.com/Dikeszmen/thesis.git
+
+Van tehát egy könyvtárunk egy git adatbázissal. Ebben a könyvtárban módosítunk valamit, elmentjük ahogy szoktuk a munkánkat, viszont ettől még nem kerül be a Git adatbázisába. Ehhez először ki kell jelölnünk, hogy mely fileokat ajánljuk a Git figyelmébe:
+
+git add --all
+
+majd 
+
+
+ekkor egy editort nyit meg, amibe pár szóval érdemes leírni mit dolgoztunk. Humanitárius okokból itt ne használjunk ékezeteket. :-) (Ha nem tetszik az editor amit a Git használ, hanem inkább emacs-et használnánk, akkor
+git commit
 
 10. Mi a Make, mire hasznáálhtó, mi a működési elve, hogyan épül fel egy alap Makefile? 
 
@@ -309,8 +351,9 @@ $(subst oo,OO,book on the roof)	→	bOOk on the rOOf
 A doxygen egy forráskód alapján automatikusan dokumentációt generáló eszköz. Alapötlete, hogy a forráskódban (most C++ esetét nézve) az osztályokat, metódusokat és attribútumokat megfelelő formázással kommentezve, a forráskódot bejárva azokból esztétikus leírások készíthetők.
 
 Számos programnyelvet támogat, a kommentárok formázásában támogatja a Markdown formátumot, kimenete pedig többek között lehet HTML vagy LaTeX forráskód is.
+A Latex egy TeX-en alapuló szövegformázó rendszer, amely nagyon alkalmas olyan elektronikus dokumentumok, szakdolgozatok, tudományos cikkek írására, amelyek sok képletet tartalmaznak. A LaTeX alkotója Leslie Lamport.
 
-Természetesen ennek egy fontos előfeltétele, hogy a kommentárokból tényleg egy használható dokumentáció álljon össze. Valószínűleg mindenki találkozott már olyan “dokumentációval”, amiben fel volt sorolva (ömlesztve) az összes osztály, azokban meg lehetet nézni a metódusok listáját, de ezen kívül csak kb. annyira hasznos szövegek voltak benne, hogy a “setX(int x)” metódus beállítja x értékét. Hát ezzel sokra megyünk…
+Természetesen ennek egy fontos előfeltétele, hogy a kommentárokból tényleg egy használható dokumentáció álljon össze.
 
 Viszont a Doxygent nem ezek alapján kellene megítélni: a semminél lényegesen több időt igényel, de különösebb gond nélkül össze lehet vele rakni olyan dokumentációt, ami már tényleg használható. És ha nem egy a forráskódtól független dokumentum, akkor még annak is több az esélye, hogy a kód módosításai közben a dokumentáció is friss marad. (Ami valljuk be, egy hosszabb fejlesztési folyamat során nem mindig teljesül…)
 
@@ -341,3 +384,29 @@ A Doxygen a dokumentációt elsősorban a forráskód fájlokból generálja, de
 
 
 12. Mi a crosscompiling fogalma? 
+A cross-compilinggal (másnéven keresztfordítással) egy adott platformon feltudunk építeni (buildelni) egy binárist mely egy másik platformon lesz futattható, kompatibilis. Cross ompiling során el kell tudni különíteni két fontos kifejezést. Egyik az építő(buildelő) platform amin készül a fordítás, másik a hoszt platform ( cél platform) amelyen szeretnékn futtatni a build platformon lefordított binárist.
+
+Speed - Target platforms are usually much slower than hosts, by an order of magnitude or more. Most special-purpose embedded hardware is designed for low cost and low power consumption, not high performance. Modern emulators (like qemu) are actually faster than a lot of the real world hardware they emulate, by virtue of running on high-powered desktop hardware.[3]
+
+Capability - Compiling is very resource-intensive. The target platform usually doesn't have gigabytes of memory and hundreds of gigabytes of disk space the way a desktop does; it may not even have the resources to build "hello world", let alone large and complicated packages.
+
+Availability - Bringing Linux up on a hardware platform it's never run on before requires a cross-compiler. Even on long-established platforms like Arm or Mips, finding an up-to-date full-featured prebuilt native environment for a given target can be hard. If the platform in question isn't normally used as a development workstation, there may not be a recent prebuilt distro readily available for it, and if there is it's probably out of date. If you have to build your own distro for the target before you can build on the target, you're back to cross-compiling anyway.
+
+Flexibility - A fully capable Linux distribution consists of hundreds of packages, but a cross-compile environment can depend on the host's existing distro from most things. Cross compiling focuses on building the target packages to be deployed, not spending time getting build-only prerequisites working on the target system.
+
+Convenience - The user interface of headless boxes tends to be a bit crampled. Diagnosing build breaks is frustrating enough as it is. Installing from CD onto a machine that hasn't got a CD-ROM drive is a pain. Rebooting back and forth between your test environment and your development environment gets old fast, and it's nice to be able to recover from accidentally lobotomizing your test system.
+
+BAD Part:
+Most programs are developed on x86 hardware, where they are compiled natively. This means cross-compiling runs into two types of problems: problems with the programs themselves and problems with the build system.
+
+The first type of problem affects all non-x86 targets, both for native and for cross-builds. Most programs make assumptions about the type of machine they run on, which must match the platform in question or the program won't work. Common assumptions include:
+
+Word size - Copying a pointer into an int may lose data on a 64 bit platform, and determining the size of a malloc by multiplying by 4 instead of sizeof(long) isn't good either. Subtle security flaws due to integer overflows are also possible, ala "if (x+y < size) memset(src+x,0,y);", which results in a 4 gigabyte memset on 32-bit hardware when x=1000 and y=0xFFFFFFF0...
+
+Endianness - Different systems store binary data iternally in different ways, which means that block-reading int or float data from disk or the network may need translation. Type "man byteorder" for details.
+
+Alignment - Some platforms (such as arm) can only read or write ints from addresses that are an even multiple of 4 bytes, otherwise they segfault. Even the ones that can handle arbitrary alignments are slower dealing with unaligned data (they have to fetch twice to get both halves), so the compiler will often pad structures to align variables. Treating structures as a lump of data that can be sent to disk or across the network thus requires extra work to ensure a consistent representation.
+
+Default signedness - Whether the "char" data type defaults to signed or unsigned varies from platform to platform (and in some cases from compiler to compiler), which can cause some really surprising bugs. The easy workaround for this is to provide a compiler argument like "-funsigned-char" to force the default to a known value.
+
+NOMMU - If your target platform doesn't have a memory management unit, several things need to change. You need vfork() instead of fork(), only certain types of mmap() work (shared or read only, but not copy on write), and the stack doesn't grow dynamically.
