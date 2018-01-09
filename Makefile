@@ -18,6 +18,10 @@ $(OBJ):$(SRC)
 clean:
 	rm  obj/*.o  $(RESULT)
 
+help:
+	@echo you can use two possibilities 
+	@echo Firt -make clean- to clean the object files and the app from app dir
+	@echo Second -make- to compile and build from the sources to the binary into app dir
 
 #$*	Teljes forrasfile neve kiterjesztes nelkul
 #$<	out-of-date forrasfile teljes neve(kiterjesztessel)

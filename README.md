@@ -44,7 +44,7 @@ Content of rsyslog.conf and logrotate.conf have to copy to the proper place BEFO
 logrotate.conf -> /etc/logrotate.d/
 rsyslog.conf -> /etc/rsyslog.d/
 
-For makefile you just have to use make in the project root dir. It will compile automatically. 
+If you don't know how make works just type "make help" to the terminal. It will show you some information how to use it 
 Test it RPI 2B, Linux Debian Stretch and Jessie.
 
 If you have any question don't hesitate to ask me.
