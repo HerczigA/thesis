@@ -5,12 +5,10 @@ int main()
 {
     printf("This program is made for test my thesis!\n");
     test_config();
-   // test_Init();
+    //test_Init();
     test_counting();
     test_crc();
-
     //test_SendPacket(&test);
-    test_Reading();
     printf("Test was succesfully done\n");
     return 0;
 }

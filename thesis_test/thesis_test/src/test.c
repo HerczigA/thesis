@@ -2,6 +2,16 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "../header/thesis_test.h"
+#include "../header/counting.h"
+#include "../header/crc.h"
+#include "../header/Init.h"
+#include "../header/processing.h"
+#include "../header/reading.h"
+#include "../header/writing.h"
+#include "../header/sending.h"
+#include "../header/config.h"
+#include "../header/closing.h"
+#include "../header/threadHandling.h"
 #define MAXLINE 100
 
 /** Must not test mov_average with 3 and 4 members in one time! */
@@ -127,21 +137,17 @@ void test_config()
     assert(Read_config(NULL)==-1);
     assert(Read_config(buffer)==24);            //configfile.txt line number
     assert(Processing_Config(NULL,NULL)==-1);
+    printf("fasza\n");
     assert(Processing_Config(buffer,NULL)==-1);
+    printf("fasza\n");
     assert(Processing_Config(NULL,&test)==-1);
     assert(Processing_Config(buffer,&test)==5);   //First 5 line
+
     assert(deviceparameters(buffer,&test,5,24)==0);
     //assert(deviceparameters(buffer,&test,5,24)==-1);    //if there are same addresses in config.txt
 
 }
-void test_Reading()
-{
-    char test_data=0x01;
-    Threadcommon testp;
-    assert(readingFromSerial(testp));
-    assert(readingFromSerial(NULL));
-    assert(reserve(test_data)!=NULL);
-}
+
 /*
 void test_SendPacket(void *arg)
 {

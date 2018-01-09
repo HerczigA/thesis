@@ -33,51 +33,51 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="../../header/Init.h" />
-		<Unit filename="../../header/closing.h" />
-		<Unit filename="../../header/config.h" />
-		<Unit filename="../../header/counting.h" />
-		<Unit filename="../../header/crc.h" />
-		<Unit filename="../../header/processing.h" />
-		<Unit filename="../../header/reading.h" />
-		<Unit filename="../../header/sending.h" />
-		<Unit filename="../../header/threadHandling.h" />
-		<Unit filename="../../header/writing.h" />
-		<Unit filename="../../src/Init.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/closing.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/config.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/counting.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/crc.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/processing.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/reading.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/sending.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/threadHandling.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/writing.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="header/Init.h" />
+		<Unit filename="header/closing.h" />
+		<Unit filename="header/config.h" />
+		<Unit filename="header/counting.h" />
+		<Unit filename="header/crc.h" />
+		<Unit filename="header/processing.h" />
+		<Unit filename="header/reading.h" />
+		<Unit filename="header/sending.h" />
 		<Unit filename="header/thesis_test.h" />
+		<Unit filename="header/threadHandling.h" />
+		<Unit filename="header/writing.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/Init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/closing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/counting.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/crc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/processing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/reading.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/sending.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/threadHandling.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/writing.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

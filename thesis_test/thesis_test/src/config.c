@@ -110,7 +110,7 @@ int Read_config(char **buffer)
 
 int Processing_Config(char **configbuffer,Threadcommon *arg)
 {
-    if(!configbuffer)
+    if(!(configbuffer && arg))
         {
             perror("configbuffer:");
             return -1;

@@ -2,7 +2,7 @@
 #define CONFIG_H_INCLUDED
 
 #include "Init.h"
-#define pathOfConfig "./util//config.txt"            //FOR CODEBLOCKS
+#define pathOfConfig "./util/config.txt"            //FOR CODEBLOCKS
 #define pathOfConfigForMake "../util/config.txt"     //FOR MAKE
 #define DEFTIME 10
 #define DEFMAXTIME 60
