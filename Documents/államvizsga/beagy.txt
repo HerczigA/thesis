@@ -354,6 +354,12 @@ A Latex egy TeX-en alapuló szövegformázó rendszer, amely nagyon alkalmas oly
 
 Természetesen ennek egy fontos előfeltétele, hogy a kommentárokból tényleg egy használható dokumentáció álljon össze.
 
+1. Létre tud hozni egy online kereső dokumentációt (HTML-ben) és-vagy offline referencia leírást (in $\mbox{\LaTeX}$) a dokumentált forráskodról. Támogatja még az Rtf kimeneti fájlt is MS-WORDhöz,PostScript, hyperlinked PDF, compressed HTML, and Unix man pages. A dokumentációt közvetve készíti el a forráskodból, ezzel is könnyítve a dokumentáció szinkronizációját a forráskóddal.
+
+2.Doxygen beállítható úgy is, hogy a nem dokumentált forrásból kiszedje a kód strukturákat. Ez elég hasznos és gyors módszer hogy könnyed kiigazodjon az ember nagy terjedelmű forráskódokban. Doxygen még tudja vizualizálni is a kapcsolatot bizonyos elemek között, úgy mint függőségi gráfok között, öröklési diagram, and együttműködési diagramok, melyek automatikusan generálódnak.
+
+3.Akár sima egyszerű normális dokumentációt is el lehet készíteni vele.
+
 Viszont a Doxygent nem ezek alapján kellene megítélni: a semminél lényegesen több időt igényel, de különösebb gond nélkül össze lehet vele rakni olyan dokumentációt, ami már tényleg használható. És ha nem egy a forráskódtól független dokumentum, akkor még annak is több az esélye, hogy a kód módosításai közben a dokumentáció is friss marad. (Ami valljuk be, egy hosszabb fejlesztési folyamat során nem mindig teljesül…)
 
 Néhány szempont, amire érdemes figyelni a forráskód kommentezésénél, ha utána azt dokumentációnak is akarjuk használni:

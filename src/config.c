@@ -30,21 +30,21 @@ int config(Threadcommon *arg)
         return -1;
     line=Processing_Config(buffer,arg) ;
     if(line==-1)
-    {
-        free_configBuffer(buffer,allLines);
-        return -1;
-    }
+        {
+            free_configBuffer(buffer,allLines);
+            return -1;
+        }
 
     if(!deviceparameters(buffer,arg,line,allLines))
-    {
-        free_configBuffer(buffer,allLines);
-        return 0;
-    }
+        {
+            free_configBuffer(buffer,allLines);
+            return 0;
+        }
     else
-    {
-        free_configBuffer(buffer,allLines);
-        return -1;
-    }
+        {
+            free_configBuffer(buffer,allLines);
+            return -1;
+        }
 }
 
 
@@ -53,10 +53,10 @@ int config(Threadcommon *arg)
 int Read_config(char **buffer)
 {
     if(!buffer)
-    {
-    printf("NULL pointer got not buffer\n");
-    return -1;
-    }
+        {
+            printf("NULL pointer got not buffer\n");
+            return -1;
+        }
     char *temp=NULL;
     FILE *fconfig=NULL;
     int i,j;
@@ -66,13 +66,13 @@ int Read_config(char **buffer)
         {
             fconfig=fopen(pathOfConfigForMake,"r");
             if(!fconfig)
-            {
-            printf("There is no or mistaken path has given\n"
-            "You should check the given path in config.h\n"
-            "Or maybe you don't have the correct permission?\n");
-            syslog(LOG_ERR,"Wrong path\n");
-            return -1;
-            }
+                {
+                    printf("There is no or mistaken path has given\n"
+                           "You should check the given path in config.h\n"
+                           "Or maybe you don't have the correct permission?\n");
+                    syslog(LOG_ERR,"Wrong path\n");
+                    return -1;
+                }
 
         }
 
@@ -89,8 +89,8 @@ int Read_config(char **buffer)
             if(*temp=='\n' || *temp=='#')
                 continue;
             if((strchr(temp,'=')))
-            {
-                buffer[i]=(char*)malloc(MAXLINE*sizeof(char));
+                {
+                    buffer[i]=(char*)malloc(MAXLINE*sizeof(char));
                     if(!buffer[i])
                         {
                             if(i>1)
@@ -280,28 +280,28 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
             /**Compare the addresses*/
             j=0;
             while(j<sensorsNumber)
-            {
-                if(arg->sensors[j].address==arg->sensors[sensorsNumber].address)
                 {
-                    arg->sensors[j].state=0;
-                    arg->sensors[sensorsNumber].state=0;
-                    printf("There is an address conflict occured.\n"
-                    "The problems are in the following devices:\n %s-%s\nPlease fixed the error!\n",
-                    arg->sensors[j].names,arg->sensors[sensorsNumber].names);
-                    return -1;
+                    if(arg->sensors[j].address==arg->sensors[sensorsNumber].address)
+                        {
+                            arg->sensors[j].state=0;
+                            arg->sensors[sensorsNumber].state=0;
+                            printf("There is an address conflict occured.\n"
+                                   "The problems are in the following devices:\n %s-%s\nPlease fixed the error!\n",
+                                   arg->sensors[j].names,arg->sensors[sensorsNumber].names);
+                            return -1;
+                        }
+                    j++;
                 }
-                j++;
-            }
             sensorsNumber++;
         }
     k=0;
     while(k<arg->numbOfDev)
-    {
-        printf("Address=%d\nName:%s\nstate:%d\nTime:%d\nMovAve_tag_Number=%d\n\n",
-               arg->sensors[k].address,arg->sensors[k].names,
-               arg->sensors[k].state,arg->sensors[k].time,arg->sensors[k].movAve_tag_number);
-        k++;
-    }
+        {
+            printf("Address=%d\nName:%s\nstate:%d\nTime:%d\nMovAve_tag_Number=%d\n\n",
+                   arg->sensors[k].address,arg->sensors[k].names,
+                   arg->sensors[k].state,arg->sensors[k].time,arg->sensors[k].movAve_tag_number);
+            k++;
+        }
     printf("\nReading config file succesfully\n");
     syslog(LOG_INFO,"Reading config file succesfully");
     return 0;

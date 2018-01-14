@@ -11,7 +11,9 @@
 #include "../header/reading.h"
 #define WATCHDOGMAX 20
 
-
+/**
+    @brief: Header of Initailization. Init serialport and queue.
+*/
 typedef struct devices
 {
     char address;
