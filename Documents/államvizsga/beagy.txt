@@ -171,7 +171,6 @@ ez semmi módon nem hat vissza x-re és y-ra. Ezt úgy mondjuk, hogy a C nyelvbe
 paraméterátadás történik.
 
 4.Mi az adatrejtés elve, hogy használjuk a C nyelvben?
-
 Több modul használata nagy programok esetén szükségszerú, hisz a fordítók
 nem képesek akármekkora forrásállományt feldolgozni. Ez a lehetőség
 azonban ennél jóval többet jelent. A C nyelv tartalmaz eszközöket a
@@ -183,12 +182,6 @@ megfelelő használatával a modul bizonyos nevei kívülról (extern) is látha
 lesznek, míg a többi név elérhetósége a modulra korlátozódik. 
 
 Két féle megoldás létezik az adatrejtésre a C nyelvben. Az első megoldás egy olyan pointer deklarálássa ami egy olyan struktúrára mutat ami még nincs definiálva. This is used in the example to declare a typedef for the stack type that is a pointer to a stack object struct without declaring the stack object struct. A struktúra típusa a forrás állományban van deklarálva. Így hogy a header nem tartalmazza a struct definicióját, más programozók nem tudják hogy mi van a struktúra belsejében és nem tudják manipulálni közvetve a struktúrát. Helyette a nyilvános függvény deklarációkra kell támaszkodniuk a header fájlban. 
-
-
-
-Másik eszköz az adatrejtésre a példában a gépelési rendszer használata. C ben  ez a módszer biztosítja hogy ne lehessen közvetlenül módosítani a stack objektumait . A stack típus egy pointerként van definiálva ami egy const stack struct objektumra mutat. Ez biztosítja a programozónak hogy ne tudja hirtelen módosítani a stack objektumát anélkül hogy kiakasztaná a fordítót. Struktúrák C-ben  különböző típusú változók tárolására szolgál a memóriában. A struktúrára mutató mutató a struktúra első elemének címére mutat. A programozó tudja módosítani a struktrúra tartalmát úgy hogy hozzárendel egy változó értéket a mutatott stack objektumához. By defining the stack type as pointing to a const stack struct, the compiler will complain if a programmer tries to directly modify the stack object.
-
-
 
 5.Mi a stack, mire használják a C-ben?
 

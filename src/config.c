@@ -25,9 +25,11 @@ int config(Threadcommon *arg)
     arg->samplingTime=ZERO;
     arg->pollTime=ZERO;
 
+    /*Reading up the conf file line by line to *buffer[] */
     allLines=Read_config(buffer);
     if(allLines==-1)
         return -1;
+
     line=Processing_Config(buffer,arg) ;
     if(line==-1)
         {

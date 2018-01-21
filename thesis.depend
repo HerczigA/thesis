@@ -254,7 +254,7 @@
 	<ctype.h>
 	<errno.h>
 
-1515525081 /home/herczig/thesis/header/reading.h
+1516477188 /home/herczig/thesis/header/reading.h
 	<string.h>
 	<sys/ioctl.h>
 	<sys/queue.h>
@@ -306,7 +306,7 @@
 	"../header/counting.h"
 	"../header/reading.h"
 
-1515525081 source:/home/herczig/thesis/src/reading.c
+1516477214 source:/home/herczig/thesis/src/reading.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/Init.h"
@@ -494,7 +494,7 @@
 
 1515525081 /home/herczig/thesis/header/writing.h
 
-1515525081 source:/home/herczig/thesis/src/writing.c
+1516477751 source:/home/herczig/thesis/src/writing.c
 	<stdio.h>
 	<stdlib.h>
 	"../header/reading.h"
@@ -503,7 +503,7 @@
 1515527690 /home/herczig/thesis/header/config.h
 	"Init.h"
 
-1515856851 source:/home/herczig/thesis/src/config.c
+1516478149 source:/home/herczig/thesis/src/config.c
 	<stdio.h>
 	<stdlib.h>
 	<syslog.h>
