@@ -666,3 +666,150 @@
 	"../header/reading.h"
 	"../header/crc.h"
 
+1517267964 source:/home/herczig/Prog/C/Thesis/thesis/main.c
+	<stdio.h>
+	<stdlib.h>
+	<sys/types.h>
+	"./header/config.h"
+	"./header/crc.h"
+	"./header/Init.h"
+	"./header/reading.h"
+	"./header/counting.h"
+	"./header/processing.h"
+	"./header/threadHandling.h"
+	"./header/sending.h"
+	"./header/closing.h"
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/config.h
+	"Init.h"
+
+1522492008 /home/herczig/Prog/C/Thesis/thesis/header/Init.h
+	<sys/queue.h>
+	<stdint.h>
+	<termios.h>
+	<stdbool.h>
+	<sys/ioctl.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<unistd.h>
+	"../header/reading.h"
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/reading.h
+	<string.h>
+	<sys/ioctl.h>
+	<sys/queue.h>
+	<syslog.h>
+	<pthread.h>
+	<unistd.h>
+	<signal.h>
+	<errno.h>
+	"Init.h"
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/crc.h
+	<stdint.h>
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/counting.h
+	"processing.h"
+	"Init.h"
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/processing.h
+	<unistd.h>
+	<syslog.h>
+	<sys/queue.h>
+	<string.h>
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/threadHandling.h
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/sending.h
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/closing.h
+
+1522488524 source:/home/herczig/Prog/C/Thesis/thesis/src/closing.c
+	<stdio.h>
+	<syslog.h>
+	<stdlib.h>
+	<termios.h>
+	"../header/reading.h"
+	"../header/config.h"
+	<pthread.h>
+
+1522488456 source:/home/herczig/Prog/C/Thesis/thesis/src/config.c
+	<stdio.h>
+	<stdlib.h>
+	<syslog.h>
+	<string.h>
+	<ctype.h>
+	"../header/Init.h"
+	"../header/config.h"
+
+1517267964 source:/home/herczig/Prog/C/Thesis/thesis/src/counting.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../header/Init.h"
+	"../header/reading.h"
+	"../header/processing.h"
+
+1522865824 source:/home/herczig/Prog/C/Thesis/thesis/src/crc.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/reading.h"
+	"../header/crc.h"
+	<msp430g2553.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+
+1519238051 source:/home/herczig/Prog/C/Thesis/thesis/src/Init.c
+	<stdio.h>
+	<stdlib.h>
+	<fcntl.h>
+	"../header/Init.h"
+	"../header/counting.h"
+	"../header/reading.h"
+	"../header/closing.h"
+	"../header/config.h"
+
+1517267964 source:/home/herczig/Prog/C/Thesis/thesis/src/processing.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/Init.h"
+	"../header/counting.h"
+	"../header/reading.h"
+
+1522877347 source:/home/herczig/Prog/C/Thesis/thesis/src/reading.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/Init.h"
+	"../header/crc.h"
+	"../header/reading.h"
+	"../header/closing.h"
+
+1522788183 source:/home/herczig/Prog/C/Thesis/thesis/src/sending.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<signal.h>
+	<sys/types.h>
+	"../header/reading.h"
+	"../header/writing.h"
+	"../header/sending.h"
+
+1517267964 /home/herczig/Prog/C/Thesis/thesis/header/writing.h
+
+1517267964 source:/home/herczig/Prog/C/Thesis/thesis/src/threadHandling.c
+	<stdio.h>
+	<pthread.h>
+	"../header/crc.h"
+	"../header/Init.h"
+	"../header/reading.h"
+	"../header/counting.h"
+	"../header/processing.h"
+	"../header/sending.h"
+
+1522877329 source:/home/herczig/Prog/C/Thesis/thesis/src/writing.c
+	<stdio.h>
+	<stdlib.h>
+	"../header/reading.h"
+	"../header/crc.h"
+

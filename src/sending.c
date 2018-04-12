@@ -50,7 +50,7 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev && common->loop)
                         {
-                            sleep(common->sensors[(int)addresses-1].time);
+                            //sleep(common->sensors[(int)addresses-1].time);
                             if((error=sendPacket(common->fd,addresses, termBit, &termData,len))>0)
                                 packet.send_TermPacket++;
                             else
@@ -66,9 +66,10 @@ void sendRequest(void *arg)
                 {
                     while((int)addresses<=common->numbOfDev)
                         {
-                            sleep(common->pollTime);
+                            sleep(5/*common->pollTime*/);
                             if((error=sendPacket(common->fd,addresses, heartBit,&pollData,len))>0)
                                 {
+                                    printf("send ping to %s\n",common->sensors[(int)addresses-1].names);
                                     pthread_mutex_lock(&common->watchdog_mutex);
                                     common->sensors[(int)addresses-1].watchdog++;
                                     if(common->sensors[(int)addresses-1].watchdog>=WATCHDOGMAX)

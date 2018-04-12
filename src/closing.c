@@ -38,6 +38,7 @@ void closeOnFAIL(void *arg)
     int i=0;
     while(i<temp->numbOfDev)
     {
+        //printf("%s",temp->sensors[i].names);
         free(temp->sensors[i].names);
         i++;
     }

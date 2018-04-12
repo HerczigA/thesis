@@ -35,6 +35,8 @@ void  readingFromSerial(void *arg)
                             State= moto55;
                             i=0;
                         }
+                       /*else if(data)
+                        printf("YOLO %d\t%c\n",data,data);*/
                     continue;
                 case moto55:
                     if (data == 0x55)
@@ -74,6 +76,7 @@ void  readingFromSerial(void *arg)
                         {
                             calculateCrc = addCRC(calculateCrc, data);
                             receivingData=reserve(data);
+                            printf("itt vagyunk?\n");
                             if (!receivingData)
                                 {
                                     syslog(LOG_ERR,"Cannot reserved memory to receivingData");
@@ -166,6 +169,7 @@ void  readingFromSerial(void *arg)
                                             common->sensors[(int)receivingData->address-1].state=1;
                                         }
                                     pthread_mutex_unlock(&common->watchdog_mutex);
+                                    printf("%s Keep Alive",common->sensors[(int)receivingData->address-1].names);
                                     syslog(LOG_NOTICE,"%s Keep Alive",common->sensors[(int)receivingData->address-1].names);
                                 }
                             else

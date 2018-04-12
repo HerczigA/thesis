@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "../header/reading.h"
-#define WATCHDOGMAX 20
+#define WATCHDOGMAX 3
 
 
 typedef struct devices

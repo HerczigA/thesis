@@ -1,8 +1,8 @@
 Serial.Baud=9600
 
-Serial.NumDevice=5
+Serial.NumDevice=1
 
-Serial.PollingTime=30
+Serial.PollingTime=3
 
 Serial.SamplingTime=50
 
@@ -13,22 +13,22 @@ device.1.name=konyha
 device.1.measuringTime=10
 device.1.movingAverage=3
 
-device.2.address=2
-device.2.name=kisszoba
-device.2.measuringTime=12
-device.2.movingAverage=4
+#device.2.address=2
+#device.2.name=kisszoba
+#device.2.measuringTime=12
+#device.2.movingAverage=4
 
-device.3.address=3
-device.3.name=nagyszoba
-device.3.measuringTime=5
-device.3.movingAverage=3
+#device.3.address=3
+#device.3.name=nagyszoba
+#device.3.measuringTime=5
+#device.3.movingAverage=3
 
-device.4.address=4
-device.4.name=haloszoba
-device.4.measuringTime=6
-device.4.movingAverage=2
+#device.4.address=4
+#device.4.name=haloszoba
+#device.4.measuringTime=6
+#device.4.movingAverage=2
 
-device.5.address=5
-device.5.name=eloszoba
-device.5.measuringTime=15
-device.5.movingAverage=3
+#device.5.address=5
+#device.5.name=eloszoba
+#device.5.measuringTime=15
+#device.5.movingAverage=3

@@ -3,7 +3,7 @@
 #include "../header/reading.h"
 #include "../header/crc.h"
 
-int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint16_t dLen)
+int sendPacket(int fd, unsigned char address, unsigned char cmd,unsigned char *data, uint16_t dLen)
 {
     if ( !data || fd <0 || dLen <0 )
         {
@@ -11,7 +11,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
             syslog(LOG_ERR,"sendPacket, data is NULL or invalid Filedescriptor or datalength.Writing Error");
             return -1;
         }
-    char *buff=(char*)malloc((dLen+13)*sizeof(char));
+    unsigned char *buff=(char*)malloc((dLen+13)*sizeof(char));
     if(!buff)
         {
             printf("No enough memory\n");
@@ -19,7 +19,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
             return -1;
         }
     int i=0;
-    int dataElement=11;
+    int dataElement=7;
     uint16_t crc=0;
     unsigned char len1,len2,crc1,crc2;
     crc = addCRC(crc, address);
@@ -40,23 +40,23 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
         }
     crc1=crc & 0xff;
     crc2=(crc>>BYTE) & 0xff;
-    while(i!=5)
-        {
-            buff[i]=0x55;
+    //while(i!=2)
+      //  {
+            buff[0]=0x55;
             i++;
-        }
-    buff[5]=0xFF;
-    buff[6]=0x01;
-    buff[7]=address;
-    buff[8]=cmd;
-    buff[9]=len1;
-    buff[10]=len2;
+       // }
+    buff[1]=0xFF;
+    buff[2]=0x01;
+    buff[3]=address;
+    buff[4]=cmd;
+    buff[5]=len1;
+    buff[6]=len2;
     buff[dataElement]=crc1;
     dataElement++;
     buff[dataElement]=crc2;
     dataElement++;
-    i=write(fd,buff,dataElement);
-    if(i!=dataElement)
+    i=write(fd,&buff[0],/*dataElement*/1);
+    if(i!=1)
         {
             syslog(LOG_ERR,"%s",strerror(i));
             free(buff);

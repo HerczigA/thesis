@@ -37,6 +37,7 @@ int InitSerialPort(struct termios *old_term,struct termios *term,void *arg)
             printf("Invalid Filedescriptor\n"
                    "maybe don't connect any wire?");
             syslog(LOG_ERR,"%s",strerror(errno));
+            errno=0;
             return -1;
         }
     fcntl(init->fd,F_SETFL,O_RDWR);
