@@ -78,6 +78,6 @@ typedef struct queueData
 
 void  readingFromSerial(void *arg);
 
-QueueData *reserve(char data);
+//QueueData *reserve(char data);
 
 #endif // READING_H_INCLUDED

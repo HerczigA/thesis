@@ -55,7 +55,7 @@ void sendRequest(void *arg)
                                 packet.send_TermPacket++;
                             else
                                 {
-                                    syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                                    syslog(LOG_ERR,"error at writing:%s",strerror(error));
                                     return;
                                 }
                             addresses++;
@@ -83,7 +83,7 @@ void sendRequest(void *arg)
                                 }
                             else
                                 {
-                                    syslog(LOG_ERR,"ERROR at writing:%s",strerror(error));
+                                    syslog(LOG_ERR,"error at writing:%s",strerror(error));
                                     return;
                                 }
                             addresses++;

@@ -8,6 +8,8 @@
 Reading from the serial port. To check the incoming packet, use the Motorola protocol
 */
 
+static QueueData *reserve(char );
+
 void  readingFromSerial(void *arg)
 {
     QueueData *receivingData=NULL,
@@ -205,9 +207,11 @@ void  readingFromSerial(void *arg)
     syslog(LOG_ERR,"Reading thread finished");
 }
 
-QueueData *reserve(char data)
+
+
+static QueueData *reserve(char data)
 {
-    QueueData *temp;
+    static QueueData *temp;
     temp=(QueueData *)malloc(sizeof(QueueData));
     if (!temp)
         return NULL;
@@ -217,5 +221,3 @@ QueueData *reserve(char data)
     temp->data = NULL;
     return temp;
 }
-
-
