@@ -211,7 +211,7 @@ void  readingFromSerial(void *arg)
 
 static QueueData *reserve(char data)
 {
-    static QueueData *temp;
+    QueueData *temp;
     temp=(QueueData *)malloc(sizeof(QueueData));
     if (!temp)
         return NULL;
