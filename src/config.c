@@ -11,11 +11,11 @@ int config(Threadcommon *arg)
 {
     openlog(NULL,LOG_PID,LOG_LOCAL1);
     if(!arg)
-        {
-            printf("ReadConfig got NULL\n");
-            syslog(LOG_ERR,"threadHandle is NULL");
-            return -1;
-        }
+    {
+        printf("ReadConfig got NULL\n");
+        syslog(LOG_ERR,"threadHandle is NULL");
+        return -1;
+    }
     int line,allLines;
     char *buffer[MAXLINE];
     arg->BAUD=ZERO;
@@ -32,21 +32,21 @@ int config(Threadcommon *arg)
 
     line=Processing_Config(buffer,arg) ;
     if(line==-1)
-        {
-            free_configBuffer(buffer,allLines);
-            return -1;
-        }
+    {
+        free_configBuffer(buffer,allLines);
+        return -1;
+    }
 
     if(!deviceparameters(buffer,arg,line,allLines))
-        {
-            free_configBuffer(buffer,allLines);
-            return 0;
-        }
+    {
+        free_configBuffer(buffer,allLines);
+        return 0;
+    }
     else
-        {
-            free_configBuffer(buffer,allLines);
-            return -1;
-        }
+    {
+        free_configBuffer(buffer,allLines);
+        return -1;
+    }
 }
 
 
@@ -55,62 +55,58 @@ int config(Threadcommon *arg)
 int Read_config(char **buffer)
 {
     if(!buffer)
-        {
-            printf("NULL pointer got not buffer\n");
-            return -1;
-        }
+    {
+        printf("NULL pointer got not buffer\n");
+        return -1;
+    }
     char *temp=NULL;
     FILE *fconfig=NULL;
     int i,j;
     i=j=0;
     fconfig=fopen(pathOfConfig,"r");
     if(!fconfig)
-        {
-            fconfig=fopen(pathOfConfigForMake,"r");
-            if(!fconfig)
-                {
-                    printf("There is no or mistaken path has given\n"
-                           "You should check the given path in config.h\n"
-                           "Or maybe you don't have the correct permission?\n");
-                    syslog(LOG_ERR,"Wrong path\n");
-                    return -1;
-                }
+    {
+        printf("There is no or mistaken path has given\n"
+               "You should check the given path in config.h\n"
+               "Or maybe you don't have the correct permission?\n");
+        syslog(LOG_ERR,"Wrong path\n");
+        return -1;
 
-        }
+    }
 
     /**Read from file line by line. Only reads which are ended by ';'.*/
     temp=(char*)malloc(MAXCHAR*sizeof(char));
     if(!temp)
-        {
-            perror("temp:\n");
-            fclose(fconfig);
-            return -1;
-        }
+    {
+        perror("temp:\n");
+        fclose(fconfig);
+        return -1;
+    }
     while(fgets(temp,MAXCHAR,fconfig))
+    {
+        if(*temp=='\n' || *temp=='#')
+            continue;
+        if((strchr(temp,'=')))
         {
-            if(*temp=='\n' || *temp=='#')
-                continue;
-            if((strchr(temp,'=')))
+            buffer[i]=(char*)malloc(MAXLINE*sizeof(char));
+            if(!buffer[i])
+            {
+                if(i>1)
+                    j=i-1;
+                while(j!=-1)
                 {
-                    buffer[i]=(char*)malloc(MAXLINE*sizeof(char));
-                    if(!buffer[i])
-                        {
-                            if(i>1)
-                                j=i-1;
-                            while(j!=-1)
-                                {
-                                    free(buffer[j]);
-                                    j--;
-                                }
-                            printf("no memory to buffer[i]\n");
-                            free(temp);
-                            fclose(fconfig);
-                            return -1;
-                        }
-                    strcpy(buffer[i],temp);
-                    i++;
+                    free(buffer[j]);
+                    j--;
                 }
+                printf("no memory to buffer[i]\n");
+                free(temp);
+                fclose(fconfig);
+                return -1;
+            }
+            strcpy(buffer[i],temp);
+            i++;
         }
+    }
     i--;
     fclose(fconfig);
     free(temp);
@@ -122,74 +118,74 @@ int Read_config(char **buffer)
 int Processing_Config(char **configbuffer,Threadcommon *arg)
 {
     if(!(configbuffer && arg))
-        {
-            printf("configbuffer or threadHandle is NULL\n");
-            return -1;
-        }
+    {
+        printf("configbuffer or threadHandle is NULL\n");
+        return -1;
+    }
     int i;
     char *p=NULL;
     char *s=NULL;
     i=0;
     /**First of all, check the array of pointers by the parameters. Checking by '='.*/
     while(i<5)
+    {
+        p=strchr(configbuffer[i],'=');
+        if(!p)
+            continue;
+        p++;
+        s=strtok(configbuffer[i],"=");
+        if(strcmp(s,"Serial.PollingTime")==0)//buffereket nem elfelejteni törölni!!!!
         {
-            p=strchr(configbuffer[i],'=');
-            if(!p)
-                continue;
-            p++;
-            s=strtok(configbuffer[i],"=");
-            if(strcmp(s,"Serial.PollingTime")==0)//buffereket nem elfelejteni törölni!!!!
-                {
-                    arg->pollTime=atoi(p);
-                    if(arg->pollTime<POLLTIME || arg->pollTime>MAXTIME )
-                        arg->pollTime=POLLTIME;
-                    i++;
-                    continue;
-                }
-            else if(strcmp(s,"Serial.NumDevice")==0)
-                {
-                    arg->numbOfDev=atoi(p);
-                    if(arg->numbOfDev<DEVMIN || arg->numbOfDev>DEVMAX)
-                        arg->numbOfDev=DEVMIN;
-                    i++;
-                    continue;
-                }
-            else if(strcmp(s,"Serial.SamplingTime")==0)
-                {
-                    arg->samplingTime=atoi(p);
-                    if(arg->samplingTime<DEFTIME || arg->samplingTime>MAXTIME)
-                        arg->samplingTime=DEFTIME;
-                    i++;
-                    continue;
-                }
-            else if(strcmp(s,"Serial.Baud")==0)
-                {
-                    arg->BAUD=atoi(p);
-                    if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
-                        arg->BAUD=DEFBAUD;
-                    i++;
-                    continue;
-                }
-            else if(strcmp(s,"Delta")==0)
-                {
-                    arg->Delta=atof(p);
-                    if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX)
-                        arg->Delta=DELTAMIN;
-                    i++;
-                    continue;
-                }
-            else
-                i++;
+            arg->pollTime=atoi(p);
+            if(arg->pollTime<POLLTIME || arg->pollTime>MAXTIME )
+                arg->pollTime=POLLTIME;
+            i++;
+            continue;
         }
+        else if(strcmp(s,"Serial.NumDevice")==0)
+        {
+            arg->numbOfDev=atoi(p);
+            if(arg->numbOfDev<DEVMIN || arg->numbOfDev>DEVMAX)
+                arg->numbOfDev=DEVMIN;
+            i++;
+            continue;
+        }
+        else if(strcmp(s,"Serial.SamplingTime")==0)
+        {
+            arg->samplingTime=atoi(p);
+            if(arg->samplingTime<DEFTIME || arg->samplingTime>MAXTIME)
+                arg->samplingTime=DEFTIME;
+            i++;
+            continue;
+        }
+        else if(strcmp(s,"Serial.Baud")==0)
+        {
+            arg->BAUD=atoi(p);
+            if(!(arg->BAUD==9600 || arg->BAUD==38400 || arg->BAUD==57600 || arg->BAUD==115200 ))
+                arg->BAUD=DEFBAUD;
+            i++;
+            continue;
+        }
+        else if(strcmp(s,"Delta")==0)
+        {
+            arg->Delta=atof(p);
+            if(arg->Delta<DELTAMIN || arg->Delta>DELTAMAX)
+                arg->Delta=DELTAMIN;
+            i++;
+            continue;
+        }
+        else
+            i++;
+    }
     p=NULL;
     if(!arg->numbOfDev)
-        {
-            printf("There is no device number in configFile\nMaybe you gave it bad\n"
-                   "Example in config list:Serial.NumDevice=5\n"
-                   "Moreover don't use ':' instead of '='.\nThank You!\n");
-            syslog(LOG_ERR,"no device, I am out");
-            return -1;
-        }
+    {
+        printf("There is no device number in configFile\nMaybe you gave it bad\n"
+               "Example in config list:Serial.NumDevice=5\n"
+               "Moreover don't use ':' instead of '='.\nThank You!\n");
+        syslog(LOG_ERR,"no device, I am out");
+        return -1;
+    }
     if(!arg->BAUD)
         arg->BAUD=DEFBAUD;
     if(!arg->Delta)
@@ -216,94 +212,94 @@ int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int all
     arg->sensors=malloc(arg->numbOfDev*sizeof(Slaves));
     sensorsNumber=0;
     if(!arg->sensors)
-        {
-            perror("arg->sensors:");
-            syslog(LOG_ERR,"No more memory for sensors");
-            return -1;
-        }
+    {
+        perror("arg->sensors:");
+        syslog(LOG_ERR,"No more memory for sensors");
+        return -1;
+    }
     while(k)
+    {
+        p=strchr(configbuffer[i],'=');
+        p++;
+        s=strtok(configbuffer[i],"=");
+        if(strstr(s,"address"))
         {
-            p=strchr(configbuffer[i],'=');
-            p++;
-            s=strtok(configbuffer[i],"=");
-            if(strstr(s,"address"))
-                {
-                    arg->sensors[sensorsNumber].address=atoi(p);
-                    if(!arg->sensors[sensorsNumber].address)
-                        {
-                            perror("Address:");
-                            syslog(LOG_ERR,"address is 0");
-                            return -1;
-                        }
-                    arg->sensors[sensorsNumber].state=1;
-                    arg->sensors[sensorsNumber].watchdog=0;
-                    i++;
-                    k--;
-                    continue;
-                }
-            else if(isalpha(*p))
-                {
-                    len=strlen(p);
-                    p[len-1]='\0';
-                    arg->sensors[sensorsNumber].names=malloc((len)*sizeof(char));
-                    if(!arg->sensors[sensorsNumber].names)
-                        {
-                            perror("arg->sensors[sensorsNumber].name:\n");
-                            syslog(LOG_ERR,"no enough memory to allocate for sensors names");
-                            return -1;
-                        }
-                    strcpy(arg->sensors[sensorsNumber].names,p);
-                    i++;
-                    k--;
-                    continue;
-                }
-            else if(strstr(s,"measuringTime"))
-                {
-                    arg->sensors[sensorsNumber].time=atoi(p);
-                    if(!arg->sensors[sensorsNumber].time)
-                        arg->sensors[sensorsNumber].time=10;
-                    i++;
-                    k--;
-                    continue;
-                }
-            else if(strstr(s,"movingAverage"))
-                {
-                    arg->sensors[sensorsNumber].movAve_tag_number=atoi(p);
-                    if(arg->sensors[sensorsNumber].movAve_tag_number<3)
-                        arg->sensors[sensorsNumber].movAve_tag_number=3;
-                    i++;
-                    k--;
-                }
-            else
-                {
-                    i++;
-                    k--;
-                }
-            /**Compare the addresses*/
-            j=0;
-            while(j<sensorsNumber)
-                {
-                    if(arg->sensors[j].address==arg->sensors[sensorsNumber].address)
-                        {
-                            arg->sensors[j].state=0;
-                            arg->sensors[sensorsNumber].state=0;
-                            printf("There is an address conflict occured.\n"
-                                   "The problems are in the following devices:\n %s-%s\nPlease fixed the error!\n",
-                                   arg->sensors[j].names,arg->sensors[sensorsNumber].names);
-                            return -1;
-                        }
-                    j++;
-                }
-            sensorsNumber++;
+            arg->sensors[sensorsNumber].address=atoi(p);
+            if(!arg->sensors[sensorsNumber].address)
+            {
+                perror("Address:");
+                syslog(LOG_ERR,"address is 0");
+                return -1;
+            }
+            arg->sensors[sensorsNumber].state=1;
+            arg->sensors[sensorsNumber].watchdog=0;
+            i++;
+            k--;
+            continue;
         }
+        else if(isalpha(*p))
+        {
+            len=strlen(p);
+            p[len-1]='\0';
+            arg->sensors[sensorsNumber].names=malloc((len)*sizeof(char));
+            if(!arg->sensors[sensorsNumber].names)
+            {
+                perror("arg->sensors[sensorsNumber].name:\n");
+                syslog(LOG_ERR,"no enough memory to allocate for sensors names");
+                return -1;
+            }
+            strcpy(arg->sensors[sensorsNumber].names,p);
+            i++;
+            k--;
+            continue;
+        }
+        else if(strstr(s,"measuringTime"))
+        {
+            arg->sensors[sensorsNumber].time=atoi(p);
+            if(!arg->sensors[sensorsNumber].time)
+                arg->sensors[sensorsNumber].time=10;
+            i++;
+            k--;
+            continue;
+        }
+        else if(strstr(s,"movingAverage"))
+        {
+            arg->sensors[sensorsNumber].movAve_tag_number=atoi(p);
+            if(arg->sensors[sensorsNumber].movAve_tag_number<3)
+                arg->sensors[sensorsNumber].movAve_tag_number=3;
+            i++;
+            k--;
+        }
+        else
+        {
+            i++;
+            k--;
+        }
+        /**Compare the addresses*/
+        j=0;
+        while(j<sensorsNumber)
+        {
+            if(arg->sensors[j].address==arg->sensors[sensorsNumber].address)
+            {
+                arg->sensors[j].state=0;
+                arg->sensors[sensorsNumber].state=0;
+                printf("There is an address conflict occured.\n"
+                       "The problems are in the following devices:\n %s-%s\nPlease fixed the error!\n",
+                       arg->sensors[j].names,arg->sensors[sensorsNumber].names);
+                return -1;
+            }
+            j++;
+        }
+        sensorsNumber++;
+    }
     k=0;
     while(k<arg->numbOfDev)
-        {
-            printf("Address=%d\nName:%s\nstate:%d\nTime:%d\nMovAve_tag_Number=%d\n\n",
-                   arg->sensors[k].address,arg->sensors[k].names,
-                   arg->sensors[k].state,arg->sensors[k].time,arg->sensors[k].movAve_tag_number);
-            k++;
-        }
+    {
+        printf("Address=%d\nName:%s\nstate:%d\nTime:%d\nMovAve_tag_Number=%d\n\n",
+               arg->sensors[k].address,arg->sensors[k].names,
+               arg->sensors[k].state,arg->sensors[k].time,arg->sensors[k].movAve_tag_number);
+        k++;
+    }
     printf("\nReading config file succesfully\n");
     syslog(LOG_INFO,"Reading config file succesfully");
     return 0;
@@ -314,9 +310,9 @@ void free_configBuffer(char **configbuffer,int allLine)
 {
     int i=0;
     while(allLine+1)
-        {
-            free(configbuffer[i]);
-            i++;
-            allLine--;
-        }
+    {
+        free(configbuffer[i]);
+        i++;
+        allLine--;
+    }
 }

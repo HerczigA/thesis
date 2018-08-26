@@ -2,10 +2,8 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include "./header/config.h"
-#include "./header/crc.h"
 #include "./header/Init.h"
 #include "./header/reading.h"
-#include "./header/counting.h"
 #include "./header/processing.h"
 #include "./header/threadHandling.h"
 #include "./header/sending.h"

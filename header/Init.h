@@ -8,8 +8,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "../header/reading.h"
+
+
 #define WATCHDOGMAX 20
+
 
 /**
     @brief: Header of Initailization. Init serialport and queue.

@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include "../header/Init.h"
+
 #include "../header/counting.h"
 #include "../header/reading.h"
 #include "../header/closing.h"
 #include "../header/config.h"
+
+#include "../header/Init.h"
 
 /*************should set back at the end termios***********/
 

@@ -36,6 +36,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="header/Init.h" />
+		<Unit filename="header/LCD.h" />
 		<Unit filename="header/closing.h" />
 		<Unit filename="header/config.h" />
 		<Unit filename="header/counting.h" />

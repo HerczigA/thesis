@@ -2,8 +2,6 @@
 #define CONFIG_H_INCLUDED
 
 #include "Init.h"
-#define pathOfConfig "./util/config.txt"            //FOR CODEBLOCKS
-#define pathOfConfigForMake "../util/config.txt"     //FOR MAKE
 #define DEFTIME 10
 #define DEFMAXTIME 60
 #define POLLTIME 60
@@ -19,7 +17,17 @@
 #define TOPMEASURES 15
 #define MAXCHAR 128
 #define MAXLINE 100
+//#define MAKE 1
 
+#ifdef MAKE
+
+#define pathOfConfig "../util/config.txt"     //FOR MAKE
+
+#else
+
+#define pathOfConfig "./util/config.txt"            //FOR CODEBLOCKS
+
+#endif // MAKE
 
 int Read_config(char **buffer);
 
