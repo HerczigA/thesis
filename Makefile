@@ -8,15 +8,21 @@ ALL_OBJ:=$(patsubst src/%.c,obj/%.o,$(SRC_ALL) main.c)
 RESULT=app/thesis
 
 $(RESULT):$(ALL_OBJ)
-	$(CC) -o $@ $(ALL_OBJ) $(CFLAGS)
+#	$(CC) -o $@ $(ALL_OBJ) $(CFLAGS)
+	$(CC) -o $@ $^$(CFLAGS)
 $(OBJDIR)main.o:main.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(OBJ):$(SRC)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+.PHONY: clean
+
 clean:
 	rm  obj/*.o  $(RESULT)
+
+install:	
+	cp ~/thesis/app/thesis /usr/bin/
 
 help:
 	@echo you can use two possibilities 
