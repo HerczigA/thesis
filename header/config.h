@@ -1,7 +1,13 @@
 #ifndef CONFIG_H_INCLUDED
 #define CONFIG_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <syslog.h>
+#include <string.h>
+#include <ctype.h>
 #include "Init.h"
+
 #define DEFTIME 10
 #define DEFMAXTIME 60
 #define POLLTIME 60
@@ -21,6 +27,7 @@
 
 #ifdef MAKE
 
+
 #define pathOfConfig "../util/config.txt"     //FOR MAKE
 
 #else
@@ -29,15 +36,7 @@
 
 #endif // MAKE
 
-int Read_config(char **buffer);
-
 int config(Threadcommon *arg);
-
-int Processing_Config(char **configbuffer,Threadcommon *arg);
-
-int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int allLine);
-
-void free_configBuffer(char **configbuffer,int allLine);
 
 void signalcatch(int sig);
 
