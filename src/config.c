@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <syslog.h>
-#include <string.h>
-#include <ctype.h>
 #include "../header/Init.h"
 #include "../header/config.h"
 
+static int Read_config(char **buffer);
+static int Processing_Config(char **configbuffer,Threadcommon *arg);
+static int deviceparameters(char **configbuffer, Threadcommon *arg,int nextLine,int allLine);
+static void free_configBuffer(char **configbuffer,int allLine);
 
 int config(Threadcommon *arg)
 {
