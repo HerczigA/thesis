@@ -28,22 +28,18 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
     crc = addCRC(crc,len1);
     len2 = (dLen >> BYTE) & 0xff;
     crc = addCRC(crc, len2);
-    if(dLen>0)
+    if(dLen>=0)
         {
-            int j;
-            for (j=0; j<dLen; j++,data++)
-                {
-                    buff[dataElement]=*data;
-                    crc = addCRC(crc, *data);
-                    dataElement++;
-                }
+            int j=0;
+	    do
+	    {
+                buff[dataElement]=*data;
+                crc = addCRC(crc, *data);
+                dataElement++;
+	    }
+            while(j<dLen)
+	    ;
         }
-    else if(dLen==0)
-	{
-	    buff[dataElement]=*data;
-            crc = addCRC(crc, *data);
-	    dataElement++;
-	}
 
     crc1=crc & 0xff;
     crc2=(crc>>BYTE) & 0xff;
