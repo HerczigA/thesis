@@ -38,6 +38,13 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
                     dataElement++;
                 }
         }
+    else if(dLen==0)
+	{
+	    buff[dataElement]=*data;
+            crc = addCRC(crc, *data);
+	    dataElement++;
+	}
+
     crc1=crc & 0xff;
     crc2=(crc>>BYTE) & 0xff;
     while(i!=5)
@@ -51,6 +58,7 @@ int sendPacket(int fd, unsigned char address, unsigned char cmd,char *data, uint
     buff[8]=cmd;
     buff[9]=len1;
     buff[10]=len2;
+    
     buff[dataElement]=crc1;
     dataElement++;
     buff[dataElement]=crc2;

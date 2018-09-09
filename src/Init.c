@@ -6,7 +6,6 @@
 #include "../header/reading.h"
 #include "../header/closing.h"
 #include "../header/config.h"
-
 #include "../header/Init.h"
 
 /*************should set back at the end termios***********/

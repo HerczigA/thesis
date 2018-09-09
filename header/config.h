@@ -23,7 +23,7 @@
 #define TOPMEASURES 15
 #define MAXCHAR 128
 #define MAXLINE 100
-//#define MAKE 1
+#define MAKE 1
 
 #ifdef MAKE
 

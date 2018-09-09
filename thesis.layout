@@ -7,19 +7,9 @@
 			<Cursor1 position="1986" topLine="53" />
 		</Cursor>
 	</File>
-	<File name="src/sending.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/closing.c" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3254" topLine="79" />
-		</Cursor>
-	</File>
-	<File name="src/config.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1484" topLine="46" />
-		</Cursor>
-	</File>
-	<File name="src/counting.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1654" topLine="8" />
+			<Cursor1 position="1239" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src/Init.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -27,14 +17,9 @@
 			<Cursor1 position="183" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="header/writing.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/threadHandling.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="55" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="header/counting.h" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="171" topLine="0" />
+			<Cursor1 position="0" topLine="5" />
 		</Cursor>
 	</File>
 	<File name="main.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -42,34 +27,9 @@
 			<Cursor1 position="181" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/reading.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="283" topLine="192" />
-		</Cursor>
-	</File>
-	<File name="header/reading.h" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1345" topLine="40" />
-		</Cursor>
-	</File>
-	<File name="header/closing.h" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="55" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="src/crc.c" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="header/config.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="429" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="header/Init.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="225" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src/writing.c" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -77,14 +37,54 @@
 			<Cursor1 position="98" topLine="40" />
 		</Cursor>
 	</File>
-	<File name="src/threadHandling.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="header/closing.h" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="5" />
+			<Cursor1 position="55" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/closing.c" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/sending.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1239" topLine="0" />
+			<Cursor1 position="3254" topLine="79" />
+		</Cursor>
+	</File>
+	<File name="src/reading.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="283" topLine="192" />
+		</Cursor>
+	</File>
+	<File name="header/counting.h" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="171" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/config.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1484" topLine="46" />
+		</Cursor>
+	</File>
+	<File name="header/Init.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="225" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="header/config.h" open="1" top="1" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="429" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="header/reading.h" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1345" topLine="40" />
+		</Cursor>
+	</File>
+	<File name="src/counting.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1654" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="header/writing.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="55" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
