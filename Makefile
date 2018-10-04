@@ -8,13 +8,13 @@ ALL_OBJ:=$(patsubst src/%.c,obj/%.o,$(SRC_ALL) main.c)
 RESULT=app/thesis
 
 $(RESULT):$(ALL_OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS) 2>makeAppError.txt
 
 $(OBJDIR)main.o:main.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(CFLAGS) 2>makeMainOError.txt
 
 $(OBJ):$(SRC)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(CFLAGS) 2>makeObjectError.txt
 
 .PHONY: clean
 
