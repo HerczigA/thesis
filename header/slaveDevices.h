@@ -1,23 +1,39 @@
-#ifndef INPUTS_H_INCLUDED
-#define INPUTS_H_INCLUDED
+#ifndef SLAVEDEVICES_H_INCLUDED
+#define SLAVEDEVICES_H_INCLUDED
 #include <iostream>
+#define DATALENGTH 8
 
+#include <stdint.h>
 
-typedef enum inputs
+enum sensorTypes
 {
     temp_sensor,
     light_sensor,
     PIR_sensor,
-    humidity_sensor
-}Sensortypes;
+    humidity_sensor,
+    LCD
+    
+};
+
+struct packet
+{
+    int16_t *data;
+    int8_t address;
+    int32_t crc;
+    int8_t length;
+    uint8_t cmd;
+};
 
 class sensors
 {
-    int address;
+    packet Packet;
     int types;
-
+    int heartBit;
+    int addressCnt=0;
+    void frameInit(int16_t *data,int8_t length);
     
     public:
+    sensors(int8_t address);
     sensors();
     
 
@@ -48,6 +64,6 @@ class A
 
 /*templates end*/
 
-#endif
+#endif 
 
 
