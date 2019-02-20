@@ -3,12 +3,12 @@
 
 using namespace std;
 
-sensors::sensors(int8_t address)
+devices::devices(int8_t address)
 {
-    sensors.Packet.address=address;
+    devices.Packet.address=address;
 }
 
-sensors::sensors()
+devices::devices()
 {
     
 }

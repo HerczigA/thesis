@@ -24,19 +24,34 @@ struct packet
     uint8_t cmd;
 };
 
-class sensors
+class devices
 {
     packet Packet;
     int types;
     int heartBit;
     int addressCnt=0;
     void frameInit(int16_t *data,int8_t length);
-    
+    void frameAssembly();
+
     public:
-    sensors(int8_t address);
-    sensors();
+    devices(int8_t address);
+    devices();
     
 
+};
+
+class sensors : public devices
+{
+    uint8_t readFromLine();
+    
+    public:
+    void read();
+};
+
+class actuators : public devices
+{
+
+    int sendOnLine();
 };
 /*Template pattern*/
 
