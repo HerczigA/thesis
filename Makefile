@@ -1,11 +1,13 @@
 CC=gcc
-CFLAGS=-g -Wall  -lpthread  -Iheader
+CFLAGS= -lpthread  -Iheader
 SRC:=src/%.c
 SRC_ALL=$(wildcard src/*.c)
 OBJ:=obj/%.o
 OBJDIR=obj/
 ALL_OBJ:=$(patsubst src/%.c,obj/%.o,$(SRC_ALL) main.c)
 RESULT=app/thesis
+
+debug: CFLAGS += -g -Wall
 
 $(RESULT):$(ALL_OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) 2>makeAppError.txt
@@ -25,9 +27,12 @@ install:
 	cp /home/herczig/Prog/C/Thesis/thesis/app/thesis /usr/bin/
 
 help:
-	@echo you can use two possibilities 
-	@echo Firt -make clean- to clean the object files and the app from app dir
-	@echo Second -make- to compile and build from the sources to the binary into app dir
+	@echo With this makefile you can do the follows:
+	@echo -make clean- to clean the object files and the app from app dir
+	@echo -make- to compile and build from the sources to the binary into app dir
+	@echo -make debug- to compile the binary for debug
+	@echo -make install- to copy the binary (if exist) to /usr/bin/ folder( or whatever you set in makefile)
+	
 
 #$*	Teljes forrasfile neve kiterjesztes nelkul
 #$<	out-of-date forrasfile teljes neve(kiterjesztessel)
