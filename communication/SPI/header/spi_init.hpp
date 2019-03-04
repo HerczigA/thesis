@@ -14,6 +14,8 @@ class spi_Module
         int fd;
         int init_SPI(string &s);
         int CS;
+        string spi_1="/dev/spidev0.0";
+        string spi_2="/dev/spidev0.1";
     public:
         spi_Module();
         spi_Module(string &s);
