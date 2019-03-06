@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -lpthread  -Iheader
+CFLAGS= -lpthread -Wall -Iheader
 SRC:=src/%.c
 SRC_ALL=$(wildcard src/*.c)
 OBJ:=obj/%.o
@@ -7,16 +7,17 @@ OBJDIR=obj/
 ALL_OBJ:=$(patsubst src/%.c,obj/%.o,$(SRC_ALL) main.c)
 RESULT=bin/thesis
 
-debug: CFLAGS += -g -Wall
+debug : CFLAGS += -g
+debug : $(RESULT)
 
 $(RESULT):$(ALL_OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) 2>makeAppError.txt
+	$(CC) -o $@ $^ $(CFLAGS)
 
 $(OBJDIR)main.o:main.c
-	$(CC) -c -o $@ $< $(CFLAGS) 2>makeMainOError.txt
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(OBJ):$(SRC)
-	$(CC) -c -o $@ $< $(CFLAGS) 2>makeObjectError.txt
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 .PHONY: clean
 
