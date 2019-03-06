@@ -5,7 +5,7 @@ SRC_ALL=$(wildcard src/*.c)
 OBJ:=obj/%.o
 OBJDIR=obj/
 ALL_OBJ:=$(patsubst src/%.c,obj/%.o,$(SRC_ALL) main.c)
-RESULT=app/thesis
+RESULT=bin/thesis
 
 debug: CFLAGS += -g -Wall
 
@@ -24,7 +24,7 @@ clean:
 	rm  obj/*.o  $(RESULT)
 
 install:	
-	cp /home/herczig/Prog/C/Thesis/thesis/app/thesis /usr/bin/
+	sudo cp ./bin/thesis /usr/bin/
 
 help:
 	@echo With this makefile you can do the follows:
