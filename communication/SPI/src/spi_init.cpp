@@ -71,7 +71,7 @@ spi_Comm::spi_Comm(string &s, uint32_t CLK, uint8_t mode, uint8_t endian)
     if (ioctl (spi_fd, SPI_IOC_WR_LSB_FIRST, &SPI_unit.endianess) < 0)
         throw SPI_ENDIAN_WR_ERR;
     
-    if (ioctl (spi_fd, SPI_IOC_RD_LSB_FIRST, &&SPI_unit.endianess) < 0)
+    if (ioctl (spi_fd, SPI_IOC_RD_LSB_FIRST, &SPI_unit.endianess) < 0)
         throw SPI_ENDIAN_RD_ERR;        
 }
 
@@ -89,4 +89,24 @@ int spi_Comm::init_SPI(string &s)
 spi_Comm::~spi_Comm()
 {
     close(fd);
+}
+
+int spi_Comm::PackageAssembly(uint8_t address, uint8_t cmd, uint8_t len)
+{
+    this->spi_Package.spi_address=address;
+    this->spi_Package.spi_cmd=cmd;
+    this->spi_Package.spi_len=len;
+    int i=0;
+    while(i<len)
+    {
+        this->spi_Package.data[i]=/*data parameter/new for package data/ crc*/;
+        i++;
+    }
+
+}
+
+int spi_Comm::sending(uint8_t address, uint8_t cmd, uint8_t len)
+{
+    PackageAssembly(uint8_t address, uint8_t cmd, uint8_t len);
+
 }
