@@ -1,4 +1,6 @@
 CC=gcc
+PP=g++
+COMPILER = $(CC)
 CFLAGS= -lpthread -Wall -Iheader
 SRC:=src/%.c
 SRC_ALL=$(wildcard src/*.c)
@@ -11,13 +13,13 @@ debug : CFLAGS += -g
 debug : $(RESULT)
 
 $(RESULT):$(ALL_OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(COMPILER) -o $@ $^ $(CFLAGS)
 
 $(OBJDIR)main.o:main.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(COMPILER) -c -o $@ $< $(CFLAGS)
 
 $(OBJ):$(SRC)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(COMPILER) -c -o $@ $< $(CFLAGS)
 
 .PHONY: clean
 

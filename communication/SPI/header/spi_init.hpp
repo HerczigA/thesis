@@ -25,7 +25,7 @@ const std::string SPI_ENDIAN_WR_ERR="Can not set SPI WR endiness";
 const std::string SPI_ENDIAN_RD_ERR="Can not set SPI RD endiness";
 using namespace std;
 
-struct spi_Module
+struct SPI_Module
 {
 
     /*
@@ -59,13 +59,13 @@ struct spi_Module
 		mode = 3,  // CPOL = 1, CPHA = 1, Clock idle high, data is clocked in on rising, edge output data (change) on falling edge
     */
     int CS;
-    uint8_t TX_buffer[8];
-    uint8_t *RX_buffer[8];  //char
+    char TX_buffer[8];
+    char RX_buffer[8];  //char
     uint32_t CLK;
     uint8_t mode;
     uint8_t endianess;  //0 MSB other LSB
 
-}SPI_Module;
+};
 
 struct package
 {
@@ -81,7 +81,7 @@ enum cmd
     heartbit=0,
     term,
 
-}
+};
 
 class spi_Comm
 {

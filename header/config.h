@@ -25,8 +25,7 @@
 #define MAXLINE 100
 #define MAKE 1
 
-#ifdef MAKE
-
+#if MAKE
 
 #define pathOfConfig "../util/config.txt"     //FOR MAKE
 
