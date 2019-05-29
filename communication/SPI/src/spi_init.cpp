@@ -1,4 +1,3 @@
-
 #include "../header/spi_init.hpp"
 
 using namespace std;

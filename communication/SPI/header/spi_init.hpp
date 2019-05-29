@@ -1,8 +1,8 @@
 #ifndef SPI_INIT_H_INCLUDED
 #define SPI_INIT_H_INCLUDED
 
-#ifndef CPP
-#   define CPP 1
+#ifndef cplusplus_
+#   define cplusplus_ 1
 #endif
 
 #include <string>
@@ -80,6 +80,8 @@ enum cmd
 {
     heartbit=0,
     term,
+    humidity,
+    
 
 };
 
