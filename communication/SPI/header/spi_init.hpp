@@ -1,13 +1,17 @@
 #ifndef SPI_INIT_H_INCLUDED
 #define SPI_INIT_H_INCLUDED
 
-#ifndef cplusplus_
-#   define cplusplus_ 1
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 #include <string>
 #include <stdint.h>
 #include <syslog.h>
+
+#ifdef __cplusplus
+};
+#endif
 
 #define  BAD_FD  0
 
