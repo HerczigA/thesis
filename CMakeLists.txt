@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 3.6)
+project(Thesis)
+file(C_SOURCES ./src/*.c)
+file(C_HEADERS ./header/*.h)
+add_executable(thesis main.c ${C_SOURCES} ${C_HEADERS})
